@@ -3,44 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>流媒体聚合导航</title>
+  <title>热门流媒体导航</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
-    /* --- 基本重置和设置 --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* --- 动画关键帧定义 --- */
-    @keyframes animate-bg {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 12px #00ffff; }
-      50% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
-    }
-    
-    @keyframes card-fade-in {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* --- 页面主体样式 --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: linear-gradient(135deg, #000428, #004e92, #1f1f1f, #000000);
-      background-size: 400% 400%;
-      animation: animate-bg 20s ease infinite;
+      background: linear-gradient(135deg, #000000, #1f1f1f);
       font-family: 'Orbitron', sans-serif;
       color: #ffffff;
       display: flex;
@@ -48,68 +16,32 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px 20px;
     }
-
-    /* --- 返回主导航按钮 --- */
-    .back-button {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      display: inline-block;
-      padding: 10px 20px;
-      color: #00ffff;
-      text-decoration: none;
-      border: 1px solid #00ffff;
-      border-radius: 8px;
-      font-size: 0.9em;
-      transition: background-color 0.3s, box-shadow 0.3s;
-    }
-    .back-button:hover {
-      background-color: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-    }
-    .back-button:before {
-      content: '← '; /* 左箭头 */
-    }
-
-    /* --- 标题样式 --- */
     h1 {
       font-size: 3em;
-      margin-bottom: 40px;
-      animation: pulse-glow 3s infinite ease-in-out;
-      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #00ffff;
     }
-
-    /* --- 网格布局 --- */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 25px;
+      gap: 20px;
       max-width: 1300px;
-      width: 100%;
+      width: 95%;
     }
-
-    /* --- 卡片样式 --- */
     .card {
-      background: rgba(10, 25, 47, 0.5); /* 更深的半透明背景 */
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid #00ffff;
       border-radius: 12px;
       text-align: center;
       padding: 20px;
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
-      backdrop-filter: blur(5px); /* 毛玻璃效果 */
-      animation: card-fade-in 0.5s ease-out forwards;
-      opacity: 0; /* 初始不可见，由动画显示 */
     }
-    
     .card:hover {
-      transform: translateY(-5px) scale(1.05);
-      border-color: #99feff;
-      box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffff;
     }
-
     .card a {
       display: flex;
       flex-direction: column;
@@ -118,45 +50,16 @@
       text-decoration: none;
       font-size: 1.1em;
     }
-
     .card a img {
       width: 60px;
       height: 60px;
       margin-bottom: 10px;
       object-fit: contain;
-      filter: drop-shadow(0 0 5px #00ffff); /* 给图标也加上一点光晕 */
     }
-    
-    /* --- 卡片错落入场动画延迟 --- */
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.15s; }
-    .card:nth-child(3) { animation-delay: 0.2s; }
-    .card:nth-child(4) { animation-delay: 0.25s; }
-    .card:nth-child(5) { animation-delay: 0.3s; }
-    .card:nth-child(6) { animation-delay: 0.35s; }
-    .card:nth-child(7) { animation-delay: 0.4s; }
-    .card:nth-child(8) { animation-delay: 0.45s; }
-    .card:nth-child(9) { animation-delay: 0.5s; }
-    .card:nth-child(10) { animation-delay: 0.55s; }
-    .card:nth-child(11) { animation-delay: 0.6s; }
-    .card:nth-child(12) { animation-delay: 0.65s; }
-    .card:nth-child(13) { animation-delay: 0.7s; }
-    .card:nth-child(14) { animation-delay: 0.75s; }
-    .card:nth-child(15) { animation-delay: 0.8s; }
-    .card:nth-child(16) { animation-delay: 0.85s; }
-    .card:nth-child(17) { animation-delay: 0.9s; }
-    .card:nth-child(18) { animation-delay: 0.95s; }
-    .card:nth-child(19) { animation-delay: 1.0s; }
-    .card:nth-child(20) { animation-delay: 1.05s; }
-
   </style>
 </head>
 <body>
-  <!-- 返回主导航按钮 -->
-  <!-- <a href="https://3yuedaohang.com" class="back-button" target="_blank">返回主导航</a> -->
-
   <h1>流媒体聚合导航</h1>
-
   <div class="grid">
     <div class="card"><a href="https://dajian.cyou" target="_blank"><img src="./icon/image.svg" alt="SanYue">站长SanYue</a></div>
     <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
@@ -178,6 +81,5 @@
     <div class="card"><a href="https://onlyfans.com/" target="_blank"><img src="./icon/onlyfans.svg" alt="OnlyFans">OnlyFans</a></div>
     <div class="card"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="TikTok">短剧Kalos TV</a></div>
   </div>
-
 </body>
 </html>
