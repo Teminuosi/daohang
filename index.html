@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>热门流媒体导航</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #000000, #1f1f1f);
+      font-family: 'Orbitron', sans-serif;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 1300px;
+      width: 95%;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00ffff;
+      border-radius: 12px;
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffff;
+    }
+    .card a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #00ffff;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    .card a img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <h1>流媒体聚合导航</h1>
+  <div class="grid">
+    <div class="card"><a href="https://dajian.cyou" target="_blank"><img src="./icon/3yue.svg" alt="SanYue">站长SanYue</a></div>
+    <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
+    <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
+    <div class="card"><a href="https://web.telegram.org/" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram</a></div>
+    <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
+    <div class="card"><a href="https://twitter.com/" target="_blank"><img src="./icon/twitter-color-svgrepo-com.svg" alt="X(Twitter)">X (Twitter)</a></div>
+    <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
+    <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
+    <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
+    <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
+    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>
+    <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
+    <div class="card"><a href="https://www.netflix.com/" target="_blank"><img src="./icon/netflix-1-logo-svgrepo-com.svg" alt="Netflix">Netflix</a></div>
+    <div class="card"><a href="https://www.primevideo.com/" target="_blank"><img src="./icon/primevideo.svg" alt="Prime Video">Prime Video</a></div>
+    <div class="card"><a href="https://www.disneyplus.com/" target="_blank"><img src="./icon/desney.svg" alt="Disney+">Disney+</a></div>
+    <div class="card"><a href="https://www.max.com/" target="_blank"><img src="./icon/icons8-hbo.svg" alt="HBO Max">HBO Max</a></div>
+    <div class="card"><a href="https://www.spotify.com/" target="_blank"><img src="./icon/icons8-spotify.svg" alt="Spotify">Spotify</a></div>
+    <div class="card"><a href="https://www.patreon.com/" target="_blank"><img src="./icon/icons8-patreon.svg" alt="Patreon">Patreon</a></div>
+    <div class="card"><a href="https://onlyfans.com/" target="_blank"><img src="./icon/onlyfans.svg" alt="OnlyFans">OnlyFans</a></div>
+    <div class="card"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="TikTok">短剧Kalos</a></div>
+  </div>
+</body>
+</html>
