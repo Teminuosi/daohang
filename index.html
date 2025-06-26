@@ -36,6 +36,18 @@
       }
     }
 
+    /* 高亮卡片呼吸灯动画 */
+    @keyframes pulse-border-glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 5px #ffffff;
+        border-color: #ff9900;
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 153, 0, 1), 0 0 10px #ffffff;
+        border-color: #ffcc66;
+      }
+    }
+
     /* --- 页面主体样式 --- */
     body {
       background: linear-gradient(135deg, #000428, #004e92, #1f1f1f, #000000);
@@ -51,34 +63,32 @@
       padding: 40px 20px;
     }
 
-    /* --- 返回主导航按钮 --- */
-    .back-button {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      display: inline-block;
-      padding: 10px 20px;
-      color: #00ffff;
-      text-decoration: none;
-      border: 1px solid #00ffff;
-      border-radius: 8px;
-      font-size: 0.9em;
-      transition: background-color 0.3s, box-shadow 0.3s;
-    }
-    .back-button:hover {
-      background-color: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-    }
-    .back-button:before {
-      content: '← '; /* 左箭头 */
-    }
-
     /* --- 标题样式 --- */
     h1 {
       font-size: 3em;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       animation: pulse-glow 3s infinite ease-in-out;
       text-align: center;
+    }
+
+    /* 信息提示栏样式 */
+    .info-box {
+      background: rgba(10, 25, 47, 0.6);
+      border: 1px solid #00ffff;
+      border-radius: 12px;
+      padding: 15px 25px;
+      margin-bottom: 40px;
+      max-width: 600px;
+      width: 95%;
+      text-align: center;
+      font-size: 1.1em;
+      line-height: 1.6;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+    .info-box span {
+      color: #ff9900;
+      text-shadow: 0 0 8px #ff9900;
     }
 
     /* --- 网格布局 --- */
@@ -92,16 +102,16 @@
 
     /* --- 卡片样式 --- */
     .card {
-      background: rgba(10, 25, 47, 0.5); /* 更深的半透明背景 */
+      background: rgba(10, 25, 47, 0.5);
       border: 1px solid #00ffff;
       border-radius: 12px;
       text-align: center;
       padding: 20px;
       transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
       cursor: pointer;
-      backdrop-filter: blur(5px); /* 毛玻璃效果 */
+      backdrop-filter: blur(5px);
       animation: card-fade-in 0.5s ease-out forwards;
-      opacity: 0; /* 初始不可见，由动画显示 */
+      opacity: 0;
     }
     
     .card:hover {
@@ -109,6 +119,21 @@
       border-color: #99feff;
       box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff;
     }
+
+    /* 高亮卡片特殊样式 */
+    .card.highlight {
+        animation-name: card-fade-in, pulse-border-glow;
+        animation-duration: 0.5s, 2.5s;
+        animation-timing-function: ease-out, ease-in-out;
+        animation-delay: 0s, 0s;
+        animation-iteration-count: 1, infinite;
+        animation-fill-mode: forwards, normal;
+        transform: scale(1.05);
+    }
+
+    /* ✅【关键修正】移除了之前错误的 .card.highlight:hover 规则。
+       现在它会自然使用上面 .card:hover 的效果，同时保持发光动画。
+    */
 
     .card a {
       display: flex;
@@ -124,10 +149,10 @@
       height: 60px;
       margin-bottom: 10px;
       object-fit: contain;
-      filter: drop-shadow(0 0 5px #00ffff); /* 给图标也加上一点光晕 */
+      filter: drop-shadow(0 0 5px #00ffff);
     }
     
-    /* --- 卡片错落入场动画延迟 --- */
+    /* 卡片错落入场动画延迟 */
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.15s; }
     .card:nth-child(3) { animation-delay: 0.2s; }
@@ -152,13 +177,16 @@
   </style>
 </head>
 <body>
-  <!-- 返回主导航按钮 -->
-  <!-- <a href="https://3yuedaohang.com" class="back-button" target="_blank">返回主导航</a> -->
 
   <h1>流媒体聚合导航</h1>
 
+  <div class="info-box">
+    🚀 提示：大部分站点需开启【科学上网】才能访问。<br/>需要解决方案？请点击下方<span>发光</span>的卡片。
+  </div>
+
+
   <div class="grid">
-    <div class="card"><a href="https://dajian.cyou" target="_blank"><img src="./icon/image.svg" alt="SanYue">站长SanYue</a></div>
+    <div class="card highlight"><a href="https://dajian.cyou" target="_blank"><img src="./icon/image.svg" alt="SanYue">站长SanYue</a></div>
     <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
     <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
     <div class="card"><a href="https://web.telegram.org/" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram</a></div>
