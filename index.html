@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>流媒体聚合导航</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <title>三月空间导航站</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&display=swap" rel="stylesheet" />
   <style>
     /* --- 基本重置和设置 --- */
     * {
@@ -26,17 +26,10 @@
     }
     
     @keyframes card-fade-in {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 高亮卡片呼吸灯动画 */
     @keyframes pulse-border-glow {
       0%, 100% {
         box-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 5px #ffffff;
@@ -48,38 +41,79 @@
       }
     }
 
+    /* 新增：扫描线动画 */
+    @keyframes scanline {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100%); }
+    }
+
     /* --- 页面主体样式 --- */
     body {
       background: linear-gradient(135deg, #000428, #004e92, #1f1f1f, #000000);
       background-size: 400% 400%;
       animation: animate-bg 20s ease infinite;
-      font-family: 'Orbitron', sans-serif;
+      font-family: 'Orbitron', 'Noto Sans SC', sans-serif; /* Orbitron 用于英文和数字，备用字体用于中文 */
       color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       min-height: 100vh;
       padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* --- 标题样式 --- */
-    h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      animation: pulse-glow 3s infinite ease-in-out;
+    /* 新增：扫描线叠加层 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 200%; /* 高度加倍以实现无缝滚动 */
+      background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(18, 16, 16, 0) 100%);
+      background-size: 100% 4px; /* 控制扫描线粗细 */
+      animation: scanline 12s linear infinite;
+      pointer-events: none; /* 确保不影响鼠标操作 */
+      z-index: 2;
+      opacity: 0.2;
+    }
+
+    /* --- 页眉区域 --- */
+    header {
       text-align: center;
+      margin-bottom: 40px;
+      width: 100%;
     }
 
-    /* 信息提示栏样式 */
+    h1 {
+      font-size: 3.2em;
+      margin-bottom: 10px;
+      animation: pulse-glow 3s infinite ease-in-out;
+      font-weight: 900; /* 使用更粗的字重 */
+    }
+
+    /* 新增：动态时钟样式 */
+    #cyber-clock {
+      font-size: 1.5em;
+      color: #99feff;
+      text-shadow: 0 0 10px #00ffff;
+      letter-spacing: 3px;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+    
     .info-box {
       background: rgba(10, 25, 47, 0.6);
       border: 1px solid #00ffff;
       border-radius: 12px;
       padding: 15px 25px;
-      margin-bottom: 40px;
       max-width: 600px;
       width: 95%;
+      margin-left: auto;
+      margin-right: auto;
       text-align: center;
       font-size: 1.1em;
       line-height: 1.6;
@@ -89,6 +123,17 @@
     .info-box span {
       color: #ff9900;
       text-shadow: 0 0 8px #ff9900;
+      font-weight: bold;
+    }
+    
+    /* --- 分区标题 --- */
+    h2 {
+      font-size: 2.2em;
+      color: #99feff;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      margin-bottom: 25px;
+      text-align: center;
+      font-weight: 600;
     }
 
     /* --- 网格布局 --- */
@@ -98,6 +143,7 @@
       gap: 25px;
       max-width: 1300px;
       width: 100%;
+      z-index: 1; /* 确保在扫描线之下 */
     }
 
     /* --- 卡片样式 --- */
@@ -120,20 +166,10 @@
       box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff;
     }
 
-    /* 高亮卡片特殊样式 */
     .card.highlight {
-        animation-name: card-fade-in, pulse-border-glow;
-        animation-duration: 0.5s, 2.5s;
-        animation-timing-function: ease-out, ease-in-out;
-        animation-delay: 0s, 0s;
-        animation-iteration-count: 1, infinite;
-        animation-fill-mode: forwards, normal;
+        animation: card-fade-in 0.5s ease-out forwards, pulse-border-glow 2.5s ease-in-out infinite;
         transform: scale(1.05);
     }
-
-    /* ✅【关键修正】移除了之前错误的 .card.highlight:hover 规则。
-       现在它会自然使用上面 .card:hover 的效果，同时保持发光动画。
-    */
 
     .card a {
       display: flex;
@@ -152,60 +188,141 @@
       filter: drop-shadow(0 0 5px #00ffff);
     }
     
-    /* 卡片错落入场动画延迟 */
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.15s; }
-    .card:nth-child(3) { animation-delay: 0.2s; }
-    .card:nth-child(4) { animation-delay: 0.25s; }
-    .card:nth-child(5) { animation-delay: 0.3s; }
-    .card:nth-child(6) { animation-delay: 0.35s; }
-    .card:nth-child(7) { animation-delay: 0.4s; }
-    .card:nth-child(8) { animation-delay: 0.45s; }
-    .card:nth-child(9) { animation-delay: 0.5s; }
-    .card:nth-child(10) { animation-delay: 0.55s; }
-    .card:nth-child(11) { animation-delay: 0.6s; }
-    .card:nth-child(12) { animation-delay: 0.65s; }
-    .card:nth-child(13) { animation-delay: 0.7s; }
-    .card:nth-child(14) { animation-delay: 0.75s; }
-    .card:nth-child(15) { animation-delay: 0.8s; }
-    .card:nth-child(16) { animation-delay: 0.85s; }
-    .card:nth-child(17) { animation-delay: 0.9s; }
-    .card:nth-child(18) { animation-delay: 0.95s; }
-    .card:nth-child(19) { animation-delay: 1.0s; }
-    .card:nth-child(20) { animation-delay: 1.05s; }
+    /* 卡片错落入场动画延迟 (对每个grid区域独立生效) */
+    .grid .card:nth-child(1) { animation-delay: 0.1s; }
+    .grid .card:nth-child(2) { animation-delay: 0.15s; }
+    .grid .card:nth-child(3) { animation-delay: 0.2s; }
+    .grid .card:nth-child(4) { animation-delay: 0.25s; }
+    .grid .card:nth-child(5) { animation-delay: 0.3s; }
+    .grid .card:nth-child(6) { animation-delay: 0.35s; }
+    .grid .card:nth-child(7) { animation-delay: 0.4s; }
+    .grid .card:nth-child(8) { animation-delay: 0.45s; }
+    .grid .card:nth-child(9) { animation-delay: 0.5s; }
+    .grid .card:nth-child(10) { animation-delay: 0.55s; }
+    .grid .card:nth-child(11) { animation-delay: 0.6s; }
+    
+    /* --- 发光分割线样式 --- */
+    .divider {
+      width: 80%;
+      max-width: 800px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #00ffff, transparent);
+      margin: 60px 0;
+      box-shadow: 0 0 10px #00ffff;
+    }
 
+    /* --- 页脚样式 --- */
+    footer {
+      margin-top: 70px;
+      text-align: center;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.5);
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+      z-index: 1;
+    }
+    footer a {
+        color: #99feff;
+        text-decoration: none;
+        transition: text-shadow 0.3s;
+    }
+    footer a:hover {
+        text-shadow: 0 0 8px #99feff;
+    }
   </style>
 </head>
 <body>
 
-  <h1>流媒体聚合导航</h1>
+  <header>
+    <h1>三月空间导航站</h1>
+    <div id="cyber-clock">00:00:00</div>
+    <div class="info-box">
+      🚀 提示：大部分站点需开启【科学上网】才能访问。<br/>需要解决方案？请点击下方<span>发光</span>的卡片。
+    </div>
+  </header>
 
-  <div class="info-box">
-    🚀 提示：大部分站点需开启【科学上网】才能访问。<br/>需要解决方案？请点击下方<span>发光</span>的卡片。
-  </div>
-
-
+  <!-- ==================== 社交 & 社区 ==================== -->
+  <h2>社交 & 社区</h2>
   <div class="grid">
     <div class="card highlight"><a href="https://dajian.cyou" target="_blank"><img src="./icon/image.svg" alt="SanYue">站长SanYue</a></div>
-    <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
+    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>   
+    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>    
     <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
-    <div class="card"><a href="https://web.telegram.org/" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram</a></div>
-    <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
     <div class="card"><a href="https://twitter.com/" target="_blank"><img src="./icon/twitter-color-svgrepo-com.svg" alt="X(Twitter)">X (Twitter)</a></div>
     <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
+    <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
+    <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
+    <div class="card"><a href="https://web.telegram.org/" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram</a></div>
     <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
     <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
     <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
-    <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
+  </div>
+
+  <div class="divider"></div>
+
+    <!-- ==================== AI 前沿工具 ==================== -->
+    <h2>AI 前沿工具</h2>
+    <div class="grid">
+      <div class="card"><a href="https://chat.openai.com/" target="_blank"><img src="./icon/chatgpt.svg" alt="ChatGPT">ChatGPT</a></div>
+      <div class="card"><a href="https://www.google.com/gemini" target="_blank"><img src="./icon/gemini.svg" alt="AI Assistant">Google Gemini</a></div>
+      <div class="card"><a href="https://claude.ai/" target="_blank"><img src="./icon/claude.svg" alt="Claude">Claude</a></div>
+      <div class="card"><a href="https://www.meta.ai/" target="_blank"><img src="./icon/meta.svg" alt="Meta AI">Meta AI</a></div>
+       <div class="card"><a href="https://kling.kuaishou.com/" target="_blank"><img src="./icon/aistudio.svg" alt="Kling AI">Google Ai Studio</a></div>
+      <div class="card"><a href="https://openai.com/sora" target="_blank"><img src="./icon/grok.svg" alt="Sora">Grok</a></div>
+      <!-- <div class="card"><a href="https://www.midjourney.com/" target="_blank"><img src="./icon/midjourney.svg" alt="Midjourney">Midjourney</a></div>  -->
+      <!-- <div class="card"><a href="https://www.leonardo.ai/" target="_blank"><img src="./icon/leonardo.svg" alt="Leonardo.Ai">Leonardo.Ai</a></div> -->
+      <!-- <div class="card"><a href="https://huggingface.co/" target="_blank"><img src="./icon/huggingface.svg" alt="Hugging Face">Hugging Face</a></div> -->
+      <div class="card"><a href="https://www.perplexity.ai/" target="_blank"><img src="./icon/perplexity.svg" alt="Perplexity">Perplexity</a></div>
+    </div>
+    
+    <div class="divider"></div>
+
+  <!-- ==================== 影音 & 娱乐 ==================== -->
+  <h2>影音 & 娱乐</h2>
+  <div class="grid">
     <div class="card"><a href="https://www.netflix.com/" target="_blank"><img src="./icon/netflix-1-logo-svgrepo-com.svg" alt="Netflix">Netflix</a></div>
-    <div class="card"><a href="https://www.primevideo.com/" target="_blank"><img src="./icon/primevideo.svg" alt="Prime Video">Prime Video</a></div>
     <div class="card"><a href="https://www.disneyplus.com/" target="_blank"><img src="./icon/desney.svg" alt="Disney+">Disney+</a></div>
+    <div class="card"><a href="https://www.primevideo.com/" target="_blank"><img src="./icon/primevideo.svg" alt="Prime Video">Prime Video</a></div>
     <div class="card"><a href="https://www.max.com/" target="_blank"><img src="./icon/icons8-hbo.svg" alt="HBO Max">HBO Max</a></div>
+    <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
     <div class="card"><a href="https://www.spotify.com/" target="_blank"><img src="./icon/icons8-spotify.svg" alt="Spotify">Spotify</a></div>
+    <div class="card"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="Kalos TV">短剧Kalos TV</a></div>
+  </div>
+
+  <div class="divider"></div>
+
+
+
+  <!-- ==================== 创作者平台 ==================== -->
+  <h2>创作者平台</h2>
+  <div class="grid">
     <div class="card"><a href="https://www.patreon.com/" target="_blank"><img src="./icon/icons8-patreon.svg" alt="Patreon">Patreon</a></div>
     <div class="card"><a href="https://onlyfans.com/" target="_blank"><img src="./icon/onlyfans.svg" alt="OnlyFans">OnlyFans</a></div>
-    <div class="card"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="TikTok">短剧Kalos TV</a></div>
+    <div class="card"><a href="https://ko-fi.com/" target="_blank"><img src="./icon/ko-fi.svg" alt="Ko-fi">Ko-fi</a></div>
+    <div class="card"><a href="https://substack.com/" target="_blank"><img src="./icon/substack.svg" alt="Substack">Substack</a></div>
   </div>
+
+  <footer>
+    <p>Designed with 🧠 by <a href="https://www.google.com/gemini" target="_blank">Google Gemini</a> & <a href="https://dajian.cyou" target="_blank">SanYue</a></p>
+    <p>© 2024 Cyber-Hub. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // 动态时钟功能
+    function updateClock() {
+      const clockElement = document.getElementById('cyber-clock');
+      if (clockElement) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+      }
+    }
+
+    // 初始调用并设置每秒更新
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 
 </body>
 </html>
