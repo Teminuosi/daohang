@@ -30,14 +30,26 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulse-border-glow {
+    /* --- 新增：高亮动画 --- */
+    @keyframes pulse-gold-glow {
       0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 5px #ffffff;
-        border-color: #ff9900;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), 0 0 5px #ffffff;
+        border-color: #ffd700;
       }
       50% {
-        box-shadow: 0 0 35px rgba(255, 153, 0, 1), 0 0 10px #ffffff;
-        border-color: #ffcc66;
+        box-shadow: 0 0 35px rgba(255, 215, 0, 1), 0 0 10px #ffffff;
+        border-color: #fffacd;
+      }
+    }
+
+    @keyframes pulse-red-glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff;
+        border-color: #ff1a1a;
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff;
+        border-color: #ff4d4d;
       }
     }
 
@@ -101,7 +113,7 @@
       color: #99feff;
       text-shadow: 0 0 10px #00ffff;
       letter-spacing: 3px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       font-weight: 600;
     }
     
@@ -126,6 +138,29 @@
       font-weight: bold;
     }
     
+    /* 新增：顶部联系邮箱样式 */
+    .contact-email {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #ccc;
+    }
+    .contact-email span.separator {
+      color: #00ffff;
+      margin: 0 10px;
+      opacity: 0.6;
+    }
+    .contact-email a {
+      color: #ff9900;
+      text-decoration: none;
+      font-weight: bold;
+      text-shadow: 0 0 8px #ff9900;
+      transition: text-shadow 0.3s, color 0.3s;
+    }
+    .contact-email a:hover {
+      color: #ffcc66;
+      text-shadow: 0 0 12px #ff9900;
+    }
+
     /* --- 分区标题 --- */
     h2 {
       font-size: 2.2em;
@@ -166,11 +201,17 @@
       box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff;
     }
 
-    .card.highlight {
-        animation: card-fade-in 0.5s ease-out forwards, pulse-border-glow 2.5s ease-in-out infinite;
+    /* --- 新增：高亮卡片专属样式 --- */
+    .card.highlight-owner {
+        animation: card-fade-in 0.5s ease-out forwards, pulse-gold-glow 2.5s ease-in-out infinite;
         transform: scale(1.05);
     }
 
+    .card.highlight-hot {
+        animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite;
+        transform: scale(1.05);
+    }
+    
     .card a {
       display: flex;
       flex-direction: column;
@@ -220,6 +261,9 @@
       text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
       z-index: 1;
     }
+    footer p {
+        margin-bottom: 8px; /* 增加段落间距 */
+    }
     footer a {
         color: #99feff;
         text-decoration: none;
@@ -238,12 +282,17 @@
     <div class="info-box">
       🚀 提示：大部分站点需开启【科学上网】才能访问。<br/>需要解决方案？请点击下方<span>发光</span>的卡片。
     </div>
+    <p class="contact-email">
+      邮箱: <a href="mailto:terminos888@gmail.com">terminos888@gmail.com</a>
+      <span class="separator">|</span>
+      Telegram: <a href="https://t.me/sanyuedaohang" target="_blank">@sanyuedaohang</a>
+    </p>
   </header>
 
   <!-- ==================== 社交 & 社区 ==================== -->
   <h2>社交 & 社区</h2>
   <div class="grid">
-    <div class="card highlight"><a href="https://dajian.cyou" target="_blank"><img src="./icon/3y.png" alt="SanYue">站长SanYue</a></div>
+    <div class="card highlight-owner"><a href="https://dajian.cyou" target="_blank"><img src="./icon/3y.png" alt="SanYue">站长SanYue</a></div>
     <!-- <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>    -->
     <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>    
     <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
@@ -251,7 +300,7 @@
     <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
     <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
     <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
-    <div class="card"><a href="TG.html" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram 教程</a></div>
+    <div class="card highlight-hot"><a href="TG.html" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram 教程</a></div>
     <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
     <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
     <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
@@ -285,7 +334,7 @@
     <div class="card"><a href="https://www.max.com/" target="_blank"><img src="./icon/icons8-hbo.svg" alt="HBO Max">HBO Max</a></div>
     <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
     <div class="card"><a href="https://www.spotify.com/" target="_blank"><img src="./icon/icons8-spotify.svg" alt="Spotify">Spotify</a></div>
-    <div class="card"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="Kalos TV">短剧Kalos TV</a></div>
+    <div class="card highlight-hot"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="Kalos TV">短剧Kalos TV</a></div>
   </div>
 
   <div class="divider"></div>
