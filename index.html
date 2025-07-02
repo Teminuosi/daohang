@@ -14,57 +14,31 @@
     }
 
     /* --- 动画关键帧定义 --- */
-    @keyframes animate-bg {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 12px #00ffff; }
-      50% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
-    }
+    @keyframes animate-bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes pulse-glow { 0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 12px #00ffff; } 50% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; } }
+    @keyframes card-fade-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     
-    @keyframes card-fade-in {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- 新增：高亮动画 --- */
+    /* ✅【优化】高亮动画 */
     @keyframes pulse-gold-glow {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), 0 0 5px #ffffff;
-        border-color: #ffd700;
-      }
-      50% {
-        box-shadow: 0 0 35px rgba(255, 215, 0, 1), 0 0 10px #ffffff;
-        border-color: #fffacd;
-      }
+      0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 8px #ffffff; border-color: #ffd700; }
+      50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 12px #ffffff; border-color: #fffacd; }
     }
-
+    @keyframes pulse-tg-glow { /* 新增Telegram蓝色辉光 */
+      0%, 100% { box-shadow: 0 0 25px rgba(0, 174, 239, 0.8), 0 0 8px #ffffff; border-color: #00aeef; }
+      50% { box-shadow: 0 0 40px rgba(0, 174, 239, 1), 0 0 12px #ffffff; border-color: #77d4f6; }
+    }
     @keyframes pulse-red-glow {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff;
-        border-color: #ff1a1a;
-      }
-      50% {
-        box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff;
-        border-color: #ff4d4d;
-      }
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; }
+      50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; }
     }
-
-    /* 新增：扫描线动画 */
-    @keyframes scanline {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(100%); }
-    }
+    @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
 
     /* --- 页面主体样式 --- */
     body {
       background: linear-gradient(135deg, #000428, #004e92, #1f1f1f, #000000);
       background-size: 400% 400%;
       animation: animate-bg 20s ease infinite;
-      font-family: 'Orbitron', 'Noto Sans SC', sans-serif; /* Orbitron 用于英文和数字，备用字体用于中文 */
+      font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
       color: #ffffff;
       display: flex;
       flex-direction: column;
@@ -74,204 +48,92 @@
       position: relative;
       overflow-x: hidden;
     }
-
-    /* 新增：扫描线叠加层 */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 200%; /* 高度加倍以实现无缝滚动 */
-      background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(18, 16, 16, 0) 100%);
-      background-size: 100% 4px; /* 控制扫描线粗细 */
-      animation: scanline 12s linear infinite;
-      pointer-events: none; /* 确保不影响鼠标操作 */
-      z-index: 2;
-      opacity: 0.2;
-    }
+    body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 200%; background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(18, 16, 16, 0) 100%); background-size: 100% 4px; animation: scanline 12s linear infinite; pointer-events: none; z-index: 2; opacity: 0.2; }
 
     /* --- 页眉区域 --- */
-    header {
-      text-align: center;
-      margin-bottom: 40px;
+    header { text-align: center; margin-bottom: 40px; width: 100%; }
+    h1 { font-size: 3.2em; margin-bottom: 10px; animation: pulse-glow 3s infinite ease-in-out; font-weight: 900; }
+    #cyber-clock { font-size: 1.5em; color: #99feff; text-shadow: 0 0 10px #00ffff; letter-spacing: 3px; margin-bottom: 25px; font-weight: 600; }
+    .contact-email { font-size: 1em; color: #ccc; }
+    .contact-email span.separator { color: #00ffff; margin: 0 10px; opacity: 0.6; }
+    .contact-email a { color: #ff9900; text-decoration: none; font-weight: bold; text-shadow: 0 0 8px #ff9900; transition: text-shadow 0.3s, color 0.3s; }
+    .contact-email a:hover { color: #ffcc66; text-shadow: 0 0 12px #ff9900; }
+
+    /* ✅ --- 新增：英雄区域（超级卡片） --- */
+    .hero-section {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
       width: 100%;
+      max-width: 900px;
+      margin-bottom: 40px;
+      flex-wrap: wrap; /* 在小屏幕上换行 */
     }
-
-    h1 {
-      font-size: 3.2em;
-      margin-bottom: 10px;
-      animation: pulse-glow 3s infinite ease-in-out;
-      font-weight: 900; /* 使用更粗的字重 */
-    }
-
-    /* 新增：动态时钟样式 */
-    #cyber-clock {
-      font-size: 1.5em;
-      color: #99feff;
-      text-shadow: 0 0 10px #00ffff;
-      letter-spacing: 3px;
-      margin-bottom: 25px;
-      font-weight: 600;
-    }
-    
-    .info-box {
-      background: rgba(10, 25, 47, 0.6);
-      border: 1px solid #00ffff;
-      border-radius: 12px;
-      padding: 15px 25px;
-      max-width: 600px;
-      width: 95%;
-      margin-left: auto;
-      margin-right: auto;
+    .hero-card {
+      flex: 1;
+      min-width: 300px; /* 保证小屏幕下不被挤压 */
+      background: rgba(10, 25, 47, 0.7);
+      border-radius: 16px;
+      padding: 25px;
       text-align: center;
-      font-size: 1.1em;
-      line-height: 1.6;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-    }
-    .info-box span {
-      color: #ff9900;
-      text-shadow: 0 0 8px #ff9900;
-      font-weight: bold;
-    }
-    
-    /* 新增：顶部联系邮箱样式 */
-    .contact-email {
-      margin-top: 20px;
-      font-size: 1em;
-      color: #ccc;
-    }
-    .contact-email span.separator {
-      color: #00ffff;
-      margin: 0 10px;
-      opacity: 0.6;
-    }
-    .contact-email a {
-      color: #ff9900;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s;
       text-decoration: none;
-      font-weight: bold;
-      text-shadow: 0 0 8px #ff9900;
-      transition: text-shadow 0.3s, color 0.3s;
+      color: #fff;
     }
-    .contact-email a:hover {
-      color: #ffcc66;
-      text-shadow: 0 0 12px #ff9900;
+    .hero-card:hover {
+      transform: translateY(-10px);
     }
+    .hero-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      object-fit: contain;
+    }
+    .hero-card h3 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+    .hero-card p {
+      font-size: 1em;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+    .hero-card.highlight-owner {
+      animation: pulse-gold-glow 2.5s ease-in-out infinite;
+    }
+    .hero-card.highlight-owner img { filter: drop-shadow(0 0 10px #ffd700); }
+    .hero-card.highlight-owner h3 { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
+
+    .hero-card.highlight-tg {
+      animation: pulse-tg-glow 2.5s ease-in-out infinite;
+    }
+    .hero-card.highlight-tg img { filter: drop-shadow(0 0 10px #00aeef); }
+    .hero-card.highlight-tg h3 { color: #77d4f6; text-shadow: 0 0 10px #00aeef; }
 
     /* --- 分区标题 --- */
-    h2 {
-      font-size: 2.2em;
-      color: #99feff;
-      text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-      margin-bottom: 25px;
-      text-align: center;
-      font-weight: 600;
-    }
+    h2 { font-size: 2.2em; color: #99feff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); margin-bottom: 25px; text-align: center; font-weight: 600; }
 
     /* --- 网格布局 --- */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 25px;
-      max-width: 1300px;
-      width: 100%;
-      z-index: 1; /* 确保在扫描线之下 */
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 25px; max-width: 1300px; width: 100%; z-index: 1; }
 
-    /* --- 卡片样式 --- */
-    .card {
-      background: rgba(10, 25, 47, 0.5);
-      border: 1px solid #00ffff;
-      border-radius: 12px;
-      text-align: center;
-      padding: 20px;
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      cursor: pointer;
-      backdrop-filter: blur(5px);
-      animation: card-fade-in 0.5s ease-out forwards;
-      opacity: 0;
-    }
+    /* --- 普通卡片样式 --- */
+    .card { background: rgba(10, 25, 47, 0.5); border: 1px solid #00ffff; border-radius: 12px; text-align: center; padding: 20px; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; cursor: pointer; backdrop-filter: blur(5px); animation: card-fade-in 0.5s ease-out forwards; opacity: 0; }
+    .card:hover { transform: translateY(-5px) scale(1.05); border-color: #99feff; box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff; }
+    .card.highlight-hot { animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite; transform: scale(1.05); }
+    .card a { display: flex; flex-direction: column; align-items: center; color: #00ffff; text-decoration: none; font-size: 1.1em; }
+    .card a img { width: 60px; height: 60px; margin-bottom: 10px; object-fit: contain; filter: drop-shadow(0 0 5px #00ffff); }
     
-    .card:hover {
-      transform: translateY(-5px) scale(1.05);
-      border-color: #99feff;
-      box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff;
-    }
-
-    /* --- 新增：高亮卡片专属样式 --- */
-    .card.highlight-owner {
-        animation: card-fade-in 0.5s ease-out forwards, pulse-gold-glow 2.5s ease-in-out infinite;
-        transform: scale(1.05);
-    }
-
-    .card.highlight-hot {
-        animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite;
-        transform: scale(1.05);
-    }
+    /* 卡片错落动画延迟 */
+    .grid .card:nth-child(1) { animation-delay: 0.1s; } .grid .card:nth-child(2) { animation-delay: 0.15s; } .grid .card:nth-child(3) { animation-delay: 0.2s; } .grid .card:nth-child(4) { animation-delay: 0.25s; } .grid .card:nth-child(5) { animation-delay: 0.3s; } .grid .card:nth-child(6) { animation-delay: 0.35s; } .grid .card:nth-child(7) { animation-delay: 0.4s; } .grid .card:nth-child(8) { animation-delay: 0.45s; } .grid .card:nth-child(9) { animation-delay: 0.5s; } .grid .card:nth-child(10) { animation-delay: 0.55s; } .grid .card:nth-child(11) { animation-delay: 0.6s; }
     
-    .card a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #00ffff;
-      text-decoration: none;
-      font-size: 1.1em;
-    }
+    /* --- 分割线 --- */
+    .divider { width: 80%; max-width: 800px; height: 1px; background: linear-gradient(to right, transparent, #00ffff, transparent); margin: 60px 0; box-shadow: 0 0 10px #00ffff; }
 
-    .card a img {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 10px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 5px #00ffff);
-    }
-    
-    /* 卡片错落入场动画延迟 (对每个grid区域独立生效) */
-    .grid .card:nth-child(1) { animation-delay: 0.1s; }
-    .grid .card:nth-child(2) { animation-delay: 0.15s; }
-    .grid .card:nth-child(3) { animation-delay: 0.2s; }
-    .grid .card:nth-child(4) { animation-delay: 0.25s; }
-    .grid .card:nth-child(5) { animation-delay: 0.3s; }
-    .grid .card:nth-child(6) { animation-delay: 0.35s; }
-    .grid .card:nth-child(7) { animation-delay: 0.4s; }
-    .grid .card:nth-child(8) { animation-delay: 0.45s; }
-    .grid .card:nth-child(9) { animation-delay: 0.5s; }
-    .grid .card:nth-child(10) { animation-delay: 0.55s; }
-    .grid .card:nth-child(11) { animation-delay: 0.6s; }
-    
-    /* --- 发光分割线样式 --- */
-    .divider {
-      width: 80%;
-      max-width: 800px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #00ffff, transparent);
-      margin: 60px 0;
-      box-shadow: 0 0 10px #00ffff;
-    }
-
-    /* --- 页脚样式 --- */
-    footer {
-      margin-top: 70px;
-      text-align: center;
-      font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.5);
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-      z-index: 1;
-    }
-    footer p {
-        margin-bottom: 8px; /* 增加段落间距 */
-    }
-    footer a {
-        color: #99feff;
-        text-decoration: none;
-        transition: text-shadow 0.3s;
-    }
-    footer a:hover {
-        text-shadow: 0 0 8px #99feff;
-    }
+    /* --- 页脚 --- */
+    footer { margin-top: 70px; text-align: center; font-size: 0.9em; color: rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); z-index: 1; }
+    footer p { margin-bottom: 8px; } footer a { color: #99feff; text-decoration: none; transition: text-shadow 0.3s; } footer a:hover { text-shadow: 0 0 8px #99feff; }
   </style>
 </head>
 <body>
@@ -279,28 +141,38 @@
   <header>
     <h1>三月空间导航站</h1>
     <div id="cyber-clock">00:00:00</div>
-    <div class="info-box">
-      🚀 提示：大部分站点需开启【科学上网】才能访问。<br/>需要解决方案？请点击下方<span>发光</span>的卡片。
-    </div>
     <p class="contact-email">
-      邮箱: <a href="mailto:terminos888@gmail.com">terminos888@gmail.com</a>
-      <span class="separator">|</span>
-      Telegram: <a href="https://t.me/sanyuedaohang" target="_blank">@sanyuedaohang</a>
+      商务合作邮箱: <a href="mailto:terminos888@gmail.com">terminos888@gmail.com</a>
     </p>
   </header>
+
+  <!-- ✅【新增】英雄区域 -->
+  <div class="hero-section">
+    <a href="https://dajian.cyou" target="_blank" class="hero-card highlight-owner">
+      <img src="./icon/3y.png" alt="SanYue">
+      <h3>站长主页</h3>
+      <p>课程 & 工具 / 完美网络解决方案</p>
+    </a>
+    <a href="TG.html" target="_blank" class="hero-card highlight-tg">
+      <img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">
+      <h3>加入TG社群</h3>
+      <p>获取最新资讯 / 独家资源 / 实时交流</p>
+    </a>
+  </div>
+
+  <div class="divider"></div>
 
   <!-- ==================== 社交 & 社区 ==================== -->
   <h2>社交 & 社区</h2>
   <div class="grid">
-    <div class="card highlight-owner"><a href="https://dajian.cyou" target="_blank"><img src="./icon/3y.png" alt="SanYue">站长SanYue</a></div>
-    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>   
-    <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>    
+    <!-- 移除了原有的站长和TG卡片 -->
+    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>
+    <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
     <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
     <div class="card"><a href="https://twitter.com/" target="_blank"><img src="./icon/twitter-color-svgrepo-com.svg" alt="X(Twitter)">X (Twitter)</a></div>
     <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
     <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
     <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
-    <div class="card highlight-hot"><a href="TG.html" target="_blank"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram">Telegram 教程</a></div>
     <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
     <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
     <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
@@ -317,9 +189,6 @@
       <div class="card"><a href="https://www.meta.ai/" target="_blank"><img src="./icon/meta.svg" alt="Meta AI">Meta AI</a></div>
        <div class="card"><a href="https://kling.kuaishou.com/" target="_blank"><img src="./icon/aistudio.svg" alt="Kling AI">Google Ai Studio</a></div>
       <div class="card"><a href="https://openai.com/sora" target="_blank"><img src="./icon/grok.svg" alt="Sora">Grok</a></div>
-      <!-- <div class="card"><a href="https://www.midjourney.com/" target="_blank"><img src="./icon/midjourney.svg" alt="Midjourney">Midjourney</a></div>  -->
-      <!-- <div class="card"><a href="https://www.leonardo.ai/" target="_blank"><img src="./icon/leonardo.svg" alt="Leonardo.Ai">Leonardo.Ai</a></div> -->
-      <!-- <div class="card"><a href="https://huggingface.co/" target="_blank"><img src="./icon/huggingface.svg" alt="Hugging Face">Hugging Face</a></div> -->
       <div class="card"><a href="https://www.perplexity.ai/" target="_blank"><img src="./icon/perplexity.svg" alt="Perplexity">Perplexity</a></div>
     </div>
     
@@ -339,8 +208,6 @@
 
   <div class="divider"></div>
 
-
-
   <!-- ==================== 创作者平台 ==================== -->
   <h2>创作者平台</h2>
   <div class="grid">
@@ -356,7 +223,6 @@
   </footer>
 
   <script>
-    // 动态时钟功能
     function updateClock() {
       const clockElement = document.getElementById('cyber-clock');
       if (clockElement) {
@@ -367,8 +233,6 @@
         clockElement.textContent = `${hours}:${minutes}:${seconds}`;
       }
     }
-
-    // 初始调用并设置每秒更新
     updateClock();
     setInterval(updateClock, 1000);
   </script>
