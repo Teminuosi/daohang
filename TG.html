@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram 新手导航 | 一站式工具箱</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-color: #0c0a18;
+            --primary-glow: #00aaff;
+            --secondary-glow: #00e0ff;
+            --accent-color: #f82c89;
+            --featured-glow: #ffab00;
+            --text-color: #e0e0e0;
+            --font-primary: 'Orbitron', sans-serif;
+            --font-secondary: 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-secondary); margin: 0; padding: 40px 20px; overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 170, 255, 0.1), transparent 40%), radial-gradient(circle at 85% 30%, rgba(0, 224, 255, 0.1), transparent 40%); background-attachment: fixed;
+        }
+
+        .background-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMDAwMCI+PC9yZWN0PjxjaXJjbGUgY3g9IjEwIiBjeT0iMjAiIHI9IjEiIGZpbGw9IiNmZmYiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjMwIiBjeT0iNTAiIHI9IjAuNSIgZmlsbD0iI2ZmZiI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iNjAiIGN5PSI4MCIgcj0iMS4yIiBmaWxsPSIjZmZmIj48L2NpcmNsZT48Y2lyY2xlIGN4PSI4MCIgY3k9IjEwIiByPSIwLjgiIGZpbGw9IiNmZmYiPjwvY2lyY2xlPjwvc3ZnPg=='); animation: move-stars 200s linear infinite; z-index: -1; opacity: 0.5; }
+        @keyframes move-stars { from { background-position: 0 0; } to { background-position: -10000px 5000px; } }
+
+        .container { width: 95%; max-width: 1000px; margin: 0 auto; z-index: 1; }
+        .header { text-align: center; margin-bottom: 60px; animation: fadeInDown 1s ease-out; }
+        .header h1 { font-family: var(--font-primary); font-size: 3rem; margin: 0; color: #fff; letter-spacing: 5px; text-shadow: 0 0 10px var(--secondary-glow), 0 0 20px var(--secondary-glow), 0 0 40px var(--primary-glow); }
+        .header p { font-size: 1.2rem; color: var(--secondary-glow); margin-top: 10px; letter-spacing: 1px; font-weight: 300; }
+        
+        .section-title { font-family: var(--font-primary); font-weight: 700; font-size: 2.2rem; text-align: center; margin-bottom: 40px; color: #fff; position: relative; padding-bottom: 15px; letter-spacing: 2px; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: linear-gradient(90deg, transparent, var(--accent-color), transparent); box-shadow: 0 0 10px var(--accent-color); }
+        
+        /* ✅ --- 步骤一：新手上路 --- */
+        .step-card {
+            background: rgba(25, 22, 46, 0.7); border: 1px solid rgba(0,170,255,0.4); border-radius: 15px; padding: 30px; margin-bottom: 60px; text-align: center; backdrop-filter: blur(8px); animation: fadeInUp 0.5s 0.2s ease-out forwards; opacity: 0;
+        }
+        .step-card h2 { font-family: var(--font-primary); font-size: 1.8rem; color: var(--secondary-glow); margin: 0 0 10px; }
+        .step-card p { font-size: 1.1rem; color: rgba(255,255,255,0.7); margin-bottom: 30px; }
+        .step-card .actions { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        
+        /* ✅ --- 必加小组 & 探索工具网格 --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: rgba(25, 22, 46, 0.6); border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 10px; padding: 25px; transition: transform 0.3s ease, box-shadow 0.3s ease; backdrop-filter: blur(5px); animation: fadeInUp 0.5s ease-out forwards; opacity: 0; animation-delay: var(--delay, 0s); display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 0 20px rgba(0, 170, 255, 0.5); }
+        .card h3 { font-family: var(--font-primary); font-size: 1.5rem; margin: 0 0 10px 0; color: #fff; }
+        .card p { font-size: 1rem; line-height: 1.7; margin: 0 0 20px 0; flex-grow: 1; }
+        
+        /* ✅ --- 旗舰卡片：站长小组 --- */
+        .card-owner-featured {
+            grid-column: 1 / -1; /* 横跨整行 */
+            border-color: var(--featured-glow);
+            flex-direction: row;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+            animation: fadeInUp 0.5s 0.4s ease-out forwards, pulse-border 3s infinite; opacity: 0;
+        }
+        .card-owner-featured img { width: 100px; height: 100px; flex-shrink: 0; filter: drop-shadow(0 0 15px var(--featured-glow)); }
+        .card-owner-featured .content { text-align: left; }
+        .card-owner-featured h3 { font-size: 2rem; color: var(--featured-glow); text-shadow: 0 0 10px var(--featured-glow); }
+        .card-owner-featured p { font-size: 1.1rem; margin-bottom: 0; }
+        .card-owner-featured .action-button { margin-left: auto; flex-shrink: 0; }
+        @keyframes pulse-border { 0%, 100% { box-shadow: 0 0 25px rgba(255, 171, 0, 0.6); } 50% { box-shadow: 0 0 40px rgba(255, 171, 0, 1); } }
+        
+        /* --- 按钮样式 --- */
+        .card-button { display: inline-block; padding: 12px 24px; background: transparent; border: 2px solid var(--secondary-glow); border-radius: 8px; color: var(--secondary-glow); text-align: center; text-decoration: none; font-family: var(--font-primary); font-size: 1rem; transition: all 0.3s ease; cursor: pointer; }
+        .card-button:hover { background-color: var(--secondary-glow); color: var(--bg-color); box-shadow: 0 0 15px var(--secondary-glow); }
+        .card-button.primary { border-color: var(--featured-glow); color: var(--featured-glow); font-size: 1.2rem; font-weight: 700; padding: 16px 32px; }
+        .card-button.primary:hover { background-color: var(--featured-glow); color: var(--bg-color); box-shadow: 0 0 20px var(--featured-glow); }
+        
+        /* 小屏幕适配 */
+        @media (max-width: 768px) {
+            .card-owner-featured { flex-direction: column; text-align: center; }
+            .card-owner-featured .content { text-align: center; }
+            .card-owner-featured .action-button { margin-left: 0; margin-top: 20px; width: 100%; }
+        }
+
+        footer { text-align: center; margin-top: 80px; padding: 20px; color: rgba(255, 255, 255, 0.4); font-size: 0.9rem; animation: fadeInUp 1s 1.5s ease-out forwards; opacity: 0; }
+        
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="background-stars"></div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Telegram 中文导航</h1>
+            <p>从注册安装到社群探索，一站式解决</p>
+        </header>
+
+        <!-- ✅ 步骤一：新手上路 -->
+        <section class="section" id="step1">
+            <div class="step-card">
+                <h2>第一步：新手上路</h2>
+                <p>还没有 Telegram？从这里开始，我们为你准备好了一切，助你轻松入门。</p>
+                <div class="actions">
+                    <a href="https://telegram.org/" target="_blank" class="card-button">官网客户端下载（需科学上网）</a>
+                    <a href="https://pan.quark.cn/s/0ae3a5f89ab6" target="_blank" class="card-button">中文与安装教程</a>
+                    <a href="http://www.xiaohaoduo.com?aff=s2afSwjx" target="_blank" class="card-button">苹果ID购买 (备用)</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ✅ 步骤二：必加小组 -->
+        <section class="section" id="step2">
+            <h2 class="section-title">第二步：TG必加小组</h2>
+            <div class="grid">
+                <!-- 旗舰卡片 -->
+                <div class="card card-owner-featured">
+                    <img src="./icon/3y.png" alt="站长三月头像">
+                    <div class="content">
+                        <h3>加入站长社群</h3>
+                        <p>获取独家资源、最新资讯、教程更新，与技术同好实时交流。</p>
+                    </div>
+                    <div class="action-button">
+                       <a href="https://t.me/sanyuedaohang" target="_blank" class="card-button primary">🚀 立即加入</a>
+                    </div>
+                </div>
+                <!-- 推荐小组可以在这里继续添加 -->
+                <!-- 示例: <div class="card">...</div> -->
+            </div>
+        </section>
+
+        <!-- ✅ 步骤三：探索利器 -->
+        <!-- ✅ 步骤三：TG必加小组 -->
+<section class="section" id="step3">
+    <h2 class="section-title"></h2>
+    <div class="grid">
+        <!-- 从这里开始替换 -->
+
+        <div class="card" style="--delay: 0.6s;">
+            <h3>极搜 JiSo - 资源情报库</h3>
+            <p>把它看作你的私人信息库。无论是稀有频道还是热门影片，它都能帮你深度挖掘，无所不包。</p>
+            <a href="https://t.me/jiso?start=usecode_7268696340" target="_blank" class="card-button">访问情报库</a>
+        </div>
+
+        <div class="card" style="--delay: 0.7s;">
+            <h3>SOSO - 你的AI助理</h3>
+            <p>把它当作你的专属AI搜索助理。无需复杂指令，像和朋友聊天一样，告诉它你想找什么，答案立即呈现。</p>
+            <a href="https://t.me/soso?start=a_7268696340" target="_blank" class="card-button">召唤AI助理</a>
+        </div>
+
+        <div class="card" style="--delay: 0.8s;">
+            <h3>快搜 KuaiSou - 闪电传送门</h3>
+            <p>专为中文用户优化的闪电引擎。算法经过特别调校，结果更精准，让你在海量信息中瞬间锁定目标。</p>
+            <a href="https://t.me/kuai?start=a_7268696340" target="_blank" class="card-button">开启传送门</a>
+        </div>
+
+        <div class="card" style="--delay: 0.9s;">
+            <h3>神马 - 每日寻宝</h3>
+            <p>不只是一款搜索工具，更是一场每日寻宝游戏。除了强大的搜索功能，坚持签到还能领取USDT奖励，探索与收益兼得。</p>
+            <a href="https://t.me/smss?start=spread_7268696340" target="_blank" class="card-button">开始寻宝</a>
+        </div>
+        
+        <div class="card" style="--delay: 1.0s;">
+            <h3>Super - 万能钥匙</h3>
+            <p>你的终极探索伴侣。功能极其全面，不仅能搜群组，还能帮你发现各种新奇有趣的机器人，解锁Telegram的隐藏玩法。</p>
+            <a href="https://t.me/Super?start=ref-7268696340" target="_blank" class="card-button">获取万能钥匙</a>
+        </div>
+
+        <!-- 到这里结束替换 -->
+    </div>
+</section>
+
+        <footer>
+            <p>本页面由 AI 协助站长『三月』生成，旨在提供便利。祝您使用愉快！</p>
+        </footer>
+    </div>
+
+</body>
+</html>
