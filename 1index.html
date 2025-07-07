@@ -19,10 +19,6 @@
     @keyframes pulse-tg-glow { 0%, 100% { box-shadow: 0 0 25px rgba(0, 174, 239, 0.8), 0 0 8px #ffffff; border-color: #00aeef; } 50% { box-shadow: 0 0 40px rgba(0, 174, 239, 1), 0 0 12px #ffffff; border-color: #77d4f6; } }
     @keyframes pulse-red-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; } 50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; } }
     @keyframes pulse-green-glow { 0%, 100% { box-shadow: 0 0 25px rgba(10, 220, 150, 0.7); border-color: #0adc90; } 50% { box-shadow: 0 0 40px rgba(10, 220, 150, 1); border-color: #98ffda; } }
-    
-    /* ✅ 新增：驾驶舱卡片的紫色辉光动画 */
-    @keyframes pulse-cockpit-glow { 0%, 100% { box-shadow: 0 0 25px rgba(192, 132, 252, 0.8); border-color: #c084fc; } 50% { box-shadow: 0 0 40px rgba(192, 132, 252, 1); border-color: #e9d5ff; } }
-    
     @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
 
     /* --- 页面主体样式 --- */
@@ -53,35 +49,25 @@
         font-weight: bold;
     }
 
-    /* --- 英雄区 --- */
-    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1600px; /* 增加了最大宽度以容纳5个卡片 */ margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-card { flex: 1; min-width: 250px; max-width: 280px; /* 限制最大宽度防止过大 */ background: rgba(10, 25, 47, 0.7); border-radius: 16px; padding: 20px 15px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; }
+    /* --- 英雄区 (四合一) --- */
+    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1300px; margin-bottom: 40px; flex-wrap: wrap; }
+    .hero-card { flex: 1; min-width: 250px; background: rgba(10, 25, 47, 0.7); border-radius: 16px; padding: 20px 15px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; }
     .hero-card:hover { transform: translateY(-10px); }
     .hero-card .icon { font-size: 2.5em; line-height: 1; margin-bottom: 12px; height: 55px; display: flex; align-items: center; justify-content: center; }
     .hero-card h3 { font-size: 1.5em; margin-bottom: 8px; font-weight: 900; }
     .hero-card p { font-size: 0.9em; color: rgba(255, 255, 255, 0.7); line-height: 1.4; flex-grow: 1; }
-    
-    /* 各种高亮样式 */
     .hero-card.highlight-pass { animation: pulse-green-glow 3s ease-in-out infinite; }
     .hero-card.highlight-pass .icon { color: #98ffda; text-shadow: 0 0 10px #0adc90; }
     .hero-card.highlight-pass h3 { color: #98ffda; text-shadow: 0 0 10px #0adc90; }
-    
     .hero-card.highlight-owner { animation: pulse-gold-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-owner .icon img { width: 50px; height: 50px; filter: drop-shadow(0 0 10px #ffd700); }
     .hero-card.highlight-owner h3 { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
-    
     .hero-card.highlight-tg { animation: pulse-tg-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-tg .icon img { width: 50px; height: 50px; filter: drop-shadow(0 0 10px #00aeef); }
     .hero-card.highlight-tg h3 { color: #77d4f6; text-shadow: 0 0 10px #00aeef; }
-    
     .hero-card.highlight-course { animation: pulse-red-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-course .icon { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
     .hero-card.highlight-course h3 { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
-
-    /* ✅ 新增：驾驶舱卡片高亮样式 */
-    .hero-card.highlight-cockpit { animation: pulse-cockpit-glow 2.8s ease-in-out infinite; }
-    .hero-card.highlight-cockpit .icon { color: #e9d5ff; text-shadow: 0 0 10px #c084fc; }
-    .hero-card.highlight-cockpit h3 { color: #e9d5ff; text-shadow: 0 0 10px #c084fc; }
 
     /* --- 分区标题 --- */
     h2 { font-size: 2.2em; color: #99feff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); margin-bottom: 25px; text-align: center; font-weight: 600; }
@@ -114,37 +100,27 @@
   
   <div class="divider"></div>
 
-  <!-- ✅ 英雄区（已更新为5个卡片） -->
+  <!-- ✅ 修改后的英雄区 -->
   <div class="hero-section">
-    <!-- 卡片 1 -->
+    <!-- 这个卡片现在链接到新页面 xxsw.html -->
     <a href="xxsw.html" target="_blank" class="hero-card highlight-pass">
       <span class="icon">🚀</span>
       <h3>必学：XX上网指南</h3>
       <p>点击查看入门教程与稳定方案推荐</p>
     </a>
     
-    <!-- 卡片 2 -->
     <a href="https://dajian.cyou" target="_blank" class="hero-card highlight-owner">
       <span class="icon"><img src="./icon/3y.png" alt="SanYue"></span>
       <h3>跨境网络服务</h3>
       <p>工具 & 教程 / 完美网络解决方案</p>
     </a>
     
-    <!-- ✅ 新增的卡片 -->
-    <a href="nange.html" target="_blank" class="hero-card highlight-cockpit">
-      <span class="icon">🛰️</span>
-      <h3>跨境电商驾驶舱</h3>
-      <p>全链路方案 / 数据化运营 / 品牌出海</p>
-    </a>
-
-    <!-- 卡片 4 -->
     <a href="TG.html" target="_blank" class="hero-card highlight-tg">
       <span class="icon"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram"></span>
       <h3>必学：加入TG社群</h3>
       <p>资源任意搜 / 独家秘笈 / 实时交流</p>
     </a>
-    
-    <!-- 卡片 5 -->
+
     <a href="https://xiaoyuzhou.cyou" target="_blank" class="hero-card highlight-course">
       <span class="icon">🌌</span>
       <h3>资源小宇宙</h3>
