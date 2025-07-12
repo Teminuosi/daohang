@@ -19,8 +19,8 @@
     @keyframes pulse-tg-glow { 0%, 100% { box-shadow: 0 0 25px rgba(0, 174, 239, 0.8), 0 0 8px #ffffff; border-color: #00aeef; } 50% { box-shadow: 0 0 40px rgba(0, 174, 239, 1), 0 0 12px #ffffff; border-color: #77d4f6; } }
     @keyframes pulse-red-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; } 50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; } }
     @keyframes pulse-green-glow { 0%, 100% { box-shadow: 0 0 25px rgba(10, 220, 150, 0.7); border-color: #0adc90; } 50% { box-shadow: 0 0 40px rgba(10, 220, 150, 1); border-color: #98ffda; } }
+    
     @keyframes pulse-cockpit-glow { 0%, 100% { box-shadow: 0 0 25px rgba(192, 132, 252, 0.8); border-color: #c084fc; } 50% { box-shadow: 0 0 40px rgba(192, 132, 252, 1); border-color: #e9d5ff; } }
-    @keyframes pulse-orange-glow { 0%, 100% { box-shadow: 0 0 25px rgba(255, 165, 0, 0.8), 0 0 8px #ffffff; border-color: #ffa500; } 50% { box-shadow: 0 0 40px rgba(255, 165, 0, 1), 0 0 12px #ffffff; border-color: #ffddaa; } }
     
     @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
 
@@ -52,31 +52,13 @@
         font-weight: bold;
     }
 
-    /* --- 英雄区 (已缩小) --- */
-    .hero-section { display: flex; justify-content: center; gap: 20px; width: 100%; max-width:100%; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-card { flex: 1; min-width: 220px; max-width: 250px; background: rgba(10, 25, 47, 0.7); border-radius: 16px; padding: 18px 15px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; }
+    /* --- 英雄区 --- */
+    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1600px; margin-bottom: 40px; flex-wrap: wrap; }
+    .hero-card { flex: 1; min-width: 250px; max-width: 280px; background: rgba(10, 25, 47, 0.7); border-radius: 16px; padding: 20px 15px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; }
     .hero-card:hover { transform: translateY(-10px); }
-    
-    /* --- 图标样式修改 --- */
-    .hero-card .icon {
-        font-size: 2.3em; /* 用于Emoji图标 */
-        line-height: 1;
-        margin-bottom: 12px;
-        height: 50px; /* 【修改】统一容器高度 */
-        width: 50px;  /* 【修改】统一容器宽度 */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    /* 【新增】为所有图片图标设置统一尺寸 */
-    .hero-card .icon img {
-        width: 45px;
-        height: 45px;
-        object-fit: contain;
-    }
-    
-    .hero-card h3 { font-size: 1.4em; margin-bottom: 8px; font-weight: 900; }
-    .hero-card p { font-size: 0.85em; color: rgba(255, 255, 255, 0.7); line-height: 1.4; flex-grow: 1; }
+    .hero-card .icon { font-size: 2.5em; line-height: 1; margin-bottom: 12px; height: 55px; display: flex; align-items: center; justify-content: center; }
+    .hero-card h3 { font-size: 1.5em; margin-bottom: 8px; font-weight: 900; }
+    .hero-card p { font-size: 0.9em; color: rgba(255, 255, 255, 0.7); line-height: 1.4; flex-grow: 1; }
     
     /* 各种高亮样式 */
     .hero-card.highlight-pass { animation: pulse-green-glow 3s ease-in-out infinite; }
@@ -84,28 +66,43 @@
     .hero-card.highlight-pass h3 { color: #98ffda; text-shadow: 0 0 10px #0adc90; }
     
     .hero-card.highlight-owner { animation: pulse-gold-glow 2.5s ease-in-out infinite; }
-    .hero-card.highlight-owner .icon img { filter: drop-shadow(0 0 10px #ffd700); } /* 【修改】移除尺寸定义 */
+    .hero-card.highlight-owner .icon img { width: 50px; height: 50px; filter: drop-shadow(0 0 10px #ffd700); }
     .hero-card.highlight-owner h3 { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
     
     .hero-card.highlight-tg { animation: pulse-tg-glow 2.5s ease-in-out infinite; }
-    .hero-card.highlight-tg .icon img { filter: drop-shadow(0 0 10px #00aeef); } /* 【修改】移除尺寸定义 */
+    .hero-card.highlight-tg .icon img { width: 50px; height: 50px; filter: drop-shadow(0 0 10px #00aeef); }
     .hero-card.highlight-tg h3 { color: #77d4f6; text-shadow: 0 0 10px #00aeef; }
     
     .hero-card.highlight-course { animation: pulse-red-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-course .icon { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
     .hero-card.highlight-course h3 { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
-    
-    .hero-card.highlight-movie { animation: pulse-orange-glow 2.7s ease-in-out infinite; }
-    .hero-card.highlight-movie .icon { color: #ffddaa; text-shadow: 0 0 10px #ffa500; }
-    .hero-card.highlight-movie h3 { color: #ffddaa; text-shadow: 0 0 10px #ffa500; }
 
     .hero-card.highlight-cockpit { animation: pulse-cockpit-glow 2.8s ease-in-out infinite; }
     .hero-card.highlight-cockpit .icon { color: #e9d5ff; text-shadow: 0 0 10px #c084fc; }
     .hero-card.highlight-cockpit h3 { color: #e9d5ff; text-shadow: 0 0 10px #c084fc; }
 
-    .hero-card .custom-services { margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(119, 212, 246, 0.4); }
-    .hero-card .custom-services span { display: block; font-weight: bold; color: #ffcc66; text-shadow: 0 0 8px rgba(255, 204, 102, 0.9); font-size: 0.9em; margin-bottom: 8px; letter-spacing: 1px; }
-    .hero-card .custom-services p { font-size: 0.85em; color: rgba(255, 255, 255, 0.85); line-height: 1.5; flex-grow: 0; }
+    /* ✅ 新增：为TG卡片内的接单信息设计的专属样式 */
+    .hero-card .custom-services {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px dashed rgba(119, 212, 246, 0.4); /* 使用TG主题色的半透明虚线作为分隔 */
+    }
+    .hero-card .custom-services span {
+        display: block;
+        font-weight: bold;
+        color: #ffcc66; /* 醒目的金色 */
+        text-shadow: 0 0 8px rgba(255, 204, 102, 0.9); /* 金色辉光 */
+        font-size: 0.9em;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+    .hero-card .custom-services p {
+        font-size: 0.85em; /* 字体略小，作为补充信息 */
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.5;
+        flex-grow: 0; /* 取消flex-grow，防止过度拉伸 */
+    }
+
 
     /* --- 分区标题 --- */
     h2 { font-size: 2.2em; color: #99feff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); margin-bottom: 25px; text-align: center; font-weight: 600; }
@@ -141,43 +138,38 @@
   <!-- 英雄区 -->
   <div class="hero-section">
     <!-- 卡片 1 -->
-    <!-- <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="hero-card highlight-pass">
+    <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="hero-card highlight-pass">
       <span class="icon">🚀</span>
-      <h3>必学：XX上网指南</h3>
-      <p>免费试用24小时 / 稳定方案推荐</p>
-    </a> -->
-
-    <!-- 新增卡片：三月短剧影视 (新颜色) -->
-    <a href="https://duanju88.cn/" target="_blank" class="hero-card highlight-movie">
-      <span class="icon">🎬</span>
-      <h3>免费影院（福利）</h3>
-      <p>海量高清影视资源 / 在线观看 / 无广告 / 无会员</p>
+      <h3>必学：XX上网指南（免费试用24小时）</h3>
+      <p>注册后查看教程与稳定方案推荐</p>
     </a>
     
     <!-- 卡片 2 -->
-    <a href="internet.html" target="_blank" class="hero-card highlight-owner">
+    <a href="https://dajian.cyou" target="_blank" class="hero-card highlight-owner">
       <span class="icon"><img src="./icon/3y.png" alt="SanYue"></span>
       <h3>跨境网络服务</h3>
-      <p>XX上网 / TK运营 / 工具 / 教程 / 完美网络解决方案</p>
+      <p>工具 & 教程 / 完美网络解决方案</p>
     </a>
     
     <!-- 卡片 3 -->
-    <!-- <a href="nange.html" target="_blank" class="hero-card highlight-cockpit">
+    <a href="nange.html" target="_blank" class="hero-card highlight-cockpit">
       <span class="icon">🛰️</span>
       <h3>跨境电商驾驶舱</h3>
       <p>全链路方案 / 数据化运营 / 品牌出海</p>
-    </a> -->
+    </a>
 
-    <!-- 卡片 4 (TG社群) -->
-    <!-- <a href="TG.html" target="_blank" class="hero-card highlight-tg">
+    <!-- ✅ 卡片 4 (TG社群) - HTML结构已优化 -->
+    <a href="TG.html" target="_blank" class="hero-card highlight-tg">
       <span class="icon"><img src="./icon/telegram-svgrepo-com.svg" alt="Telegram"></span>
       <h3>必学：加入TG社群</h3>
       <p>资源任意搜 / 独家秘笈 / 实时交流</p>
+      
+      <!-- ✅ 优化部分：将接单信息独立出来，并用专属样式高亮 -->
       <div class="custom-services">
         <span>[ 接定制服务：低价起步 ]</span>
         <p>个人网站 / 软路由 / 跨境网络</p>
       </div>
-    </a> -->
+    </a>
     
     <!-- 卡片 5 -->
     <a href="https://xiaoyuzhou.cyou" target="_blank" class="hero-card highlight-course">
@@ -204,7 +196,7 @@
     <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
     <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
     <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
-    <div class="card"><a href="https.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
+    <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
     <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
   </div>
 
