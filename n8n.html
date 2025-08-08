@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI视频自动化神器 - N8N工作流</title>
+    <style>
+        /* --- 基础和字体设置 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+        
+        :root {
+            --primary-color: #FF5733; /* 更活泼的橙色 */
+            --dark-color: #333;
+            --light-color: #fef9f7; /* 温暖的浅色背景 */
+            --gray-color: #666;
+            --bg-color: #ffffff;
+            --card-bg: #fff;
+            --border-color: #eee;
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        /* ✅ 防止背景在弹窗打开时滚动 */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* --- 通用布局和组件 --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.4; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 36px; font-weight: 900; margin-bottom: 10px; }
+        .section-header p { font-size: 18px; color: var(--gray-color); max-width: 800px; margin: 0 auto; }
+        .cta-button { display: inline-block; background: linear-gradient(45deg, #FF5733, #FF8D33); color: white; padding: 18px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 20px rgba(255, 87, 51, 0.3); }
+        .cta-button:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 30px rgba(255, 87, 51, 0.4); }
+
+        /* --- 省略部分重复样式... --- */
+        .hero-section { text-align: center; padding: 80px 20px; background-color: var(--light-color); }
+        .hero-section h1 { font-size: 52px; font-weight: 900; margin-bottom: 20px; }
+        .hero-section .subtitle { font-size: 20px; color: var(--gray-color); margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero-benefits { display: flex; justify-content: center; gap: 30px; margin-bottom: 50px; flex-wrap: wrap; }
+        .benefit-item { font-size: 18px; font-weight: 500; }
+        .style-gallery { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .style-card-compact { border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; background: var(--card-bg); transition: transform 0.2s, box-shadow 0.2s; }
+        .style-card-compact:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+        .style-card-compact h3 { font-size: 24px; font-weight: 700; margin: 0 0 10px 0; color: var(--primary-color); }
+        .style-card-compact .description { font-size: 16px; color: var(--gray-color); margin: 0 0 20px 0; }
+        .video-grid { display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .video-player-compact h4 { text-align: center; margin: 0 0 10px 0; font-size: 16px; font-weight: 500; }
+        .video-wrapper { width: 100%; background-color: #000; border-radius: 8px; overflow: hidden; position: relative; }
+        .ratio-16-9 { aspect-ratio: 16 / 9; }
+        .ratio-9-16 { aspect-ratio: 9 / 16; }
+        .video-wrapper video { width: 100%; height: 100%; object-fit: contain; }
+        .tech-deep-dive { background-color: #fff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);}
+        .tech-intro-box { background-color: var(--light-color); border-radius: 16px; padding: 40px; margin-bottom: 50px; text-align: left; }
+        .tech-intro-box h3 { font-size: 28px; text-align: center; margin-bottom: 20px; }
+        .tech-intro-box p { font-size: 17px; line-height: 1.9; color: #555; }
+        .tech-intro-box strong { color: var(--primary-color); font-weight: 700; }
+        .workflow-steps-container { display: flex; flex-direction: column; gap: 20px; }
+        .workflow-step { display: flex; align-items: center; gap: 25px; background: #fff; padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .workflow-step .step-icon { font-size: 40px; color: var(--primary-color); flex-shrink: 0; width: 60px; text-align: center; }
+        .workflow-step .step-content h4 { font-size: 20px; margin: 0 0 5px 0; }
+        .workflow-step .step-content p { margin: 0; color: var(--gray-color); }
+        .step-arrow { text-align: center; font-size: 24px; color: #ccc; }
+        #delivery { background-color: var(--light-color); }
+        .delivery-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .delivery-item { background: var(--card-bg); padding: 30px; border-radius: 12px; }
+        .delivery-item .icon { font-size: 48px; color: var(--primary-color); }
+        .delivery-item h3 { font-size: 22px; margin: 15px 0 10px 0; }
+        .pricing-section { background-color: var(--light-color); }
+        .pricing-box { max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 16px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .pricing-box .price-wrapper { margin: 20px 0; }
+        .pricing-box .original-price { font-size: 24px; color: var(--gray-color); text-decoration: line-through; margin-right: 15px; }
+        .pricing-box .promo-price { font-size: 52px; font-weight: 900; color: var(--primary-color); display: inline-block; }
+        .promo-badge { display: block; background-color: var(--primary-color); color: #fff; padding: 8px 15px; border-radius: 8px; font-weight: 700; margin-bottom: 20px; max-width: 250px; margin-left: auto; margin-right: auto; }
+        .pricing-box .note { font-size: 16px; color: var(--gray-color); margin-top: 20px; }
+
+        /* --- ✅ 新增：支付弹窗样式 --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .payment-modal-content {
+            background-color: #fff;
+            padding: 30px 35px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px; /* 加宽以容纳二维码和文字 */
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            display: flex;
+            gap: 30px;
+        }
+        .modal-overlay.visible .payment-modal-content {
+            transform: scale(1);
+        }
+        .payment-modal-close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            line-height: 1;
+        }
+        .payment-modal-close-button:hover {
+            color: #333;
+            transform: rotate(90deg);
+        }
+        .qr-code-section {
+            flex-basis: 300px; /* 二维码区域固定宽度 */
+            text-align: center;
+        }
+        .qr-code-section h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .qr-code-container {
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            border: 5px solid var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .qr-code-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .instruction-section {
+            flex-grow: 1; /* 指引区域占据剩余空间 */
+            text-align: left;
+        }
+        .instruction-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .instruction-section p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 15px;
+        }
+        .instruction-section .important-note {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 15px;
+        }
+        .contact-methods {
+            margin-top: 25px;
+        }
+        .contact-methods strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .email-copy-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .email-copy-wrapper .email-address {
+            flex-grow: 1;
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #333;
+        }
+        .copy-button {
+            padding: 10px 15px;
+            border: none;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .copy-button:hover {
+            background-color: #e64a19;
+        }
+        .tg-button {
+            display: inline-block;
+            background: #0088cc;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            .hero-section h1 { font-size: 36px; }
+            .hero-section .subtitle { font-size: 18px; }
+            .section-header h2 { font-size: 30px; }
+            .workflow-step { flex-direction: column; text-align: center; }
+            .payment-modal-content { flex-direction: column; max-width: 400px; padding: 25px; } /* 移动端垂直排列 */
+            .instruction-section { text-align: center; }
+            .email-copy-wrapper { flex-direction: column; }
+        }
+    </style>
+     <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- 省略了首屏、风格展示等模块的HTML，它们保持不变 -->
+    <header class="hero-section">
+        <h1>别再熬夜剪视频了！<br>这套“N8N”工作流帮你全自动搞定！</h1>
+        <p class="subtitle">你只需要把拍好的视频丢进去，选个喜欢的风格，它就能自动帮你剪辑、配音、加特效，一键生成几十条能火的短视频！无论是做Tiktok、抖音、B站还是视频号，都能让你轻松涨粉、接到商单！</p>
+        <div class="hero-benefits">
+            <span class="benefit-item">✅ 超级省时间</span>
+            <span class="benefit-item">✅ 人人是高手</span>
+            <span class="benefit-item">✅ 帮你赚外快</span>
+        </div>
+        <a href="#pricing" class="cta-button">我也想要这个神器！</a>
+    </header>
+    <main>
+        <section id="gallery" class="container">
+            <div class="section-header">
+                <h2>你的视频，想变成什么样？随便选！</h2>
+                <p>我们内置了超多爆款风格，而且你还能自己创造新风格！</p>
+            </div>
+            <div class="style-gallery">
+                <!-- 所有视频卡片都已为您保留，这里为了简洁暂时折叠 -->
+                <div class="style-card-compact"><h3>风格1: TikTok 带货键盘</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/jianpan.mp4"></video></div></div><div class="video-player-compact"><h4>中文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E4%B8%AD%E6%96%87.mp4"></video></div></div><div class="video-player-compact"><h4>英语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%8B%B1%E8%AF%AD.mp4"></video></div></div><div class="video-player-compact"><h4>西班牙语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%A5%BF%E7%8F%AD%E7%89%99%E8%AF%AD.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格1: TikTok 带货化妆品</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/huaxizi.mp4"></video></div></div><div class="video-player-compact"><h4>英文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%8A%B1%E8%A5%BF%E5%AD%90-1.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格2: 电影解说风</h3><p class="description">把任何视频变成“小帅”“小美”的解说大片，悬念拉满，让人忍不住追下去！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/pengranxindong.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格3: 毒舌吐槽风</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/dongxue.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%B4%9E%E7%A9%B4.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格4: 通用解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/quanliyouxi.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%9D%83%E6%B8%B8.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格5: 第一人称演讲</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="http://xiangyugongzuoliu.storage.googleapis.com/Inbox/biye.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%BC%94%E8%AE%B2.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格6: 游戏解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/2077.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/2077.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格7: 纪录片解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/B2.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/b2.mp4"></video></div></div></div></div>
+                <div class="style-card-compact"><h3>风格8: 剪辑成片</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/chubukeji.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%A7%A6%E4%B8%8D%E5%8F%AF%E5%8F%8A.mp4"></video></div></div></div></div>
+            </div>
+        </section>
+        <section class="tech-deep-dive container">
+            <!-- 省略工作流揭秘模块HTML -->
+        </section>
+        <section id="delivery" class="container" style="background-color: var(--light-color);">
+            <!-- 省略交付清单模块HTML -->
+        </section>
+        
+        <!-- 定价区 -->
+        <section id="pricing" class="container pricing-section">
+            <div class="section-header">
+                 <h2>抓住首发红利，立即锁定史低价格！</h2>
+                 <p>一套能持续为你创造价值的生产力工具，它的定价远低于你外包两条视频的费用。更重要的是，它能为你开启一个全新的、高效的搞钱模式！</p>
+            </div>
+            <div class="pricing-box">
+                <div class="promo-badge">限时首发，即将涨价！</div>
+                <h3>视频神器完整包</h3>
+                <p>(本地部署 + 永久使用权)</p>
+                <div class="price-wrapper">
+                    <span class="original-price">原价 ¥998</span>
+                    <div class="promo-price">¥ 499</div>
+                </div>
+                <!-- ✅ 修改后的购买按钮，注意href和id -->
+                <a href="javascript:void(0);" id="buy-now-button" class="cta-button cta-button-small">立即抢购，我也要当视频高手！</a>
+                <p class="note">支持支付宝/微信支付，一次投入，终身受益！</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================= -->
+    <!--  ✅ 新增：支付联系弹窗HTML  -->
+    <!-- ======================= -->
+    <div id="payment-modal" class="modal-overlay">
+        <div class="payment-modal-content">
+            <span id="payment-modal-close" class="payment-modal-close-button">&times;</span>
+            <div class="qr-code-section">
+                <h3>支付宝扫码支付</h3>
+                <div class="qr-code-container">
+                    <!-- ⭐️⭐️⭐️【重要】请将下方src替换为您自己的付款码图片链接 ⭐️⭐️⭐️ -->
+                    <img src="3yue.png" alt="支付宝付款码">
+                </div>
+                <p style="margin-top: 15px; font-weight: bold; color: #333;">可付任意金额作为定金/咨询费</p>
+            </div>
+            <div class="instruction-section">
+                <h2>支付后，请务必联系站长！</h2>
+                <p>感谢您的信任！为了过滤掉大量的无效咨询（白嫖党太多导致微信被风控），我们采用“先付后联”的方式，请您谅解。</p>
+                
+                <div class="important-note">
+                    <strong>完成支付后，请选择以下任一方式联系我，我会立即为您处理：</strong>
+                </div>
+
+                <div class="contact-methods">
+                    <strong>方式一：邮件联系 (推荐)</strong>
+                    <div class="email-copy-wrapper">
+                        <div id="email-to-copy" class="email-address">terminos888@gmail.com</div>
+                        <button id="copy-email-button" class="copy-button">复制邮箱</button>
+                    </div>
+                    <p>请在邮件中填写您的付款备注和电话，我会第一时间联系您。</p>
+
+                    <strong style="margin-top: 20px;">方式二：加入Telegram社群</strong>
+                    <a href="https://3yuedaohang.com/TG" target="_blank" class="tg-button">点击加入TG站长社群</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ✅ 全新的JavaScript逻辑，用于控制支付弹窗
+        const paymentModal = document.getElementById('payment-modal');
+        const openPaymentModalButton = document.getElementById('buy-now-button');
+        const closePaymentModalButton = document.getElementById('payment-modal-close');
+        const copyEmailButton = document.getElementById('copy-email-button');
+        const emailToCopy = document.getElementById('email-to-copy').textContent;
+
+        // 打开支付弹窗
+        const openPaymentModal = () => {
+            document.body.classList.add('modal-open');
+            paymentModal.classList.add('visible');
+        };
+
+        // 关闭支付弹窗
+        const closePaymentModal = () => {
+            document.body.classList.remove('modal-open');
+            paymentModal.classList.remove('visible');
+        };
+
+        // 绑定打开事件
+        openPaymentModalButton.addEventListener('click', openPaymentModal);
+        
+        // 绑定关闭事件
+        closePaymentModalButton.addEventListener('click', closePaymentModal);
+
+        // 点击遮罩层关闭弹窗
+        paymentModal.addEventListener('click', (event) => {
+            if (event.target === paymentModal) {
+                closePaymentModal();
+            }
+        });
+
+        // 按下Esc键关闭弹窗
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && paymentModal.classList.contains('visible')) {
+                closePaymentModal();
+            }
+        });
+
+        // 邮箱复制功能
+        copyEmailButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(emailToCopy).then(() => {
+                copyEmailButton.textContent = '已复制!';
+                setTimeout(() => {
+                    copyEmailButton.textContent = '复制邮箱';
+                }, 2000); // 2秒后恢复原状
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动复制。');
+            });
+        });
+
+    </script>
+</body>
+</html>
