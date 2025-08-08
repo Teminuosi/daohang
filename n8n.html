@@ -123,7 +123,6 @@
         .delivery-item .icon { font-size: 48px; color: var(--primary-color); }
         .delivery-item h3 { font-size: 22px; margin: 15px 0 10px 0; }
         .pricing-section { background-color: var(--light-color); }
-        /* 省略定价和弹窗的CSS... */
         .pricing-box { max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 16px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
         .pricing-box .price-wrapper { margin: 20px 0; }
         .pricing-box .original-price { font-size: 24px; color: var(--gray-color); text-decoration: line-through; margin-right: 15px; }
@@ -164,6 +163,65 @@
             .payment-modal-content { flex-direction: column; max-width: 400px; padding: 25px; }
             .instruction-section { text-align: center; }
             .email-copy-wrapper { flex-direction: column; }
+        }
+
+        /* --- ✅ 新增：准备工作模块样式 --- */
+        .prerequisites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .prerequisite-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background-color: var(--light-color);
+            padding: 25px;
+            border-radius: 12px;
+        }
+        .prerequisite-icon {
+            font-size: 32px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            width: 50px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .prerequisite-content h3 {
+            font-size: 20px;
+            margin: 0 0 8px 0;
+        }
+        .prerequisite-content p {
+            margin: 0;
+            color: var(--gray-color);
+            line-height: 1.7;
+        }
+        .reassurance-box {
+            background-color: var(--success-color);
+            color: #fff;
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 18px;
+            line-height: 1.8;
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+        .reassurance-box strong {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .prerequisite-item {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .prerequisite-icon {
+                margin-top: 0;
+                margin-bottom: 15px;
+            }
         }
     </style>
      <!-- Font Awesome for icons -->
@@ -264,6 +322,49 @@
                 <div class="delivery-item"><div class="icon">👨‍👩‍👧‍👦</div><h3>“老司机”交流群</h3><p>加入内部群，一起交流怎么玩、怎么用它赚钱！</p></div>
                 <div class="delivery-item"><div class="icon">🔄</div><h3>永久免费更新</h3><p>以后我们开发了新风格、新功能，你都能免费拿到。</p></div>
                  <div class="delivery-item"><div class="icon">💬</div><h3>一对一技术支持</h3><p>安装和使用遇到任何问题，我们都会帮你解决。</p></div>
+            </div>
+        </section>
+
+        <!-- ======================= -->
+        <!--  ✅ 新增：“准备工作”模块  -->
+        <!-- ======================= -->
+        <section id="prerequisites" class="container">
+            <div class="section-header">
+                <h2>开始之前：你需要准备什么？</h2>
+                <p>为了让这套强大的自动化工作流顺利运行，你需要准备几样“通行证”。别担心，我们为你准备了保姆级的教程，每一步都会带你走完！</p>
+            </div>
+            <div class="prerequisites-grid">
+                <div class="prerequisite-item">
+                    <div class="prerequisite-icon"><i class="fab fa-google"></i></div>
+                    <div class="prerequisite-content">
+                        <h3>1. 一个Google账号</h3>
+                        <p>用于获取强大的Gemini Pro大模型API Key，这是我们AI导演的“大脑”。（免费）</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <div class="prerequisite-icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="prerequisite-content">
+                        <h3>2. 虚拟卡或Visa卡</h3>
+                        <p>用于绑定一些AI服务账号，即使是免费服务有时也需要验证。我们会教你如何轻松获取和绑定。（免费）</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <div class="prerequisite-icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="prerequisite-content">
+                        <h3>3. AI音频API Key</h3>
+                        <p>这是让视频开口说话的“声带”。我们会教你如何获取，仅需充值10美金就足够你创作海量视频了。</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <div class="prerequisite-icon"><i class="fas fa-server"></i></div>
+                    <div class="prerequisite-content">
+                        <h3>4. N8N的部署环境</h3>
+                        <p>可以选择在自己电脑上“本地部署”（免费），或者更稳定的“云端部署”。所有选项我们都会提供详细教程。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reassurance-box">
+                <p><strong>看到这些就头大？完全不用！</strong><br>上面列出的每一步，我们的教程都会像导航一样，清晰地告诉你“点哪里”、“填什么”，确保你一定能配置成功，顺利开启你的自动化视频创作之旅！</p>
             </div>
         </section>
         
