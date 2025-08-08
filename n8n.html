@@ -27,7 +27,6 @@
             line-height: 1.8;
             font-size: 16px;
         }
-        /* ✅ 防止背景在弹窗打开时滚动 */
         body.modal-open {
             overflow: hidden;
         }
@@ -41,12 +40,14 @@
         .cta-button { display: inline-block; background: linear-gradient(45deg, #FF5733, #FF8D33); color: white; padding: 18px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 20px rgba(255, 87, 51, 0.3); }
         .cta-button:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 30px rgba(255, 87, 51, 0.4); }
 
-        /* --- 省略部分重复样式... --- */
+        /* --- 首屏 --- */
         .hero-section { text-align: center; padding: 80px 20px; background-color: var(--light-color); }
         .hero-section h1 { font-size: 52px; font-weight: 900; margin-bottom: 20px; }
         .hero-section .subtitle { font-size: 20px; color: var(--gray-color); margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; }
         .hero-benefits { display: flex; justify-content: center; gap: 30px; margin-bottom: 50px; flex-wrap: wrap; }
         .benefit-item { font-size: 18px; font-weight: 500; }
+
+        /* --- 风格展示区 --- */
         .style-gallery { display: grid; grid-template-columns: 1fr; gap: 40px; }
         .style-card-compact { border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; background: var(--card-bg); transition: transform 0.2s, box-shadow 0.2s; }
         .style-card-compact:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
@@ -58,31 +59,105 @@
         .ratio-16-9 { aspect-ratio: 16 / 9; }
         .ratio-9-16 { aspect-ratio: 9 / 16; }
         .video-wrapper video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- 工作流揭秘模块样式 --- */
         .tech-deep-dive { background-color: #fff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);}
-        .tech-intro-box { background-color: var(--light-color); border-radius: 16px; padding: 40px; margin-bottom: 50px; text-align: left; }
-        .tech-intro-box h3 { font-size: 28px; text-align: center; margin-bottom: 20px; }
-        .tech-intro-box p { font-size: 17px; line-height: 1.9; color: #555; }
-        .tech-intro-box strong { color: var(--primary-color); font-weight: 700; }
-        .workflow-steps-container { display: flex; flex-direction: column; gap: 20px; }
-        .workflow-step { display: flex; align-items: center; gap: 25px; background: #fff; padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); }
-        .workflow-step .step-icon { font-size: 40px; color: var(--primary-color); flex-shrink: 0; width: 60px; text-align: center; }
-        .workflow-step .step-content h4 { font-size: 20px; margin: 0 0 5px 0; }
-        .workflow-step .step-content p { margin: 0; color: var(--gray-color); }
-        .step-arrow { text-align: center; font-size: 24px; color: #ccc; }
+        .tech-intro-box {
+            background-color: var(--light-color);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 50px;
+            text-align: left;
+        }
+        .tech-intro-box h3 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tech-intro-box p {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #555;
+        }
+        .tech-intro-box strong {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .workflow-steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .workflow-step .step-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            width: 60px;
+            text-align: center;
+        }
+        .workflow-step .step-content h4 {
+            font-size: 20px;
+            margin: 0 0 5px 0;
+        }
+        .workflow-step .step-content p {
+            margin: 0;
+            color: var(--gray-color);
+        }
+        .step-arrow {
+            text-align: center;
+            font-size: 24px;
+            color: #ccc;
+        }
+
+        /* --- 交付清单区 --- */
         #delivery { background-color: var(--light-color); }
         .delivery-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
         .delivery-item { background: var(--card-bg); padding: 30px; border-radius: 12px; }
         .delivery-item .icon { font-size: 48px; color: var(--primary-color); }
         .delivery-item h3 { font-size: 22px; margin: 15px 0 10px 0; }
+
+        /* --- 定价区样式 --- */
         .pricing-section { background-color: var(--light-color); }
         .pricing-box { max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 16px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
-        .pricing-box .price-wrapper { margin: 20px 0; }
-        .pricing-box .original-price { font-size: 24px; color: var(--gray-color); text-decoration: line-through; margin-right: 15px; }
-        .pricing-box .promo-price { font-size: 52px; font-weight: 900; color: var(--primary-color); display: inline-block; }
-        .promo-badge { display: block; background-color: var(--primary-color); color: #fff; padding: 8px 15px; border-radius: 8px; font-weight: 700; margin-bottom: 20px; max-width: 250px; margin-left: auto; margin-right: auto; }
+        .pricing-box .price-wrapper {
+            margin: 20px 0;
+        }
+        .pricing-box .original-price {
+            font-size: 24px;
+            color: var(--gray-color);
+            text-decoration: line-through;
+            margin-right: 15px;
+        }
+        .pricing-box .promo-price {
+            font-size: 52px;
+            font-weight: 900;
+            color: var(--primary-color);
+            display: inline-block;
+        }
+        .promo-badge {
+            display: block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+        }
         .pricing-box .note { font-size: 16px; color: var(--gray-color); margin-top: 20px; }
 
-        /* --- ✅ 新增：支付弹窗样式 --- */
+        /* --- 支付弹窗样式 --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -108,7 +183,7 @@
             padding: 30px 35px;
             border-radius: 16px;
             width: 90%;
-            max-width: 800px; /* 加宽以容纳二维码和文字 */
+            max-width: 800px;
             box-shadow: 0 5px 30px rgba(0,0,0,0.2);
             position: relative;
             transform: scale(0.95);
@@ -134,7 +209,7 @@
             transform: rotate(90deg);
         }
         .qr-code-section {
-            flex-basis: 300px; /* 二维码区域固定宽度 */
+            flex-basis: 300px;
             text-align: center;
         }
         .qr-code-section h3 {
@@ -155,7 +230,7 @@
             display: block;
         }
         .instruction-section {
-            flex-grow: 1; /* 指引区域占据剩余空间 */
+            flex-grow: 1;
             text-align: left;
         }
         .instruction-section h2 {
@@ -227,7 +302,7 @@
             .hero-section .subtitle { font-size: 18px; }
             .section-header h2 { font-size: 30px; }
             .workflow-step { flex-direction: column; text-align: center; }
-            .payment-modal-content { flex-direction: column; max-width: 400px; padding: 25px; } /* 移动端垂直排列 */
+            .payment-modal-content { flex-direction: column; max-width: 400px; padding: 25px; }
             .instruction-section { text-align: center; }
             .email-copy-wrapper { flex-direction: column; }
         }
@@ -237,7 +312,6 @@
 </head>
 <body>
 
-    <!-- 省略了首屏、风格展示等模块的HTML，它们保持不变 -->
     <header class="hero-section">
         <h1>别再熬夜剪视频了！<br>这套“N8N”工作流帮你全自动搞定！</h1>
         <p class="subtitle">你只需要把拍好的视频丢进去，选个喜欢的风格，它就能自动帮你剪辑、配音、加特效，一键生成几十条能火的短视频！无论是做Tiktok、抖音、B站还是视频号，都能让你轻松涨粉、接到商单！</p>
@@ -248,6 +322,7 @@
         </div>
         <a href="#pricing" class="cta-button">我也想要这个神器！</a>
     </header>
+
     <main>
         <section id="gallery" class="container">
             <div class="section-header">
@@ -255,7 +330,7 @@
                 <p>我们内置了超多爆款风格，而且你还能自己创造新风格！</p>
             </div>
             <div class="style-gallery">
-                <!-- 所有视频卡片都已为您保留，这里为了简洁暂时折叠 -->
+                
                 <div class="style-card-compact"><h3>风格1: TikTok 带货键盘</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/jianpan.mp4"></video></div></div><div class="video-player-compact"><h4>中文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E4%B8%AD%E6%96%87.mp4"></video></div></div><div class="video-player-compact"><h4>英语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%8B%B1%E8%AF%AD.mp4"></video></div></div><div class="video-player-compact"><h4>西班牙语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%A5%BF%E7%8F%AD%E7%89%99%E8%AF%AD.mp4"></video></div></div></div></div>
                 <div class="style-card-compact"><h3>风格1: TikTok 带货化妆品</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/huaxizi.mp4"></video></div></div><div class="video-player-compact"><h4>英文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%8A%B1%E8%A5%BF%E5%AD%90-1.mp4"></video></div></div></div></div>
                 <div class="style-card-compact"><h3>风格2: 电影解说风</h3><p class="description">把任何视频变成“小帅”“小美”的解说大片，悬念拉满，让人忍不住追下去！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/pengranxindong.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8.mp4"></video></div></div></div></div>
@@ -265,16 +340,51 @@
                 <div class="style-card-compact"><h3>风格6: 游戏解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/2077.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/2077.mp4"></video></div></div></div></div>
                 <div class="style-card-compact"><h3>风格7: 纪录片解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/B2.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/b2.mp4"></video></div></div></div></div>
                 <div class="style-card-compact"><h3>风格8: 剪辑成片</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/chubukeji.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%A7%A6%E4%B8%8D%E5%8F%AF%E5%8F%8A.mp4"></video></div></div></div></div>
+
             </div>
         </section>
+
         <section class="tech-deep-dive container">
-            <!-- 省略工作流揭秘模块HTML -->
+            <div class="section-header">
+                <h2>揭秘神器：它到底是什么？又强在哪里？</h2>
+            </div>
+            <div class="tech-intro-box">
+                <h3>首先，认识一下这套神器的“引擎”：N8N</h3>
+                <p>你看到的自动化魔法，背后是由 <strong>N8N (n-eight-n)</strong> 这个强大的自动化平台驱动的。你可以把它想象成数字世界的“瑞士军刀”或“乐高积木”。在国外，它是顶尖玩家和效率高手的秘密武器，但在国内，它还是一片等待开采的蓝海。</p>
+                <p>这意味着，<strong>现在掌握它，你就掌握了信息差，掌握了别人所不具备的“降维打击”能力。</strong>你不再是内容的“搬运工”，而是自动化生产线的主人。</p>
+            </div>
+            <div class="section-header">
+                <h3>工作流揭秘：AI导演是如何工作的？</h3>
+            </div>
+            <div class="workflow-steps-container">
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-upload"></i></div><div class="step-content"><h4>第1步：上传原始视频</h4><p>你只需将任意一段视频素材（比如产品展示、游戏录屏、电影片段）上传到云端。</p></div></div>
+                <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-brain"></i></div><div class="step-content"><h4>第2步：AI深度“看片”与理解</h4><p>工作流调用多模态大模型(类似Gemini)，像真人一样“观看”并理解视频里的每一个画面、物体和动作。</p></div></div>
+                <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-pencil-alt"></i></div><div class="step-content"><h4>第3步：AI导演编写剧本</h4><p>根据你选择的风格（如毒舌吐槽、带货风），AI会自动生成全新的解说词、脚本和分镜描述。</p></div></div>
+                 <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-cut"></i></div><div class="step-content"><h4>第4步：自动化“神剪辑”</h4><p>工作流根据AI生成的脚本，自动对原始视频进行精准的切割、排序和重组，完成所有剪辑工作。</p></div></div>
+                 <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-microphone-alt"></i></div><div class="step-content"><h4>第5步：AI天团配音</h4><p>将AI生成的解说词，通过TTS引擎转换成超自然的人声配音（支持多种语言甚至克隆你自己的声音）。</p></div></div>
+                 <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="workflow-step"><div class="step-icon"><i class="fas fa-film"></i></div><div class="step-content"><h4>第6步：音画同步与最终合成</h4><p>将剪辑好的视频片段与生成的配音完美合一，确保音画同步，并自动加上字幕，生成最终的视频大片。</p></div></div>
+            </div>
         </section>
+
         <section id="delivery" class="container" style="background-color: var(--light-color);">
-            <!-- 省略交付清单模块HTML -->
+            <div class="section-header">
+                <h2>买了它，你得到的是一整套“赚钱工具”</h2>
+            </div>
+            <div class="delivery-list">
+                <div class="delivery-item"><div class="icon">📦</div><h3>视频神器本身</h3><p>全套工作流文件，可直接导入，在自己电脑或服务器上安装。</p></div>
+                <div class="delivery-item"><div class="icon">▶️</div><h3>“保姆级”安装教程</h3><p>超详细的视频教程，一步步教你，保证你能学会。</p></div>
+                <div class="delivery-item"><div class="icon">🧪</div><h3>所有风格的“配方”</h3><p>开放所有风格的秘密，你还能自己改，创造新风格！</p></div>
+                <div class="delivery-item"><div class="icon">👨‍👩‍👧‍👦</div><h3>“老司机”交流群</h3><p>加入内部群，一起交流怎么玩、怎么用它赚钱！</p></div>
+                <div class="delivery-item"><div class="icon">🔄</div><h3>永久免费更新</h3><p>以后我们开发了新风格、新功能，你都能免费拿到。</p></div>
+                 <div class="delivery-item"><div class="icon">💬</div><h3>一对一技术支持</h3><p>安装和使用遇到任何问题，我们都会帮你解决。</p></div>
+            </div>
         </section>
         
-        <!-- 定价区 -->
         <section id="pricing" class="container pricing-section">
             <div class="section-header">
                  <h2>抓住首发红利，立即锁定史低价格！</h2>
@@ -288,24 +398,19 @@
                     <span class="original-price">原价 ¥998</span>
                     <div class="promo-price">¥ 499</div>
                 </div>
-                <!-- ✅ 修改后的购买按钮，注意href和id -->
                 <a href="javascript:void(0);" id="buy-now-button" class="cta-button cta-button-small">立即抢购，我也要当视频高手！</a>
                 <p class="note">支持支付宝/微信支付，一次投入，终身受益！</p>
             </div>
         </section>
     </main>
 
-    <!-- ======================= -->
-    <!--  ✅ 新增：支付联系弹窗HTML  -->
-    <!-- ======================= -->
     <div id="payment-modal" class="modal-overlay">
         <div class="payment-modal-content">
             <span id="payment-modal-close" class="payment-modal-close-button">&times;</span>
             <div class="qr-code-section">
                 <h3>支付宝扫码支付</h3>
                 <div class="qr-code-container">
-                    <!-- ⭐️⭐️⭐️【重要】请将下方src替换为您自己的付款码图片链接 ⭐️⭐️⭐️ -->
-                    <img src="3yue.png" alt="支付宝付款码">
+                    <img src="【请在此处替换为您的支付宝付款码图片链接】" alt="支付宝付款码">
                 </div>
                 <p style="margin-top: 15px; font-weight: bold; color: #333;">可付任意金额作为定金/咨询费</p>
             </div>
@@ -323,10 +428,10 @@
                         <div id="email-to-copy" class="email-address">terminos888@gmail.com</div>
                         <button id="copy-email-button" class="copy-button">复制邮箱</button>
                     </div>
-                    <p>请在邮件中填写您的付款备注和电话，我会第一时间联系您。</p>
+                    <p>请在邮件中备注您的**付款备注**，或者留下您的**电话**，我会第一时间添加您。</p>
 
                     <strong style="margin-top: 20px;">方式二：加入Telegram社群</strong>
-                    <a href="https://3yuedaohang.com/TG" target="_blank" class="tg-button">点击加入TG站长社群</a>
+                    <a href="https://t.me/sanyuedaohang" target="_blank" class="tg-button">点击加入TG站长社群</a>
                 </div>
             </div>
         </div>
@@ -334,52 +439,44 @@
 
 
     <script>
-        // ✅ 全新的JavaScript逻辑，用于控制支付弹窗
         const paymentModal = document.getElementById('payment-modal');
         const openPaymentModalButton = document.getElementById('buy-now-button');
         const closePaymentModalButton = document.getElementById('payment-modal-close');
         const copyEmailButton = document.getElementById('copy-email-button');
         const emailToCopy = document.getElementById('email-to-copy').textContent;
 
-        // 打开支付弹窗
         const openPaymentModal = () => {
             document.body.classList.add('modal-open');
             paymentModal.classList.add('visible');
         };
 
-        // 关闭支付弹窗
         const closePaymentModal = () => {
             document.body.classList.remove('modal-open');
             paymentModal.classList.remove('visible');
         };
 
-        // 绑定打开事件
         openPaymentModalButton.addEventListener('click', openPaymentModal);
         
-        // 绑定关闭事件
         closePaymentModalButton.addEventListener('click', closePaymentModal);
 
-        // 点击遮罩层关闭弹窗
         paymentModal.addEventListener('click', (event) => {
             if (event.target === paymentModal) {
                 closePaymentModal();
             }
         });
 
-        // 按下Esc键关闭弹窗
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && paymentModal.classList.contains('visible')) {
                 closePaymentModal();
             }
         });
 
-        // 邮箱复制功能
         copyEmailButton.addEventListener('click', () => {
             navigator.clipboard.writeText(emailToCopy).then(() => {
                 copyEmailButton.textContent = '已复制!';
                 setTimeout(() => {
                     copyEmailButton.textContent = '复制邮箱';
-                }, 2000); // 2秒后恢复原状
+                }, 2000);
             }).catch(err => {
                 console.error('复制失败: ', err);
                 alert('复制失败，请手动复制。');
