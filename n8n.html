@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI视频自动化神器 - N8N工作流</title>
     <style>
-        /* --- 基础和字体设置 --- */
+        /* --- 所有CSS样式保持不变，此处省略... --- */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
         
         :root {
@@ -226,9 +226,14 @@
     </style>
      <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- ✅ 第1步：引入 HLS.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
 </head>
 <body>
 
+    <!-- 省略了 header, main 的大部分内容，因为它们没有变动 -->
     <header class="hero-section">
         <h1>别再熬夜剪视频了！<br>这套“N8N”工作流帮你全自动搞定！</h1>
         <p class="subtitle">你只需要把拍好的视频丢进去，选个喜欢的风格，它就能自动帮你剪辑、配音、加特效，一键生成几十条能火的短视频！无论是做Tiktok、抖音、B站还是视频号，都能让你轻松涨粉、接到商单！</p>
@@ -244,23 +249,71 @@
         <section id="gallery" class="container">
             <div class="section-header">
                 <h2>你的视频，想变成什么样？随便选！</h2>
-                <!-- ✅ 升级后的副标题 -->
                 <p>我们内置了 <strong>15+</strong> 种即用型爆款风格（页面仅展示部分），更强大的是，你可以<strong>定制你自己的专属风格</strong>，真正实现创意无上限！</p>
             </div>
             <div class="style-gallery">
-                <!-- 所有8个视频卡片都已为您保留，为了简洁暂时折叠 -->
-                <div class="style-card-compact"><h3>风格1: TikTok 带货键盘</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/jianpan.mp4"></video></div></div><div class="video-player-compact"><h4>中文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E4%B8%AD%E6%96%87.mp4"></video></div></div><div class="video-player-compact"><h4>英语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%8B%B1%E8%AF%AD.mp4"></video></div></div><div class="video-player-compact"><h4>西班牙语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E9%94%AE%E7%9B%98%E8%A5%BF%E7%8F%AD%E7%89%99%E8%AF%AD.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格1: TikTok 带货化妆品</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/huaxizi.mp4"></video></div></div><div class="video-player-compact"><h4>英文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%8A%B1%E8%A5%BF%E5%AD%90-1.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格2: 电影解说风</h3><p class="description">把任何视频变成“小帅”“小美”的解说大片，悬念拉满，让人忍不住追下去！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/pengranxindong.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格3: 毒舌吐槽风</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/dongxue.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%B4%9E%E7%A9%B4.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格4: 通用解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/quanliyouxi.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%9D%83%E6%B8%B8.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格5: 第一人称演讲</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="http://xiangyugongzuoliu.storage.googleapis.com/Inbox/biye.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E6%BC%94%E8%AE%B2.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格6: 游戏解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/2077.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/2077.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格7: 纪录片解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/B2.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/b2.mp4"></video></div></div></div></div>
-                <div class="style-card-compact"><h3>风格8: 剪辑成片</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid"><div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.storage.googleapis.com/Inbox/chubukeji.mp4"></video></div></div><div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop src="https://xiangyugongzuoliu.com/wp-content/uploads/2025/06/%E8%A7%A6%E4%B8%8D%E5%8F%AF%E5%8F%8A.mp4"></video></div></div></div></div>
+                <!-- ✅ 第2步：修改所有AI生成视频的 <video> 标签 -->
+
+                <!-- 风格1: TikTok 带货键盘 -->
+                <div class="style-card-compact"><h3>风格1: TikTok 带货键盘</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/jianpan/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>中文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/键盘中文/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>英语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/键盘英语/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>西班牙语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/键盘西班牙语/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格1: TikTok 带货化妆品 -->
+                <div class="style-card-compact"><h3>风格1: TikTok 带货化妆品</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/huaxizi/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>英文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/花西子-1/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格2: 电影解说风 -->
+                <div class="style-card-compact"><h3>风格2: 电影解说风</h3><p class="description">把任何视频变成“小帅”“小美”的解说大片，悬念拉满，让人忍不住追下去！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/pengranxindong/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/怦然心动/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格3: 毒舌吐槽风 -->
+                <div class="style-card-compact"><h3>风格3: 毒舌吐槽风</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/dongxue/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/洞穴/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格4: 通用解说 -->
+                <div class="style-card-compact"><h3>风格4: 通用解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/quanliyouxi/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/权游/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格5: 第一人称演讲 -->
+                <div class="style-card-compact"><h3>风格5: 第一人称演讲</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/biye/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/演讲/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格6: 游戏解说 -->
+                <div class="style-card-compact"><h3>风格6: 游戏解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/2077/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/2077(1)/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格7: 纪录片解说 -->
+                <div class="style-card-compact"><h3>风格7: 纪录片解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/B2/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/b2 (1)/playlist.m3u8"></video></div></div>
+                </div></div>
+
+                <!-- 风格8: 剪辑成片 -->
+                <div class="style-card-compact"><h3>风格8: 剪辑成片</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
+                    <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/chubukeji/playlist.m3u8"></video></div></div>
+                    <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/触不可及/playlist.m3u8"></video></div></div>
+                </div></div>
+
             </div>
         </section>
 
+        <!-- ... 其他 section 内容保持不变，此处省略 ... -->
         <section class="tech-deep-dive container">
             <div class="section-header"><h2>揭秘神器：它到底是什么？又强在哪里？</h2></div>
             <div class="tech-intro-box">
@@ -422,6 +475,7 @@
 
 
     <script>
+        // --- 原有的弹窗和邮件复制脚本保持不变 ---
         const paymentModal = document.getElementById('payment-modal');
         const openPaymentModalButton = document.getElementById('buy-now-button');
         const closePaymentModalButton = document.getElementById('payment-modal-close');
@@ -465,7 +519,42 @@
                 alert('复制失败，请手动复制。');
             });
         });
-
     </script>
+    
+    <!-- ✅ 第3步：添加通用的 HLS 播放器初始化脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 查找所有标记为 hls-video 的 video 元素
+            const hlsVideos = document.querySelectorAll('.hls-video');
+            
+            // 检查浏览器是否支持 HLS.js
+            if (Hls.isSupported()) {
+                console.log(`发现 ${hlsVideos.length} 个本地HLS视频，开始初始化...`);
+                
+                hlsVideos.forEach((videoEl, index) => {
+                    const m3u8Src = videoEl.dataset.m3u8Src;
+                    
+                    if (m3u8Src) {
+                        const hls = new Hls();
+                        hls.loadSource(m3u8Src); // 加载 M3U8 文件
+                        hls.attachMedia(videoEl); // 绑定到 video 元素
+                        
+                        // 可选：添加一些日志方便调试
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            console.log(`视频 #${index+1} (${m3u8Src}) manifest 解析成功，准备播放。`);
+                        });
+                        hls.on(Hls.Events.ERROR, function (event, data) {
+                            if (data.fatal) {
+                                console.error(`播放视频 (${m3u8Src}) 时发生严重错误:`, data);
+                            }
+                        });
+                    }
+                });
+            } else {
+                console.warn("您的浏览器不支持 HLS.js，部分视频可能无法播放。");
+            }
+        });
+    </script>
+
 </body>
 </html>
