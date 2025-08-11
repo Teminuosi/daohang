@@ -349,8 +349,8 @@
                 <div class="possibility-card">
                     <h3><i class="fas fa-layer-group"></i>可定制的风格库</h3>
                     <p>除了我们内置的15+种风格，你将学会如何通过修改提示词(Prompt)，创造出完全属于你自己的、独一无二的视频风格。想要“王家卫电影感”？还是“B站鬼畜风”？一切皆有可能！</p>
-                    <!-- ⭐️⭐️⭐️【重要】下方 src 已被替换为内嵌图片，保证100%显示 ⭐️⭐️⭐️ -->
-                    <img src="image/style.png" alt="15种可选风格列表" class="style-list-image">
+                    <!-- ⭐️⭐️⭐️【重要】请将下方src替换为您那张风格列表的截图链接 ⭐️⭐️⭐️ -->
+                    <img src="https://i.ibb.co/hZ2vPzk/styles-list.png" alt="15种可选风格列表" class="style-list-image">
                 </div>
                 <div class="possibility-card">
                     <h3><i class="fas fa-volume-up"></i>海量的声音选择</h3>
@@ -521,33 +521,38 @@
         });
     </script>
     
-    <!-- ✅ 第3步：添加通用的 HLS 播放器初始化脚本 (兼容 iOS 和 Android) -->
+    <!-- ✅ 第3步：添加通用的 HLS 播放器初始化脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // 查找所有标记为 hls-video 的 video 元素
             const hlsVideos = document.querySelectorAll('.hls-video');
-            console.log(`发现 ${hlsVideos.length} 个HLS视频，开始初始化播放器...`);
-
-            hlsVideos.forEach((videoEl, index) => {
-                const m3u8Src = videoEl.dataset.m3u8Src;
-                if (!m3u8Src) return;
-
-                if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-                    videoEl.src = m3u8Src;
-                    console.log(`视频 #${index+1} (${m3u8Src}) 使用原生HLS支持进行播放。`);
-                } else if (Hls.isSupported()) {
-                    console.log(`视频 #${index+1} (${m3u8Src}) 使用 HLS.js 进行播放。`);
-                    const hls = new Hls();
-                    hls.loadSource(m3u8Src);
-                    hls.attachMedia(videoEl);
-                    hls.on(Hls.Events.ERROR, function (event, data) {
-                        if (data.fatal) {
-                            console.error(`播放视频 (${m3u8Src}) 时发生HLS.js严重错误:`, data);
-                        }
-                    });
-                } else {
-                    console.warn(`视频 #${index+1} (${m3u8Src}) 无法播放，当前浏览器既不支持原生HLS，也不支持HLS.js。`);
-                }
-            });
+            
+            // 检查浏览器是否支持 HLS.js
+            if (Hls.isSupported()) {
+                console.log(`发现 ${hlsVideos.length} 个本地HLS视频，开始初始化...`);
+                
+                hlsVideos.forEach((videoEl, index) => {
+                    const m3u8Src = videoEl.dataset.m3u8Src;
+                    
+                    if (m3u8Src) {
+                        const hls = new Hls();
+                        hls.loadSource(m3u8Src); // 加载 M3U8 文件
+                        hls.attachMedia(videoEl); // 绑定到 video 元素
+                        
+                        // 可选：添加一些日志方便调试
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            console.log(`视频 #${index+1} (${m3u8Src}) manifest 解析成功，准备播放。`);
+                        });
+                        hls.on(Hls.Events.ERROR, function (event, data) {
+                            if (data.fatal) {
+                                console.error(`播放视频 (${m3u8Src}) 时发生严重错误:`, data);
+                            }
+                        });
+                    }
+                });
+            } else {
+                console.warn("您的浏览器不支持 HLS.js，部分视频可能无法播放。");
+            }
         });
     </script>
 
