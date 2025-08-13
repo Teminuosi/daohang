@@ -18,7 +18,7 @@
     @keyframes pulse-gold-glow { 0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 8px #ffffff; border-color: #ffd700; } 50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 12px #ffffff; border-color: #fffacd; } }
     @keyframes pulse-red-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; } 50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; } }
     
-    /* 为新产品卡片定制的辉光动画 */
+    /* ✅ 为新产品卡片定制的辉光动画 */
     @keyframes pulse-magenta-glow { 0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 10px #ffffff; border-color: #ff00ff; } 50% { box-shadow: 0 0 50px rgba(255, 0, 255, 1), 0 0 15px #ffffff; border-color: #ff80ff; } }
 
     @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
@@ -52,10 +52,6 @@
     .contact-option .email-address { background-color: #111; padding: 8px 12px; border-radius: 6px; font-family: 'Orbitron', monospace; color: #ff9900; word-break: break-all; }
     .tg-button { display: block; width: 100%; padding: 15px; text-align: center; text-decoration: none; font-size: 1.1em; font-weight: bold; color: #fff; border-radius: 50px; background: linear-gradient(45deg, #00aeff, #007bff); box-shadow: 0 4px 15px rgba(0, 150, 255, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
     .tg-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 150, 255, 0.6); }
-    .qq-button { display: block; width: 100%; padding: 15px; text-align: center; text-decoration: none; font-size: 1.1em; font-weight: bold; color: #fff; border-radius: 50px; background: linear-gradient(45deg, #1e90ff, #0000cd); box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4); transition: transform 0.2s, box-shadow 0.2s; margin-bottom: 15px; /* ✅ 为下方的提示文字留出空间 */ }
-    .qq-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30, 144, 255, 0.6); }
-    .manual-copy-tip { text-align: center; font-size: 0.9em; color: #aaa; margin-top: 10px; margin-bottom: 0; }
-    .manual-copy-tip strong { color: #ff9900; font-family: 'Orbitron', monospace; }
     .modal-footer-text { text-align: center; font-size: 0.9em; color: #888; margin-top: 20px; }
 
     /* --- 系统广播提示 --- */
@@ -63,8 +59,25 @@
     .system-alert .highlight-green { color: #98ffda; text-shadow: 0 0 8px #0adc90; font-weight: bold; }
     
     /* --- 英雄区 --- */
-    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1200px; margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; align-items: stretch; }
-    .hero-card { flex: 1; min-width: 280px; max-width: 350px; background: rgba(10, 25, 47, 0.7); border: 2px solid; border-radius: 16px; padding: 30px 20px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1200px; /* 稍微加宽以容纳第三个卡片 */ margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; align-items: stretch; }
+    .hero-card {
+        flex: 1; min-width: 280px; max-width: 350px;
+        background: rgba(10, 25, 47, 0.7);
+        border: 2px solid;
+        border-radius: 16px;
+        padding: 30px 20px;
+        text-align: center;
+        backdrop-filter: blur(8px);
+        transition: transform 0.3s;
+        text-decoration: none;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* 为了角标 */
+        overflow: hidden; /* 为了角标 */
+    }
     .hero-card:hover { transform: translateY(-10px); }
     .hero-card .icon { font-size: 2.3em; line-height: 1; margin-bottom: 15px; height: 50px; width: 100%; display: flex; align-items: center; justify-content: center; }
     .hero-card .icon img { width: 45px; height: 45px; object-fit: contain; }
@@ -78,10 +91,21 @@
     .hero-card.highlight-course { animation: pulse-red-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-course h3 { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
     
+    /* ✅ 为新产品卡片应用辉光动画和特殊样式 */
     .hero-card.highlight-new-product { animation: pulse-magenta-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-new-product h3 { color: #ff80ff; text-shadow: 0 0 10px #ff00ff; }
     .hero-card.highlight-new-product .icon { color: #ff80ff; }
-    .hero-card.highlight-new-product .hot-badge-corner { position: absolute; top: 10px; right: -30px; background: #ff00ff; color: white; padding: 3px 30px; transform: rotate(45deg); font-size: 0.8em; font-weight: bold; }
+    .hero-card.highlight-new-product .hot-badge-corner {
+        position: absolute;
+        top: 10px;
+        right: -30px;
+        background: #ff00ff;
+        color: white;
+        padding: 3px 30px;
+        transform: rotate(45deg);
+        font-size: 0.8em;
+        font-weight: bold;
+    }
 
 
     /* --- 分区标题 --- */
@@ -115,12 +139,15 @@
 
   <!-- 英雄区 -->
   <div class="hero-section">
+    <!-- ✅ 新的 "火爆上新" 卡片 -->
     <a href="n8n.html" target="_blank" class="hero-card highlight-new-product">
         <div class="hot-badge-corner">HOT</div>
         <span class="icon"><i class="fas fa-robot"></i></span>
         <h3>AI视频自动化神器</h3>
         <p>一键剪辑任意视频，开启你的二创之路。</p>
     </a>
+
+    <!-- 原有的卡片 -->
     <a href="https://dajian.cyou" target="_blank" class="hero-card highlight-owner">
         <span class="icon"><img src="./icon/3y.png" alt="SanYue"></span>
         <h3>跨境网络服务</h3>
@@ -132,6 +159,7 @@
         <p>短剧 / AI课程 / 自媒体变现 / AI工具实战</p>
     </a>
   </div>
+
 
   <!-- 系统提示 -->
   <div class="system-alert">
@@ -218,14 +246,6 @@
         <p>点击下方按钮，直接加入我们的官方Telegram社群进行咨询和交流。</p>
         <a href="TG.html" target="_blank" class="tg-button">加入TG站长社群</a>
       </div>
-      
-      <div class="contact-option">
-        <h3>3. QQ联系</h3>
-        <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
-        <a href="tencent://message/?uin=370034225&site=qq&menu=yes" target="_blank" class="qq-button">通过QQ联系我</a>
-        <!-- ✅ 新增的提示 -->
-        <p class="manual-copy-tip">如果无法跳转，请手动复制QQ号：<strong>370034225</strong></p>
-      </div>
 
       <p class="modal-footer-text">感谢您的理解与支持！</p>
     </div>
@@ -251,31 +271,37 @@
     const openModalButton = document.getElementById('contact-trigger-button');
     const closeModalButton = document.getElementById('modal-close');
 
+    // 打开弹窗的函数
     const openModal = () => {
       document.body.classList.add('modal-open');
       contactModal.classList.add('visible');
     };
 
+    // 关闭弹窗的函数
     const closeModal = () => {
       document.body.classList.remove('modal-open');
       contactModal.classList.remove('visible');
     };
 
+    // 绑定事件
     openModalButton.addEventListener('click', openModal);
     closeModalButton.addEventListener('click', closeModal);
 
+    // 点击遮罩层关闭弹窗
     contactModal.addEventListener('click', (event) => {
       if (event.target === contactModal) {
         closeModal();
       }
     });
 
+    // 按下Esc键关闭弹窗
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && contactModal.classList.contains('visible')) {
         closeModal();
       }
     });
+
   </script>
 
 </body>
-</html>```
+</html>

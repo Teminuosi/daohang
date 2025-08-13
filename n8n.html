@@ -67,56 +67,15 @@
         .workflow-step .step-content h4 { font-size: 20px; margin: 0 0 5px 0; }
         .workflow-step .step-content p { margin: 0; color: var(--gray-color); }
         .step-arrow { text-align: center; font-size: 24px; color: #ccc; }
-
-        /* ✅ 新增：无限可能模块样式 */
         .possibilities-section { background-color: #fff; }
-        .possibilities-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        .possibility-card {
-            background-color: var(--light-color);
-            padding: 30px;
-            border-radius: 16px;
-            text-align: left;
-        }
-        .possibility-card h3 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .possibilities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .possibility-card { background-color: var(--light-color); padding: 30px; border-radius: 16px; text-align: left; }
+        .possibility-card h3 { font-size: 28px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
         .possibility-card h3 i { color: var(--primary-color); }
-        .possibility-card p {
-            font-size: 17px;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 20px;
-        }
-        .style-list-image {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-            border: 1px solid var(--border-color);
-        }
-        .highlight-number {
-            font-size: 2em;
-            font-weight: 900;
-            color: var(--primary-color);
-        }
-        .clone-voice-feature {
-            background-color: #fff;
-            border: 2px dashed var(--primary-color);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
+        .possibility-card p { font-size: 17px; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        .style-list-image { width: 100%; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); }
+        .highlight-number { font-size: 2em; font-weight: 900; color: var(--primary-color); }
+        .clone-voice-feature { background-color: #fff; border: 2px dashed var(--primary-color); padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; color: var(--primary-color); }
         #delivery { background-color: var(--light-color); }
         .delivery-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
         .delivery-item { background: var(--card-bg); padding: 30px; border-radius: 12px; }
@@ -131,29 +90,94 @@
         .pricing-box .note { font-size: 16px; color: var(--gray-color); margin-top: 20px; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .payment-modal-content { background-color: #fff; padding: 30px 35px; border-radius: 16px; width: 90%; max-width: 800px; box-shadow: 0 5px 30px rgba(0,0,0,0.2); position: relative; transform: scale(0.95); transition: transform 0.3s ease; display: flex; gap: 30px; }
+        .payment-modal-content { background-color: #fff; padding: 30px 35px; border-radius: 16px; width: 90%; max-width: 500px; /* ✅ 调整宽度以适应卡片布局 */ box-shadow: 0 5px 30px rgba(0,0,0,0.2); position: relative; transform: scale(0.95); transition: transform 0.3s ease; }
         .modal-overlay.visible .payment-modal-content { transform: scale(1); }
         .payment-modal-close-button { position: absolute; top: 15px; right: 20px; font-size: 28px; color: #aaa; cursor: pointer; transition: color 0.3s, transform 0.3s; line-height: 1; }
         .payment-modal-close-button:hover { color: #333; transform: rotate(90deg); }
-        .qr-code-section { flex-basis: 300px; text-align: center; }
-        .qr-code-section h3 { font-size: 20px; margin-bottom: 15px; }
-        .qr-code-container { width: 100%; max-width: 250px; margin: 0 auto; border: 5px solid var(--light-color); border-radius: 8px; overflow: hidden; }
-        .qr-code-container img { width: 100%; height: auto; display: block; }
-        .instruction-section { flex-grow: 1; text-align: left; }
-        .instruction-section h2 { font-size: 28px; margin-bottom: 20px; }
+        .instruction-section h2 { font-size: 28px; margin-bottom: 20px; text-align: center; }
         .instruction-section p { font-size: 16px; color: #555; line-height: 1.9; margin-bottom: 15px; }
-        .instruction-section .important-note { background-color: var(--light-color); padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 15px; }
-        .contact-methods { margin-top: 25px; }
-        .contact-methods strong { display: block; margin-bottom: 10px; font-size: 18px; }
-        .email-copy-wrapper { display: flex; gap: 10px; margin-bottom: 15px; }
+        .email-copy-wrapper { display: flex; gap: 10px; margin-bottom: 0; }
         .email-copy-wrapper .email-address { flex-grow: 1; padding: 10px 15px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; color: #333; }
         .copy-button { padding: 10px 15px; border: none; background-color: var(--primary-color); color: #fff; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
         .copy-button:hover { background-color: #e64a19; }
-        .tg-button { display: inline-block; background: #0088cc; color: #fff; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; }
         
-        @media (max-width: 992px) {
-            .possibilities-grid { grid-template-columns: 1fr; }
+        /* ✅ ======================================== */
+        /* ✅ === 新增 & 优化的弹窗联系方式样式 === */
+        /* ✅ ======================================== */
+        .contact-option-box {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
         }
+        .contact-option-box:last-child {
+            margin-bottom: 0;
+        }
+        .contact-option-box h3 {
+            font-size: 20px;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark-color);
+        }
+        .contact-option-box h3 i {
+            color: var(--primary-color);
+            width: 20px; /* 图标对齐 */
+            text-align: center;
+        }
+        .contact-option-box p {
+            margin-bottom: 15px;
+            color: var(--gray-color);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .tg-button, .qq-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .tg-button:hover, .qq-button:hover {
+            transform: translateY(-2px);
+        }
+        .tg-button {
+            background: #0088cc;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.2);
+        }
+        .tg-button:hover {
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
+        }
+        .qq-button {
+            background: #1e90ff; /* DodgerBlue */
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.2);
+        }
+        .qq-button:hover {
+            box-shadow: 0 6px 20px rgba(30, 144, 255, 0.3);
+        }
+        .manual-copy-tip {
+            font-size: 14px !important;
+            color: var(--gray-color) !important;
+            margin-top: 15px !important;
+            margin-bottom: 0 !important;
+        }
+        .manual-copy-tip strong {
+            color: var(--primary-color);
+            font-weight: bold;
+            user-select: all;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 992px) { .possibilities-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             body { font-size: 15px; }
             .hero-section h1 { font-size: 36px; }
@@ -164,72 +188,20 @@
             .instruction-section { text-align: center; }
             .email-copy-wrapper { flex-direction: column; }
         }
-
-        /* --- ✅ 新增：准备工作模块样式 --- */
-        .prerequisites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        .prerequisite-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            background-color: var(--light-color);
-            padding: 25px;
-            border-radius: 12px;
-        }
-        .prerequisite-icon {
-            font-size: 32px;
-            color: var(--primary-color);
-            flex-shrink: 0;
-            width: 50px;
-            text-align: center;
-            margin-top: 5px;
-        }
-        .prerequisite-content h3 {
-            font-size: 20px;
-            margin: 0 0 8px 0;
-        }
-        .prerequisite-content p {
-            margin: 0;
-            color: var(--gray-color);
-            line-height: 1.7;
-        }
-        .reassurance-box {
-            background-color: var(--success-color);
-            color: #fff;
-            text-align: center;
-            padding: 25px;
-            border-radius: 12px;
-            font-size: 18px;
-            line-height: 1.8;
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
-        }
-        .reassurance-box strong {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        /* 响应式调整 */
+        .prerequisites-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .prerequisite-item { display: flex; align-items: flex-start; gap: 20px; background-color: var(--light-color); padding: 25px; border-radius: 12px; }
+        .prerequisite-icon { font-size: 32px; color: var(--primary-color); flex-shrink: 0; width: 50px; text-align: center; margin-top: 5px; }
+        .prerequisite-content h3 { font-size: 20px; margin: 0 0 8px 0; }
+        .prerequisite-content p { margin: 0; color: var(--gray-color); line-height: 1.7; }
+        .reassurance-box { background-color: var(--success-color); color: #fff; text-align: center; padding: 25px; border-radius: 12px; font-size: 18px; line-height: 1.8; box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3); }
+        .reassurance-box strong { font-size: 20px; font-weight: 700; }
         @media (max-width: 768px) {
-            .prerequisite-item {
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-            }
-            .prerequisite-icon {
-                margin-top: 0;
-                margin-bottom: 15px;
-            }
+            .prerequisite-item { flex-direction: column; text-align: center; align-items: center; }
+            .prerequisite-icon { margin-top: 0; margin-bottom: 15px; }
         }
     </style>
-     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <!-- ✅ 第1步：引入 HLS.js 库 -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 </head>
 <body>
 
@@ -252,68 +224,47 @@
                 <p>我们内置了 <strong>15+</strong> 种即用型爆款风格（页面仅展示部分），更强大的是，你可以<strong>定制你自己的专属风格</strong>，真正实现创意无上限！</p>
             </div>
             <div class="style-gallery">
-                <!-- ✅ 第2步：修改所有AI生成视频的 <video> 标签 -->
-
-                <!-- 风格1: TikTok 带货键盘 -->
                 <div class="style-card-compact"><h3>风格1: TikTok 带货键盘</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/jianpan/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>中文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/jianpancn/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>英语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/jianpanen/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>西班牙语生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/jianpansp/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格1: TikTok 带货化妆品 -->
                 <div class="style-card-compact"><h3>风格1: TikTok 带货化妆品</h3><p class="description">想让你的产品瞬间被抢购？用这个！快节奏、强冲击，让人一看就想买！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/huaxizi/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>英文生成</h4><div class="video-wrapper ratio-9-16"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/huaxizi1/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格2: 电影解说风 -->
                 <div class="style-card-compact"><h3>风格2: 电影解说风</h3><p class="description">把任何视频变成“小帅”“小美”的解说大片，悬念拉满，让人忍不住追下去！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/pengranxindong/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/pengranxindong1/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格3: 毒舌吐槽风 -->
                 <div class="style-card-compact"><h3>风格3: 毒舌吐槽风</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/dongxue/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/dongxue1/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格4: 通用解说 -->
                 <div class="style-card-compact"><h3>风格4: 通用解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/quanliyouxi/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/quanyou1/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格5: 第一人称演讲 -->
                 <div class="style-card-compact"><h3>风格5: 第一人称演讲</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/biye/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/speak/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格6: 游戏解说 -->
                 <div class="style-card-compact"><h3>风格6: 游戏解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/2077/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/20771/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格7: 纪录片解说 -->
                 <div class="style-card-compact"><h3>风格7: 纪录片解说</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/B2/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/b21/playlist.m3u8"></video></div></div>
                 </div></div>
-
-                <!-- 风格8: 剪辑成片 -->
                 <div class="style-card-compact"><h3>风格8: 剪辑成片</h3><p class="description">平平无奇的视频？AI 帮你开启吐槽模式，句句扎心，保证让评论区炸开锅！</p><div class="video-grid">
                     <div class="video-player-compact"><h4>原片</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/chubukeji/playlist.m3u8"></video></div></div>
                     <div class="video-player-compact"><h4>AI 生成</h4><div class="video-wrapper ratio-16-9"><video controls playsinline loop class="hls-video" data-m3u8-src="https://pub-0f484017eab8428296cdccf77793b0c4.r2.dev/chubuekeji1/playlist.m3u8"></video></div></div>
                 </div></div>
-
             </div>
         </section>
 
-        <!-- ... 其他 section 内容保持不变，此处省略 ... -->
         <section class="tech-deep-dive container">
             <div class="section-header"><h2>揭秘神器：它到底是什么？又强在哪里？</h2></div>
             <div class="tech-intro-box">
@@ -337,9 +288,6 @@
             </div>
         </section>
 
-        <!-- ======================= -->
-        <!--  ✅ 全新：“无限可能”模块  -->
-        <!-- ======================= -->
         <section class="possibilities-section container">
             <div class="section-header">
                 <h2>远不止于此：解锁你的专属创意宇宙</h2>
@@ -349,7 +297,6 @@
                 <div class="possibility-card">
                     <h3><i class="fas fa-layer-group"></i>可定制的风格库</h3>
                     <p>除了我们内置的15+种风格，你将学会如何通过修改提示词(Prompt)，创造出完全属于你自己的、独一无二的视频风格。想要“王家卫电影感”？还是“B站鬼畜风”？一切皆有可能！</p>
-                    <!-- ⭐️⭐️⭐️【重要】下方 src 已被替换为内嵌图片，保证100%显示 ⭐️⭐️⭐️ -->
                     <img src="image/style.png" alt="15种可选风格列表" class="style-list-image">
                 </div>
                 <div class="possibility-card">
@@ -362,7 +309,6 @@
                 </div>
             </div>
         </section>
-
 
         <section id="delivery" class="container" style="background-color: var(--light-color);">
             <div class="section-header">
@@ -378,9 +324,6 @@
             </div>
         </section>
 
-        <!-- ======================= -->
-        <!--  ✅ 新增：“准备工作”模块  -->
-        <!-- ======================= -->
         <section id="prerequisites" class="container">
             <div class="section-header">
                 <h2>开始之前：你需要准备什么？</h2>
@@ -440,34 +383,39 @@
         </section>
     </main>
 
+    <!-- ✅ ================== -->
+    <!-- ✅ === 联系方式弹窗 === -->
+    <!-- ✅ ================== -->
     <div id="payment-modal" class="modal-overlay">
         <div class="payment-modal-content">
             <span id="payment-modal-close" class="payment-modal-close-button">&times;</span>
-            <!-- <div class="qr-code-section">
-                <h3>支付宝扫码支付</h3>
-                <div class="qr-code-container">
-                    <img src="3yue.png" alt="支付宝付款码">
-                </div>
-                <p style="margin-top: 15px; font-weight: bold; color: #333;">可付任意金额作为定金/咨询费</p>
-            </div> -->
             <div class="instruction-section">
-                <!-- <h2>支付后，请务必联系站长！</h2> -->
-                <!-- <p>感谢您的信任！为了过滤掉大量的无效咨询（白嫖党太多导致微信被风控），我们采用“先付后联”的方式，请您谅解。</p>
-                
-                <div class="important-note">
-                    <strong>完成支付后，请选择以下任一方式联系我，我会立即为您处理：</strong>
-                </div> -->
-
+                <h2>联系我们，获取神器</h2>
                 <div class="contact-methods">
-                    <strong>方式一：邮件联系 (推荐)</strong>
-                    <div class="email-copy-wrapper">
-                        <div id="email-to-copy" class="email-address">terminos888@gmail.com</div>
-                        <button id="copy-email-button" class="copy-button">复制邮箱</button>
+                    <!-- 方式一: 邮件 -->
+                    <div class="contact-option-box">
+                        <h3><i class="fas fa-envelope"></i> 方式一：邮件联系 (推荐)</h3>
+                        <p>请在邮件中备注您的**付款备注**或**电话**，我会第一时间添加您。</p>
+                        <div class="email-copy-wrapper">
+                            <div id="email-to-copy" class="email-address">terminos888@gmail.com</div>
+                            <button id="copy-email-button" class="copy-button">复制邮箱</button>
+                        </div>
                     </div>
-                    <p>请在邮件中备注您的**付款备注**，或者留下您的**电话**，我会第一时间添加您。</p>
+                    
+                    <!-- 方式二: Telegram -->
+                    <div class="contact-option-box">
+                        <h3><i class="fab fa-telegram-plane"></i> 方式二：加入Telegram社群</h3>
+                        <p>点击下方按钮，直接加入我们的官方社群进行咨询和交流。</p>
+                        <a href="https://t.me/sanyuedaohang" target="_blank" class="tg-button">加入TG站长社群</a>
+                    </div>
 
-                    <strong style="margin-top: 20px;">方式二：加入Telegram社群</strong>
-                    <a href="https://t.me/sanyuedaohang" target="_blank" class="tg-button">点击加入TG站长社群</a>
+                    <!-- 方式三: QQ -->
+                    <div class="contact-option-box">
+                        <h3><i class="fab fa-qq"></i> 方式三：QQ联系</h3>
+                        <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
+                        <a href="tencent://message/?uin=370034225&site=qq&menu=yes" target="_blank" class="qq-button">通过QQ联系我</a>
+                        <p class="manual-copy-tip">如果无法跳转，请手动复制QQ号：<strong>370034225</strong></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -521,7 +469,6 @@
         });
     </script>
     
-    <!-- ✅ 第3步：添加通用的 HLS 播放器初始化脚本 (兼容 iOS 和 Android) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hlsVideos = document.querySelectorAll('.hls-video');
