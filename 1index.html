@@ -18,8 +18,8 @@
     @keyframes pulse-gold-glow { 0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 8px #ffffff; border-color: #ffd700; } 50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 12px #ffffff; border-color: #fffacd; } }
     @keyframes pulse-red-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; } 50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; } }
     
-    /* ✅ 新增：为 “AI视频自动化神器” 定制的辉光动画 */
-    @keyframes pulse-cyan-glow { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 10px #ffffff; border-color: #00ffff; } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 15px #ffffff; border-color: #99feff; } }
+    /* 为新产品卡片定制的辉光动画 */
+    @keyframes pulse-magenta-glow { 0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 10px #ffffff; border-color: #ff00ff; } 50% { box-shadow: 0 0 50px rgba(255, 0, 255, 1), 0 0 15px #ffffff; border-color: #ff80ff; } }
 
     @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
 
@@ -38,7 +38,6 @@
     #contact-trigger-button:hover { background: rgba(10, 25, 47, 1); box-shadow: 0 0 15px #00ffff; }
     
     /* --- 弹窗 (Modal) 样式 --- */
-    /* ... 弹窗样式保持不变，此处省略 ... */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
     .modal-overlay.visible { opacity: 1; visibility: visible; }
     .modal-content { background: #1e2027; border-radius: 16px; padding: 30px 35px; width: 100%; max-width: 550px; color: #ddd; position: relative; font-family: 'Noto Sans SC', sans-serif; box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); border: 1px solid #00ffff; transform: scale(0.95); transition: transform 0.3s ease; }
@@ -53,7 +52,7 @@
     .contact-option .email-address { background-color: #111; padding: 8px 12px; border-radius: 6px; font-family: 'Orbitron', monospace; color: #ff9900; word-break: break-all; }
     .tg-button { display: block; width: 100%; padding: 15px; text-align: center; text-decoration: none; font-size: 1.1em; font-weight: bold; color: #fff; border-radius: 50px; background: linear-gradient(45deg, #00aeff, #007bff); box-shadow: 0 4px 15px rgba(0, 150, 255, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
     .tg-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 150, 255, 0.6); }
-    .qq-button { display: block; width: 100%; padding: 15px; text-align: center; text-decoration: none; font-size: 1.1em; font-weight: bold; color: #fff; border-radius: 50px; background: linear-gradient(45deg, #1e90ff, #0000cd); box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4); transition: transform 0.2s, box-shadow 0.2s; margin-bottom: 15px; }
+    .qq-button { display: block; width: 100%; padding: 15px; text-align: center; text-decoration: none; font-size: 1.1em; font-weight: bold; color: #fff; border-radius: 50px; background: linear-gradient(45deg, #1e90ff, #0000cd); box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4); transition: transform 0.2s, box-shadow 0.2s; margin-bottom: 15px; /* ✅ 为下方的提示文字留出空间 */ }
     .qq-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30, 144, 255, 0.6); }
     .manual-copy-tip { text-align: center; font-size: 0.9em; color: #aaa; margin-top: 10px; margin-bottom: 0; }
     .manual-copy-tip strong { color: #ff9900; font-family: 'Orbitron', monospace; }
@@ -64,14 +63,13 @@
     .system-alert .highlight-green { color: #98ffda; text-shadow: 0 0 8px #0adc90; font-weight: bold; }
     
     /* --- 英雄区 --- */
-    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1400px; /* ✅ 稍微加宽以容纳4个卡片 */ margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; align-items: stretch; }
-    .hero-card { flex: 1; min-width: 280px; max-width: 320px; /* ✅ 调整最大宽度 */ background: rgba(10, 25, 47, 0.7); border: 2px solid; border-radius: 16px; padding: 30px 20px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1200px; margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; align-items: stretch; }
+    .hero-card { flex: 1; min-width: 280px; max-width: 350px; background: rgba(10, 25, 47, 0.7); border: 2px solid; border-radius: 16px; padding: 30px 20px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
     .hero-card:hover { transform: translateY(-10px); }
     .hero-card .icon { font-size: 2.3em; line-height: 1; margin-bottom: 15px; height: 50px; width: 100%; display: flex; align-items: center; justify-content: center; }
     .hero-card .icon img { width: 45px; height: 45px; object-fit: contain; }
     .hero-card h3 { font-size: 1.4em; margin-bottom: 10px; font-weight: 900; }
     .hero-card p { font-size: 0.9em; color: rgba(255, 255, 255, 0.75); line-height: 1.5; padding: 0 15px; }
-    .hero-card .hot-badge-corner { position: absolute; top: 10px; right: -30px; background: #ff00ff; color: white; padding: 3px 30px; transform: rotate(45deg); font-size: 0.8em; font-weight: bold; }
     
     .hero-card.highlight-owner { animation: pulse-gold-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-owner .icon img { filter: drop-shadow(0 0 10px #ffd700); }
@@ -80,11 +78,11 @@
     .hero-card.highlight-course { animation: pulse-red-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-course h3 { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
     
-    /* ✅ 更新：移除原有的自动化神器样式，统一为新样式 */
-    .hero-card.highlight-ai-video { animation: pulse-cyan-glow 2.5s ease-in-out infinite; }
-    .hero-card.highlight-ai-video h3 { color: #99feff; text-shadow: 0 0 10px #00ffff; }
-    .hero-card.highlight-ai-video .icon { color: #99feff; }
-    
+    .hero-card.highlight-new-product { animation: pulse-magenta-glow 2.5s ease-in-out infinite; }
+    .hero-card.highlight-new-product h3 { color: #ff80ff; text-shadow: 0 0 10px #ff00ff; }
+    .hero-card.highlight-new-product .icon { color: #ff80ff; }
+    .hero-card.highlight-new-product .hot-badge-corner { position: absolute; top: 10px; right: -30px; background: #ff00ff; color: white; padding: 3px 30px; transform: rotate(45deg); font-size: 0.8em; font-weight: bold; }
+
 
     /* --- 分区标题 --- */
     .section-title { font-size: 2.2em; color: #99feff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); margin-bottom: 25px; text-align: center; font-weight: 600; }
@@ -115,19 +113,13 @@
   
   <div class="divider"></div>
 
-  <!-- ✅ 更新后的英雄区 -->
+  <!-- 英雄区 -->
   <div class="hero-section">
-    <a href="n8n-2.html" target="_blank" class="hero-card highlight-ai-video">
+    <a href="n8n.html" target="_blank" class="hero-card highlight-new-product">
         <div class="hot-badge-corner">HOT</div>
-        <span class="icon"><i class="fas fa-wand-magic-sparkles"></i></span>
-        <h3>AI视频生成器</h3>
-        <p>输入主题，上传参考视频，一键生成爆款视频。</p>
-    </a>
-    <a href="n8n.html" target="_blank" class="hero-card highlight-ai-video"> <!-- ✅ 这是你原有的自动化神器，我把它改成了普通卡片 -->
-      <div class="hot-badge-corner">HOT</div>
         <span class="icon"><i class="fas fa-robot"></i></span>
-        <h3>AI视频剪辑神器</h3>
-        <p>上传任意视频，让AI为你自动完成二创剪辑。</p>
+        <h3>AI视频自动化神器</h3>
+        <p>一键剪辑任意视频，开启你的二创之路。</p>
     </a>
     <a href="https://dajian.cyou" target="_blank" class="hero-card highlight-owner">
         <span class="icon"><img src="./icon/3y.png" alt="SanYue"></span>
@@ -140,7 +132,6 @@
         <p>短剧 / AI课程 / 自媒体变现 / AI工具实战</p>
     </a>
   </div>
-
 
   <!-- 系统提示 -->
   <div class="system-alert">
@@ -207,7 +198,7 @@
     <p>© 2024 Cyber-Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- 联系弹窗的HTML结构 (保持不变) -->
+  <!-- 联系弹窗的HTML结构 -->
   <div id="contact-modal" class="modal-overlay">
     <div class="modal-content">
       <span id="modal-close" class="modal-close-button">&times;</span>
@@ -232,6 +223,7 @@
         <h3>3. QQ联系</h3>
         <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
         <a href="tencent://message/?uin=370034225&site=qq&menu=yes" target="_blank" class="qq-button">通过QQ联系我</a>
+        <!-- ✅ 新增的提示 -->
         <p class="manual-copy-tip">如果无法跳转，请手动复制QQ号：<strong>370034225</strong></p>
       </div>
 
@@ -240,7 +232,7 @@
   </div>
 
   <script>
-    // JavaScript 保持不变，此处省略...
+    // 更新时钟
     function updateClock() {
       const clockElement = document.getElementById('cyber-clock');
       if (clockElement) {
@@ -254,6 +246,7 @@
     updateClock();
     setInterval(updateClock, 1000);
 
+    // 控制联系弹窗的JavaScript
     const contactModal = document.getElementById('contact-modal');
     const openModalButton = document.getElementById('contact-trigger-button');
     const closeModalButton = document.getElementById('modal-close');
@@ -285,4 +278,4 @@
   </script>
 
 </body>
-</html>
+</html>```

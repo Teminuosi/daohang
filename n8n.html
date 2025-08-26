@@ -199,6 +199,46 @@
             .prerequisite-item { flex-direction: column; text-align: center; align-items: center; }
             .prerequisite-icon { margin-top: 0; margin-bottom: 15px; }
         }
+
+        /* ✅ ======================================== */
+        /* ✅ === 新增的定价模块修复样式 === */
+        /* ✅ ======================================== */
+        .price-option {
+            padding: 20px 0;
+        }
+        .price-option .price {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+        .price-option .option-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        .price-option .option-description {
+            font-size: 15px;
+            color: var(--gray-color);
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+        .option-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            width: 80%;
+            margin: 0 auto;
+        }
+        .cta-button-small {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 30px;
+            padding-top: 16px;
+            padding-bottom: 16px;
+            font-size: 18px;
+        }
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -373,14 +413,31 @@
                 <div class="promo-badge">限时首发，即将涨价！</div>
                 <h3>视频神器完整包</h3>
                 <p>(本地部署 + 永久使用权)</p>
-                <div class="price-wrapper">
-                    <span class="original-price">原价 ¥998</span>
-                    <div class="promo-price">¥ 499</div>
+
+                  <!-- 方案一 -->
+                  <div class="price-option">
+                    <div class="price">¥599</div>
+                    <div class="option-title">基础配置版</div>
+                    <p class="option-description">(适合有基础，会自己配置)</p>
                 </div>
+                
+                <!-- 分隔符 -->
+                <div class="option-divider"></div>
+    
+                <!-- 方案二 -->
+                <div class="price-option">
+                    <div class="price">¥799</div>
+                    <div class="option-title">一键部署版</div>
+                    <p class="option-description">(打开即用，适合小白)</p>
+                </div>
+                
                 <a href="javascript:void(0);" id="buy-now-button" class="cta-button cta-button-small">立即抢购，我也要当视频高手！</a>
                 <p class="note">支持支付宝，一次投入，终身受益！</p>
             </div>
         </section>
+      
+
+
     </main>
 
     <!-- ✅ ================== -->
