@@ -18,7 +18,19 @@
     @keyframes pulse-gold-glow { 0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 8px #ffffff; border-color: #ffd700; } 50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 12px #ffffff; border-color: #fffacd; } }
     @keyframes pulse-red-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 5px #ffffff; border-color: #ff1a1a; } 50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 10px #ffffff; border-color: #ff4d4d; } }
     
-    @keyframes pulse-cyan-glow { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 10px #ffffff; border-color: #00ffff; } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 15px #ffffff; border-color: #99feff; } }
+    /* ✅【新增】为AI视频卡片定制的酷炫火焰动画 */
+    @keyframes hot-pulse-animation {
+      0%, 100% {
+        border-color: #ff4d4d;
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.8), 0 0 8px #ffffff, inset 0 0 10px rgba(255, 0, 0, 0.5);
+        transform: scale(1.02);
+      }
+      50% {
+        border-color: #ffac4d;
+        box-shadow: 0 0 45px rgba(255, 80, 0, 1), 0 0 15px #ffffff, inset 0 0 15px rgba(255, 80, 0, 0.7);
+        transform: scale(1.0);
+      }
+    }
 
     @keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100%); } }
 
@@ -94,9 +106,22 @@
     .hero-card.highlight-course { animation: pulse-red-glow 2.5s ease-in-out infinite; }
     .hero-card.highlight-course h3 { color: #ff4d4d; text-shadow: 0 0 10px #ff1a1a; }
     
-    .hero-card.highlight-ai-video { animation: pulse-cyan-glow 2.5s ease-in-out infinite; }
-    .hero-card.highlight-ai-video h3 { color: #99feff; text-shadow: 0 0 10px #00ffff; }
-    .hero-card.highlight-ai-video .icon { color: #99feff; }
+    /* ✅【更新】AI视频卡片的样式，应用新的火焰动画 */
+    .hero-card.highlight-ai-video {
+      animation: hot-pulse-animation 2s ease-in-out infinite;
+    }
+    .hero-card.highlight-ai-video h3 {
+      color: #ff8c00; /* 炽热的橙色 */
+      text-shadow: 0 0 10px #ff4500;
+    }
+    .hero-card.highlight-ai-video .icon {
+      color: #ff8c00; /* 与标题颜色匹配 */
+    }
+    /* 为HOT标签也增加火焰效果 */
+    .hero-card.highlight-ai-video .hot-badge-corner {
+      background: linear-gradient(45deg, #ff4500, #ff0000);
+      box-shadow: 0 0 10px #ff0000;
+    }
     
 
     /* --- 分区标题 --- */
