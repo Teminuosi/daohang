@@ -183,6 +183,34 @@
             margin-top: 30px;
             width: 100%;
         }
+        /* 添加到您的 <style> 标签中 */
+        #n8n-workflow-intro .demo-card ul {
+            list-style: disc; /* 使用实心圆点 */
+            padding-left: 25px; /* 左边距 */
+            margin-bottom: 20px;
+        }
+        #n8n-workflow-intro .demo-card li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--gray-color);
+        }
+        #n8n-workflow-intro .demo-card h4 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        #n8n-workflow-intro .feature-card .icon { /* 针对这个板块的 feature-card 调整图标样式 */
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        #n8n-workflow-intro .feature-card h3 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+        #n8n-workflow-intro .feature-card p {
+            font-size: 15px;
+            line-height: 1.7;
+        }
         /* --- 样式结束 --- */
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -447,6 +475,98 @@
             </div>
 
         </section>
+
+    </section> <!-- 现有 #gallery section 结束 -->
+
+    <section id="n8n-workflow-intro" class="container">
+        <div class="section-header">
+            <h2>深入了解：N8N工作流揭秘</h2>
+            <p>N8N不仅仅是一个工具，它是一个强大的开源自动化平台。在这里，我们将带你了解如何通过它，将创意转化为现实。</p>
+        </div>
+
+        <!-- N8N 是什么 -->
+        <div class="demo-card">
+            <h3>什么是N8N工作流？</h3>
+            <p class="scene-description">N8N（"node-based workflow automation"）是一个免费、开源的自动化工具，让你通过可视化界面，将各种应用和服务连接起来，实现工作流程的自动化。它就像一个数字化的“乐高”，你可以通过拖拽不同的“积木”（节点），搭建出复杂而强大的自动化流程，无需编写代码。</p>
+            <div class="feature-card" style="text-align: left; margin-top: 30px;">
+                <div class="icon" style="float: left; margin-right: 20px;"><i class="fas fa-project-diagram"></i></div>
+                <h3 style="margin-top: 0;">为什么选择N8N？</h3>
+                <p style="margin-bottom: 0;">与传统编程或单一功能的自动化工具不同，N8N提供了极高的灵活性和可定制性。它支持数百种应用集成，并且可以部署在您自己的服务器上，完全掌控数据，同时具备强大的国际化支持，能连接全球各种API服务。这使得它成为构建您专属“爆款视频生产线”的理想选择。</p>
+            </div>
+        </div>
+
+        <!-- N8N 视频生成工作流操作界面 -->
+        <div class="demo-card">
+            <h3>你的智能视频工厂：操作演示</h3>
+            <p class="scene-description">通过我们为您定制的N8N工作流，生成爆款视频变得前所未有的简单。您只需提供几个关键信息，AI就能为您量身打造高质量的原创视频。</p>
+            <div class="demo-content" style="grid-template-columns: 1fr; gap: 40px;">
+                <div>
+                    <h4>1. 简洁直观的填写界面</h4>
+                    <p>告别复杂的参数设置！我们已将所有核心功能封装，您只需在以下界面中填写：</p>
+                    <ul>
+                        <li><strong>视频主题：</strong> 您的视频核心创意。</li>
+                        <li><strong>提示词示例：</strong> 描述您希望看到的画面内容和风格。</li>
+                        <li><strong>场景数量：</strong> 决定视频的时长，每个场景将生成一个短视频片段。</li>
+                        <li><strong>mp4：</strong> 上传一个参考视频，AI将学习其风格、构图和运镜，生成与原视频风格类似但内容完全原创的视频。</li>
+                    </ul>
+                    <p>填写完毕，点击“创作视频”，即可启动您的专属视频生成之旅！</p>
+                </div>
+                <!-- 图片1: N8N用户填写界面 -->
+                <div style="text-align: center;">
+                    <img src="image/N2-1.png" alt="N8N工作流视频生成器填写界面" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+
+        <!-- N8N 视频生成工作流示意图 -->
+        <div class="demo-card">
+            <h3>2. 幕后奥秘：自动化流程一览</h3>
+            <p class="scene-description">这张图展示了N8N工作流的强大逻辑。每一个节点都代表一个自动化步骤，从内容创作、画面生成、音频匹配到最终视频合成，都由AI自动完成。</p>
+            <!-- 图片2: N8N工作流示意图 -->
+            <div style="text-align: center;">
+                <img src="image/n2-2.png" alt="N8N工作流自动化流程图" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            </div>
+            <p style="margin-top: 30px;">您无需理解这些复杂的连接，只需知道它们确保了您的视频从创意到成品，都能高效、精准地生成。我们提供的就是这一套经过精心调优、随时可用的“智能工厂图纸”。</p>
+        </div>
+
+        <!-- N8N与扣子等工具的对比优势 -->
+        <div class="demo-card">
+            <h3>N8N vs. 扣子（Coze）等智能体工具：核心优势</h3>
+            <p class="scene-description">在众多自动化工具中，N8N凭借其独特的优势脱颖而出，特别是在专业视频生成领域。</p>
+            <div class="what-you-get-grid">
+                <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-lock"></i></div>
+                    <h3>数据主权与隐私</h3>
+                    <p>N8N可以部署在您的私人服务器，让您完全掌控所有数据。而扣子等平台工具，数据往往由平台持有，存在潜在的数据安全和隐私风险。</p>
+                </div>
+                <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-globe"></i></div>
+                    <h3>高度国际化与API支持</h3>
+                    <p>N8N原生支持连接全球各类API服务，无论国内国外，您都可以集成最新的AI模型和工具。扣子等工具虽然也在发展，但在国际API集成上可能有所限制。</p>
+                </div>
+                <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-code-branch"></i></div>
+                    <h3>极致灵活与可定制</h3>
+                    <p>N8N的开源特性和节点式设计，意味着您可以无限扩展其功能，根据需求定制任何复杂的自动化流程。平台类工具通常功能固定，难以深度定制。</p>
+                </div>
+                <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-server"></i></div>
+                    <h3>摆脱平台限制</h3>
+                    <p>在N8N上构建的工作流，不依赖任何单一平台的规则变动或功能限制。一旦扣子等平台发生政策调整，您的智能体可能面临失效的风险。</p>
+                </div>
+                 <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                    <h3>成本效益</h3>
+                    <p>N8N的开源特性使得基础使用成本极低，主要为服务器费用。长期来看，相比订阅制或按量付费的平台，N8N能显著降低运营成本。</p>
+                </div>
+                 <div class="feature-card" style="text-align: left;">
+                    <div class="icon"><i class="fas fa-rocket"></i></div>
+                    <h3>持续创新潜力</h3>
+                    <p>作为一个活跃的开源社区项目，N8N功能更新迭代迅速，您可以第一时间应用到最新的技术和功能，保持竞争力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
         <section id="what-you-get" class="container">
             <div class="section-header">

@@ -238,6 +238,114 @@
             padding-bottom: 16px;
             font-size: 18px;
         }
+        /* ======================================== */
+
+        /* ==================================================== */
+/* === 全新优化的 "揭秘神器" 模块样式 === */
+/* ==================================================== */
+.workflow-showcase-container {
+    margin-top: 20px;
+}
+.showcase-card {
+    background-color: var(--light-color);
+    border-radius: 16px;
+    padding: 30px 35px;
+    border: 1px solid var(--border-color);
+}
+.showcase-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+.showcase-header i {
+    font-size: 28px;
+    color: var(--primary-color);
+}
+.showcase-header h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+.showcase-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+.showcase-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray-color);
+}
+.showcase-text ol {
+    padding-left: 25px;
+    font-size: 16px;
+    color: var(--dark-color);
+}
+.showcase-text ol li {
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+.ui-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.ui-image-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.showcase-content-full p {
+    text-align: center;
+    font-size: 17px;
+    color: var(--gray-color);
+    max-width: 800px;
+    margin: 0 auto 25px auto;
+}
+.workflow-graph-image {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .showcase-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .ui-image-grid {
+        /* 在平板上，图片区域稍微缩小一点，以免太大 */
+        max-width: 500px; 
+        margin: 15px auto 0 auto;
+    }
+}
+@media (max-width: 768px) {
+    .showcase-card {
+        padding: 25px 20px;
+    }
+    .showcase-header h3 {
+        font-size: 20px;
+    }
+}
+/* 调整对比模块的样式，使其更突出 */
+.tech-intro-box .prerequisites-grid {
+    margin-bottom: 0;
+}
+.tech-intro-box .prerequisite-item {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.tech-intro-box .prerequisite-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
 
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -305,15 +413,69 @@
             </div>
         </section>
 
+        <!-- =================================================================== -->
+        <!-- ================ START: REPLACEMENT SECTION ======================= -->
+               <!-- =================================================================== -->
+        <!-- ================ START: OPTIMIZED SECTION ========================= -->
+        <!-- =================================================================== -->
         <section class="tech-deep-dive container">
             <div class="section-header"><h2>揭秘神器：它到底是什么？又强在哪里？</h2></div>
+            
+            <!-- 1. 介绍N8N -->
             <div class="tech-intro-box">
                 <h3>首先，认识一下这套神器的“引擎”：N8N</h3>
                 <p>你看到的自动化魔法，背后是由 <strong>N8N (n-eight-n)</strong> 这个强大的自动化平台驱动的。你可以把它想象成数字世界的“瑞士军刀”或“乐高积木”。在国外，它是顶尖玩家和效率高手的秘密武器，但在国内，它还是一片等待开采的蓝海。</p>
                 <p>这意味着，<strong>现在掌握它，你就掌握了信息差，掌握了别人所不具备的“降维打击”能力。</strong>你不再是内容的“搬运工”，而是自动化生产线的主人。</p>
             </div>
-            <div class="section-header"><h3>工作流揭秘：AI导演是如何工作的？</h3></div>
+
+            <!-- 2. 全新优化的UI与工作流展示区 -->
+            <div class="workflow-showcase-container">
+                <!-- Part A: 简单的操作界面 -->
+                <div class="showcase-card">
+                    <div class="showcase-header">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <h3>你的指挥中心：简单到只需四步</h3>
+                    </div>
+                    <div class="showcase-content-grid">
+                        <div class="showcase-text">
+                            <p>告别复杂的软件和参数！我们已将所有顶尖AI能力，封装进了这个极其简单的操作界面。你只需：</p>
+                            <ol>
+                                <li><strong>粘贴素材网址：</strong>把视频链接贴进来。</li>
+                                <li><strong>选择剪辑风格：</strong>从预设的爆款风格里选一个。</li>
+                                <li><strong>设定分镜数量：</strong>决定AI分析视频的精细度。</li>
+                                <li><strong>选择目标语言：</strong>一键跨国界创作。</li>
+                            </ol>
+                            <p>点击“开始剪辑”，AI导演就会为你搞定一切！</p>
+                        </div>
+                        <div class="ui-image-grid">
+                            <img src="image/n1-1.png" alt="N8N视频自动化生成器主界面">
+                            <img src="image/n1-2.png" alt="选择爆款风格">
+                            <img src="image/n1-3.png" alt="选择分镜数量">
+                            <img src="image/n1-4.png" alt="选择视频语言">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-arrow" style="margin: 30px 0;"><i class="fas fa-arrow-down"></i></div>
+
+                <!-- Part B: 强大的幕后流程 -->
+                <div class="showcase-card">
+                    <div class="showcase-header">
+                        <i class="fas fa-cogs"></i>
+                        <h3>简单的背后：为你准备好的“AI工厂”</h3>
+                    </div>
+                    <div class="showcase-content-full">
+                        <p>上面简单的几步操作，驱动的是下面这套我们为你精心设计的复杂工作流。每一个节点都是一个AI助理，协同工作，从视频理解、文案创作、剪辑、配音到合成，实现全程自动化。<strong>你不需要理解它的复杂，只需要享受它带来的简单。</strong></p>
+                        <img src="image/n1-5.png" alt="N8N自动化工作流全景图" class="workflow-graph-image">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 3. 原始的步骤讲解 (保留并作为补充) -->
+            <div class="section-header" style="margin-top: 60px;"><h3>AI导演是如何工作的？(六步详解)</h3></div>
             <div class="workflow-steps-container">
+                <!-- 这里的6个步骤保持不变，所以省略了 -->
                 <div class="workflow-step"><div class="step-icon"><i class="fas fa-upload"></i></div><div class="step-content"><h4>第1步：上传原始视频</h4><p>你只需将任意一段视频素材（比如产品展示、游戏录屏、电影片段）上传到云端。</p></div></div>
                 <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
                 <div class="workflow-step"><div class="step-icon"><i class="fas fa-brain"></i></div><div class="step-content"><h4>第2步：AI深度“看片”与理解</h4><p>工作流调用多模态大模型(类似Gemini)，像真人一样“观看”并理解视频里的每一个画面、物体和动作。</p></div></div>
@@ -326,7 +488,24 @@
                  <div class="step-arrow"><i class="fas fa-arrow-down"></i></div>
                 <div class="workflow-step"><div class="step-icon"><i class="fas fa-film"></i></div><div class="step-content"><h4>第6步：音画同步与最终合成</h4><p>将剪辑好的视频片段与生成的配音完美合一，确保音画同步，并自动加上字幕，生成最终的视频大片。</p></div></div>
             </div>
+
+            <!-- 4. N8N vs Coze 对比 (新加入) -->
+             <div class="tech-intro-box" style="margin-top: 60px; background-color: #fff;">
+                <h3 style="text-align: center; margin-bottom: 30px;">为什么是N8N，而不是其他工具（如扣子Coze）？</h3>
+                <div class="prerequisites-grid">
+                    <div class="prerequisite-item"><div class="prerequisite-icon"><i class="fas fa-lock"></i></div><div class="prerequisite-content"><h3>数据主权与隐私</h3><p>N8N可私有化部署，数据100%在你的掌控中。而平台型工具，你的核心数据和工作流都留存在对方服务器，有安全和被限制的风险。</p></div></div>
+                    <div class="prerequisite-item"><div class="prerequisite-icon"><i class="fas fa-globe"></i></div><div class="prerequisite-content"><h3>高度国际化与开放性</h3><p>N8N能无缝连接全球几乎所有的API，让你永远能用上最新、最强的AI模型。平台工具的集成能力往往受限，更新速度也较慢。</p></div></div>
+                    <div class="prerequisite-item"><div class="prerequisite-icon"><i class="fas fa-code-branch"></i></div><div class="prerequisite-content"><h3>极致灵活与可扩展</h3><p>N8N是开源的，你可以像搭乐高一样自由修改、扩展工作流的任何一个环节。而平台工具功能相对固定，无法满足深度的个性化定制需求。</p></div></div>
+                    <div class="prerequisite-item"><div class="prerequisite-icon"><i class="fas fa-server"></i></div><div class="prerequisite-content"><h3>摆脱平台依赖</h3><p>你的工作流资产完全属于你自己，不受任何平台规则变动的影响。而一旦平台调整政策或服务，你在上面构建的一切都可能失效。</p></div></div>
+                </div>
+            </div>
+
         </section>
+        <!-- =================================================================== -->
+        <!-- ================== END: OPTIMIZED SECTION ========================= -->
+        <!-- =================================================================== -->
+        <!-- ================= END: REPLACEMENT SECTION ======================== -->
+        <!-- =================================================================== -->
 
         <section class="possibilities-section container">
             <div class="section-header">
