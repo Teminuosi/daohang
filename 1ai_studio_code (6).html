@@ -173,42 +173,28 @@
       flex-direction: column; /* 内部标题和卡片纵向堆叠 */
       align-items: center; /* 内部元素水平居中 */
       width: 100%; /* 默认占据父容器宽度 */
-      max-width: 280px; /* 限制每列的最大宽度，使其变窄 */
-      min-width: 250px; /* 保证最小宽度 */
-      
-      /* ✅ 核心修改：让 .category-column 成为一个带有背景和边框的“大框” */
-      background: rgba(10, 25, 47, 0.7); /* 大框背景 */
-      border: 2px solid #00ffff; /* 大框边框 */
-      border-radius: 16px; /* 大框圆角 */
-      padding: 25px; /* 大框内部的内边距 */
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2); /* 大框阴影 */
-      backdrop-filter: blur(8px); /* 模糊效果 */
-      transition: transform 0.3s, box-shadow 0.3s; /* 动画效果 */
+      /* 优化：调整列的最大宽度，使其更宽一些，但仍保持垂直列表感 */
+      max-width: 280px; 
+      min-width: 250px; /* 增加最小宽度 */
     }
 
-    /* 优化：鼠标悬停在整个列上时的效果 */
-    .category-column:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
-    }
-
-    /* --- 分区标题 (现在是列内的普通标题文本) --- */
+    /* --- 分区标题 (现在作为列的卡片式头部) --- */
     .category-column .section-title {
-      /* ✅ 移除背景、边框、阴影等卡片化样式，它现在是列内部的标题 */
-      background: none; 
-      border: none;
-      box-shadow: none;
-      padding: 0; /* 移除标题自身的内边距 */
-      
-      margin-bottom: 25px; /* 标题与下方卡片的间距 */
+      background: rgba(10, 25, 47, 0.7); 
+      border: 2px solid #00ffff; 
+      border-radius: 12px;
+      padding: 18px 25px; /* 优化：调整标题卡片的内边距，使其更大方 */
+      margin-bottom: 25px; /* 优化：增加标题卡片与下方卡片的间距 */
       width: 100%; 
-      max-width: none; /* 不再限制标题宽度 */
-      font-size: 1.8em; /* 调整字体大小，使其更显眼 */
+      max-width: 250px; /* 优化：限制标题卡片的宽度，与下方小卡片保持一致 */
+      font-size: 1.5em; /* 优化：调整字体大小，使其更显眼 */
       color: #99feff; 
-      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); /* 增强发光效果 */
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.7); /* 优化：增强发光效果 */
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4); /* 优化：增强外发光 */
+      box-sizing: border-box; 
       text-align: center; 
       font-weight: 600; 
-      line-height: 1.2; 
+      line-height: 1.2; /* 优化：调整行高 */
     }
     
     /* --- 网格布局 (现在应用于每个纵向列内部，确保卡片垂直排列) --- */
@@ -216,8 +202,8 @@
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      gap: 18px; /* 卡片之间的垂直间距 */
-      width: 100%; /* 填充 .category-column 的宽度 */
+      gap: 18px; /* 优化：增加卡片之间的垂直间距 */
+      width: 100%; 
       z-index: 1; 
     }
     
@@ -227,46 +213,42 @@
       border: 1px solid #00ffff; 
       border-radius: 12px; 
       text-align: center; 
-      padding: 18px; 
+      padding: 18px; /* 优化：调整内边距 */
       transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; 
       cursor: pointer; 
       backdrop-filter: blur(5px); 
       animation: card-fade-in 0.5s ease-out forwards; 
       opacity: 0; 
-      width: 100%; /* 卡片填充父容器 .grid 的宽度 */
-      max-width: 200px; /* ✅ 关键：设置单个卡片的最大宽度，使其变窄 */
+      width: 100%; 
+      max-width: 250px; /* 优化：设置单个卡片的最大宽度，使其更宽 */
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
-    .category-column .grid .card:hover { transform: translateY(-7px) scale(1.03); border-color: #99feff; box-shadow: 0 0 30px #00ffff, 0 0 8px #ffffff; }
-    .category-column .grid .card.highlight-hot { animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite; transform: scale(1.03); } 
+    .category-column .grid .card:hover { transform: translateY(-7px) scale(1.03); /* 优化：调整hover效果 */ border-color: #99feff; box-shadow: 0 0 30px #00ffff, 0 0 8px #ffffff; /* 优化：增强hover发光 */ }
+    .category-column .grid .card.highlight-hot { animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite; transform: scale(1.03); } /* 保持高亮卡片放大 */
     .category-column .grid .card a { 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       color: #00ffff; 
       text-decoration: none; 
-      font-size: 1.1em; 
+      font-size: 1.1em; /* 优化：调整字体大小 */
       width: 100%; 
     }
     .category-column .grid .card a img { 
-      width: 45px; 
+      width: 45px; /* 优化：调整图标大小 */
       height: 45px; 
       margin-bottom: 10px; 
       object-fit: contain; 
-      filter: drop-shadow(0 0 6px #00ffff); 
+      filter: drop-shadow(0 0 6px #00ffff); /* 优化：增强图标发光 */
     }
     /* Animation delays can remain, they will still apply to the stacked cards */
     .category-column .grid .card:nth-child(1) { animation-delay: 0.1s; } .category-column .grid .card:nth-child(2) { animation-delay: 0.15s; } .category-column .grid .card:nth-child(3) { animation-delay: 0.2s; } .category-column .grid .card:nth-child(4) { animation-delay: 0.25s; } .category-column .grid .card:nth-child(5) { animation-delay: 0.3s; } .category-column .grid .card:nth-child(6) { animation-delay: 0.35s; } .category-column .grid .card:nth-child(7) { animation-delay: 0.4s; } .category-column .grid .card:nth-child(8) { animation-delay: 0.45s; } .category-column .grid .card:nth-child(9) { animation-delay: 0.5s; } .category-column .grid .card:nth-child(10) { animation-delay: 0.55s; } .category-column .grid .card:nth-child(11) { animation-delay: 0.6s; }
 
     /* --- 分隔线样式 --- */
-    /* 移除英雄区与下方区块之间的 divider */
-    .hero-section + .system-alert + .divider {
-      display: none;
-    }
-
+    /* 移除内部的横向分隔线，只保留主体区域前后的分隔线 */
     .divider { 
         width: 80%; 
         max-width: 800px; 
@@ -275,7 +257,11 @@
         margin: 60px 0; 
         box-shadow: 0 0 10px #00ffff; 
     }
-    
+    /* 优化：移除 .main-content-columns 之前的 divider，减少视觉中断 */
+    .system-alert + .divider {
+      display: none;
+    }
+
 
     footer { margin-top: 70px; text-align: center; font-size: 0.9em; color: rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); z-index: 1; }
     footer p { margin-bottom: 8px; } footer a { color: #99feff; text-decoration: none; transition: text-shadow 0.3s; } footer a:hover { text-shadow: 0 0 8px #99feff; }
@@ -325,8 +311,8 @@
   <div class="system-alert">
     📡 系统广播：访问下方站点需「<span class="highlight-green">科学上网</span>」以确保链接正常。
   </div>
-  <!-- 优化：移除英雄区与下方区块之间的 divider，因为 .main-content-columns 会有自己的上边距 -->
-  <!-- <div class="divider"></div> -->
+  <!-- 优化：移除此处的 divider -->
+  <div class="divider"></div> 
 
   <!-- ✅ 新增容器，用于将所有类别区块横向排列 -->
   <div class="main-content-columns">

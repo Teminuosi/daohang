@@ -89,40 +89,9 @@
     .system-alert { font-size: 1.2em; color: #cceeff; text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); margin: 20px auto 40px; text-align: center; max-width: 900px; width: 95%; }
     .system-alert .highlight-green { color: #98ffda; text-shadow: 0 0 8px #0adc90; font-weight: bold; }
     
-    /* --- 英雄区 (保持横向布局) --- */
-    .hero-section { 
-      display: flex; 
-      flex-direction: row; 
-      justify-content: center; 
-      gap: 25px; 
-      width: 100%; 
-      max-width: 1400px; 
-      margin-top: 30px; 
-      margin-bottom: 25px; 
-      flex-wrap: wrap; 
-      align-items: stretch; 
-    }
-    .hero-card { 
-      flex: 1; 
-      min-width: 280px; 
-      max-width: 320px; 
-      background: rgba(10, 25, 47, 0.7); 
-      border: 2px solid; 
-      border-radius: 16px; 
-      padding: 30px 20px; 
-      text-align: center; 
-      backdrop-filter: blur(8px); 
-      transition: transform 0.3s; 
-      text-decoration: none; 
-      color: #fff; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
-      position: relative; 
-      overflow: hidden; 
-      cursor: pointer; 
-    }
+    /* --- 英雄区 --- */
+    .hero-section { display: flex; justify-content: center; gap: 25px; width: 100%; max-width: 1400px; margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; align-items: stretch; }
+    .hero-card { flex: 1; min-width: 280px; max-width: 320px; background: rgba(10, 25, 47, 0.7); border: 2px solid; border-radius: 16px; padding: 30px 20px; text-align: center; backdrop-filter: blur(8px); transition: transform 0.3s; text-decoration: none; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; cursor: pointer; }
     .hero-card:hover { transform: translateY(-10px); }
     .hero-card .icon { font-size: 2.3em; line-height: 1; margin-bottom: 15px; height: 50px; width: 100%; display: flex; align-items: center; justify-content: center; }
     .hero-card .icon img { width: 45px; height: 45px; object-fit: contain; }
@@ -142,11 +111,11 @@
       animation: hot-pulse-animation 2s ease-in-out infinite;
     }
     .hero-card.highlight-ai-video h3 {
-      color: #ff8c00; 
+      color: #ff8c00; /* 炽热的橙色 */
       text-shadow: 0 0 10px #ff4500;
     }
     .hero-card.highlight-ai-video .icon {
-      color: #ff8c00; 
+      color: #ff8c00; /* 与标题颜色匹配 */
     }
     /* 为HOT标签也增加火焰效果 */
     .hero-card.highlight-ai-video .hot-badge-corner {
@@ -155,135 +124,25 @@
     }
     
 
-    /* --- 新增：主内容区域的列容器，用于横向排列各个类别区块 --- */
-    .main-content-columns {
-      display: flex;
-      flex-wrap: wrap; /* 允许在小屏幕上换行 */
-      justify-content: center; /* 水平居中 */
-      gap: 30px; /* 列之间的间距 */
-      width: 100%;
-      max-width: 1400px; /* 整个多列区域的最大宽度 */
-      margin-top: 50px; /* 与上方元素的间距 */
-      margin-bottom: 50px; /* 与下方元素的间距 */
-    }
-
-    /* --- 新增：每个类别区块（一列）的样式 --- */
-    .category-column {
-      display: flex;
-      flex-direction: column; /* 内部标题和卡片纵向堆叠 */
-      align-items: center; /* 内部元素水平居中 */
-      width: 100%; /* 默认占据父容器宽度 */
-      max-width: 280px; /* 限制每列的最大宽度，使其变窄 */
-      min-width: 250px; /* 保证最小宽度 */
-      
-      /* ✅ 核心修改：让 .category-column 成为一个带有背景和边框的“大框” */
-      background: rgba(10, 25, 47, 0.7); /* 大框背景 */
-      border: 2px solid #00ffff; /* 大框边框 */
-      border-radius: 16px; /* 大框圆角 */
-      padding: 25px; /* 大框内部的内边距 */
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2); /* 大框阴影 */
-      backdrop-filter: blur(8px); /* 模糊效果 */
-      transition: transform 0.3s, box-shadow 0.3s; /* 动画效果 */
-    }
-
-    /* 优化：鼠标悬停在整个列上时的效果 */
-    .category-column:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
-    }
-
-    /* --- 分区标题 (现在是列内的普通标题文本) --- */
-    .category-column .section-title {
-      /* ✅ 移除背景、边框、阴影等卡片化样式，它现在是列内部的标题 */
-      background: none; 
-      border: none;
-      box-shadow: none;
-      padding: 0; /* 移除标题自身的内边距 */
-      
-      margin-bottom: 25px; /* 标题与下方卡片的间距 */
-      width: 100%; 
-      max-width: none; /* 不再限制标题宽度 */
-      font-size: 1.8em; /* 调整字体大小，使其更显眼 */
-      color: #99feff; 
-      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); /* 增强发光效果 */
-      text-align: center; 
-      font-weight: 600; 
-      line-height: 1.2; 
-    }
-    
-    /* --- 网格布局 (现在应用于每个纵向列内部，确保卡片垂直排列) --- */
-    .category-column .grid { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      gap: 18px; /* 卡片之间的垂直间距 */
-      width: 100%; /* 填充 .category-column 的宽度 */
-      z-index: 1; 
-    }
-    
-    /* --- 普通卡片样式 (适应新的纵向列表的较窄卡片) --- */
-    .category-column .grid .card { 
-      background: rgba(10, 25, 47, 0.5); 
-      border: 1px solid #00ffff; 
-      border-radius: 12px; 
-      text-align: center; 
-      padding: 18px; 
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; 
-      cursor: pointer; 
-      backdrop-filter: blur(5px); 
-      animation: card-fade-in 0.5s ease-out forwards; 
-      opacity: 0; 
-      width: 100%; /* 卡片填充父容器 .grid 的宽度 */
-      max-width: 200px; /* ✅ 关键：设置单个卡片的最大宽度，使其变窄 */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .category-column .grid .card:hover { transform: translateY(-7px) scale(1.03); border-color: #99feff; box-shadow: 0 0 30px #00ffff, 0 0 8px #ffffff; }
-    .category-column .grid .card.highlight-hot { animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite; transform: scale(1.03); } 
-    .category-column .grid .card a { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      color: #00ffff; 
-      text-decoration: none; 
-      font-size: 1.1em; 
-      width: 100%; 
-    }
-    .category-column .grid .card a img { 
-      width: 45px; 
-      height: 45px; 
-      margin-bottom: 10px; 
-      object-fit: contain; 
-      filter: drop-shadow(0 0 6px #00ffff); 
-    }
-    /* Animation delays can remain, they will still apply to the stacked cards */
-    .category-column .grid .card:nth-child(1) { animation-delay: 0.1s; } .category-column .grid .card:nth-child(2) { animation-delay: 0.15s; } .category-column .grid .card:nth-child(3) { animation-delay: 0.2s; } .category-column .grid .card:nth-child(4) { animation-delay: 0.25s; } .category-column .grid .card:nth-child(5) { animation-delay: 0.3s; } .category-column .grid .card:nth-child(6) { animation-delay: 0.35s; } .category-column .grid .card:nth-child(7) { animation-delay: 0.4s; } .category-column .grid .card:nth-child(8) { animation-delay: 0.45s; } .category-column .grid .card:nth-child(9) { animation-delay: 0.5s; } .category-column .grid .card:nth-child(10) { animation-delay: 0.55s; } .category-column .grid .card:nth-child(11) { animation-delay: 0.6s; }
-
-    /* --- 分隔线样式 --- */
-    /* 移除英雄区与下方区块之间的 divider */
-    .hero-section + .system-alert + .divider {
-      display: none;
-    }
-
-    .divider { 
-        width: 80%; 
-        max-width: 800px; 
-        height: 1px; 
-        background: linear-gradient(to right, transparent, #00ffff, transparent); 
-        margin: 60px 0; 
-        box-shadow: 0 0 10px #00ffff; 
-    }
-    
-
+    /* --- 分区标题 --- */
+    .section-title { font-size: 2.2em; color: #99feff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); margin-bottom: 25px; text-align: center; font-weight: 600; }
+    /* --- 网格布局 --- */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 25px; max-width: 1300px; width: 100%; z-index: 1; }
+    /* --- 普通卡片样式 --- */
+    .card { background: rgba(10, 25, 47, 0.5); border: 1px solid #00ffff; border-radius: 12px; text-align: center; padding: 20px; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; cursor: pointer; backdrop-filter: blur(5px); animation: card-fade-in 0.5s ease-out forwards; opacity: 0; }
+    .card:hover { transform: translateY(-5px) scale(1.05); border-color: #99feff; box-shadow: 0 0 25px #00ffff, 0 0 5px #ffffff; }
+    .card.highlight-hot { animation: card-fade-in 0.5s ease-out forwards, pulse-red-glow 2.5s ease-in-out infinite; transform: scale(1.05); }
+    .card a { display: flex; flex-direction: column; align-items: center; color: #00ffff; text-decoration: none; font-size: 1.1em; }
+    .card a img { width: 60px; height: 60px; margin-bottom: 10px; object-fit: contain; filter: drop-shadow(0 0 5px #00ffff); }
+    .grid .card:nth-child(1) { animation-delay: 0.1s; } .grid .card:nth-child(2) { animation-delay: 0.15s; } .grid .card:nth-child(3) { animation-delay: 0.2s; } .grid .card:nth-child(4) { animation-delay: 0.25s; } .grid .card:nth-child(5) { animation-delay: 0.3s; } .grid .card:nth-child(6) { animation-delay: 0.35s; } .grid .card:nth-child(7) { animation-delay: 0.4s; } .grid .card:nth-child(8) { animation-delay: 0.45s; } .grid .card:nth-child(9) { animation-delay: 0.5s; } .grid .card:nth-child(10) { animation-delay: 0.55s; } .grid .card:nth-child(11) { animation-delay: 0.6s; }
+    .divider { width: 80%; max-width: 800px; height: 1px; background: linear-gradient(to right, transparent, #00ffff, transparent); margin: 60px 0; box-shadow: 0 0 10px #00ffff; }
     footer { margin-top: 70px; text-align: center; font-size: 0.9em; color: rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); z-index: 1; }
     footer p { margin-bottom: 8px; } footer a { color: #99feff; text-decoration: none; transition: text-shadow 0.3s; } footer a:hover { text-shadow: 0 0 8px #99feff; }
 
     .highlight-text {
-      color: #00e0ff; 
-      font-weight: bold; 
-      text-shadow: 0 0 8px rgba(0, 224, 255, 0.7); 
+      color: #00e0ff; /* 使用主题中的高亮青色 */
+      font-weight: bold; /* 字体加粗 */
+      text-shadow: 0 0 8px rgba(0, 224, 255, 0.7); /* 添加辉光效果 */
     }
   </style>
 </head>
@@ -300,7 +159,7 @@
   
   <div class="divider"></div>
 
-  <!-- ✅ 英雄区保持横向布局不变 -->
+  <!-- ✅ 更新后的英雄区 -->
   <div class="hero-section">
     <a href="javascript:void(0);" id="ai-tools-trigger" class="hero-card highlight-ai-video">
         <div class="hot-badge-corner">HOT</div>
@@ -325,71 +184,61 @@
   <div class="system-alert">
     📡 系统广播：访问下方站点需「<span class="highlight-green">科学上网</span>」以确保链接正常。
   </div>
-  <!-- 优化：移除英雄区与下方区块之间的 divider，因为 .main-content-columns 会有自己的上边距 -->
-  <!-- <div class="divider"></div> -->
+  <div class="divider"></div>
 
-  <!-- ✅ 新增容器，用于将所有类别区块横向排列 -->
-  <div class="main-content-columns">
-    
-    <!-- ==================== 社交 & 社区 (作为一列) ==================== -->
-    <div class="category-column">
-      <h2 class="section-title">社交 & 社区</h2>
-      <div class="grid">
-        <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>
-        <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
-        <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
-        <div class="card"><a href="https://twitter.com/" target="_blank"><img src="./icon/twitter-color-svgrepo-com.svg" alt="X(Twitter)">X (Twitter)</a></div>
-        <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
-        <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
-        <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
-        <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
-        <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
-        <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
-      </div>
-    </div>
+  <!-- ==================== 社交 & 社区 ==================== -->
+  <h2 class="section-title">社交 & 社区</h2>
+  <div class="grid">
+    <div class="card"><a href="https://www.youtube.com/" target="_blank"><img src="./icon/youtube-color-svgrepo-com.svg" alt="YouTube">YouTube</a></div>
+    <div class="card"><a href="https://www.tiktok.com/" target="_blank"><img src="./icon/tiktok.svg" alt="TikTok">TikTok</a></div>
+    <div class="card"><a href="https://www.instagram.com/" target="_blank"><img src="./icon/instagram-1-svgrepo-com.svg" alt="Instagram">Instagram</a></div>
+    <div class="card"><a href="https://twitter.com/" target="_blank"><img src="./icon/twitter-color-svgrepo-com.svg" alt="X(Twitter)">X (Twitter)</a></div>
+    <div class="card"><a href="https://www.threads.net/" target="_blank"><img src="./icon/threads.svg" alt="Threads">Threads</a></div>
+    <div class="card"><a href="https://www.facebook.com/" target="_blank"><img src="./icon/facebook-svgrepo-com.svg" alt="Facebook">Facebook</a></div>
+    <div class="card"><a href="https://discord.com/" target="_blank"><img src="./icon/discord.svg" alt="Discord">Discord</a></div>
+    <div class="card"><a href="https://www.snapchat.com/" target="_blank"><img src="./icon/snapchat-svgrepo-com.svg" alt="Snapchat">Snapchat</a></div>
+    <div class="card"><a href="https://www.reddit.com/" target="_blank"><img src="./icon/reddit-svgrepo-com.svg" alt="Reddit">Reddit</a></div>
+    <div class="card"><a href="https://www.pinterest.com/" target="_blank"><img src="./icon/pinterest-color-svgrepo-com.svg" alt="Pinterest">Pinterest</a></div>
+  </div>
 
-    <!-- ==================== AI 前沿工具 (作为一列) ==================== -->
-    <div class="category-column">
-      <h2 class="section-title">AI 前沿工具</h2>
-      <div class="grid">
-        <div class="card highlight-hot"><a href="https://aistudio.google.com/" target="_blank"><img src="./icon/aistudio.svg" alt="Google AI Studio">Google Ai Studio</a></div>
-        <div class="card"><a href="https://www.google.com/gemini" target="_blank"><img src="./icon/gemini.svg" alt="AI Assistant">Google Gemini</a></div>
-        <div class="card"><a href="https://chat.openai.com/" target="_blank"><img src="./icon/chatgpt.svg" alt="ChatGPT">ChatGPT</a></div>
-        <div class="card"><a href="https://claude.ai/" target="_blank"><img src="./icon/claude.svg" alt="Claude">Claude</a></div>
-        <div class="card"><a href="https://www.meta.ai/" target="_blank"><img src="./icon/meta.svg" alt="Meta AI">Meta AI</a></div>
-        <div class="card"><a href="https://grok.com/" target="_blank"><img src="./icon/grok.svg" alt="Sora">Grok</a></div>
-        <div class="card"><a href="https://www.perplexity.ai/" target="_blank"><img src="./icon/perplexity.svg" alt="Perplexity">Perplexity</a></div>
-      </div>
+  <div class="divider"></div>
+
+    <!-- ==================== AI 前沿工具 ==================== -->
+    <h2 class="section-title">AI 前沿工具</h2>
+    <div class="grid">
+      <div class="card highlight-hot"><a href="https://aistudio.google.com/" target="_blank"><img src="./icon/aistudio.svg" alt="Google AI Studio">Google Ai Studio</a></div>
+      <div class="card"><a href="https://www.google.com/gemini" target="_blank"><img src="./icon/gemini.svg" alt="AI Assistant">Google Gemini</a></div>
+      <div class="card"><a href="https://chat.openai.com/" target="_blank"><img src="./icon/chatgpt.svg" alt="ChatGPT">ChatGPT</a></div>
+      <div class="card"><a href="https://claude.ai/" target="_blank"><img src="./icon/claude.svg" alt="Claude">Claude</a></div>
+      <div class="card"><a href="https://www.meta.ai/" target="_blank"><img src="./icon/meta.svg" alt="Meta AI">Meta AI</a></div>
+      <div class="card"><a href="https://grok.com/" target="_blank"><img src="./icon/grok.svg" alt="Sora">Grok</a></div>
+      <div class="card"><a href="https://www.perplexity.ai/" target="_blank"><img src="./icon/perplexity.svg" alt="Perplexity">Perplexity</a></div>
     </div>
     
-    <!-- ==================== 影音 & 娱乐 (作为一列) ==================== -->
-    <div class="category-column">
-      <h2 class="section-title">影音 & 娱乐</h2>
-      <div class="grid">
-        <div class="card"><a href="https://www.netflix.com/" target="_blank"><img src="./icon/netflix-1-logo-svgrepo-com.svg" alt="Netflix">Netflix</a></div>
-        <div class="card"><a href="https://www.disneyplus.com/" target="_blank"><img src="./icon/desney.svg" alt="Disney+">Disney+</a></div>
-        <div class="card"><a href="https://www.primevideo.com/" target="_blank"><img src="./icon/primevideo.svg" alt="Prime Video">Prime Video</a></div>
-        <div class="card"><a href="https://www.max.com/" target="_blank"><img src="./icon/icons8-hbo.svg" alt="HBO Max">HBO Max</a></div>
-        <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
-        <div class="card"><a href="https://www.spotify.com/" target="_blank"><img src="./icon/icons8-spotify.svg" alt="Spotify">Spotify</a></div>
-        <div class="card highlight-hot"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="Kalos TV">短剧Kalos TV</a></div>
-      </div>
-    </div>
+    <div class="divider"></div>
 
-    <!-- ==================== 创作者平台 (作为一列) ==================== -->
-    <div class="category-column">
-      <h2 class="section-title">创作者平台</h2>
-      <div class="grid">
-        <div class="card"><a href="https://www.patreon.com/" target="_blank"><img src="./icon/icons8-patreon.svg" alt="Patreon">Patreon</a></div>
-        <div class="card"><a href="https://onlyfans.com/" target="_blank"><img src="./icon/onlyfans.svg" alt="OnlyFans">OnlyFans</a></div>
-        <div class="card"><a href="https://ko-fi.com/" target="_blank"><img src="./icon/ko-fi.svg" alt="Ko-fi">Ko-fi</a></div>
-        <div class="card"><a href="https://substack.com/" target="_blank"><img src="./icon/substack.svg" alt="Substack">Substack</a></div>
-      </div>
-    </div>
+  <!-- ==================== 影音 & 娱乐 ==================== -->
+  <h2 class="section-title">影音 & 娱乐</h2>
+  <div class="grid">
+    <div class="card"><a href="https://www.netflix.com/" target="_blank"><img src="./icon/netflix-1-logo-svgrepo-com.svg" alt="Netflix">Netflix</a></div>
+    <div class="card"><a href="https://www.disneyplus.com/" target="_blank"><img src="./icon/desney.svg" alt="Disney+">Disney+</a></div>
+    <div class="card"><a href="https://www.primevideo.com/" target="_blank"><img src="./icon/primevideo.svg" alt="Prime Video">Prime Video</a></div>
+    <div class="card"><a href="https://www.max.com/" target="_blank"><img src="./icon/icons8-hbo.svg" alt="HBO Max">HBO Max</a></div>
+    <div class="card"><a href="https://www.twitch.tv/" target="_blank"><img src="./icon/twitch-svgrepo-com.svg" alt="Twitch">Twitch</a></div>
+    <div class="card"><a href="https://www.spotify.com/" target="_blank"><img src="./icon/icons8-spotify.svg" alt="Spotify">Spotify</a></div>
+    <div class="card highlight-hot"><a href="https://kalos.reelhunter.online/?s=7328821219518345216" target="_blank"><img src="./icon/kalos TV.svg" alt="Kalos TV">短剧Kalos TV</a></div>
+  </div>
 
-  </div> <!-- End main-content-columns -->
+  <div class="divider"></div>
 
-  <div class="divider"></div> <!-- 保留此分隔线在整个多列区域的下方 -->
+  <!-- ==================== 创作者平台 ==================== -->
+  <h2 class="section-title">创作者平台</h2>
+  <div class="grid">
+    <div class="card"><a href="https://www.patreon.com/" target="_blank"><img src="./icon/icons8-patreon.svg" alt="Patreon">Patreon</a></div>
+    <div class="card"><a href="https://onlyfans.com/" target="_blank"><img src="./icon/onlyfans.svg" alt="OnlyFans">OnlyFans</a></div>
+    <div class="card"><a href="https://ko-fi.com/" target="_blank"><img src="./icon/ko-fi.svg" alt="Ko-fi">Ko-fi</a></div>
+    <div class="card"><a href="https://substack.com/" target="_blank"><img src="./icon/substack.svg" alt="Substack">Substack</a></div>
+  </div>
 
   <footer>
     <p>Designed with 🧠 by <a href="https://www.google.com/gemini" target="_blank">Google Gemini</a> & <a href="https://dajian.cyou" target="_blank">SanYue</a></p>
