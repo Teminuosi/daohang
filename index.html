@@ -839,7 +839,7 @@
     <!-- 模块矩阵 -->
     <div class="matrix-container">
         <!-- AI视频创作 -->
-        <div class="neo-module" onclick="openModal('ai-video')">
+        <div class="neo-module" onclick="openModal('ai-video'); startMusicIfNotPlaying();">
             <div class="hot-badge">HOT</div>
             <div class="module-status"></div>
             <div class="module-content">
@@ -850,8 +850,7 @@
         </div>
 
         <!-- 跨境网络服务（点击弹窗） -->
-        <div class="neo-module" onclick="openModal('network')">
-            <div class="hot-badge">HOT</div>
+        <div class="neo-module" onclick="openModal('network'); startMusicIfNotPlaying();">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">🌐</div>
@@ -861,7 +860,7 @@
         </div>
 
         <!-- 海外流媒体（与影视位置互换：此处显示影视内容） -->
-        <div class="neo-module" onclick="openModal('movies')">
+        <div class="neo-module" onclick="openModal('movies'); startMusicIfNotPlaying();">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">🎭</div>
@@ -871,7 +870,7 @@
         </div>
 
         <!-- 海外AI工具 -->
-        <div class="neo-module" onclick="openModal('ai-tools')">
+        <div class="neo-module" onclick="openModal('ai-tools'); startMusicIfNotPlaying();">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">🤖</div>
@@ -881,7 +880,7 @@
         </div>
 
         <!-- 海外影视（与流媒体位置互换：此处显示流媒体内容） -->
-        <div class="neo-module" onclick="openModal('streaming')">
+        <div class="neo-module" onclick="openModal('streaming'); startMusicIfNotPlaying();">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">📺</div>
@@ -1242,7 +1241,7 @@
         </div>
     </div>
     <script>
-                // 联系弹窗控制
+        // 联系弹窗控制
         document.getElementById('contact-trigger').addEventListener('click', () => {
             openModal('contact');
         });
@@ -1270,6 +1269,7 @@
 
         // 音乐播放器（播放 mp3 目录下的文件）
         let isPlaying = false;
+        let userManuallyPaused = false; // <<< ---【修改 1】: 新增一个变量来跟踪用户是否手动暂停
         const playBtn = document.getElementById('playPauseBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -1337,6 +1337,7 @@
         }
 
         function playCurrent() {
+            userManuallyPaused = false; // <<< ---【修改 2】: 只要开始播放，就重置手动暂停状态
             audio.play().then(() => {
                 isPlaying = true;
                 playBtn.textContent = '⏸';
@@ -1361,6 +1362,7 @@
         function pauseCurrent() {
             audio.pause();
             isPlaying = false;
+            userManuallyPaused = true; // <<< ---【修改 3】: 当用户暂停时，记录下这个状态
             playBtn.textContent = '▶';
             playBtn.style.transform = 'scale(1)';
         }
@@ -1395,6 +1397,19 @@
             if(event) event.stopPropagation();
             loadTrack(currentTrack - 1);
             if (isPlaying) playCurrent();
+        }
+
+        // *** 新增函数：如果音乐未播放，则开始播放 ***
+        function startMusicIfNotPlaying() {
+            // 检查音乐是否已经加载
+            if (!audio.src) {
+                loadTrack(currentTrack);
+            }
+            // 核心判断：如果当前没有在播放，并且用户没有故意暂停它
+            if (!isPlaying && !userManuallyPaused) {
+                audio.muted = false; // 确保不是静音状态
+                playCurrent();       // 调用现有的播放函数
+            }
         }
 
         // 事件绑定
@@ -1559,12 +1574,7 @@
             
             // 直接使用用户提供的单曲播放
             tracks = DEFAULT_TRACK_URLS.map(u => ({ src: u, ...inferMetaFromFilename(u) }));
-            loadTrack(0);
-            setTimeout(() => {
-                audio.muted = true;
-                playCurrent();
-                // 不再注册全局“首次交互恢复声音”的监听，以避免与播放按钮的切换逻辑冲突
-            }, 200);
+            loadTrack(0); // 仅加载歌曲信息，不播放
         });
     </script>
 </body>
