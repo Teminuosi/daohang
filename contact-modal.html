@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系站长</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* --- 全新视觉系统 --- */
+        :root {
+            --bg-main: #111113;
+            --bg-card: #1C1C1E;
+            --text-primary: #E5E7EB;
+            --text-secondary: #9CA3AF;
+            --accent-blue: #3B82F6;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- 页面基础 --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: var(--bg-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- 主容器 --- */
+        .contact-container {
+            width: 100%;
+            max-width: 920px;
+            text-align: center;
+        }
+        
+        /* --- 头部 --- */
+        .contact-header {
+            margin-bottom: 3.5rem;
+        }
+        .contact-header .title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 0 0 1rem 0;
+        }
+        .contact-header .description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* --- 卡片网格 --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- 卡片设计 --- */
+        .contact-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px; /* 匹配图片的圆角 */
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        /* --- 卡片内部 --- */
+        .card-header { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+        }
+        .card-header .icon { 
+            font-size: 1.5rem; 
+            margin-right: 0.75rem; 
+            color: var(--accent-blue);
+            width: 24px;
+            text-align: center;
+        }
+        .card-header .card-title { 
+            font-size: 1.2rem; 
+            font-weight: 500; 
+            color: var(--text-primary); 
+        }
+        
+        .card-body {
+            flex-grow: 1; /* 关键：确保内容区撑满，使底部对齐 */
+        }
+        .card-body p { 
+            font-size: 0.95rem; 
+            color: var(--text-secondary); 
+            line-height: 1.8; 
+            margin: 0; 
+        }
+        
+        .card-footer {
+            margin-top: 2rem; /* 固定与上方内容的间距 */
+        }
+
+        .card-footer a, .card-footer .info-box {
+            display: block; 
+            width: 100%; 
+            text-align: center;
+            padding: 0.75rem 1rem; 
+            border-radius: 10px;
+            text-decoration: none; 
+            font-weight: 500; 
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .card-footer .btn-primary {
+            background-color: var(--accent-blue);
+            color: #FFFFFF;
+        }
+        .card-footer .btn-primary:hover {
+            background-color: #60A5FA;
+            transform: translateY(-2px);
+        }
+        .card-footer .info-box {
+            background-color: #313135; 
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+        .card-footer .fallback-text {
+            font-size: 0.8rem; 
+            color: #6B7280; /* 匹配图片的灰色 */
+            text-align: center;
+            margin-top: 1rem; 
+            line-height: 1.5;
+        }
+        .card-footer .fallback-text strong { 
+            color: var(--text-secondary); 
+            font-size: 1.1em; 
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <header class="contact-header">
+            <h2 class="title">联系站长</h2>
+            <p class="description">
+                抱歉，由于站长微信当前因添加频繁受限，暂时无法通过扫码添加。为了能及时与您沟通，请选择以下最适合您的方式联系我：
+            </p>
+        </header>
+        
+        <main class="contact-grid">
+            <!-- 邮件联系 -->
+            <section class="contact-card">
+                <div class="card-header">
+                    <span class="icon"><i class="fas fa-envelope-open-text"></i></span>
+                    <h3 class="card-title">邮件联系</h3>
+                </div>
+                <div class="card-body">
+                    <p>发送您的需求和您的联系方式 (微信/电话)到我的邮箱，我会在第一时间主动添加您。</p>
+                </div>
+                <footer class="card-footer">
+                    <div class="info-box">terminos888@gmail.com</div>
+                </footer>
+            </section>
+
+            <!-- Telegram 群组 -->
+            <section class="contact-card">
+                <div class="card-header">
+                    <span class="icon"><i class="fab fa-telegram-plane"></i></span>
+                    <h3 class="card-title">Telegram 群组</h3>
+                </div>
+                <div class="card-body">
+                    <p>点击直接加入我们的官方Telegram社群进行咨询和交流。</p>
+                </div>
+                <footer class="card-footer">
+                    <a href="https://t.me/sanyuedaohang" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                        加入TG站长社群
+                    </a>
+                </footer>
+            </section>
+
+            <!-- QQ 联系 -->
+            <section class="contact-card">
+                <div class="card-header">
+                    <span class="icon"><i class="fab fa-qq"></i></span>
+                    <h3 class="card-title">QQ联系</h3>
+                </div>
+                <div class="card-body">
+                    <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
+                </div>
+                <footer class="card-footer">
+                    <p class="fallback-text">如果无法跳转，请手动复制QQ号：<br><strong>370034225</strong></p>
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=370034225&site=qq&menu=yes" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                        通过QQ联系我
+                    </a>
+                </footer>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
