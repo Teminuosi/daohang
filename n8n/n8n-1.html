@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翔宇工作流 - AI自动化爆款短视频效果展示</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+        
+        :root {
+            --primary-color: #4A90E2; /* 专业蓝 */
+            --dark-color: #2c3e50; /* 深灰蓝 */
+            --light-color: #f8f9fa;
+            --gray-color: #5a6a7a;
+            --bg-color: #ffffff;
+            --card-bg: #fff;
+            --border-color: #e9ecef;
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+            line-height: 1.8;
+            font-size: 17px;
+            scroll-behavior: smooth;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+        h1, h2, h3, h4 { font-weight: 700; line-height: 1.4; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 38px; font-weight: 900; margin-bottom: 15px; }
+        .section-header p { font-size: 18px; color: var(--gray-color); max-width: 750px; margin: 0 auto; }
+        
+        .hero-section { text-align: center; padding: 100px 20px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .hero-section h1 { font-size: 52px; font-weight: 900; margin-bottom: 20px; }
+        .hero-section .subtitle { font-size: 20px; color: var(--gray-color); margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .cta-button { display: inline-block; background: var(--primary-color); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3); border: none; cursor: pointer; }
+        .cta-button:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4); }
+
+        .demo-gallery .table-of-contents { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 60px; padding: 0; list-style: none; }
+        .table-of-contents a { text-decoration: none; color: var(--primary-color); background-color: #eaf2fb; padding: 8px 18px; border-radius: 20px; font-weight: 500; transition: all 0.2s ease; font-size: 15px; }
+        .table-of-contents a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-2px); }
+        
+        .demo-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; margin-bottom: 50px; padding: 35px; box-shadow: 0 8px 40px rgba(0,0,0,0.07); overflow: hidden; }
+        .demo-card h3 { font-size: 28px; margin: 0 0 10px; }
+        .demo-card .scene-description { color: var(--gray-color); margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        .demo-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        
+        .video-player { width: 100%; background-color: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .video-player video { width: 100%; display: block; }
+        
+        .tech-specs ul { list-style: none; padding: 0; margin: 0; }
+        .tech-specs li { margin-bottom: 15px; font-size: 16px; display: flex; }
+        .tech-specs .spec-label { font-weight: 700; color: var(--dark-color); display: inline-block; width: 85px; flex-shrink: 0; }
+        .tech-specs a { color: var(--primary-color); text-decoration: none; word-break: break-all; }
+        .tech-specs a:hover { text-decoration: underline; }
+        .prompt-box { background-color: var(--light-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; font-size: 14px; color: var(--gray-color); line-height: 1.7; margin-top: 15px; white-space: pre-wrap; word-wrap: break-word; max-height: 250px; overflow-y: auto; }
+        .prompt-box strong { color: var(--dark-color); }
+
+        @media (max-width: 900px) { .demo-content { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { body { font-size: 16px; } .hero-section h1 { font-size: 38px; } }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <header class="hero-section">
+        <h1>AI自动化爆款短视频效果展示</h1>
+        <p class="subtitle">告别繁琐剪辑，见证AI的无限创作力。以下所有视频均由翔宇的自动化工作流一键生成，展示了从温馨日常到悬疑故事，从国风意境到赛博朋克的无限可能。</p>
+        
+    </header>
+
+    <main>
+        <section id="gallery" class="container demo-gallery">
+            <div class="section-header"><h2>眼见为实：12种风格，12种震撼</h2><p>我们用同一套工作流制作了以下12种不同风格的视频。选择一个你感兴趣的场景，亲眼见证它的威力，并查看生成它的完整“配方”！</p></div>
+            <ul class="table-of-contents">
+                <li><a href="#demo-1">橘猫的日常</a></li>
+                <li><a href="#demo-2">悬疑故事</a></li>
+                <li><a href="#demo-3">评书故事会</a></li>
+                <li><a href="#demo-4">霸总短剧</a></li>
+                <li><a href="#demo-5">灵异小说</a></li>
+                <li><a href="#demo-6">都市言情</a></li>
+                <li><a href="#demo-7">玄幻小说</a></li>
+                <li><a href="#demo-8">壁纸风景</a></li>
+                <li><a href="#demo-9">成语公式</a></li>
+                <li><a href="#demo-10">王家卫电影</a></li>
+                <li><a href="#demo-11">动物世界</a></li>
+                <li><a href="#demo-12">童年回忆</a></li>
+            </ul>
+            
+            <div id="demo-1" class="demo-card">
+                <h3>1. 橘猫的日常</h3>
+                <p class="scene-description">拟人化的橘猫化身厨房“圆煮包”，上演一场萌趣十足的厨艺秀，温馨治愈，萌宠爱好者的最爱。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1754910319/ppzvwdxrcdy4mifhpr6o.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/548013a5a3914fbf875197ba13d38325?from=search&versionUuid=a35603bb10314e25af649bbe62748fcb" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/79846305917a463ca7cfdbd531b5f24d" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/wangling.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/jumaozuofan.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>大家好，我就是江湖人称“包”治百病的圆“煮包”！今天本“包”心情大好，决定亲自下厨，给我的粉丝们表演一个厨艺绝活儿...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-2" class="demo-card">
+                <h3>2. 悬疑故事</h3>
+                <p class="scene-description">深夜古井，诡异哭声，尘封的往事被一根井绳缓缓拉出水面。中式恐怖风格，氛围感拉满。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1754903335/sywwe94reb5lr1jxjskw.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/da1f79dfb9394217abb35fa73ceb9cb8?from=search&versionUuid=e7ed00cb045948eb971db8502543dc00" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/5322c9a2ef4a476ca5fd79ad9b501168/" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/kongbu.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/guigushi.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>深夜，老宅风铃哑响，后院古井里又浮出细细的抽泣。守夜的老王提灯过去，见井绳自己往上收，像有人攀爬...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-3" class="demo-card">
+                <h3>3. 评书故事会</h3>
+                <p class="scene-description">经典三国赤壁之战，用评书的腔调和水墨国风的画面重新演绎，历史感与艺术感并存。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1754908716/silqbgfunxwoeukbnsx1.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/f64c61d1d357461f8dcd25cc87928bd6?from=search&versionUuid=647bc94c2dad48b1bb793e78909c3985" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/1bf86d85a9fc4d9d915a41af608eaa35" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/sanguo.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/shantianfang.mp3" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>书接上回，却说建安冬寒，赤壁江风如刀。曹操自称八十三万，铁骑连营、战船如山，浩浩荡荡压到江面...</div>
+                    </div>
+                </div>
+            </div>
+            
+             <div id="demo-4" class="demo-card">
+                <h3>4. 霸总短剧</h3>
+                <p class="scene-description">现代商战，破镜重圆。八年后的重逢，他是资本猎手，她是收购目标，一场精心策划的博弈就此展开。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755588263/gkfre4umnqqdavhdbmvd.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/89dffd2e2d074344befe8d3c0ef25836?from=search&versionUuid=2365e7a015034c81839b6c79ccaad66f" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/m/e7328833c8074e3a906f2782e5b52ace" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/yanqingbgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/yanqing.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>重逢酒会的灯光冷冽如水，水晶吊灯映照着满室交错的觥筹。他推开包间的门，视线掠过宾客，在她身上停下...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-5" class="demo-card">
+                <h3>5. 灵异小说</h3>
+                <p class="scene-description">诡异山顶的哥特式古堡，缠绕的根须上睁开猩红的眼睛，一场直面内心恐惧的冒险即将开始。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755586903/isthmqn2maxtxjnnxdfy.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/f720065b8617439fb6f6c6597226cf27?from=search&versionUuid=7ddc6eb34bbd4dfba87a82cfcf1ef40a" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/m/a610ab0595af497b93e48a3dd2cc50d4" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/lingyibgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/guigushi.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>李伟不知道自己是如何走到这里的，就好像双脚并非听从他的意志...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-6" class="demo-card">
+                <h3>6. 都市言情</h3>
+                <p class="scene-description">十年守护，一朝梦碎。当青梅竹马的她选择了别人并将他推向深渊，十年后的重逢，只剩下无法弥补的伤痕。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755014435/brzzosjpai4ajhboz04m.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora 1:</span><a href="https://www.liblib.art/modelinfo/d7303ec05636449e85ef5ef26c5556f8?from=search&versionUuid=70bbd6523f4c4d01890b7c6a8fa07048" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">Lora 2:</span><a href="https://www.liblib.art/modelinfo/1e059896d6b7470788941325db28b62e?from=search&versionUuid=858227ac5bf3443a9d938de0c26344fd" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/ee3b9bb09cc64d7686aa8be08923f1c9/" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/yanqingbgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/yanqing.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>我舔了十年的清冷校花，柳如烟，十年后在商业晚宴上再次相逢。她依旧是那个众星捧月的柳家大小姐，而我，是她不愿再见的故人...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-7" class="demo-card">
+                <h3>7. 玄幻小说</h3>
+                <p class="scene-description">荒村少年，古井奇遇，逆天改命。一剑斩断世家傲慢，从此踏上与天争锋的传奇之路。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755577336/fr9eyy0xvsdzolbdg5lv.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/6bc146c4f9c448ee83cb985515548f0e?from=search&versionUuid=e1ff451a33f94002848857dfea420afa" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/m/7825dc6ede5a4f8388848e80d9fe79ae" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/wuxiabgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/wuxia01.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>他叫林玄烨，出身荒村，父母早逝，自幼受尽欺凌，十六岁那年大雪封山，他在古井深处拾到一卷残破的经文...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="demo-8" class="demo-card">
+                <h3>8. 壁纸风景</h3>
+                <p class="scene-description">寻找生命的意义，不必追问远方，只需感受此刻。风景治愈系，每一帧都是绝美壁纸。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755061436/kvg3rrzvwol2js1cb6om.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/9c30fd80305042378b00d40540f566d0?from=personal_page&versionUuid=3e075731f81f424a8b280b4347db5ca2" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/4d0e64e39e4b4f31a816f133795c0db5/" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/everythingbgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/zhiyu.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>山在远处缓慢呼吸，云把影子递给水面。我们常常追问“意义是什么”，像在雾里找路标。可万物看似虚伪飘渺...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-9" class="demo-card">
+                <h3>9. 成语公式</h3>
+                <p class="scene-description">用幽默诙谐的方式解读成语“有凤来仪”，将枯燥的知识变得生动有趣，寓教于乐。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755587184/msspeqz53l5orncyy00f.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/4ee6993cc8e6464db7d704657e172a66?from=search&versionUuid=070ddd9b0e9a414088cc631cd7765921" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/131c6b3a889543139680d8b3aa26b98d/" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/chengyubgm.mp4" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/chengyugushi.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>话说上古有位大圣人叫舜帝，他勤奋得让手下都想“卷”铺盖走人...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-10" class="demo-card">
+                <h3>10. 王家卫电影独白</h3>
+                <p class="scene-description">慢镜头、霓虹光影、暧昧的距离感。用王家卫的方式，讲述一个关于错过和记忆的故事。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1755070861/udrhhxcqwyqvulnczwnr.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/b19009a5bd7f4790888a80710d7bb33b?from=search&versionUuid=edfec5022ecf4f0bb9969c125384cd9c" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/ac831899cb8343e3a4a637e7da3fbec4" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/wangjiawei.mp4" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/36/wangjiawei.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>那年，香港的夜总是慢的，慢到一盏灯的影子，可以在墙上停留一生。我们并肩走过的那条小巷，狭窄得容不下第三个人...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-11" class="demo-card">
+                <h3>11. 动物世界</h3>
+                <p class="scene-description">一望无际的非洲草原，从象群的迁徙到猎豹的潜伏，再现《动物世界》经典旁白风格，每一帧都是生命的画卷。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1754977000/bns26ijlwswcpln1znt9.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/cfdb5f58c6ad450c850219e362655ab9?from=personal_page&versionUuid=afbf6e6f1cbe4bdf849032d9159dc6d4" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/app/m/605d4ecb2fda4be9872b5fbfada888a1" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/dongwushijiebgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/dongwushijie.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>一望无际的非洲草原，像是一片起伏的绿色海洋，在晨光中慢慢苏醒。拂晓时分，夜的寒意悄然退去...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demo-12" class="demo-card">
+                <h3>12. 童年回忆</h3>
+                <p class="scene-description">夏日树影，街角的小卖部，玻璃柜台里的彩色糖纸... 用国漫风格的画面，带你重温那个简单又美好的年代。</p>
+                <div class="demo-content">
+                    <div class="video-player"><video controls playsinline loop src="https://res.cloudinary.com/dsbfiqsfd/video/upload/v1754923353/lrstj2a7pnyrunvldge7.mp4"></video></div>
+                    <div class="tech-specs">
+                        <h4>- 生成配方 -</h4>
+                        <ul>
+                            <li><span class="spec-label">Lora:</span><a href="https://www.liblib.art/modelinfo/86bcaadfb6e14ab794e42b5ac3a3d6f2?from=search&versionUuid=cc0b217f30874ce49f16495a97b20fbb" target="_blank">点击查看</a></li>
+                             <li><span class="spec-label">音色:</span><a href="https://fish.audio/zh-CN/m/5766293a68994907885051609ed345e7" target="_blank">点击查看</a></li>
+                            <li><span class="spec-label">配乐:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/tongnianbgm.mp3" target="_blank">点击试听</a></li>
+                            <li><span class="spec-label">参考视频:</span><a href="https://pub-b65afb21c951453a872a026d19411abe.r2.dev/tongnian.mp4" target="_blank">点击观看</a></li>
+                        </ul>
+                        <div class="prompt-box"><strong>文案脚本：</strong><br>如果你也在小卖部前数过硬币，这段记忆送给你：树影把夏天切成一格一格，墙上写着“劳动最光荣”...</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>

@@ -777,6 +777,82 @@
         .floating-orb.left .floating-orb-tooltip { left: 100%; margin-left: 15px; }
         .floating-orb.right .floating-orb-tooltip { right: 100%; margin-right: 15px; }
         .floating-orb:hover .floating-orb-tooltip { opacity: 1; }
+
+
+                /* ====== AI视频弹窗顶部收费模块专属样式 ====== */
+                .permanent-offer-header {
+            padding: 10px 20px 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .price-section-inline {
+            margin-bottom: 25px;
+        }
+
+        .price-tag-inline {
+            font-size: 3em;
+            font-weight: 900;
+            color: #98ffda;
+            text-shadow: 0 0 20px #0adc90;
+            line-height: 1;
+        }
+
+        .price-desc-inline {
+            font-size: 1em;
+            color: #ccc;
+            opacity: 0.8;
+        }
+
+        .cta-button-premium-inline {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(255, 0, 110, 0.5);
+            border: none;
+        }
+
+        .cta-button-premium-inline:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 110, 0.7);
+        }
+        
+        .cta-button-premium-inline i {
+            margin-right: 10px;
+        }
+        
+        .content-divider {
+            position: relative;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .content-divider span {
+            background-color: #1a1a1a; /* 与modal-content背景色接近 */
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: bold;
+        }
+
+        .content-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(0, 255, 255, 0.2);
+            z-index: 0;
+        }
     </style>
 </head>
 <body>
@@ -936,24 +1012,51 @@
         </div>
     </div>
 
-    <!-- AI视频创作弹窗 -->
+        <!-- AI视频创作弹窗 (升级版 - 保留工作流展示) -->
+           <!-- AI视频创作弹窗 (升级版 - 保留工作流展示) -->
     <div id="ai-video-modal" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
             <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
-            <h2 class="modal-title">AI视频创作矩阵</h2>
-            <div class="modal-intro">
-                <p>我们提供两款强大的N8N工作流，分别应对"原创生成"与"二次创作"两大核心场景，助你轻松成为视频爆款高手。</p>
+            
+            <!-- 新增的收费和描述模块 -->
+            <div class="permanent-offer-header">
+                <h2 class="modal-title" style="font-size: 2.5em; margin-bottom: 15px;">N8N视频创作母体 - 永久授权</h2>
+                <p class="modal-intro" style="max-width: 600px; margin: 0 auto 25px;">
+                    一次性付费，永久解锁当前及未来所有AI视频工作流。我们持续研发，您永久免费更新。这是您通往内容自动化未来的终身通行证。
+                </p>
+                <div class="price-section-inline">
+                    <div class="price-tag-inline">¥ 888</div>
+                    <div class="price-desc-inline">永久授权 / 包含所有未来更新</div>
+                </div>
+                <div class="cta-container-inline">
+                    <!-- [已修改] 点击此按钮将弹出联系站长弹窗 -->
+                    <button onclick="openModal('contact')" class="cta-button-premium-inline">
+                        <i class="fas fa-infinity"></i> 联系站长加入母体计划
+                    </button>
+                </div>
             </div>
+
+            <!-- 分割线和说明 -->
+            <div class="content-divider">
+                <span>当前母体已包含以下核心工作流</span>
+            </div>
+
+            <!-- 保留的三个工作流卡片 -->
             <div class="modal-grid">
+                <a href="n8n/n8n-1.html" target="_blank" class="modal-card special-card">
+                    <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🔥</div>
+                    <h3>AI自动化爆款短视频</h3>
+                    <p>集中展示12种由自动化工作流一键生成的视频案例，从纪录片到王家卫风格，全面展示AI创作力。</p>
+                </a>
                 <a href="n8n/n8n-2.html" target="_blank" class="modal-card special-card">
                     <div style="font-size: 3em; color: #ff006e; margin-bottom: 15px;">🪄</div>
                     <h3>AI视频生成神器</h3>
-                    <p>只需一个主题或想法，AI自动完成构思、画面生成、配音与合成，一键产出原创爆款短视频。<strong>适合从零开始的内容创作者、营销人员。</strong></p>
+                    <p><strong>原创内容生成。</strong>只需一个参考视频和想法，AI自动完成构思、画面、配音与合成，一键产出原创爆款。</p>
                 </a>
                 <a href="n8n/n8n.html" target="_blank" class="modal-card special-card">
                     <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🤖</div>
                     <h3>AI视频剪辑神器</h3>
-                    <p>上传任意视频（电影、游戏、直播录屏），AI自动提炼精华、生成解说、匹配风格，批量产出海量二创内容。<strong>适合电影解说、游戏剪辑、带货博主。</strong></p>
+                    <p><strong>二次创作利器。</strong>上传任意长视频，AI自动提炼精华、生成解说、匹配风格，批量产出海量二创内容。</p>
                 </a>
             </div>
         </div>
