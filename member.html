@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨境电商精英圈 - 开启财富自由之路</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 动画关键帧 --- */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+
+        /* --- 页面基础与背景 --- */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .background-particles { position: absolute; width: 100%; height: 100%; }
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- 头部区域 --- */
+        .hero-section {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 20, 147, 0.1));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #ff1493, #ffd700);
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+        .hero-subtitle {
+            font-size: 1.3rem; color: #b0b0b0; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .cta-button {
+            display: inline-block; padding: 18px 40px; background: linear-gradient(135deg, #00d4ff, #ff1493);
+            color: white; text-decoration: none; border-radius: 50px; font-weight: 700;
+            font-size: 1.1rem; transition: all 0.3s ease; animation: glowPulse 2s infinite;
+            position: relative; overflow: hidden; cursor: pointer; border: none;
+        }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4); }
+
+        /* --- 福利卡片与资源列表 --- */
+        .benefits-section { padding: 80px 0; }
+        .section-title {
+            text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 60px;
+            background: linear-gradient(135deg, #00d4ff, #ffffff);
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-top: 40px; }
+        .benefit-card {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+            backdrop-filter: blur(15px); border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px; padding: 40px; transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .benefit-card:hover {
+            transform: translateY(-10px); border-color: rgba(0, 212, 255, 0.5); box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        .benefit-header { display: flex; align-items: center; margin-bottom: 25px; }
+        .benefit-icon {
+            width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff, #ff1493);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 22px; margin-right: 20px; flex-shrink: 0;
+        }
+        .benefit-title { font-size: 1.4rem; font-weight: 700; color: #ffffff; }
+
+        /* 资源列表样式 */
+        .resource-list { list-style: none; padding-left: 0; }
+        .resource-list li { margin-bottom: 12px; }
+        .resource-list a {
+            display: block;
+            color: #b0b0b0;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 30px;
+        }
+        .resource-list a::before {
+            content: '🔗';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+        .resource-list a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+        .resource-list a:hover::before {
+            transform: translateY(-50%) rotate(10deg) scale(1.1);
+        }
+
+        /* --- 弹窗样式 (Modal) --- */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal.show { opacity: 1; visibility: visible; animation: fadeIn 0.3s ease; }
+        .modal-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            position: relative; z-index: 1001;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 15px;
+            background: none; border: none; color: #fff; font-size: 24px;
+            cursor: pointer; opacity: 0.7; transition: opacity 0.3s ease;
+        }
+        .modal-close:hover { opacity: 1; }
+        .modal-title { font-size: 1.8rem; margin-bottom: 20px; color: #fff; }
+        .price-info { margin-bottom: 30px; }
+        .price-original {
+            font-size: 1.2rem; color: #b0b0b0; text-decoration: line-through;
+        }
+        .price-current {
+            font-size: 3rem; font-weight: 800; margin: 10px 0;
+            background: linear-gradient(135deg, #00d4ff, #ff1493, #ffd700);
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .wechat-info { font-size: 1.1rem; margin-bottom: 20px; }
+        .wechat-info span {
+            background: rgba(0, 212, 255, 0.1); padding: 5px 10px; border-radius: 5px;
+            font-weight: bold; color: #00d4ff;
+        }
+        .join-now-btn {
+             display: inline-block; padding: 15px 35px; background: linear-gradient(135deg, #00d4ff, #ff1493);
+             color: white; text-decoration: none; border-radius: 50px; font-weight: 700;
+             font-size: 1.1rem; transition: all 0.3s ease; border: none; cursor: pointer;
+        }
+        .join-now-btn:hover { transform: scale(1.05); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+
+                /* ====== 【新增】高亮特性专属样式 ====== */
+
+
+      
+        /* ====== 高亮特性专属样式 ====== */
+        .highlight-feature > a {
+            color: #ffd700;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+            /* 【新增】为高亮项增加一个柔和的背景和边框 */
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-feature > a::before {
+            content: '👑';
+            color: #ffd700;
+            margin-left: -3px;
+        }
+
+        .highlight-feature > a:hover {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="background-particles" id="particles"></div>
+    </div>
+
+    <!-- 主标题区域 -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">跨境电商精英圈</h1>
+            <p class="hero-subtitle">加入我们的生态圈，解锁全方位跨境电商赚钱秘籍，与精英同行，早日实现财富自由</p>
+            <button class="cta-button" onclick="openModal()">立即加入精英圈</button>
+        </div>
+    </div>
+
+    <!-- 会员福利区域 -->
+    <div class="benefits-section" id="benefits">
+        <div class="container">
+            <h2 class="section-title">🎯 五大核心资源库（包含首页所有付费内容）</h2>
+            <div class="benefits-grid">
+                
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">⚡</div>
+                        <h3 class="benefit-title">AI生产力工具矩阵</h3>
+                    </div>
+                    <ul class="resource-list">
+                        <li><a href="n8n/n8n-1.html" target="_blank">AI自动化爆款短视频工作流</a></li>
+                        <li><a href="n8n/n8n-2.html" target="_blank">AI视频剪辑神器工作流</a></li>
+                        <!-- 未来可添加更多AI工具链接 -->
+                    </ul>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🌐</div>
+                        <h3 class="benefit-title">网络技术全解决方案</h3>
+                    </div>
+                    <ul class="resource-list">
+                        <li><a href="#" target="_blank">TK节点搭建深度教程</a></li>
+                        <li><a href="#" target="_blank">软路由从零到精通配置指南</a></li>
+                        <li><a href="#" target="_blank">最新网络环境防关联策略</a></li>
+                    </ul>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🚀</div>
+                        <h3 class="benefit-title">热门项目资源整合</h3>
+                    </div>
+                    <ul class="resource-list">
+                        <li><a href="#" target="_blank">OBS无人直播实战手册</a></li>
+                        <li><a href="#" target="_blank">扎沙游戏直播变现全解析</a></li>
+                        <li><a href="#" target="_blank">TK中视频计划最新玩法</a></li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                     <div class="benefit-header">
+                        <div class="benefit-icon">🎨</div>
+                        <h3 class="benefit-title">专属品牌网站定制</h3>
+                    </div>
+                    <ul class="resource-list">
+                        <li class="highlight-feature"><a href="#" target="_blank"> 站长免费为每一位会员建设个人品牌网站</a></li>
+                        <li><a href="#" target="_blank">优秀网站案例展示</a></li>
+                    </ul>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🤝</div>
+                        <h3 class="benefit-title">精英社群深度交流</h3>
+                    </div>
+                    <ul class="resource-list">
+                        <li><a href="#" target="_blank">每月分享会录播库</a></li>
+                        <li><a href="#" target="_blank">社群精华资源沉淀</a></li>
+                        <li><a href="#" target="_blank">内部项目合作发布区</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 价格与联系方式弹窗 (Modal) -->
+    <div class="modal" id="priceModal" onclick="closeModal(event)">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">加入精英圈</h2>
+            <div class="price-info">
+                <span class="price-original">原价 ¥1299</span>
+                <div class="price-current">¥999</div>
+            </div>
+            <div class="wechat-info">
+                请联系站长微信：<span>Teminos</span>
+            </div>
+            <button class="join-now-btn" onclick="copyWechat()">一键复制微信 & 添加好友</button>
+        </div>
+    </div>
+
+    <script>
+        // 弹窗控制函数
+        function openModal() {
+            document.getElementById('priceModal').classList.add('show');
+        }
+
+        function closeModal(event) {
+            if (event && event.target.id !== 'priceModal' && !event.target.classList.contains('modal-close')) return;
+            document.getElementById('priceModal').classList.remove('show');
+        }
+
+        // 复制微信号功能
+        function copyWechat() {
+            const wechatId = 'Teminos';
+            navigator.clipboard.writeText(wechatId).then(() => {
+                showCopySuccess();
+            }).catch(() => {
+                alert('复制失败，请手动复制微信号: ' + wechatId);
+            });
+        }
+
+        function showCopySuccess() {
+            const button = document.querySelector('.join-now-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ 复制成功！请打开微信添加';
+            button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = 'linear-gradient(135deg, #00d4ff, #ff1493)';
+            }, 2500);
+        }
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
+
+        // 创建粒子效果
+        window.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
