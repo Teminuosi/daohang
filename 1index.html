@@ -402,12 +402,11 @@
         }
 
         /* 特殊模块效果 */
-        .neo-module:nth-child(1) .module-icon { color: #ffd700; }
-        .neo-module:nth-child(2) .module-icon { color: #ff006e; }
-        .neo-module:nth-child(3) .module-icon { color: #00f5ff; }
-        .neo-module:nth-child(4) .module-icon { color: #8338ec; }
-        .neo-module:nth-child(5) .module-icon { color: #ffbe0b; }
-        .neo-module:nth-child(6) .module-icon { color: #fb5607; }
+        .neo-module:nth-child(1) .module-icon { color: #ff006e; }
+        .neo-module:nth-child(2) .module-icon { color: #00f5ff; }
+        .neo-module:nth-child(3) .module-icon { color: #8338ec; }
+        .neo-module:nth-child(4) .module-icon { color: #ffbe0b; }
+        .neo-module:nth-child(5) .module-icon { color: #fb5607; }
 
         /* 加载动画 */
         .neo-module {
@@ -421,7 +420,6 @@
         .neo-module:nth-child(3) { animation-delay: 0.3s; }
         .neo-module:nth-child(4) { animation-delay: 0.4s; }
         .neo-module:nth-child(5) { animation-delay: 0.5s; }
-        .neo-module:nth-child(6) { animation-delay: 0.6s; }
 
         @keyframes moduleLoad {
             to {
@@ -654,7 +652,7 @@
 
         /* 响应式 */
         @media (max-width: 1024px) {
-            .floating-orb { display: none; }
+            .floating-orb, #premium-access-button { display: none; } /* 在这里增加了 #premium-access-button */
         }
         
         @media (max-width: 768px) {
@@ -854,6 +852,76 @@
             height: 1px;
             background: rgba(0, 255, 255, 0.2);
             z-index: 0;
+        }
+        .elite-access-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px 0; /* 距离上方模块的间距 */
+}
+
+.elite-module {
+    width: 90%;
+    max-width: 680px; /* 比普通模块更宽 */
+    height: auto; /* 高度自适应 */
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    text-align: left; /* 文字居左 */
+    animation-delay: 0.6s; /* 在其他模块加载后再出现 */
+}
+
+        /* ====== 【新增】黄金会员常驻脉冲按钮样式 ====== */
+        #premium-access-button {
+            position: fixed;
+            top: 150px; /* 【关键】从顶部向下150px，定位到您画圈的区域 */
+            right: 120px; /* 【关键】从右侧向左120px，定位到您画圈的区域 */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 50px;
+            padding: 0 25px;
+            background: rgba(20, 10, 0, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 25px;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            animation: premium-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes premium-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+            }
+        }
+
+        #premium-access-button:hover {
+            transform: scale(1.1);
+            border-color: #ffd700;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+            animation-play-state: paused; /* 悬停时暂停脉冲，让用户感觉更稳定 */
+        }
+
+        .premium-button-icon {
+            font-size: 24px;
+            color: #ffd700;
+            text-shadow: 0 0 15px #ff8c00;
+        }
+
+        .premium-button-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 8px #ff8c00;
         }
 
     </style>
