@@ -130,6 +130,7 @@
             font-size: 22px; margin-right: 20px; flex-shrink: 0;
         }
         .benefit-title { font-size: 1.4rem; font-weight: 700; color: #ffffff; }
+        .benefit-description { color: #b0b0b0; font-size: 1rem; } /* 新增福利描述样式 */
 
         /* 资源列表样式 */
         .resource-list { list-style: none; padding-left: 0; }
@@ -216,32 +217,6 @@
             .benefits-grid { grid-template-columns: 1fr; }
         }
 
-                /* ====== 【新增】高亮特性专属样式 ====== */
-
-
-      
-        /* ====== 高亮特性专属样式 ====== */
-        .highlight-feature > a {
-            color: #ffd700;
-            font-weight: 700;
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-            /* 【新增】为高亮项增加一个柔和的背景和边框 */
-            background: rgba(255, 215, 0, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .highlight-feature > a::before {
-            content: '👑';
-            color: #ffd700;
-            margin-left: -3px;
-        }
-
-        .highlight-feature > a:hover {
-            background: rgba(255, 215, 0, 0.15);
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-
     </style>
 </head>
 <body>
@@ -258,7 +233,38 @@
         </div>
     </div>
 
-    <!-- 会员福利区域 -->
+    <!-- 【新增】会员专属福利 -->
+    <div class="benefits-section" id="special-benefits">
+        <div class="container">
+            <h2 class="section-title">👑 会员专属福利专区</h2>
+            <div class="benefits-grid">
+                
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">💻</div>
+                        <h3 class="benefit-title">免费建设个人品牌网站</h3>
+                    </div>
+                    <p class="benefit-description">
+                        站长免费为每一位会员建设个人品牌网站（包1年服务器费用）。用于TK引流到品牌网站，网站内可留下您所有的联系方式，专业的页面设计能有效提高成交率。
+                    </p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">📱</div>
+                        <h3 class="benefit-title">赠送5个TK满月号</h3>
+                    </div>
+                    <p class="benefit-description">
+                        每位会员都将获赠5个高质量的TikTok满月号，为您快速布局短视频矩阵、抢占流量创造先机。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 核心资源库区域 -->
     <div class="benefits-section" id="benefits">
         <div class="container">
             <h2 class="section-title">🎯 五大核心资源库（包含首页所有付费内容）</h2>
@@ -267,7 +273,7 @@
                 <div class="benefit-card">
                     <div class="benefit-header">
                         <div class="benefit-icon">⚡</div>
-                        <h3 class="benefit-title">AI生产力工具矩阵</h3>
+                        <h3 class="benefit-title">AI生产力工具矩阵 (持续更新...)</h3>
                     </div>
                     <ul class="resource-list">
                         <li><a href="n8n/n8n-1.html" target="_blank">AI自动化爆款短视频工作流</a></li>
@@ -291,22 +297,11 @@
                 <div class="benefit-card">
                     <div class="benefit-header">
                         <div class="benefit-icon">🚀</div>
-                        <h3 class="benefit-title">热门项目资源整合</h3>
+                        <h3 class="benefit-title">热门项目资源整合 (持续更新...)</h3>
                     </div>
                     <ul class="resource-list">
                         <li><a href="#" target="_blank">OBS无人直播实战手册</a></li>
                         <li><a href="#" target="_blank">TK中视频计划最新玩法</a></li>
-                    </ul>
-                </div>
-                
-                <div class="benefit-card">
-                     <div class="benefit-header">
-                        <div class="benefit-icon">🎨</div>
-                        <h3 class="benefit-title">专属品牌网站定制</h3>
-                    </div>
-                    <ul class="resource-list">
-                        <li class="highlight-feature"><a href="#" target="_blank"> 站长免费为每一位会员建设个人品牌网站（包1年服务器费用）</a></li>
-                        <li><a href="#" target="_blank">优秀网站案例展示</a></li>
                     </ul>
                 </div>
 
@@ -349,9 +344,22 @@
         }
 
         function closeModal(event) {
-            if (event && event.target.id !== 'priceModal' && !event.target.classList.contains('modal-close')) return;
-            document.getElementById('priceModal').classList.remove('show');
+            // Updated to allow closing by clicking overlay or close button
+            if (event) {
+                if(event.target.id === 'priceModal' || event.target.classList.contains('modal-close') || event.target.classList.contains('modal-overlay')) {
+                     document.getElementById('priceModal').classList.remove('show');
+                }
+            } else {
+                 document.getElementById('priceModal').classList.remove('show');
+            }
         }
+        
+        // Corrected function call in HTML for the close button
+        const closeButton = document.querySelector('.modal-close');
+        if(closeButton) {
+            closeButton.setAttribute('onclick', 'closeModal()');
+        }
+
 
         // 复制微信号功能
         function copyWechat() {
@@ -381,6 +389,7 @@
         // 创建粒子效果
         window.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
             const particleCount = 50;
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
