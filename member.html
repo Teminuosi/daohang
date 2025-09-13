@@ -130,7 +130,7 @@
             font-size: 22px; margin-right: 20px; flex-shrink: 0;
         }
         .benefit-title { font-size: 1.4rem; font-weight: 700; color: #ffffff; }
-        .benefit-description { color: #b0b0b0; font-size: 1rem; } /* 新增福利描述样式 */
+        .benefit-description { color: #b0b0b0; font-size: 1rem; }
 
         /* 资源列表样式 */
         .resource-list { list-style: none; padding-left: 0; }
@@ -190,7 +190,7 @@
         }
         .modal-close:hover { opacity: 1; }
         .modal-title { font-size: 1.8rem; margin-bottom: 20px; color: #fff; }
-        .price-info { margin-bottom: 30px; }
+        .price-info { margin-bottom: 25px; }
         .price-original {
             font-size: 1.2rem; color: #b0b0b0; text-decoration: line-through;
         }
@@ -199,11 +199,37 @@
             background: linear-gradient(135deg, #00d4ff, #ff1493, #ffd700);
             background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .wechat-info { font-size: 1.1rem; margin-bottom: 20px; }
-        .wechat-info span {
-            background: rgba(0, 212, 255, 0.1); padding: 5px 10px; border-radius: 5px;
-            font-weight: bold; color: #00d4ff;
+        
+        /* -- 修改后的联系方式区域样式 -- */
+        .contact-info {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
+        .risk-notice {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+        .contact-details p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+        .contact-details span {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #00d4ff;
+            display: inline-block;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
         .join-now-btn {
              display: inline-block; padding: 15px 35px; background: linear-gradient(135deg, #00d4ff, #ff1493);
              color: white; text-decoration: none; border-radius: 50px; font-weight: 700;
@@ -330,10 +356,19 @@
                 <span class="price-original">原价 ¥1299</span>
                 <div class="price-current">¥999</div>
             </div>
-            <div class="wechat-info">
-                请联系站长QQ：<span>370034225</span>
+            
+            <!-- 修改后的联系方式区域 -->
+            <div class="contact-info">
+                <p class="risk-notice">
+                    因微信风控严格，好友添加频繁失败。<br>为确保能及时联系上，请通过以下方式：
+                </p>
+                <div class="contact-details">
+                    <p>邮箱:<br><span>terminos888@gmail.com</span></p>
+                    <p>QQ:<br><span>370034225</span></p>
+                </div>
             </div>
-            <button class="join-now-btn" onclick="copyWechat()">一键复制QQ & 添加好友</button>
+            
+            <button class="join-now-btn" onclick="copyQQ()">一键复制QQ号 & 添加好友</button>
         </div>
     </div>
 
@@ -344,7 +379,6 @@
         }
 
         function closeModal(event) {
-            // Updated to allow closing by clicking overlay or close button
             if (event) {
                 if(event.target.id === 'priceModal' || event.target.classList.contains('modal-close') || event.target.classList.contains('modal-overlay')) {
                      document.getElementById('priceModal').classList.remove('show');
@@ -354,27 +388,25 @@
             }
         }
         
-        // Corrected function call in HTML for the close button
         const closeButton = document.querySelector('.modal-close');
         if(closeButton) {
             closeButton.setAttribute('onclick', 'closeModal()');
         }
 
-
-        // 复制微信号功能
-        function copyWechat() {
-            const wechatId = 'Teminos';
-            navigator.clipboard.writeText(wechatId).then(() => {
+        // 复制QQ号功能
+        function copyQQ() {
+            const qqId = '370034225';
+            navigator.clipboard.writeText(qqId).then(() => {
                 showCopySuccess();
             }).catch(() => {
-                alert('复制失败，请手动复制微信号: ' + wechatId);
+                alert('复制失败，请手动复制QQ号: ' + qqId);
             });
         }
 
         function showCopySuccess() {
             const button = document.querySelector('.join-now-btn');
             const originalText = button.innerHTML;
-            button.innerHTML = '✅ 复制成功！请打开微信添加';
+            button.innerHTML = '✅ 复制成功！请打开QQ添加';
             button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
             
             setTimeout(() => {
