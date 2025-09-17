@@ -142,13 +142,19 @@
             color: #cceeff;
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
             margin: 20px auto 40px;
-            text-align: center;
             max-width: 900px;
-            padding: 20px;
+            padding: 15px 25px; /* 调整了内边距以适应新布局 */
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            
+            /* -- 新增和修改的属性 -- */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left; /* 从 center 改为 left */
+            gap: 20px;
         }
 
         .highlight-green {
@@ -158,93 +164,67 @@
         }
 
         /* ====== 新增：悬浮音乐播放器样式 ====== */
-        #floating-music-player {
-            position: fixed;
-            z-index: 1001; /* 确保在其他元素之上 */
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 245, 255, 0.1), rgba(0, 0, 0, 0.5) 70%);
-            border: 2px solid rgba(0, 245, 255, 0.3);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), inset 0 0 15px rgba(0, 245, 255, 0.1);
-            /* 应用飘动动画 */
-            animation: playerFloat 25s ease-in-out infinite;
-        }
+      /* ====== 顶部播放器样式 ====== */
+.player-core {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 按钮之间的间距 */
+}
 
-        @keyframes playerFloat {
-            0%   { top: 10vh; left: 15vw; transform: rotate(0deg) scale(1); }
-            25%  { top: 50vh; left: 80vw; transform: rotate(90deg) scale(1); }
-            50%  { top: 80vh; left: 60vw; transform: rotate(180deg) scale(1); }
-            75%  { top: 60vh; left: 10vw; transform: rotate(270deg) scale(1); }
-            100% { top: 10vh; left: 15vw; transform: rotate(360deg) scale(1); }
-        }
+.control-btn {
+    background: transparent;
+    border: 1px solid #00f5ff;
+    border-radius: 50%;
+    color: #00f5ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    text-shadow: 0 0 5px #00f5ff;
+}
 
-        #floating-music-player:hover {
-            /* 鼠标悬停时暂停动画并放大 */
-            animation-play-state: paused;
-            transform: scale(1.2) !important; /* 使用 !important 覆盖动画中的 transform */
-            border-color: #00f5ff;
-            box-shadow: 0 0 35px rgba(0, 245, 255, 0.7);
-        }
+.control-btn:hover {
+    background: rgba(0, 245, 255, 0.2);
+    box-shadow: 0 0 15px #00f5ff;
+    transform: scale(1.1);
+}
 
-        .player-core {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
+/* 定义按钮大小 */
+.control-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+}
 
-        #floating-music-player .control-btn {
-            width: 30px;
-            height: 30px;
-            font-size: 12px;
-            border-width: 1px;
-        }
+.play-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    border-width: 2px;
+}
 
-        #floating-music-player .play-btn {
-            width: 45px;
-            height: 45px;
-            font-size: 16px;
-            border-width: 2px;
-        }
+/* ====== 新增：歌名显示样式 ====== */
+.track-name-display {
+    flex-grow: 1; /* 让此元素占据所有可用的空白空间 */
+    text-align: center;
+    font-size: 1em;
+    color: #98ffda;
+    text-shadow: 0 0 8px #0adc90;
+    overflow: hidden; /* 防止文字溢出 */
+    text-overflow: ellipsis; /* 过长时显示省略号 */
+    white-space: nowrap; /* 强制不换行 */
+    padding: 0 20px; /* 增加一些左右内边距，避免文字太靠近两边 */
+}
 
-        .track-info-hover {
-            position: absolute;
-            bottom: -55px; /* 定位在悬浮球下方 */
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            background: rgba(0,0,0,0.7);
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 245, 255, 0.3);
-            pointer-events: none; /* 确保不会干扰对球体的悬停检测 */
-            white-space: nowrap; /* 防止文字换行 */
-        }
-
-        #floating-music-player:hover .track-info-hover {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .track-info-hover .track-name {
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        .track-info-hover .track-artist {
-            font-size: 11px;
-            color: #888;
-        }
-
+/* ▼ 为已有元素添加微调，防止被压缩 ▼ */
+.system-alert > span:first-child {
+    flex-shrink: 0; 
+}
+.player-core {
+    flex-shrink: 0;
+}
 
         /* 炫酷模块容器 */
         .matrix-container {
@@ -894,12 +874,23 @@
     </header>
 
     <!-- 系统提示 -->
-    <div class="system-alert">
+    <!-- <div class="system-alert">
         🔡 系统广播：下方部分内容需「<span class="highlight-green">科学上网</span>」以确保链接正常。
+    </div> -->
+    <!-- 系统提示 -->
+    <div class="system-alert">
+        <span>🔡 系统广播：下方部分内容需「<span class="highlight-green">科学上网</span>」以确保链接正常。</span>
+
+        <span id="trackNameDisplay" class="track-name-display"></span>
+        <div class="player-core">
+            <button class="control-btn" id="prevBtn">⏮</button>
+            <button class="control-btn play-btn" id="playPauseBtn">▶</button>
+            <button class="control-btn" id="nextBtn">⏭</button>
+        </div>
     </div>
 
     <!-- 新增：悬浮音乐播放器 -->
-    <div id="floating-music-player">
+    <!-- <div id="floating-music-player">
         <div class="player-core">
             <button class="control-btn" id="prevBtn">⏮</button>
             <button class="control-btn play-btn" id="playPauseBtn">▶</button>
@@ -909,7 +900,7 @@
             <div class="track-name" id="trackName">CYBER DREAMS</div>
             <div class="track-artist" id="trackArtist">NEURAL NETWORK</div>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- 隐藏音频播放器 -->
@@ -933,7 +924,8 @@
         </div> -->
         
         <!-- 跨境网络服务（点击弹窗） -->
-        <div class="neo-module" onclick="openModal('network'); startMusicIfNotPlaying();">
+        <!-- ;startMusicIfNotPlaying(); -->
+        <div class="neo-module" onclick="openModal('network');startMusicIfNotPlaying(); ">
             <div class="hot-badge">HOT</div>
             <div class="module-status"></div>
             <div class="module-content">
@@ -944,7 +936,7 @@
         </div>
 
              <!-- 免费电影天堂模块 -->
-             <div class="neo-module" onclick="window.open('https://dapian.sbs', '_blank'); startMusicIfNotPlaying();">
+             <div class="neo-module" onclick="window.open('https://dapian.sbs', '_blank')">
                 <div class="hot-badge">FREE</div>
                 <div class="module-status"></div>
                 <div class="module-content">
@@ -956,7 +948,7 @@
 
 
         <!-- AI视频创作 -->
-        <!-- <div class="neo-module" onclick="openModal('ai-video'); startMusicIfNotPlaying();">
+        <!-- <div class="neo-module" onclick="openModal('ai-video')">
             <div class="hot-badge">HOT</div>
             <div class="module-status"></div>
             <div class="module-content">
@@ -968,7 +960,7 @@
 
 
         <!-- 海外流媒体（与影视位置互换：此处显示影视内容） -->
-        <div class="neo-module" onclick="openModal('movies'); startMusicIfNotPlaying();">
+        <div class="neo-module" onclick="openModal('movies')">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">🎭</div>
@@ -978,7 +970,7 @@
         </div>
 
         <!-- 海外AI工具 -->
-        <div class="neo-module" onclick="openModal('ai-tools'); startMusicIfNotPlaying();">
+        <div class="neo-module" onclick="openModal('ai-tools')">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">🤖</div>
@@ -988,7 +980,7 @@
         </div>
 
         <!-- 海外影视（与流媒体位置互换：此处显示流媒体内容） -->
-        <div class="neo-module" onclick="openModal('streaming'); startMusicIfNotPlaying();">
+        <div class="neo-module" onclick="openModal('streaming')">
             <div class="module-status"></div>
             <div class="module-content">
                 <div class="module-icon">📺</div>
@@ -1419,6 +1411,7 @@
         const trackName = document.getElementById('trackName');
         const trackArtist = document.getElementById('trackArtist');
         const audio = document.getElementById('audioPlayer');
+        const trackNameDisplay = document.getElementById('trackNameDisplay');
 
         // 远程音乐目录（用户提供）
         // 仅播放用户指定的这一个文件
@@ -1438,8 +1431,11 @@
             currentTrack = ((index % tracks.length) + tracks.length) % tracks.length;
             const track = tracks[currentTrack];
             audio.src = track.src;
-            trackName.textContent = track.name;
-            trackArtist.textContent = track.artist || '';
+            if (trackNameDisplay) {
+                trackNameDisplay.textContent = track.name || '未知曲目'; // ◀◀◀ 新增这一行
+            }
+           // trackName.textContent = track.name;
+            //trackArtist.textContent = track.artist || '';
         }
 
         function inferMetaFromFilename(url) {
@@ -1723,7 +1719,10 @@
             
             // 直接使用用户提供的单曲播放
             tracks = DEFAULT_TRACK_URLS.map(u => ({ src: u, ...inferMetaFromFilename(u) }));
-            loadTrack(0); // 仅加载歌曲信息，不播放
+            // loadTrack(0); // 仅加载歌曲信息，不播放
+            // 随机选择一个音轨作为初始加载项
+            const randomIndex = Math.floor(Math.random() * tracks.length);
+            loadTrack(randomIndex); // 加载随机选择的歌曲信息，但不播放
         });
     </script>
 </body>
