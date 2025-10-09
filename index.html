@@ -1033,51 +1033,68 @@
     </div>
 
          <!-- AI视频创作弹窗 (已更新提示) -->
-    <div id="ai-video-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 800px;">
-            <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
-            
-            <!-- 收费和描述模块 -->
-            <div class="permanent-offer-header">
-                <h2 class="modal-title" style="font-size: 2.5em; margin-bottom: 15px;">N8N视频创作母体 - 永久授权</h2>
-                <p class="modal-intro" style="max-width: 600px; margin: 0 auto 25px;">
-                    一次性付费，永久解锁当前及未来所有AI视频工作流。我们持续研发，您永久免费更新。这是您通往内容自动化未来的终身通行证。
-                </p>
-                <div class="price-section-inline">
-                    <div class="price-tag-inline">¥ 888</div>
-                    <div class="price-desc-inline">永久授权 / 包含所有未来更新</div>
-                    <!-- ====== 新增的会员提示 ====== -->
-                    <div style="color: #ffd700; font-weight: bold; margin-top: 15px; font-size: 1.1em; text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);">
-                        💡 加100入会员更划算，会员包含网站所有付费内容！
-                    </div>
-                </div>
-                <div class="cta-container-inline" style="margin-top: 25px;">
+   <!-- AI视频创作弹窗 (已更新提示) -->
+   <div id="ai-video-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
+        
+        <!-- 收费和描述模块 -->
+        <div class="permanent-offer-header">
+            <h2 class="modal-title" style="font-size: 2.5em; margin-bottom: 15px;">N8N视频创作母体 - 永久授权</h2>
+            <p class="modal-intro" style="max-width: 600px; margin: 0 auto 25px;">
+                获取我们持续研发的AI视频工作流，永久使用，永久免费更新。请根据您的需求选择下方最适合您的方案。
+            </p>
+
+            <!-- 新的价格方案容器 -->
+            <div class="pricing-options-container" style="display: flex; justify-content: center; gap: 30px; margin-top: 25px; flex-wrap: wrap;">
+
+                <!-- 方案一：站长配置 -->
+                <div class="price-option-card" style="flex-basis: 300px; text-align: center; background: rgba(0, 255, 255, 0.05); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px; padding: 25px; transition: all 0.3s ease;">
+                    <h3 style="font-size: 1.5em; color: #00ffff; margin-bottom: 15px;">站长配置</h3>
+                    <div class="price-tag-inline" style="font-size: 2.8em; color: #98ffda;">¥ 899</div>
+                    <div class="price-desc-inline" style="margin-bottom: 20px;">永久授权 / 包售后更新</div>
                     <button onclick="openModal('contact')" class="cta-button-premium-inline">
-                        <i class="fas fa-infinity"></i> 联系站长加入母体计划
+                        <i class="fas fa-rocket"></i> 联系站长配置
                     </button>
                 </div>
+            
+                <!-- 方案二：自己配置 -->
+                <div class="price-option-card" style="flex-basis: 300px; text-align: center; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 15px; padding: 25px; transition: all 0.3s ease;">
+                    <h3 style="font-size: 1.5em; color: #ffffff; margin-bottom: 15px;">自己配置</h3>
+                    <div class="price-tag-inline" style="font-size: 2.8em;">¥ 399</div>
+                    <div class="price-desc-inline" style="margin-bottom: 20px;">提供源码 / 自行部署</div>
+                    <button onclick="openModal('contact')" class="cta-button-premium-inline" style="background: linear-gradient(45deg, #3a86ff, #00f5ff); box-shadow: 0 0 25px rgba(0, 245, 255, 0.5);">
+                        <i class="fas fa-code"></i> 联系站长购买
+                    </button>
+                </div>
+            
             </div>
-
-            <!-- 分割线和说明 -->
-            <div class="content-divider">
-                <span>当前母体已包含以下核心工作流</span>
-            </div>
-
-            <!-- 保留的工作流卡片 -->
-            <div class="modal-grid">
-                <a href="n8n/n8n-1.html" target="_blank" class="modal-card special-card">
-                    <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🔥</div>
-                    <h3>AI自动化爆款短视频</h3>
-                    <p>集中展示12种由自动化工作流一键生成的视频案例，需一个参考视频和想法，AI自动完成构思、画面、配音与合成，一键产出原创爆款。</p>
-                </a>
-                <a href="n8n/n8n.html" target="_blank" class="modal-card special-card">
-                    <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🤖</div>
-                    <h3>AI视频剪辑神器</h3>
-                    <p><strong>二次创作利器。</strong>上传任意长视频，AI自动提炼精华、生成解说、匹配风格，批量产出海量二创内容。</p>
-                </a>
+             <!-- 会员提示 -->
+             <div style="color: #ffd700; font-weight: bold; margin-top: 25px; font-size: 1.1em; text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);">
+                💡 购买「站长配置」方案再加100元可升级为网站会员，会员将包含所有付费内容！
             </div>
         </div>
+
+        <!-- 分割线和说明 -->
+        <div class="content-divider">
+            <span>当前母体已包含以下核心工作流</span>
+        </div>
+
+        <!-- 保留的工作流卡片 -->
+        <div class="modal-grid">
+            <a href="n8n/n8n-1.html" target="_blank" class="modal-card special-card">
+                <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🔥</div>
+                <h3>AI自动化爆款短视频</h3>
+                <p>集中展示12种由自动化工作流一键生成的视频案例，需一个参考视频和想法，AI自动完成构思、画面、配音与合成，一键产出原创爆款。</p>
+            </a>
+            <a href="n8n/n8n.html" target="_blank" class="modal-card special-card">
+                <div style="font-size: 3em; color: #00f5ff; margin-bottom: 15px;">🤖</div>
+                <h3>AI视频剪辑神器</h3>
+                <p><strong>二次创作利器。</strong>上传任意长视频，AI自动提炼精华、生成解说、匹配风格，批量产出海量二创内容。</p>
+            </a>
+        </div>
     </div>
+</div>
 
     <!-- 跨境网络服务弹窗 (已修改) -->
     <div id="network-modal" class="modal-overlay">
