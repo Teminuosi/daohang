@@ -6,14 +6,27 @@
     <title>联系站长</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* --- 全新视觉系统 --- */
+        /* --- 全新自适应视觉系统 --- */
         :root {
-            --bg-main: #111113;
+            /* 默认暗色主题变量 */
             --bg-card: #1C1C1E;
             --text-primary: #E5E7EB;
             --text-secondary: #9CA3AF;
             --accent-blue: #3B82F6;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --info-box-bg: #313135;
+        }
+
+        /* 媒体查询：当用户的系统设置为亮色模式时，应用以下变量 */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-card: #FFFFFF;
+                --text-primary: #1F2937;
+                --text-secondary: #6B7280;
+                --accent-blue: #2563EB;
+                --border-color: rgba(0, 0, 0, 0.1);
+                --info-box-bg: #F3F4F6;
+            }
         }
 
         /* --- 页面基础 --- */
@@ -21,11 +34,13 @@
             box-sizing: border-box;
         }
         body {
-            background-color: var(--bg-main);
+            /* 关键：背景透明，以适应任何父页面的背景色 */
+            background-color: transparent; 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             color: var(--text-primary);
             margin: 0;
             padding: 2rem;
+            /* 关键：使用Flexbox实现内容在iframe内完全居中 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,7 +58,7 @@
         
         /* --- 头部 --- */
         .contact-header {
-            margin-bottom: 3.5rem;
+            margin-bottom: 3rem;
         }
         .contact-header .title {
             font-size: 2.5rem;
@@ -62,9 +77,11 @@
         /* --- 卡片网格 --- */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            /* 优化：只保留两个核心联系方式，所以设置为两列 */
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
+        /* 响应式设计：在小屏幕上变为单列 */
         @media (max-width: 768px) {
             .contact-grid {
                 grid-template-columns: 1fr;
@@ -75,16 +92,18 @@
         .contact-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 18px; /* 匹配图片的圆角 */
+            border-radius: 16px;
             padding: 2rem;
             display: flex;
             flex-direction: column;
             text-align: left;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         .contact-card:hover {
             transform: translateY(-5px);
             border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
         /* --- 卡片内部 --- */
@@ -107,7 +126,7 @@
         }
         
         .card-body {
-            flex-grow: 1; /* 关键：确保内容区撑满，使底部对齐 */
+            flex-grow: 1; /* 确保内容区撑满，使底部对齐 */
         }
         .card-body p { 
             font-size: 0.95rem; 
@@ -137,24 +156,13 @@
         }
         .card-footer .btn-primary:hover {
             background-color: #60A5FA;
-            transform: translateY(-2px);
+            transform: scale(1.03);
         }
         .card-footer .info-box {
-            background-color: #313135; 
+            background-color: var(--info-box-bg); 
             color: var(--text-secondary);
             font-family: monospace;
-        }
-        .card-footer .fallback-text {
-            font-size: 0.8rem; 
-            color: #6B7280; /* 匹配图片的灰色 */
-            text-align: center;
-            margin-top: 1rem; 
-            line-height: 1.5;
-        }
-        .card-footer .fallback-text strong { 
-            color: var(--text-secondary); 
-            font-size: 1.1em; 
-            font-weight: 500;
+            user-select: all; /* 方便用户复制 */
         }
     </style>
 </head>
@@ -163,7 +171,7 @@
         <header class="contact-header">
             <h2 class="title">联系站长</h2>
             <p class="description">
-                抱歉，由于站长微信当前因添加频繁受限，暂时无法通过扫码添加。为了能及时与您沟通，请选择以下最适合您的方式联系我：
+                抱歉，站长微信当前添加频繁受限。为了能及时与您沟通，请选择以下最适合您的方式联系我：
             </p>
         </header>
         
@@ -176,7 +184,7 @@
                     <h3 class="card-title">Telegram 群组</h3>
                 </div>
                 <div class="card-body">
-                    <p>点击直接加入我们的官方Telegram社群进行咨询和交流。</p>
+                    <p>推荐使用！点击直接加入我们的官方Telegram社群进行咨询和交流。</p>
                 </div>
                 <footer class="card-footer">
                     <a href="https://3yuedaohang.com/TG" target="_blank" rel="noopener noreferrer" class="btn-primary">
@@ -185,31 +193,14 @@
                 </footer>
             </section>
 
-            <!-- QQ 联系
+            <!-- 邮件联系 -->
             <section class="contact-card">
-                <div class="card-header">
-                    <span class="icon"><i class="fab fa-qq"></i></span>
-                    <h3 class="card-title">QQ联系</h3>
-                </div>
-                <div class="card-body">
-                    <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
-                </div>
-                <footer class="card-footer">
-                    <p class="fallback-text">如果无法跳转，请手动复制QQ号：<br><strong>370034225</strong></p>
-                    <a href="http://wpa.qq.com/msgrd?v=3&uin=370034225&site=qq&menu=yes" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                        通过QQ联系我
-                    </a>
-                </footer>
-            </section> -->
-
-              <!-- 邮件联系 -->
-              <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fas fa-envelope-open-text"></i></span>
                     <h3 class="card-title">邮件联系</h3>
                 </div>
                 <div class="card-body">
-                    <p>发送您的需求和您的联系电话到我的邮箱(微信加不了，封控严格)，我会在第一时间主动联系您。</p>
+                    <p>发送您的需求和联系电话到我的邮箱，我会在第一时间主动联系您。</p>
                 </div>
                 <footer class="card-footer">
                     <div class="info-box">terminos888@gmail.com</div>

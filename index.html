@@ -996,41 +996,15 @@
     </footer>
 
     <!-- 联系弹窗 -->
-    <div id="contact-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('contact')">&times;</span>
-            <h2 class="modal-title">联系站长</h2>
-            <div class="modal-intro">
-                <p>抱歉，由于站长微信当前因添加频繁受限，暂时无法通过扫码添加。为了能及时与您沟通，请选择以下最适合您的方式联系我：</p>
-            </div>
-            <div class="modal-grid">
-                <div class="modal-card">
-                    <h3>📧 邮件联系</h3>
-                    <p>发送您的需求和您的联系电话到我的邮箱(封控严格，微信加不了) ，我会在第一时间主动联系您。</p>
-                    <div style="background: #111; padding: 10px; border-radius: 8px; margin-top: 15px; font-family: monospace; color: #ff9900;">
-                        terminos888@gmail.com
-                    </div>
-                </div>
-                <div class="modal-card" onclick="window.open('TG.html', '_blank')">
-                    <h3>💬 Telegram群组</h3>
-                    <p>点击直接加入我们的官方Telegram社群进行咨询和交流。</p>
-                    <div style="background: linear-gradient(45deg, #00aeff, #007bff); padding: 15px; border-radius: 25px; margin-top: 15px; color: white; font-weight: bold;">
-                        加入TG站长社群
-                    </div>
-                </div>
-                <!-- <div class="modal-card" onclick="window.open('tencent://message/?uin=370034225&site=qq&menu=yes', '_blank')">
-                    <h3>💭 QQ联系</h3>
-                    <p>点击下方按钮可尝试直接通过QQ与我联系。</p>
-                    <div style="background: linear-gradient(45deg, #1e90ff, #0000cd); padding: 15px; border-radius: 25px; margin-top: 15px; color: white; font-weight: bold;">
-                        通过QQ联系我
-                    </div>
-                    <div style="font-size: 0.9em; color: #aaa; margin-top: 10px;">
-                        如果无法跳转，请手动复制QQ号：<strong style="color: #ff9900;">370034225</strong>
-                    </div>
-                </div> -->
-            </div>
+<!-- 联系弹窗 (Iframe版本) -->
+<div id="contact-modal" class="modal-overlay">
+    <div class="modal-content" style="padding: 0; background: transparent; border: none; max-width: 900px; box-shadow: none; overflow: visible;">
+        <span class="modal-close" onclick="closeModal('contact')" style="position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; background-color: #333; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; line-height: 1; z-index: 10; border: 2px solid #555; transition: background-color 0.2s; cursor: pointer;">&times;</span>
+        <div style="width: 100%; height: 600px; background-color: #1e1e1e; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <iframe id="contactFrame" src="about:blank" style="width: 100%; height: 100%; border: 0;" scrolling="no"></iframe>
         </div>
     </div>
+</div>
 
          <!-- AI视频创作弹窗 (已更新提示) -->
    <!-- AI视频创作弹窗 (已更新提示) -->
@@ -1650,6 +1624,15 @@
             });
             const modal = document.getElementById(modalType + '-modal');
             if (modal) {
+                // ▼▼▼ 新增逻辑：如果是联系弹窗，则加载Iframe内容 ▼▼▼
+                if (modalType === 'contact') {
+                    const contactFrame = document.getElementById('contactFrame');
+                    if (contactFrame) {
+                        contactFrame.src = 'https://3yuedaohang.com/contact-modal';
+                    }
+                }
+                // ▲▲▲ 新增逻辑结束 ▲▲▲
+
                 document.body.classList.add('modal-open');
                 modal.classList.add('visible');
             }
@@ -1658,6 +1641,15 @@
         function closeModal(modalType) {
             const modal = document.getElementById(modalType + '-modal');
             if (modal) {
+                // ▼▼▼ 新增逻辑：如果是联系弹窗，则清空Iframe内容 ▼▼▼
+                if (modalType === 'contact') {
+                    const contactFrame = document.getElementById('contactFrame');
+                    if (contactFrame) {
+                        contactFrame.src = 'about:blank'; // 清空以停止内部活动
+                    }
+                }
+                // ▲▲▲ 新增逻辑结束 ▲▲▲
+
                 document.body.classList.remove('modal-open');
                 modal.classList.remove('visible');
                 // 失焦，避免残留焦点触发键盘/点击行为
