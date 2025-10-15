@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok出海第一步：终极网络环境指南</title>
+    <style>
+        /* --- 全局样式 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #00A9FF; /* 主题色 - 亮蓝色 */
+            --secondary-color: #89CFF3; /* 辅色 */
+            --dark-bg: #121212; /* 深色背景 */
+            --card-bg: #1E1E1E; /* 卡片背景 */
+            --text-color: #E0E0E0; /* 主要文本颜色 */
+            --text-muted: #A0A0A0; /* 次要文本颜色 */
+            --line-color: rgba(255, 255, 255, 0.15); /* 时间线颜色 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- 头部英雄区域 --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            padding: 0 20px;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), url('https://images.unsplash.com/photo-1611162616805-669b3fa2f8e1?auto=format&fit=crop&w=1920&q=80') center center/cover no-repeat;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+            color: var(--text-muted);
+        }
+
+        .scroll-down {
+            font-size: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* --- 路线图/时间线 --- */
+        .roadmap {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 0;
+        }
+
+        .roadmap::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--line-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            z-index: 1;
+        }
+
+        .roadmap-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .roadmap-container::after {
+            content: attr(data-icon);
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            right: -30px;
+            background-color: var(--dark-bg);
+            border: 4px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 2;
+            font-size: 2rem;
+            text-align: center;
+            line-height: 52px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .roadmap-container:hover::after {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .left {
+            left: 0;
+            padding-right: 70px;
+        }
+
+        .right {
+            left: 50%;
+            padding-left: 70px;
+        }
+
+        .right::after {
+            left: -30px;
+        }
+
+        .content {
+            padding: 30px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 8px;
+            border: 1px solid var(--line-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .content:hover {
+            transform: translateY(-5px);
+        }
+
+        .content h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .content h3 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--secondary-color);
+            padding-left: 10px;
+        }
+        
+        .content p {
+            color: var(--text-muted);
+        }
+        
+        .content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .content ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .content ul li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+        }
+        
+        .content ul li.disadvantage::before {
+            content: '❌';
+            color: #dc3545;
+        }
+
+        .resource-button {
+            display: inline-block;
+            background-color: rgba(0, 169, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            margin-top: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .resource-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* --- 转化区域 --- */
+        .cta-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: var(--card-bg);
+        }
+        
+        .cta-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 169, 255, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 169, 255, 0.6);
+        }
+        
+        .cta-promise {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+
+        /* --- 响应式设计 --- */
+        @media screen and (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .roadmap::after {
+                left: 31px;
+            }
+
+            .roadmap-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .roadmap-container::after {
+                left: 1px;
+            }
+
+            .left, .right {
+                left: 0%;
+            }
+
+            .right::after {
+                left: 1px;
+            }
+            
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 模块一：页面顶端 - 英雄区 -->
+    <header class="hero">
+        <h1><span>TikTok出海第一步</span><br>终极网络环境指南</h1>
+        <p>告别网络困扰与账号风险。本指南将带你扫清所有技术障碍，为你的TikTok事业保驾护航。</p>
+        <div class="scroll-down">👇</div>
+    </header>
+
+    <!-- 模块二：学习路径 - 流线型内容区 -->
+    <main class="roadmap">
+        <!-- 节点 1 -->
+        <div class="roadmap-container left" data-icon="📱">
+            <div class="content">
+                <h2>第一部分：基础准备</h2>
+                <p>工欲善其事，必先利其器。为TikTok运营准备一台干净、独立的设备是成功的起点。</p>
+                <ul>
+                    <li>设备选择：推荐二手iPhone 8及以上</li>
+                    <li>关键设置：拔除SIM卡、恢复出厂、修改地区语言、关闭定位</li>
+                    <li>核心软件：安装Shadowrocket (小火箭)</li>
+                </ul>
+                <p>由于小火箭需在海外App Store下载，你需要一个已购此App的账号。(选择火箭shadowrocket账号)</p>
+                <a href="https://accboyytbsydh.acceboy.com/?category=1" class="resource-button" target="_blank">获取App Store账号</a>
+            </div>
+        </div>
+
+        <!-- 节点 2 -->
+        <div class="roadmap-container right" data-icon="☁️">
+            <div class="content">
+                <h2>第二部分：核心环节</h2>
+                <p>“节点”决定了你账号的生死。这里有三种主流方案，优劣分明，帮你做出最佳选择。</p>
+                
+                <h3>方案一：机场 + 住宅IP (推荐)</h3>
+                <p>此方案通过“链式代理”，伪装度最高，最稳定，是新手的首选。</p>
+                <ul>
+                    <li>稳定可靠，伪装度高，适合短视频运营。</li>
+                    <li class="disadvantage">配置稍繁琐，直播需额外付费。</li>
+                </ul>
+                <p><b>推荐服务商 (参考):</b></p>
+                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" class="resource-button" target="_blank">专线机场（内含使用教程）</a>
+                <a href="https://www.kookeey.com/register.html?aff=33435631" class="resource-button" target="_blank">Socks5住宅IP（购买静态ISP）</a>
+                <a href="https://pan.quark.cn/s/19a1d474d116" class="resource-button" target="_blank">链式代理视频教程（以上两者结合使用）</a>
+
+                <h3>方案二：购买成品节点</h3>
+                <ul>
+                    <li>操作极简，扫码即用。</li>
+                    <li class="disadvantage">市面节点鱼龙混杂，存在共享风险。</li>
+                </ul>
+                <p><b>站长推荐：</b>为了确保稳定与安全，我们提供经过严格测试的独享节点，保证IP纯净，杜绝共享，避免踩坑。</p>
+                <a href="https://dajian.cyou/lesson/node" class="resource-button" target="_blank">获取独享稳定节点（站长新建）</a>
+
+                <h3>方案三：自建节点</h3>
+                <ul>
+                    <li>成本极低，带宽独享，安全性高。</li>
+                    <li class="disadvantage">技术门槛高，不适合新手。</li>
+                    <a href="https://dajian.cyou/lesson/lesson" class="resource-button" target="_blank">跟着站长学习搭建</a>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 节点 3 -->
+        <div class="roadmap-container left" data-icon="💻">
+            <div class="content">
+                <h2>第三部分：PC端操作</h2>
+                <p>如果你需要在电脑上进行视频剪辑、账号管理，推荐使用开源安全的V2ray软件，它比Clash更好用。</p>
+                 <ul>
+                    <li>推荐软件：V2ray</li>
+                    <li>使用方法：与手机端类似，导入节点信息即可让电脑全局访问海外网络。</li>
+                </ul>
+                <a href="https://pan.quark.cn/s/cd69248b698b" class="resource-button" target="_blank">V2ray使用方法视频</a>
+            </div>
+        </div>
+        
+        <!-- 节点 4 -->
+        <div class="roadmap-container right" data-icon="📶">
+            <div class="content">
+                <h2>第四部分：终极进阶</h2>
+                <p>当设备与账号增多，软路由是工作室和专业玩家的终极解决方案，实现集中管理和顶级伪装。</p>
+                 <ul>
+                    <li>管理高效：一台设备管理所有网络。</li>
+                    <li>伪装度顶级：代理软件装在路由器上，平台无法检测，伪装度更强。</li>
+                    <li>使用便捷：连接指定Wi-Fi即可使用，无需在手机电脑上装任何代理软件。</li>
+                </ul>
+                <p>软路由配置有一定门槛，我们提供一站式解决方案与专业指导，助您轻松部署。</p>
+                <a href="https://dajian.cyou/lesson/ly" class="resource-button" target="_blank">咨询软路由解决方案</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 模块三：路径终点 - 转化区 -->
+    <section class="cta-section">
+        <div class="cta-icon">🚀</div>
+        <h2>你已走完99%的理论路<br>让专家带你走完最后1%的实操路</h2>
+        <p>理论和现实之间，隔着无数个“坑”。智者善于借力，与其花费数天时间“瞎摸索”，不如让专业人士手把手带你走上快车道。我们承诺，一节课让你彻底搞定网络基础！</p>
+        <a href="https://dajian.cyou/lesson/lesson" class="cta-button" target="_blank">点击解锁课程，少走99%的弯路</a>
+        <p class="cta-promise">我们郑重承诺：学不会，不收费！</p>
+    </section>
+
+</body>
+</html>
