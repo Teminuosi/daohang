@@ -175,9 +175,6 @@
             padding-left: 0;
         }
         
-        /* ====== ▼▼▼ 这里是修复后的CSS代码 ▼▼▼ ====== */
-        
-        /* 通用列表项样式 (例如第五部分) */
         .content ul li {
             margin-bottom: 15px;
             padding-left: 25px; 
@@ -185,7 +182,7 @@
         }
 
         .content ul li::before {
-            content: '›'; /* 默认的列表项符号 */
+            content: '›';
             position: absolute;
             left: 0;
             top: 1px;
@@ -194,21 +191,20 @@
             font-size: 1.2em;
         }
 
-        /* 专门为“优缺点”列表项定义的样式 */
         .content ul li.advantage,
         .content ul li.disadvantage {
-            display: flex; /* 只对这两类li使用flex布局 */
+            display: flex;
             align-items: flex-start;
-            padding-left: 0; /* 重置内边距 */
+            padding-left: 0;
         }
         
         .content ul li.advantage::before,
         .content ul li.disadvantage::before {
-            position: static; /* 取消绝对定位 */
+            position: static;
             flex-shrink: 0;
             margin-right: 8px;
             font-weight: bold;
-            font-size: 1em; /* 恢复正常字体大小 */
+            font-size: 1em;
         }
 
         .content ul li.advantage::before {
@@ -220,8 +216,6 @@
             content: '❌ 缺点：';
             color: #dc3545;
         }
-        /* ====== ▲▲▲ 修复结束 ▲▲▲ ====== */
-
 
         .content .note-box {
             margin-top: 20px;
@@ -248,7 +242,6 @@
 
         .resource-button:hover { background-color: var(--primary-color); color: white; }
 
-        /* --- 转化区域 --- */
         .cta-section {
             padding: 100px 20px;
             text-align: center;
@@ -276,8 +269,6 @@
         }
         .cta-promise { margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
         
-
-        /* --- 响应式设计 --- */
         @media screen and (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
@@ -292,7 +283,6 @@
 </head>
 <body>
 
-    <!-- 模块一：页面顶端 - 英雄区 -->
     <header class="hero">
         <h1><span>TikTok出海第一步</span><br>终极网络环境指南</h1>
         <p>告别网络困扰与账号风险。本指南将带你扫清所有技术障碍，为你的TikTok事业保驾护航。</p>
@@ -300,9 +290,7 @@
         <div class="scroll-down">👇</div>
     </header>
 
-    <!-- 模块二：学习路径 - 流线型内容区 -->
     <main class="roadmap">
-        <!-- 节点 1 -->
         <div class="roadmap-container left" data-icon="📱">
             <div class="content">
                 <h2>第一部分：移动端准备</h2>
@@ -314,19 +302,16 @@
             </div>
         </div>
 
-        <!-- 节点 2 -->
         <div class="roadmap-container right" data-icon="☁️">
             <div class="content">
                 <h2>第二部分：重点！节点选择</h2>
-                <h3>方案一：机场 + SOCK5住宅IP (100元每月左右，多IP共享机场更划算)</h3>
+                <h3>方案一：机场 + SOCK5住宅IP (100元每月左右)</h3>
                 <p>Socks5这种IP大陆无法直连，所以需要外网环境（即“机场”）作为跳板。我们先通过机场连接一个近的节点（如香港），再去连接你购买的美国住宅IP，这叫<b>“链式代理”</b>或<b>“中转落地”</b>。</p>
                 <ul>
-                    <li class="advantage">运营商靠谱稳定，用来运营短视频毫无问题，流量不错。多IP使用时，一个机场可带多IP。</li>
+                    <li class="advantage">运营商靠谱稳定，用来运营短视频毫无问题，流量不错。</li>
                     <li class="disadvantage">配置略显繁琐，需要购买两个服务，Socks5一般带宽有限制，直播需加钱。</li>
                 </ul>
-                <div class="note-box">
-                    <b>注意：</b>很多朋友买那种小白一键直连的VPN工具，非常不安全，信息容易被窃取。而靠谱的专线机场速度很快，可用于普通科学上网、看剧、用AI工具等。
-                </div>
+                <div class="note-box"><b>注意：</b>很多朋友买那种小白一键直连的VPN工具，非常不安全，信息容易被窃取。而靠谱的专线机场速度很快，可用于普通科学上网、看剧、用AI工具等。</div>
                 <p><b>服务商推荐:</b></p>
                 <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" class="resource-button" target="_blank">专线机场（内含教程）</a>
                 <a href="https://www.kookeey.com/register.html?aff=33435631" class="resource-button" target="_blank">Socks5住宅IP（购买静态ISP）</a>
@@ -342,7 +327,7 @@
                 <a href="https://dajian.cyou/lesson/node" class="resource-button" target="_blank">获取站长独享稳定节点</a>
 
                 <h3>方案三：自建节点 (25元起)</h3>
-                <p>自己动手，丰衣足食。简单来说就4步：购买服务器 → 连接服务器 → 命令搭建 → 导出节点。学会后成本最低，效果最好，还能帮别人搞网络赚外快。站长测试一条美国直播线路成本仅45元。</p>
+                <p>自己动手，丰衣足食。简单来说就4步：购买服务器 → 连接服务器 → 命令搭建 → 导出节点。学会后成本最低，效果最好。站长测试一条美国直播线路成本仅45元。</p>
                  <ul>
                     <li class="advantage">带宽大，费用低，效果可控。</li>
                     <li class="disadvantage">有技术门槛，自己研究耗时耗力。</li>
@@ -351,7 +336,6 @@
             </div>
         </div>
 
-        <!-- 节点 3 -->
         <div class="roadmap-container left" data-icon="💻">
             <div class="content">
                 <h2>第三部分：PC端操作</h2>
@@ -360,7 +344,6 @@
             </div>
         </div>
         
-        <!-- 节点 4 -->
         <div class="roadmap-container right" data-icon="📶">
             <div class="content">
                 <h2>第四部分：高级软路由</h2>
@@ -371,7 +354,6 @@
             </div>
         </div>
         
-        <!-- 节点 5 -->
         <div class="roadmap-container left" data-icon="💡">
              <div class="content">
                 <h2>第五部分：站长经营建议</h2>
@@ -384,9 +366,20 @@
                 </ul>
             </div>
         </div>
+
+        <!-- ====== ▼▼▼ 这里是为您新增的第六部分 ▼▼▼ ====== -->
+        <div class="roadmap-container right" data-icon="✈️">
+             <div class="content">
+                <h2>第六部分：加入更自由的交流圈</h2>
+                <p>厌倦了国内社交软件的各种限制和审查？是时候拥抱一个真正开放的交流平台——<b>Telegram（纸飞机）</b>了。</p>
+                <p>在这里，你可以<b>畅所欲言</b>，获取海量的、无删减的行业资讯和资源，更能保护你的个人隐私。站长也建立了专属的<b>技术交流群组</b>，供大家讨论问题、共享资源。</p>
+                <p>如果你想进入一个更广阔的世界，强烈推荐你加入我们。下面是完整的注册流程和频道推荐。</p>
+                <a href="https://3yuedaohang.com/TG" class="resource-button" target="_blank" style="background-color: var(--primary-color); color: white;">点击查看TG注册与玩法</a>
+            </div>
+        </div>
+        <!-- ====== ▲▲▲ 新增结束 ▲▲▲ ====== -->
     </main>
 
-    <!-- 模块三：路径终点 - 转化区 -->
     <section class="cta-section">
         <div class="cta-icon">🚀</div>
         <h2>你已走完99%的理论路<br>让专家带你走完最后1%的实操路</h2>
