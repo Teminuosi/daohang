@@ -6,27 +6,16 @@
     <title>联系站长</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* --- 全新自适应视觉系统 --- */
+        /* --- 全新深色主题 (匹配主站弹窗) --- */
         :root {
-            /* 默认暗色主题变量 */
-            --bg-card: #1C1C1E;
+            /* 关键：背景色固定为与 index.html 其他弹窗一致的深灰色 */
+            --bg-main: #111317; 
+            --bg-card: #202228; /* 卡片使用有对比度的灰色 */
             --text-primary: #E5E7EB;
             --text-secondary: #9CA3AF;
-            --accent-blue: #3B82F6;
+            --accent-blue: #00aaff; /* 调整为更亮的科技蓝 */
             --border-color: rgba(255, 255, 255, 0.1);
-            --info-box-bg: #313135;
-        }
-
-        /* 媒体查询：当用户的系统设置为亮色模式时，应用以下变量 */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-card: #FFFFFF;
-                --text-primary: #1F2937;
-                --text-secondary: #6B7280;
-                --accent-blue: #2563EB;
-                --border-color: rgba(0, 0, 0, 0.1);
-                --info-box-bg: #F3F4F6;
-            }
+            --info-box-bg: #2d2f34;
         }
 
         /* --- 页面基础 --- */
@@ -34,25 +23,21 @@
             box-sizing: border-box;
         }
         body {
-            /* 关键：背景透明，以适应任何父页面的背景色 */
-            background-color: transparent; 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-main); 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: var(--text-primary);
             margin: 0;
             padding: 2rem;
-            /* 关键：使用Flexbox实现内容在iframe内完全居中 */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- 主容器 --- */
         .contact-container {
             width: 100%;
-            max-width: 920px;
+            max-width: 800px;
             text-align: center;
         }
         
@@ -64,7 +49,7 @@
             font-size: 2.5rem;
             font-weight: 600;
             color: var(--accent-blue);
-            margin: 0 0 1rem 0;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5); /* 增加辉光效果 */
         }
         .contact-header .description {
             font-size: 1rem;
@@ -77,11 +62,9 @@
         /* --- 卡片网格 --- */
         .contact-grid {
             display: grid;
-            /* 优化：只保留两个核心联系方式，所以设置为两列 */
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
-        /* 响应式设计：在小屏幕上变为单列 */
         @media (max-width: 768px) {
             .contact-grid {
                 grid-template-columns: 1fr;
@@ -97,13 +80,11 @@
             display: flex;
             flex-direction: column;
             text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .contact-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
         }
         
         /* --- 卡片内部 --- */
@@ -116,17 +97,14 @@
             font-size: 1.5rem; 
             margin-right: 0.75rem; 
             color: var(--accent-blue);
-            width: 24px;
-            text-align: center;
         }
         .card-header .card-title { 
             font-size: 1.2rem; 
             font-weight: 500; 
             color: var(--text-primary); 
         }
-        
         .card-body {
-            flex-grow: 1; /* 确保内容区撑满，使底部对齐 */
+            flex-grow: 1;
         }
         .card-body p { 
             font-size: 0.95rem; 
@@ -134,11 +112,9 @@
             line-height: 1.8; 
             margin: 0; 
         }
-        
         .card-footer {
-            margin-top: 2rem; /* 固定与上方内容的间距 */
+            margin-top: 2rem;
         }
-
         .card-footer a, .card-footer .info-box {
             display: block; 
             width: 100%; 
@@ -152,17 +128,21 @@
         }
         .card-footer .btn-primary {
             background-color: var(--accent-blue);
-            color: #FFFFFF;
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
         }
         .card-footer .btn-primary:hover {
-            background-color: #60A5FA;
+            background-color: #38c3ff;
             transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.5);
         }
         .card-footer .info-box {
             background-color: var(--info-box-bg); 
-            color: var(--text-secondary);
+            color: var(--text-primary);
             font-family: monospace;
-            user-select: all; /* 方便用户复制 */
+            user-select: all;
+            border: 1px solid var(--border-color);
         }
     </style>
 </head>
@@ -176,8 +156,6 @@
         </header>
         
         <main class="contact-grid">
-          
-            <!-- Telegram 群组 -->
             <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fab fa-telegram-plane"></i></span>
@@ -193,7 +171,6 @@
                 </footer>
             </section>
 
-            <!-- 邮件联系 -->
             <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fas fa-envelope-open-text"></i></span>
@@ -206,7 +183,6 @@
                     <div class="info-box">terminos888@gmail.com</div>
                 </footer>
             </section>
-
         </main>
     </div>
 </body>
