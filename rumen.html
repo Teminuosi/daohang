@@ -16,6 +16,7 @@
             --text-color: #E0E0E0; /* 主要文本颜色 */
             --text-muted: #A0A0A0; /* 次要文本颜色 */
             --line-color: rgba(255, 255, 255, 0.15); /* 时间线颜色 */
+            --warning-color: #ffd700; /* 警告/注意颜色 */
         }
 
         * {
@@ -32,7 +33,7 @@
             font-family: 'Poppins', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-color);
-            line-height: 1.7;
+            line-height: 1.8; /* 增加行高以适应更多文字 */
         }
 
         /* --- 头部英雄区域 --- */
@@ -44,7 +45,7 @@
             text-align: center;
             min-height: 100vh;
             padding: 0 20px;
-            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), url('https://images.unsplash.com/photo-1611162616805-669b3fa2f8e1?auto=format&fit=crop&w=1920&q=80') center center/cover no-repeat;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), url('https://images.unsplash.com/photo-1611162616805-669b3fa2f8e1?auto-format&fit=crop&w=1920&q=80') center center/cover no-repeat;
         }
 
         .hero h1 {
@@ -61,8 +62,20 @@
         .hero p {
             font-size: 1.2rem;
             max-width: 700px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             color: var(--text-muted);
+        }
+        
+        .hero .concept-box {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
         }
 
         .scroll-down {
@@ -71,15 +84,9 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
         }
 
         /* --- 路线图/时间线 --- */
@@ -131,19 +138,9 @@
             box-shadow: 0 0 20px var(--primary-color);
         }
 
-        .left {
-            left: 0;
-            padding-right: 70px;
-        }
-
-        .right {
-            left: 50%;
-            padding-left: 70px;
-        }
-
-        .right::after {
-            left: -30px;
-        }
+        .left { left: 0; padding-right: 70px; }
+        .right { left: 50%; padding-left: 70px; }
+        .right::after { left: -30px; }
 
         .content {
             padding: 30px;
@@ -154,9 +151,7 @@
             transition: transform 0.3s ease;
         }
         
-        .content:hover {
-            transform: translateY(-5px);
-        }
+        .content:hover { transform: translateY(-5px); }
 
         .content h2 {
             font-size: 1.8rem;
@@ -165,39 +160,78 @@
         }
         
         .content h3 {
-            font-size: 1.2rem;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
             border-left: 3px solid var(--secondary-color);
             padding-left: 10px;
         }
         
-        .content p {
-            color: var(--text-muted);
-        }
+        .content p { color: var(--text-muted); margin-bottom: 15px; }
+        .content b { color: var(--text-color); }
         
         .content ul {
             list-style-type: none;
             padding-left: 0;
         }
         
+        /* ====== ▼▼▼ 这里是修复后的CSS代码 ▼▼▼ ====== */
+        
+        /* 通用列表项样式 (例如第五部分) */
         .content ul li {
-            margin-bottom: 10px;
-            padding-left: 25px;
+            margin-bottom: 15px;
+            padding-left: 25px; 
             position: relative;
         }
-        
+
         .content ul li::before {
-            content: '✅';
+            content: '›'; /* 默认的列表项符号 */
             position: absolute;
             left: 0;
+            top: 1px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* 专门为“优缺点”列表项定义的样式 */
+        .content ul li.advantage,
+        .content ul li.disadvantage {
+            display: flex; /* 只对这两类li使用flex布局 */
+            align-items: flex-start;
+            padding-left: 0; /* 重置内边距 */
+        }
+        
+        .content ul li.advantage::before,
+        .content ul li.disadvantage::before {
+            position: static; /* 取消绝对定位 */
+            flex-shrink: 0;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 1em; /* 恢复正常字体大小 */
+        }
+
+        .content ul li.advantage::before {
+            content: '✅ 优点：';
             color: #28a745;
         }
         
         .content ul li.disadvantage::before {
-            content: '❌';
+            content: '❌ 缺点：';
             color: #dc3545;
         }
+        /* ====== ▲▲▲ 修复结束 ▲▲▲ ====== */
+
+
+        .content .note-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.05);
+            border-left: 3px solid var(--warning-color);
+            border-radius: 0 5px 5px 0;
+        }
+        .content .note-box b { color: var(--warning-color); }
+        .content .note-box p { color: #ccc; }
 
         .resource-button {
             display: inline-block;
@@ -212,10 +246,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .resource-button:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
+        .resource-button:hover { background-color: var(--primary-color); color: white; }
 
         /* --- 转化区域 --- */
         .cta-section {
@@ -224,24 +255,9 @@
             background: var(--card-bg);
         }
         
-        .cta-icon {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .cta-section h2 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-        }
-
-        .cta-section p {
-            max-width: 800px;
-            margin: 0 auto 40px;
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
+        .cta-icon { font-size: 4rem; color: var(--primary-color); margin-bottom: 20px; }
+        .cta-section h2 { font-size: 2.8rem; margin-bottom: 20px; }
+        .cta-section p { max-width: 800px; margin: 0 auto 40px; color: var(--text-muted); font-size: 1.1rem; }
         .cta-button {
             display: inline-block;
             background: var(--primary-color);
@@ -254,53 +270,23 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 169, 255, 0.4);
         }
-
         .cta-button:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 169, 255, 0.6);
         }
-        
-        .cta-promise {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
+        .cta-promise { margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
         
 
         /* --- 响应式设计 --- */
         @media screen and (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .roadmap::after {
-                left: 31px;
-            }
-
-            .roadmap-container {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-
-            .roadmap-container::after {
-                left: 1px;
-            }
-
-            .left, .right {
-                left: 0%;
-            }
-
-            .right::after {
-                left: 1px;
-            }
-            
-            .cta-section h2 {
-                font-size: 2rem;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .roadmap::after { left: 31px; }
+            .roadmap-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .roadmap-container::after { left: 1px; }
+            .left, .right { left: 0%; }
+            .right::after { left: 1px; }
+            .cta-section h2 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -310,6 +296,7 @@
     <header class="hero">
         <h1><span>TikTok出海第一步</span><br>终极网络环境指南</h1>
         <p>告别网络困扰与账号风险。本指南将带你扫清所有技术障碍，为你的TikTok事业保驾护航。</p>
+        <div class="concept-box">核心概念：节点就是IP</div>
         <div class="scroll-down">👇</div>
     </header>
 
@@ -318,14 +305,11 @@
         <!-- 节点 1 -->
         <div class="roadmap-container left" data-icon="📱">
             <div class="content">
-                <h2>第一部分：基础准备</h2>
-                <p>工欲善其事，必先利其器。为TikTok运营准备一台干净、独立的设备是成功的起点。</p>
-                <ul>
-                    <li>设备选择：推荐二手iPhone 8及以上</li>
-                    <li>关键设置：拔除SIM卡、恢复出厂、修改地区语言、关闭定位</li>
-                    <li>核心软件：安装Shadowrocket (小火箭)</li>
-                </ul>
-                <p>由于小火箭需在海外App Store下载，你需要一个已购此App的账号。(选择火箭shadowrocket账号)</p>
+                <h2>第一部分：移动端准备</h2>
+                <h3>1. 手机硬件与设置</h3>
+                <p>推荐使用<b>苹果二手手机（iPhone 8及以上型号）</b>。拿到后务必进行以下操作：恢复出厂设置，设置地区、语言为你的目标国家，彻底关闭定位服务。</p>
+                <h3>2. 获取核心软件 (Shadowrocket)</h3>
+                <p>去购买一个已购买“小火箭”的海外App Store账号，登录后下载安装。 (在购买页面选择“火箭shadowrocket账号”)</p>
                 <a href="https://accboyytbsydh.acceboy.com/?category=1" class="resource-button" target="_blank">获取App Store账号</a>
             </div>
         </div>
@@ -333,34 +317,37 @@
         <!-- 节点 2 -->
         <div class="roadmap-container right" data-icon="☁️">
             <div class="content">
-                <h2>第二部分：核心环节</h2>
-                <p>“节点”决定了你账号的生死。这里有三种主流方案，优劣分明，帮你做出最佳选择。</p>
-                
-                <h3>方案一：机场 + 住宅IP (推荐)</h3>
-                <p>此方案通过“链式代理”，伪装度最高，最稳定，是新手的首选。</p>
+                <h2>第二部分：重点！节点选择</h2>
+                <h3>方案一：机场 + SOCK5住宅IP (100元每月左右，多IP共享机场更划算)</h3>
+                <p>Socks5这种IP大陆无法直连，所以需要外网环境（即“机场”）作为跳板。我们先通过机场连接一个近的节点（如香港），再去连接你购买的美国住宅IP，这叫<b>“链式代理”</b>或<b>“中转落地”</b>。</p>
                 <ul>
-                    <li>稳定可靠，伪装度高，适合短视频运营。</li>
-                    <li class="disadvantage">配置稍繁琐，直播需额外付费。</li>
+                    <li class="advantage">运营商靠谱稳定，用来运营短视频毫无问题，流量不错。多IP使用时，一个机场可带多IP。</li>
+                    <li class="disadvantage">配置略显繁琐，需要购买两个服务，Socks5一般带宽有限制，直播需加钱。</li>
                 </ul>
-                <p><b>推荐服务商 (参考):</b></p>
-                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" class="resource-button" target="_blank">专线机场（内含使用教程）</a>
+                <div class="note-box">
+                    <b>注意：</b>很多朋友买那种小白一键直连的VPN工具，非常不安全，信息容易被窃取。而靠谱的专线机场速度很快，可用于普通科学上网、看剧、用AI工具等。
+                </div>
+                <p><b>服务商推荐:</b></p>
+                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" class="resource-button" target="_blank">专线机场（内含教程）</a>
                 <a href="https://www.kookeey.com/register.html?aff=33435631" class="resource-button" target="_blank">Socks5住宅IP（购买静态ISP）</a>
-                <a href="https://pan.quark.cn/s/19a1d474d116" class="resource-button" target="_blank">链式代理视频教程（以上两者结合使用）</a>
+                <a href="https://pan.quark.cn/s/19a1d474d116" class="resource-button" target="_blank">链式代理视频教程</a>
 
-                <h3>方案二：购买成品节点</h3>
+                <h3>方案二：购买成品节点 (50-200元/月)</h3>
+                <p>直接从个人搭建者手中购买配置好的节点二维码，扫码即用。原理是对方购买服务器搭建后出售。</p>
                 <ul>
-                    <li>操作极简，扫码即用。</li>
-                    <li class="disadvantage">市面节点鱼龙混杂，存在共享风险。</li>
+                    <li class="advantage">操作简单，扫码连接，适合不想动脑子的人。</li>
+                    <li class="disadvantage">不良商家可能将一个节点卖给多人，若一人操作不当被封，你的账号会跟着遭殃。</li>
                 </ul>
-                <p><b>站长推荐：</b>为了确保稳定与安全，我们提供经过严格测试的独享节点，保证IP纯净，杜绝共享，避免踩坑。</p>
-                <a href="https://dajian.cyou/lesson/node" class="resource-button" target="_blank">获取独享稳定节点（站长新建）</a>
+                <p><b>站长推荐：</b>为了确保稳定与安全，我们提供经过严格测试的独享节点，保证IP纯净，杜绝共享。</p>
+                <a href="https://dajian.cyou/lesson/node" class="resource-button" target="_blank">获取站长独享稳定节点</a>
 
-                <h3>方案三：自建节点</h3>
-                <ul>
-                    <li>成本极低，带宽独享，安全性高。</li>
-                    <li class="disadvantage">技术门槛高，不适合新手。</li>
-                    <a href="https://dajian.cyou/lesson/lesson" class="resource-button" target="_blank">跟着站长学习搭建</a>
+                <h3>方案三：自建节点 (25元起)</h3>
+                <p>自己动手，丰衣足食。简单来说就4步：购买服务器 → 连接服务器 → 命令搭建 → 导出节点。学会后成本最低，效果最好，还能帮别人搞网络赚外快。站长测试一条美国直播线路成本仅45元。</p>
+                 <ul>
+                    <li class="advantage">带宽大，费用低，效果可控。</li>
+                    <li class="disadvantage">有技术门槛，自己研究耗时耗力。</li>
                 </ul>
+                <a href="https://dajian.cyou/lesson/lesson" class="resource-button" target="_blank">跟着站长学习搭建</a>
             </div>
         </div>
 
@@ -368,11 +355,7 @@
         <div class="roadmap-container left" data-icon="💻">
             <div class="content">
                 <h2>第三部分：PC端操作</h2>
-                <p>如果你需要在电脑上进行视频剪辑、账号管理，推荐使用开源安全的V2ray软件，它比Clash更好用。</p>
-                 <ul>
-                    <li>推荐软件：V2ray</li>
-                    <li>使用方法：与手机端类似，导入节点信息即可让电脑全局访问海外网络。</li>
-                </ul>
+                <p>如果你需要在电脑上进行视频剪辑、账号管理，推荐使用开源安全的<b>V2ray</b>软件，它比Clash小猫咪更好用。我们所有的节点都可以直接导入这个工具中使用。</p>
                 <a href="https://pan.quark.cn/s/cd69248b698b" class="resource-button" target="_blank">V2ray使用方法视频</a>
             </div>
         </div>
@@ -380,15 +363,25 @@
         <!-- 节点 4 -->
         <div class="roadmap-container right" data-icon="📶">
             <div class="content">
-                <h2>第四部分：终极进阶</h2>
-                <p>当设备与账号增多，软路由是工作室和专业玩家的终极解决方案，实现集中管理和顶级伪装。</p>
-                 <ul>
-                    <li>管理高效：一台设备管理所有网络。</li>
-                    <li>伪装度顶级：代理软件装在路由器上，平台无法检测，伪装度更强。</li>
-                    <li>使用便捷：连接指定Wi-Fi即可使用，无需在手机电脑上装任何代理软件。</li>
-                </ul>
+                <h2>第四部分：高级软路由</h2>
+                <p>如果你设备很多、账号很多，为每一台都搞代理很累。软路由可以分出来多个WIFI，每个WIFI对应不同IP，设备直接连WIFI就能访问外网。</p>
+                <p>最重要的是，代理软件装在路由器上，平台无法检测到你设备安装了代理软件，因此它的<b>伪装度更强、更安全</b>。</p>
                 <p>软路由配置有一定门槛，我们提供一站式解决方案与专业指导，助您轻松部署。</p>
                 <a href="https://dajian.cyou/lesson/ly" class="resource-button" target="_blank">咨询软路由解决方案</a>
+            </div>
+        </div>
+        
+        <!-- 节点 5 -->
+        <div class="roadmap-container left" data-icon="💡">
+             <div class="content">
+                <h2>第五部分：站长经营建议</h2>
+                <p><b>网络是第一步</b>，搞定之后，就可以开始实战了。</p>
+                 <ul>
+                    <li>新手做TK，单台设备要么选<b>Socks+机场</b>，要么就<b>找人搭</b>，或者<b>自己学</b>。</li>
+                    <li>网络搞定后，多买几个<b>满月白号（10元左右）</b>，进行批量起号。</li>
+                    <li>观察数据，哪个账号流量最好就<b>集中资源猛搞哪个</b>。</li>
+                    <li>如果要<b>直播</b>，一般都需要<b>自建节点</b>，因为带宽可控且成本低。</li>
+                </ul>
             </div>
         </div>
     </main>
