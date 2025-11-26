@@ -184,37 +184,6 @@
         }
         .tag-hot { background: rgba(255, 0, 100, 0.2); color: #ff0064; border: 1px solid #ff0064; }
         .tag-new { background: rgba(0, 243, 255, 0.2); color: var(--primary); border: 1px solid var(--primary); }
-        
-        /* 新增：系统警告条 */
-        .system-warning-bar {
-            width: 100%; max-width: 1200px;
-            background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.6), rgba(188, 19, 254, 0.1));
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            color: #ddd;
-            padding: 12px 20px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.95rem;
-            backdrop-filter: blur(5px);
-            animation: pulse-border 3s infinite;
-        }
-        .system-warning-bar:hover {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: var(--gold);
-            transform: scale(1.01);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-        }
-        .system-warning-bar i { color: var(--gold); font-size: 1.1em; }
-        .highlight-text { color: var(--gold); font-weight: bold; text-decoration: underline; margin-left: 5px; }
-
-        @keyframes pulse-border {
-            0% { border-color: rgba(255, 215, 0, 0.3); }
-            50% { border-color: rgba(255, 215, 0, 0.7); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
-            100% { border-color: rgba(255, 215, 0, 0.3); }
-        }
 
         /* === 弹窗样式 === */
         .modal-overlay {
@@ -326,7 +295,6 @@
             .logo-text { font-size: 2.2rem; }
             .modal-content { padding: 25px 15px; }
             .premium-card { flex-direction: column; text-align: center; }
-            .system-warning-bar { font-size: 0.85rem; padding: 10px; text-align: left; }
         }
 
         /* === AI 视频模态框专属样式优化 === */
@@ -493,12 +461,6 @@
                 <p>N8N 全自动化母体。只需素材，AI自动剪辑、解说、去重。矩阵运营神器。</p>
             </div>
         </div>
-        
-        <!-- 新增：系统警告广播条 (点击跳转网络服务/机场购买) -->
-        <div class="system-warning-bar" onclick="openModal('network')">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>系统提示：下方软件需「科学上网」环境。如需稳定连接，<span class="highlight-text">请点击此处获取专线机场</span></span>
-        </div>
 
         <!-- 资源矩阵 -->
         <div class="resource-grid">
@@ -514,10 +476,10 @@
                 <i class="fas fa-hashtag"></i>
                 <h3>社交媒体</h3>
             </div>
-             <div class="holo-card mini-card" onclick="window.open('https://dapian.sbs','_blank')">
+             <!-- <div class="holo-card mini-card" onclick="window.open('https://dapian.sbs','_blank')">
                 <i class="fas fa-film"></i>
                 <h3>免费电影</h3>
-            </div>
+            </div> -->
         </div>
     </main>
 
@@ -901,6 +863,7 @@
 
         function togglePlay() {
             if(!audio.src) {
+                // 确保第一次点击也随机播放（虽然初始化已经随机了，双重保险）
                 if (currentTrack === 0 && !hasInteracted) {
                      currentTrack = Math.floor(Math.random() * playlist.length);
                 }
@@ -938,6 +901,7 @@
             if(!hasInteracted) {
                 hasInteracted = true;
                 if(!audio.src) {
+                    // 确保第一次互动时随机播放
                     currentTrack = Math.floor(Math.random() * playlist.length);
                     loadTrack(currentTrack);
                 }
@@ -952,6 +916,7 @@
         document.body.addEventListener('click', initAudioContext, { once: true });
         audio.addEventListener('ended', nextTrack);
         
+        // 初始化：随机选择一首歌曲加载（但不立即播放，等待交互）
         currentTrack = Math.floor(Math.random() * playlist.length);
         loadTrack(currentTrack);
 
