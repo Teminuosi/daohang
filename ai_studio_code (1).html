@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三月空间导航站 | NEXUS LINK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --bg: #050505;
+            --glass: rgba(20, 20, 20, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body.modal-open { overflow: hidden; }
+
+        /* === 1. 背景粒子画布 (替代原来的网格) === */
+        #canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        /* === 2. 头部区域 === */
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            z-index: 10;
+        }
+
+        /* 故障风标题特效 */
+        .glitch-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            position: relative;
+            color: white;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        /* 简单又酷炫的文字阴影替代复杂的CSS Clip动画，性能更好且保留风格 */
+        .glitch-title {
+            text-shadow: 2px 0 var(--primary), -2px 0 var(--secondary);
+            letter-spacing: 2px;
+        }
+
+        .cyber-clock {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .contact-btn {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--primary);
+            padding: 10px 25px;
+            color: var(--primary);
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* === 3. 播放器样式优化 (玻璃拟态) === */
+        .system-alert {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            background: rgba(10, 10, 10, 0.7);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .system-alert span { font-size: 0.9em; color: #ccc; }
+        .highlight-green { color: var(--primary); font-weight: bold; text-shadow: 0 0 5px var(--primary); }
+
+        .player-core { display: flex; gap: 10px; align-items: center; }
+        .control-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .control-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 10px var(--primary); }
+        .track-name-display {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary);
+            font-size: 0.9em;
+            max-width: 200px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* === 4. 3D 卡片矩阵 === */
+        .matrix-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            perspective: 1000px; /* 3D透视关键 */
+            z-index: 5;
+        }
+
+        .neo-module {
+            width: 300px;
+            min-height: 220px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            position: relative;
+            backdrop-filter: blur(12px);
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* 卡片悬停效果 */
+        .neo-module:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+        }
+
+        .neo-module:nth-child(even):hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
+        }
+
+        .module-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            transition: 0.3s;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        }
+        
+        .neo-module:nth-child(even) .module-icon { color: var(--secondary); text-shadow: 0 0 15px rgba(188, 19, 254, 0.4); }
+
+        .neo-module:hover .module-icon { transform: scale(1.1); filter: brightness(1.2); }
+
+        .module-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .module-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .hot-badge {
+            position: absolute;
+            top: 0; right: 0;
+            background: var(--secondary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 15px;
+            border-bottom-left-radius: 10px;
+            font-weight: bold;
+            font-family: 'Orbitron';
+        }
+
+        /* === 5. 悬浮球 (保留) === */
+        .floating-orb {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px; height: 60px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+        .floating-orb:hover { transform: translateY(-50%) scale(1.1); background: var(--primary); }
+        .floating-orb:hover i { color: #000; }
+        .floating-orb.left { left: 20px; }
+        .floating-orb.right { right: 20px; }
+        .floating-orb i { color: var(--primary); font-size: 1.5rem; transition: 0.3s; }
+        .floating-orb-tooltip {
+            position: absolute; background: #000; border: 1px solid var(--primary);
+            color: var(--primary); padding: 5px 10px; border-radius: 5px;
+            font-size: 0.8rem; pointer-events: none; opacity: 0; transition: 0.3s;
+            white-space: nowrap;
+        }
+        .floating-orb:hover .floating-orb-tooltip { opacity: 1; }
+        .floating-orb.left .floating-orb-tooltip { left: 70px; }
+        .floating-orb.right .floating-orb-tooltip { right: 70px; }
+
+        /* === 6. 弹窗样式 (适配新风格) === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: #111; border: 1px solid var(--primary);
+            border-radius: 20px; padding: 40px; width: 90%; max-width: 900px;
+            max-height: 85vh; overflow-y: auto; position: relative;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+        }
+        .modal-close {
+            position: absolute; top: 20px; right: 25px; font-size: 2rem;
+            color: #666; cursor: pointer; transition: 0.3s;
+        }
+        .modal-close:hover { color: var(--primary); }
+        .modal-title {
+            font-family: 'Orbitron'; color: var(--primary); text-align: center;
+            font-size: 2rem; margin-bottom: 20px; text-transform: uppercase;
+        }
+        .modal-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px; margin-top: 20px;
+        }
+        .modal-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; padding: 20px; text-align: center;
+            color: #eee; text-decoration: none; transition: 0.3s;
+        }
+        .modal-card:hover {
+            border-color: var(--primary); transform: translateY(-5px);
+            background: rgba(0, 243, 255, 0.05);
+        }
+        .modal-card h3 { color: var(--primary); margin: 10px 0; font-size: 1.1rem; }
+        .modal-card p { font-size: 0.85rem; color: #aaa; }
+        .modal-card img { width: 40px; height: 40px; margin-bottom: 10px; }
+        
+        /* 特殊卡片（如教程） */
+        .special-card { border-color: var(--secondary); }
+        .special-card h3 { color: var(--secondary); }
+        .special-card:hover { border-color: var(--secondary); background: rgba(188, 19, 254, 0.05); }
+
+        /* AI 视频弹窗的特殊样式 */
+        .price-card { background: rgba(255,255,255,0.03) !important; border: 1px solid var(--border) !important; }
+        .cta-button-premium-inline {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border: none; color: #000; font-weight: bold;
+        }
+        .cta-button-premium-inline:hover { box-shadow: 0 0 20px var(--primary); color: #fff; }
+
+        /* 工具列表样式 */
+        .tool-card {
+            display: flex; align-items: center; padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            color: #ccc; text-decoration: none; transition: 0.3s; margin-bottom: 10px;
+        }
+        .tool-card:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.05); }
+        .tool-icon { margin-right: 15px; width: 25px; text-align: center; }
+
+        footer {
+            margin-top: auto; padding: 30px; text-align: center;
+            font-size: 0.8rem; color: #666; font-family: 'Orbitron';
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .glitch-title { font-size: 2rem; }
+            .matrix-container { padding: 10px; }
+            .neo-module { width: 100%; min-height: 180px; }
+            .system-alert { flex-direction: column; text-align: center; }
+            .floating-orb { width: 45px; height: 45px; }
+            .floating-orb.left { left: 10px; }
+            .floating-orb.right { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 核心升级：粒子网络背景 -->
+    <canvas id="canvas"></canvas>
+
+    <!-- 左侧工具球 -->
+    <div class="floating-orb left" id="query-tools-trigger">
+        <i class="fas fa-search-location"></i>
+        <span class="floating-orb-tooltip">查询检测工具</span>
+    </div>
+
+    <!-- 右侧工具球 -->
+    <div class="floating-orb right" id="speed-tools-trigger">
+        <i class="fas fa-tools"></i>
+        <span class="floating-orb-tooltip">测速与工具</span>
+    </div>
+
+    <!-- 头部 -->
+    <header>
+        <h1 class="glitch-title">三月空间导航站</h1>
+        <div class="cyber-clock" id="cyber-clock">00:00:00</div>
+        <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="contact-btn">
+            <i class="fas fa-link"></i> 联系站长
+        </a>
+    </header>
+
+    <!-- 播放器提示栏 -->
+    <div class="system-alert">
+        <span>🔡 系统广播：部分内容需「<span class="highlight-green">科学上网</span>」以确保链接正常。</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span id="trackNameDisplay" class="track-name-display">Loading...</span>
+            <div class="player-core">
+                <button class="control-btn" id="prevBtn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                <button class="control-btn" id="nextBtn"><i class="fas fa-step-forward"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 隐形音频标签 -->
+    <audio id="audioPlayer" preload="auto" playsinline crossorigin="anonymous"></audio>
+
+    <!-- 2. 核心升级：3D 倾斜卡片矩阵 -->
+    <div class="matrix-container">
+        
+        <!-- 模块 1: 网络服务 -->
+        <div class="neo-module" onclick="openModal('network');startMusicIfNotPlaying();">
+            <div class="hot-badge">HOT</div>
+            <div class="module-icon"><i class="fas fa-globe"></i></div>
+            <div class="module-title">网络搭建服务</div>
+            <div class="module-desc">从0到1，构建稳定、高效的跨境网络核心架构。</div>
+        </div>
+
+        <!-- 模块 2: AI 视频 -->
+        <div class="neo-module" onclick="openModal('ai-video')">
+            <div class="hot-badge">NEW</div>
+            <div class="module-icon"><i class="fas fa-film"></i></div>
+            <div class="module-title">AI视频工作流</div>
+            <div class="module-desc">N8N全自动化一键生成，轻松打造爆款视频矩阵。</div>
+        </div>
+
+        <!-- 模块 3: 流媒体 -->
+        <div class="neo-module" onclick="openModal('movies')">
+            <div class="module-icon"><i class="fas fa-play-circle"></i></div>
+            <div class="module-title">流媒体平台</div>
+            <div class="module-desc">YouTube, TikTok, Netflix... 畅享全球影音。</div>
+        </div>
+
+        <!-- 模块 4: AI 工具 -->
+        <div class="neo-module" onclick="openModal('ai-tools')">
+            <div class="module-icon"><i class="fas fa-robot"></i></div>
+            <div class="module-title">前沿AI工具库</div>
+            <div class="module-desc">ChatGPT, Gemini, Heygen... 探索智能未来。</div>
+        </div>
+
+        <!-- 模块 5: 影视娱乐 -->
+        <div class="neo-module" onclick="openModal('streaming')">
+            <div class="module-icon"><i class="fas fa-tv"></i></div>
+            <div class="module-title">全球影视娱乐</div>
+            <div class="module-desc">Disney+, HBO Max... 海量精彩资源直达。</div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Designed with <i class="fas fa-brain" style="color:var(--secondary)"></i> by SanYue & AI</p>
+        <p>© 2024-2025 Cyber-Hub. All Rights Reserved.</p>
+    </footer>
+
+    <!-- ================= 弹窗区域 (保留你的业务逻辑) ================= -->
+
+    <!-- AI视频创作弹窗 -->
+    <div id="ai-video-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
+            <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                <h2 class="modal-title">N8N视频创作母体 - 永久授权</h2>
+                <p style="color:#aaa; margin-bottom: 20px;">AI自动化工作流，一次付费，永久更新。</p>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 30px 0;">
+                <div class="price-card" style="flex:1; min-width:250px; padding:20px; border-radius:15px; text-align:center;">
+                    <h3 style="color:var(--primary); font-size:1.5em;">站长配置</h3>
+                    <div style="font-size:2.5em; color:#fff; margin:10px 0;">¥ 899</div>
+                    <p>永久授权 / 包售后更新</p>
+                </div>
+                <div class="price-card" style="flex:1; min-width:250px; padding:20px; border-radius:15px; text-align:center;">
+                    <h3 style="color:#fff; font-size:1.5em;">自己配置</h3>
+                    <div style="font-size:2.5em; color:#fff; margin:10px 0;">¥ 499</div>
+                    <p>提供源码 / 自行部署</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                 <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="cta-button-premium-inline" style="padding:15px 40px; border-radius:30px; text-decoration:none; display:inline-block;">
+                    <i class="fas fa-comments"></i> 联系站长咨询
+                </a>
+            </div>
+
+            <div class="modal-grid">
+                <a href="n8n/n8n.html" target="_blank" class="modal-card special-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🤖</div>
+                    <h3>AI视频剪辑神器</h3>
+                    <p>上传任意长视频，AI自动提炼、剪辑、解说，批量产出。</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 跨境网络服务弹窗 -->
+    <div id="network-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('network')">&times;</span>
+            <h2 class="modal-title">跨境网络服务</h2>
+            <div class="modal-grid">
+                <a href="rumen.html" target="_blank" class="modal-card special-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">📖</div>
+                    <h3>跨境出海 · 新手入门</h3>
+                    <p>从0到1的完整操作指南，新手必读。</p>
+                </a>
+                <a href="https://dajian.cyou/" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🚀</div>
+                    <h3>TikTok网络/课程</h3>
+                    <p>高纯净度独享IP，保障TikTok业务稳定。</p>
+                </a>
+                <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">👤</div>
+                    <h3>账号购买</h3>
+                    <p>Apple ID, Tk, FB, Google等各类账号。</p>
+                </a>
+                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">✈</div>
+                    <h3>专线机场</h3>
+                    <p>高速稳定专线，畅游全球网络。</p>
+                </a>
+                 <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">📕</div>
+                    <h3>米亚静态ISP Socks5</h3>
+                    <p>专业Socks5代理，资源丰富。</p>
+                </a>
+                <a href="https://ipraft.com/?i950472" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">🔒</div>
+                    <h3>IPRaft 原生VPS</h3>
+                    <p>高质量静态住宅IP解决方案。</p>
+                </a>
+                <a href="cn2/banwagong.html" target="_blank" class="modal-card">
+                    <div style="font-size: 2.5em; margin-bottom: 10px;">👑</div>
+                    <h3>搬瓦工 CN2 GIA</h3>
+                    <p>经典高端线路，极致速度。</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 流媒体弹窗 -->
+    <div id="streaming-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('streaming')">&times;</span>
+            <h2 class="modal-title">全球影视娱乐</h2>
+            <div class="modal-grid">
+                <a href="https://www.netflix.com/" target="_blank" class="modal-card">
+                    <img src="icon/netflix-1-logo-svgrepo-com.svg" alt="Netflix">
+                    <h3>Netflix</h3>
+                </a>
+                <a href="https://www.disneyplus.com/" target="_blank" class="modal-card">
+                    <img src="icon/desney.svg" alt="Disney+">
+                    <h3>Disney+</h3>
+                </a>
+                <a href="https://www.max.com/" target="_blank" class="modal-card">
+                    <img src="icon/icons8-hbo.svg" alt="HBO">
+                    <h3>HBO Max</h3>
+                </a>
+                <a href="https://www.spotify.com/" target="_blank" class="modal-card">
+                    <img src="icon/icons8-spotify.svg" alt="Spotify">
+                    <h3>Spotify</h3>
+                </a>
+                 <a href="https://www.twitch.tv/" target="_blank" class="modal-card">
+                    <img src="icon/twitch-svgrepo-com.svg" alt="Twitch">
+                    <h3>Twitch</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI 工具弹窗 -->
+    <div id="ai-tools-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
+            <h2 class="modal-title">AI前沿工具库</h2>
+            <div class="modal-grid">
+                <a href="https://nf.video/OXYNE" target="_blank" class="modal-card special-card">
+                    <img src="icon/nf.svg" alt="NF">
+                    <h3>AI/影音 合租订阅</h3>
+                </a>
+                <a href="https://chat.openai.com/" target="_blank" class="modal-card">
+                    <img src="icon/chatgpt.svg" alt="ChatGPT">
+                    <h3>ChatGPT</h3>
+                </a>
+                <a href="https://claude.ai/" target="_blank" class="modal-card">
+                    <img src="icon/claude.svg" alt="Claude">
+                    <h3>Claude 3</h3>
+                </a>
+                <a href="https://www.google.com/gemini" target="_blank" class="modal-card">
+                    <img src="icon/gemini.svg" alt="Gemini">
+                    <h3>Google Gemini</h3>
+                </a>
+                <a href="https://www.midjourney.com/" target="_blank" class="modal-card">
+                    <img src="icon/midjourney.svg" alt="Midjourney">
+                    <h3>Midjourney</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 社交平台弹窗 -->
+    <div id="movies-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('movies')">&times;</span>
+            <h2 class="modal-title">热门社交媒体</h2>
+            <div class="modal-grid">
+                <a href="https://www.youtube.com/" target="_blank" class="modal-card">
+                    <img src="icon/youtube-color-svgrepo-com.svg" alt="YT">
+                    <h3>YouTube</h3>
+                </a>
+                <a href="https://www.tiktok.com/" target="_blank" class="modal-card">
+                    <img src="icon/tiktok.svg" alt="TikTok">
+                    <h3>TikTok</h3>
+                </a>
+                <a href="https://twitter.com/" target="_blank" class="modal-card">
+                    <img src="icon/twitter-color-svgrepo-com.svg" alt="X">
+                    <h3>X (Twitter)</h3>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" class="modal-card">
+                    <img src="icon/instagram-1-svgrepo-com.svg" alt="INS">
+                    <h3>Instagram</h3>
+                </a>
+                <a href="https://discord.com/" target="_blank" class="modal-card">
+                    <img src="icon/discord.svg" alt="Discord">
+                    <h3>Discord</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查询工具弹窗 -->
+    <div id="query-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="modal-close" onclick="closeModal('query-tools')">&times;</span>
+            <h2 class="modal-title">查询检测工具</h2>
+            <div style="display:flex; flex-direction:column;">
+                <a href="https://whoer.net/zh" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-user-secret"></i> 伪装度/匿名度检测 (Whoer)
+                </a>
+                <a href="https://scamalytics.com/ip/" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-shield-alt"></i> IP 欺诈值检测
+                </a>
+                <a href="https://ping0.cc/" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-map-marker-alt"></i> IP 归属地与类型检测
+                </a>
+                <a href="https://ping.pe/" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-network-wired"></i> 全球 Ping / 被墙检测
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测速工具弹窗 -->
+    <div id="speed-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="modal-close" onclick="closeModal('speed-tools')">&times;</span>
+            <h2 class="modal-title">测速与软件</h2>
+            <div style="display:flex; flex-direction:column;">
+                <a href="https://www.speedtest.net/" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-tachometer-alt"></i> SpeedTest 测速
+                </a>
+                <a href="https://fast.com/" target="_blank" class="tool-card">
+                    <i class="tool-icon fas fa-film"></i> Fast.com (Netflix测速)
+                </a>
+                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="tool-card">
+                    <i class="tool-icon fab fa-windows"></i> V2RayN 下载 (Windows)
+                </a>
+                 <a href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases" target="_blank" class="tool-card">
+                    <i class="tool-icon fab fa-android"></i> NekoBox 下载 (Android)
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 脚本逻辑 -->
+    <script>
+        /* ================= 1. 粒子系统 (HTML5 Canvas) ================= */
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+        const mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', function(event){
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y;
+                this.directionX = directionX; this.directionY = directionY;
+                this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                
+                // 鼠标交互
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size){
+                    if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
+                    if(mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
+                    if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
+                    if(mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            // 粒子数量计算
+            let numberOfParticles = (canvas.height * canvas.width) / 12000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * (innerWidth - size * 2) + size * 2);
+                let y = (Math.random() * (innerHeight - size * 2) + size * 2);
+                let directionX = (Math.random() * 0.5) - 0.25;
+                let directionY = (Math.random() * 0.5) - 0.25;
+                let color = '#00f3ff';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0,0,innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connectParticles();
+        }
+
+        function connectParticles(){
+            for (let a = 0; a < particlesArray.length; a++){
+                for (let b = a; b < particlesArray.length; b++){
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        let opacity = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(0, 243, 255,' + opacity * 0.3 + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', function(){
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animateParticles();
+
+        /* ================= 2. 卡片 3D 倾斜特效 ================= */
+        const cards = document.querySelectorAll('.neo-module');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                // 调整除数以控制旋转灵敏度
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+            });
+        });
+
+        /* ================= 3. 业务逻辑 (时钟、音乐、弹窗) ================= */
+        
+        // 时钟
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('cyber-clock').textContent = now.toLocaleTimeString('en-GB');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 弹窗控制
+        function openModal(id) {
+            const m = document.getElementById(id + '-modal');
+            if(m) {
+                m.classList.add('visible');
+                document.body.classList.add('modal-open');
+            }
+        }
+        function closeModal(id) {
+            const m = document.getElementById(id + '-modal');
+            if(m) {
+                m.classList.remove('visible');
+                document.body.classList.remove('modal-open');
+            }
+        }
+        // 点击背景关闭
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if(e.target === overlay) {
+                    overlay.classList.remove('visible');
+                    document.body.classList.remove('modal-open');
+                }
+            });
+        });
+        
+        // 悬浮球绑定
+        document.getElementById('query-tools-trigger').addEventListener('click', () => openModal('query-tools'));
+        document.getElementById('speed-tools-trigger').addEventListener('click', () => openModal('speed-tools'));
+
+
+        /* ================= 4. 音乐播放器 (保留原逻辑) ================= */
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const trackDisplay = document.getElementById('trackNameDisplay');
+        
+        // 这里替换为你真实的音乐链接列表
+        const PLAYLIST = [
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E4%BA%94%E6%9C%88%E9%9B%A8-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB%231N0v9.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3'
+        ];
+        
+        let currentTrackIdx = 0;
+        let isPlaying = false;
+        let userPaused = false;
+
+        function getTrackName(url) {
+            try {
+                return decodeURIComponent(url.split('/').pop().replace('.mp3',''));
+            } catch(e) { return 'Unknown Track'; }
+        }
+
+        function loadTrack(index) {
+            currentTrackIdx = (index + PLAYLIST.length) % PLAYLIST.length;
+            audio.src = PLAYLIST[currentTrackIdx];
+            trackDisplay.textContent = getTrackName(PLAYLIST[currentTrackIdx]);
+        }
+
+        function togglePlay() {
+            if(!audio.src) loadTrack(0);
+            if(isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                userPaused = true;
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play().catch(e=>console.log("Auto-play blocked"));
+                isPlaying = true;
+                userPaused = false;
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        }
+
+        function nextTrack() {
+            loadTrack(currentTrackIdx + 1);
+            if(isPlaying) audio.play();
+        }
+        function prevTrack() {
+            loadTrack(currentTrackIdx - 1);
+            if(isPlaying) audio.play();
+        }
+
+        // 自动播放逻辑（当用户点击任意模块时触发）
+        function startMusicIfNotPlaying() {
+            if(!audio.src) loadTrack(0);
+            if(!isPlaying && !userPaused) {
+                togglePlay();
+            }
+        }
+
+        playBtn.addEventListener('click', togglePlay);
+        nextBtn.addEventListener('click', nextTrack);
+        prevBtn.addEventListener('click', prevTrack);
+        audio.addEventListener('ended', nextTrack);
+
+        // 初始化加载第一首（不播）
+        loadTrack(0);
+
+    </script>
+</body>
+</html>

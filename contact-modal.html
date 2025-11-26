@@ -3,210 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>联系站长</title>
+    <title>联系站长 | NEXUS CONTACT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- 引入主页同款字体 -->
     <style>
-        /* --- 全新深色主题 (匹配主站弹窗) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
         :root {
-            /* 关键：背景色固定为与 index.html 其他弹窗一致的深灰色 */
-            --bg-main: #111317; 
-            --bg-card: #202228; /* 卡片使用有对比度的灰色 */
-            --text-primary: #E5E7EB;
-            --text-secondary: #9CA3AF;
-            --accent-blue: #00aaff; /* 调整为更亮的科技蓝 */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --info-box-bg: #2d2f34;
+            /* 主页同款配色 */
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --bg: #050505;
+            --glass: rgba(10, 15, 20, 0.75);
+            --border: rgba(0, 243, 255, 0.3);
+            --text-main: #e0e0e0;
         }
 
-        /* --- 页面基础 --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-        body {
-            background-color: var(--bg-main); 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-primary);
-            margin: 0;
-            padding: 2rem;
+        body { 
+            margin: 0; 
+            overflow-x: hidden; 
+            background: var(--bg); 
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+        }
+
+        /* 1. 背景画布 (层级最低) */
+        #canvas { 
+            position: fixed; top: 0; left: 0; 
+            z-index: -1; 
+        }
+        
+        /* 2. 扫描线叠加层 (增加质感) */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px; pointer-events: none; z-index: 0; opacity: 0.6;
         }
 
         /* --- 主容器 --- */
         .contact-container {
             width: 100%;
-            max-width: 1100px; /* 增加最大宽度以容纳三张卡片 */
+            max-width: 1000px;
+            padding: 2rem;
             text-align: center;
+            z-index: 10;
         }
         
-        /* --- 头部 --- */
-        .contact-header {
-            margin-bottom: 3rem;
-        }
+        /* --- 头部设计 --- */
+        .contact-header { margin-bottom: 3rem; position: relative; }
+        
         .contact-header .title {
+            font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5); /* 增加辉光效果 */
+            color: #fff;
+            text-shadow: 0 0 15px var(--primary);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
         }
+        
         .contact-header .description {
             font-size: 1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.7;
+            color: #ccc;
+            background: rgba(0,0,0,0.6);
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
         }
 
-        /* --- 卡片网格 --- */
+        /* --- 卡片布局 --- */
         .contact-grid {
             display: grid;
-            /* 使用 auto-fit 自动适应屏幕宽度，更具响应性 */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 25px;
         }
 
-        /* --- 卡片设计 --- */
+        /* --- 玻璃态卡片 --- */
         .contact-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 2rem;
             display: flex;
             flex-direction: column;
             text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
         }
+
+        /* 卡片悬停特效 */
         .contact-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            background: rgba(10, 25, 35, 0.9);
         }
         
-        /* --- 卡片内部 --- */
+        /* 顶部高亮条 */
+        .contact-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            opacity: 0.7;
+        }
+
+        /* --- 卡片内容 --- */
         .card-header { 
-            display: flex; 
-            align-items: center; 
-            margin-bottom: 1.5rem; 
+            display: flex; align-items: center; margin-bottom: 1.5rem; 
         }
         .card-header .icon { 
-            font-size: 1.5rem; 
-            margin-right: 0.75rem; 
-            color: var(--accent-blue);
+            font-size: 1.8rem; margin-right: 15px; 
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
         }
-        .card-header .card-title { 
-            font-size: 1.2rem; 
-            font-weight: 500; 
-            color: var(--text-primary); 
+        .card-header h3 { 
+            font-size: 1.25rem; font-weight: 700; margin: 0; color: #fff;
         }
-        .card-body {
-            flex-grow: 1;
-        }
+        
+        .card-body { flex-grow: 1; margin-bottom: 1.5rem; }
         .card-body p { 
-            font-size: 0.95rem; 
-            color: var(--text-secondary); 
-            line-height: 1.8; 
-            margin: 0; 
+            font-size: 0.95rem; color: #aaa; line-height: 1.6; margin: 0; 
         }
-        .card-footer {
-            margin-top: 2rem;
+
+        /* --- 按钮与控件 --- */
+        .btn-glow {
+            display: block; width: 100%; text-align: center;
+            padding: 12px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
-        .card-footer a, .card-footer .info-box {
-            display: block; 
-            width: 100%; 
-            text-align: center;
-            padding: 0.75rem 1rem; 
-            border-radius: 10px;
-            text-decoration: none; 
-            font-weight: 500; 
-            font-size: 1rem;
-            transition: all 0.2s ease-in-out;
-        }
-        .card-footer .btn-primary {
-            background-color: var(--accent-blue);
+        .btn-glow:hover {
+            background: var(--primary);
             color: #000;
-            font-weight: 600;
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+            box-shadow: 0 0 20px var(--primary);
         }
-        .card-footer .btn-primary:hover {
-            background-color: #38c3ff;
-            transform: scale(1.03);
-            box-shadow: 0 0 25px rgba(0, 170, 255, 0.5);
-        }
-        .card-footer .info-box {
-            background-color: var(--info-box-bg); 
-            color: var(--text-primary);
+
+        .info-box {
+            background: rgba(0,0,0,0.5);
+            border: 1px dashed #555;
+            color: #ddd;
+            padding: 12px;
+            text-align: center;
             font-family: monospace;
-            user-select: all;
-            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            user-select: all; /* 方便复制 */
+            font-size: 0.95rem;
         }
-        /* 新增：二维码图片样式 */
-        .card-footer .qr-code {
-            display: block;
-            width: 100%;
-            max-width: 220px;
-            margin: 0 auto;
-            border-radius: 12px;
-            background-color: #fff; /* 为二维码添加白色背景 */
-            padding: 10px; /* 增加一些内边距 */
+
+        .qr-box {
+            background: #fff; padding: 5px; border-radius: 8px;
+            max-width: 160px; margin: 0 auto;
+            border: 2px solid var(--primary);
+        }
+        .qr-box img { width: 100%; display: block; }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .contact-container { padding: 1.5rem; }
+            .contact-header .title { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
+
+    <!-- 背景特效层 -->
+    <div class="scanlines"></div>
+    <canvas id="canvas"></canvas>
+
     <div class="contact-container">
         <header class="contact-header">
-            <h2 class="title">联系站长</h2>
-            <p class="description">
-                抱歉，因封控原因，国内社交软件均被限制。为了能及时与您沟通，请选择以下最适合您的方式联系我：
-            </p>
+            <h1 class="title">联系站长</h1>
+            <div class="description">
+                由于国内网络限制，请优先选择加密通讯软件
+            </div>
         </header>
         
         <main class="contact-grid">
-            <!-- 卡片 1: Telegram -->
+            <!-- 卡片 1: Telegram (主推) -->
             <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fab fa-telegram-plane"></i></span>
-                    <h3 class="card-title">Telegram 群组</h3>
+                    <h3>Telegram 官方群组</h3>
                 </div>
                 <div class="card-body">
-                    <p>推荐使用！点击直接加入我们的官方Telegram社群进行咨询和交流。</p>
+                    <p>推荐使用！我们的核心交流区。点击下方按钮直接唤起 APP 加入，获取最新资源与技术支持。</p>
                 </div>
-                <footer class="card-footer">
-                    <a href="https://3yuedaohang.com/TG" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                        加入TG站长社群
+                <footer>
+                    <a href="https://3yuedaohang.com/TG" target="_blank" class="btn-glow">
+                        <i class="fas fa-rocket"></i> 点击加入
                     </a>
                 </footer>
             </section>
 
-            <!-- 新增卡片: WhatsApp -->
+            <!-- 卡片 2: WhatsApp -->
             <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fab fa-whatsapp"></i></span>
-                    <h3 class="card-title">WhatsApp</h3>
+                    <h3>WhatsApp 直连</h3>
                 </div>
                 <div class="card-body">
-                    <p>使用手机扫描下方二维码，添加我的WhatsApp进行一对一即时沟通。</p>
+                    <p style="text-align: center; margin-bottom:10px;">扫描下方二维码添加好友</p>
+                    <div class="qr-box">
+                        <!-- 确保图片路径正确 -->
+                        <img src="image/wahtsapp.png" alt="WhatsApp二维码">
+                    </div>
                 </div>
-                <footer class="card-footer">
-                    <!-- 确保图片文件名为 whatsapp_qr.png 并与此 HTML 文件在同一目录下 -->
-                    <img src="image/wahtsapp.png" alt="WhatsApp QR Code" class="qr-code">
-                </footer>
             </section>
 
-            <!-- 卡片 3: 邮件 -->
+            <!-- 卡片 3: 邮箱 -->
             <section class="contact-card">
                 <div class="card-header">
                     <span class="icon"><i class="fas fa-envelope-open-text"></i></span>
-                    <h3 class="card-title">邮件联系</h3>
+                    <h3>电子邮件</h3>
                 </div>
                 <div class="card-body">
-                    <p>发送您的需求和联系电话到我的邮箱，我会在第一时间主动联系您。</p>
+                    <p>适用于商务合作或大额订单咨询。请发送邮件至下方地址，我们会在 24 小时内回复。</p>
                 </div>
-                <footer class="card-footer">
+                <footer>
                     <div class="info-box">terminos888@gmail.com</div>
                 </footer>
             </section>
         </main>
     </div>
+
+    <!-- 脚本：蓝色 ASCII 隧道 -->
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, cx, cy;
+        
+        // 字符集：使用 0 和 1 以及一些科技感符号
+        const chars = "010101001110001010XYZA/*-+.   "; 
+        
+        const stars = [];
+        const numStars = 800; // 粒子数量
+        
+        let speed = 0.5;
+        // 鼠标长按加速逻辑
+        let targetSpeed = 0.5;
+        
+        const mouse = { x: 0, y: 0 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cx = width / 2;
+            cy = height / 2;
+        }
+
+        class Star {
+            constructor() { this.reset(true); }
+            
+            reset(initial = false) {
+                this.x = (Math.random() - 0.5) * width * 2;
+                this.y = (Math.random() - 0.5) * height * 2;
+                // 深度 z
+                this.z = initial ? Math.random() * 1000 : 1000;
+                this.char = chars[Math.floor(Math.random() * chars.length)];
+            }
+            
+            update() {
+                this.z -= speed * 10;
+                // 鼠标视差移动
+                this.x -= (mouse.x - cx) * 0.015 * (1000 - this.z) / 1000;
+                this.y -= (mouse.y - cy) * 0.015 * (1000 - this.z) / 1000;
+
+                if (this.z <= 1) this.reset();
+            }
+            
+            draw() {
+                const scale = 400 / this.z;
+                const sx = this.x * scale + cx;
+                const sy = this.y * scale + cy;
+                
+                // 越近字体越大
+                const fontSize = Math.max(0, (1000 - this.z) / 50);
+                
+                if (sx < 0 || sx > width || sy < 0 || sy > height || fontSize < 1) return;
+
+                const alpha = (1000 - this.z) / 1000;
+                
+                ctx.font = `${fontSize}px monospace`;
+                
+                // ============================================
+                // 关键修改：颜色改为赛博蓝 (#00f3ff) + 白色高光
+                // ============================================
+                if (speed > 2) {
+                    // 加速时变白，模拟光速
+                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`; 
+                } else {
+                    // 正常状态：赛博蓝
+                    ctx.fillStyle = `rgba(0, 243, 255, ${alpha})`;
+                }
+                
+                ctx.fillText(this.char, sx, sy);
+            }
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+        
+        for (let i = 0; i < numStars; i++) stars.push(new Star());
+
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        
+        // 鼠标按下加速
+        window.addEventListener('mousedown', () => targetSpeed = 5.0);
+        window.addEventListener('mouseup', () => targetSpeed = 0.5);
+        // 触摸屏支持
+        window.addEventListener('touchstart', () => targetSpeed = 5.0);
+        window.addEventListener('touchend', () => targetSpeed = 0.5);
+
+        function animate() {
+            // 黑色背景加一点透明度，形成拖影
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.6)'; 
+            ctx.fillRect(0, 0, width, height);
+
+            speed += (targetSpeed - speed) * 0.1;
+
+            if(speed > 3) {
+                const shake = (Math.random() - 0.5) * 2;
+                ctx.save();
+                ctx.translate(shake, shake);
+            }
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            if(speed > 3) ctx.restore();
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>
