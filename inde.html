@@ -185,7 +185,7 @@
         .tag-hot { background: rgba(255, 0, 100, 0.2); color: #ff0064; border: 1px solid #ff0064; }
         .tag-new { background: rgba(0, 243, 255, 0.2); color: var(--primary); border: 1px solid var(--primary); }
         
-        /* 新增：系统警告条 */
+        /* 系统警告条 */
         .system-warning-bar {
             width: 100%; max-width: 1200px;
             background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.6), rgba(188, 19, 254, 0.1));
@@ -248,66 +248,56 @@
             color: var(--primary); font-size: 1.2em; border-left: 4px solid var(--secondary);
             padding-left: 15px; margin: 30px 0 15px; font-weight: bold; text-transform: uppercase;
         }
+        
+        /* 核心业务金边标题 */
+        .modal-section-title.gold-title {
+            color: var(--gold); border-color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
 
-        .modal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .modal-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 25px;
+        }
         
         .link-card {
             background: rgba(255,255,255,0.04); padding: 15px; border-radius: 10px;
             text-align: left; text-decoration: none; color: #ccc; border: 1px solid transparent;
             transition: 0.3s; display: flex; align-items: center; gap: 15px;
+            min-height: 80px; /* 保证高度一致 */
         }
         .link-card:hover { background: rgba(0, 243, 255, 0.1); color: #fff; border-color: var(--primary); transform: translateX(5px); }
-        .link-card i, .link-card img { width: 30px; height: 30px; object-fit: contain; text-align: center; font-size: 20px; color: var(--primary); }
-        .link-card h3 { font-size: 1rem; margin: 0; font-weight: 500; }
-        .link-card p { font-size: 0.8rem; color: #777; margin: 3px 0 0; }
+        .link-card i, .link-card img { width: 30px; height: 30px; object-fit: contain; text-align: center; font-size: 24px; color: var(--primary); flex-shrink: 0; }
+        .link-card h3 { font-size: 1rem; margin: 0 0 4px 0; font-weight: 500; font-family: 'Rajdhani'; }
+        .link-card p { font-size: 0.8rem; color: #777; margin: 0; line-height: 1.3; }
         
         .card-highlight { border: 1px solid var(--secondary); background: rgba(188, 19, 254, 0.05); }
 
-        /* VIP/Premium Card Styles */
-        .premium-card-container { margin-bottom: 30px; }
-        .premium-card {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 30, 0, 0.3));
-            border: 1px solid var(--gold);
-            border-radius: 12px;
-            padding: 25px;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        /* 核心业务金卡样式 */
+        .link-card.gold-card {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(0, 0, 0, 0.6));
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
         }
-        .premium-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transform: rotate(45deg); animation: shimmer 3s infinite linear;
-        }
-        @keyframes shimmer { 0% { transform: translateX(-100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
-        
-        .premium-card:hover {
+        .link-card.gold-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
-            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+            border-color: #ffd700;
         }
-        .premium-icon {
-            width: 60px; height: 60px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; color: var(--gold);
-            border: 1px solid var(--gold);
+        .link-card.gold-card h3 { color: #ffd700; font-weight: bold; }
+        .link-card.gold-card i { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .link-card.gold-card p { color: #e0e0e0; }
+
+        /* VPS 分隔区 */
+        .vps-divider {
+            border-top: 1px dashed #333; margin: 30px 0 20px;
+            position: relative; text-align: center;
         }
-        .premium-content h3 { color: var(--gold); font-size: 1.3rem; margin-bottom: 5px; font-family: 'Orbitron'; letter-spacing: 1px; }
-        .premium-content p { color: #ddd; font-size: 0.95rem; }
-        .premium-badge {
-            position: absolute; top: 0; right: 0;
-            background: var(--gold); color: #000;
-            font-weight: bold; font-size: 0.75rem;
-            padding: 5px 15px;
-            border-bottom-left-radius: 12px;
-            font-family: 'Rajdhani';
+        .vps-divider span {
+            background: #0f0f13; padding: 0 15px; position: relative; top: -12px;
+            color: #666; font-family: 'Orbitron'; font-size: 0.9em;
         }
 
         /* 响应式 */
@@ -325,81 +315,58 @@
             .resource-grid { grid-template-columns: 1fr 1fr; }
             .logo-text { font-size: 2.2rem; }
             .modal-content { padding: 25px 15px; }
-            .premium-card { flex-direction: column; text-align: center; }
             .system-warning-bar { font-size: 0.85rem; padding: 10px; text-align: left; }
+            
+            /* 移动端强制单列，防止挤压 */
+            .modal-grid { grid-template-columns: 1fr; }
         }
 
-        /* === AI 视频模态框专属样式优化 === */
+        /* AI 视频模态框 */
         .ai-header { text-align: center; margin-bottom: 35px; }
-        .ai-header h2 { 
-            font-family: 'Orbitron'; color: #fff; font-size: 2.2em; 
-            text-shadow: 0 0 20px rgba(188, 19, 254, 0.6); margin-bottom: 10px;
-        }
+        .ai-header h2 { font-family: 'Orbitron'; color: #fff; font-size: 2.2em; text-shadow: 0 0 20px rgba(188, 19, 254, 0.6); margin-bottom: 10px; }
         .ai-header p { color: #888; font-size: 0.95em; letter-spacing: 1px; }
 
-        .pricing-container {
-            display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 30px;
-        }
-
+        .pricing-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 30px; }
         .pricing-card {
-            flex: 1; min-width: 260px; max-width: 320px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px; padding: 30px 20px;
-            position: relative; overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex; flex-direction: column; align-items: center;
+            flex: 1; min-width: 260px; max-width: 320px; background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px; padding: 30px 20px; position: relative; overflow: hidden;
+            transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .pricing-card.premium {
             background: linear-gradient(160deg, rgba(188, 19, 254, 0.1), rgba(0,0,0,0.4));
-            border: 1px solid rgba(188, 19, 254, 0.5);
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
+            border: 1px solid rgba(188, 19, 254, 0.5); box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
         }
         .pricing-card.premium::before {
             content: 'RECOMMENDED'; position: absolute; top: 12px; right: -30px;
             background: var(--secondary); color: #fff; font-size: 0.7em; font-weight: bold;
             padding: 5px 30px; transform: rotate(45deg); box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .pricing-card.premium:hover {
-            transform: translateY(-5px); box-shadow: 0 10px 40px rgba(188, 19, 254, 0.3); border-color: #e066ff;
-        }
-
+        .pricing-card.premium:hover { transform: translateY(-5px); box-shadow: 0 10px 40px rgba(188, 19, 254, 0.3); border-color: #e066ff; }
         .pricing-card.basic { border: 1px solid rgba(255,255,255,0.1); }
         .pricing-card.basic:hover { background: rgba(255,255,255,0.06); border-color: #666; }
-
         .price-tag { margin: 20px 0; text-align: center; }
         .price-currency { font-size: 1.2em; vertical-align: top; color: #888; }
         .price-num { font-family: 'Orbitron'; font-size: 3em; font-weight: bold; color: #fff; }
-        .premium .price-num { 
-            background: linear-gradient(to bottom, #fff, var(--secondary)); 
-            -webkit-background-clip: text; color: transparent; 
-            text-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
-        }
-
+        .premium .price-num { background: linear-gradient(to bottom, #fff, var(--secondary)); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 20px rgba(188, 19, 254, 0.5); }
         .feature-list { list-style: none; width: 100%; padding: 0 10px; margin-top: 10px; }
         .feature-list li {
-            display: flex; align-items: center; gap: 10px;
-            color: #ccc; font-size: 0.9em; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px; color: #ccc; font-size: 0.9em; margin-bottom: 12px;
             border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;
         }
         .feature-list li:last-child { border-bottom: none; }
         .feature-list i { font-size: 1em; width: 20px; text-align: center; }
         .check-icon { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
         .cross-icon { color: #ff3366; opacity: 0.7; }
-
         .demo-banner {
             display: flex; align-items: center; gap: 20px;
             background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 243, 255, 0.05));
-            border: 1px solid var(--secondary); border-radius: 12px;
-            padding: 20px 30px; text-decoration: none;
-            transition: 0.3s; position: relative; overflow: hidden;
-            margin-top: 10px;
+            border: 1px solid var(--secondary); border-radius: 12px; padding: 20px 30px; text-decoration: none;
+            transition: 0.3s; position: relative; overflow: hidden; margin-top: 10px;
         }
         .demo-banner:hover {
             background: linear-gradient(90deg, rgba(188, 19, 254, 0.2), rgba(0, 243, 255, 0.1));
-            border-color: #fff; transform: scale(1.02);
-            box-shadow: 0 0 25px rgba(188, 19, 254, 0.4);
+            border-color: #fff; transform: scale(1.02); box-shadow: 0 0 25px rgba(188, 19, 254, 0.4);
         }
         .play-btn-circle {
             width: 50px; height: 50px; background: var(--secondary); border-radius: 50%;
@@ -412,142 +379,100 @@
         .demo-arrow { margin-left: auto; color: var(--secondary); font-size: 1.2em; transition:0.3s;}
         .demo-banner:hover .demo-arrow { transform: translateX(5px); color: #fff; }
 
-        @media (max-width: 768px) {
-            .pricing-container { flex-direction: column; }
-            .pricing-card { max-width: 100%; }
-            .demo-banner { padding: 15px; }
-        }
 
-        /* === 引导式列表样式 (Roadmap Style) === */
-        .roadmap-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 35px;
-            position: relative;
-        }
+        /* === 针对文字变长后的优化样式 === */
 
-        /* 连接线效果 */
-        .roadmap-container::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            bottom: 20px;
-            left: 28px;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
-            z-index: 0;
-            opacity: 0.3;
-        }
+/* 1. 让弹窗变宽 */
+.modal-content {
+    /* 增加宽度到 1280px，让横向能容纳更多内容 */
+    max-width: 1280px; 
+    width: 95%; /* 移动端保持95% */
+}
 
-        .step-card {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 20px;
-            border-radius: 12px;
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-        }
+/* 2. 让卡片变宽，适应长文字 */
+.modal-grid {
+    display: grid;
+    /* minmax改到320px，保证卡片足够宽，文字不至于挤成一团 */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 20px;
+    margin-bottom: 25px;
+}
 
-        .step-card:hover {
-            background: rgba(0, 243, 255, 0.08);
-            border-color: var(--primary);
-            transform: translateX(10px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-        }
+/* 3. 卡片内部排版微调 */
+.link-card {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    gap: 18px; /* 图标和文字的间距 */
+    padding: 20px; /* 增加内边距 */
+    min-height: 100px; /* 保证最小高度，视觉更整齐 */
+}
 
-        /* 特殊步骤高亮 (如付费/核心步骤) */
-        .step-card.premium-step:hover {
-            background: rgba(188, 19, 254, 0.08);
-            border-color: var(--secondary);
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
-        }
+/* 图标固定宽度，防止被文字挤压 */
+.link-card i, .link-card img {
+    flex-shrink: 0; 
+    width: 40px; 
+    font-size: 28px;
+}
 
-        .step-num {
-            font-family: 'Orbitron';
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #444;
-            margin-right: 20px;
-            min-width: 40px;
-            text-align: center;
-            background: #0f0f13; /* 遮挡背景线 */
-            padding: 5px 0;
-            border: 1px solid #333;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+/* 文字区域 */
+.link-card div {
+    flex: 1; /* 占满剩余空间 */
+    min-width: 0; /* 防止文字溢出容器 */
+}
 
-        .step-card:hover .step-num {
-            color: var(--primary);
-            border-color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
-        }
-        .step-card.premium-step:hover .step-num {
-            color: var(--secondary);
-            border-color: var(--secondary);
-            text-shadow: 0 0 10px var(--secondary);
-        }
+/* 标题 */
+.link-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+    white-space: nowrap; /* 标题尽量不换行 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-        .step-content { flex: 1; }
-        .step-content h3 {
-            font-size: 1.1rem;
-            color: #eee;
-            margin-bottom: 4px;
-            font-family: 'Rajdhani';
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .step-content p { font-size: 0.85rem; color: #888; margin: 0; line-height: 1.4; }
+/* 描述文字 (您加字的地方) */
+.link-card p {
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.5; /* 增加行间距，多行文字更好看 */
+    opacity: 0.8;
+}
 
-        .step-icon {
-            font-size: 1.4rem;
-            color: #666;
-            margin-left: 15px;
-            transition: 0.3s;
-        }
-        .step-card:hover .step-icon { color: #fff; transform: scale(1.2); }
+/* 手机端适配：一行一个 */
+@media (max-width: 768px) {
+    .modal-grid { grid-template-columns: 1fr; }
+    .modal-content { padding: 20px; }
+}
 
-        /* 住宅IP内部按钮组 */
-        .sub-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        .sub-btn {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #444;
-            border-radius: 4px;
-            color: #aaa;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .sub-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.1); }
 
-        /* VPS 分隔区 */
-        .vps-divider {
-            border-top: 1px dashed #333;
-            margin: 30px 0 20px;
-            position: relative;
-            text-align: center;
-        }
-        .vps-divider span {
-            background: #0f0f13;
-            padding: 0 15px;
-            position: relative;
-            top: -12px;
-            color: #666;
-            font-family: 'Orbitron';
-            font-size: 0.9em;
-        }
+/* === 优化后的卡片文字样式 === */
+
+/* 1. 描述文字整体加亮 */
+.link-card p {
+    font-size: 0.85rem;
+    color: #ccc; /* 从 #888 改为 #ccc，更亮更清晰 */
+    line-height: 1.6; /* 增加行高，让长文字阅读更舒服 */
+    margin: 4px 0 0 0;
+    font-weight: 400; /*稍微加粗一点点*/
+}
+
+/* 2. 优惠码专属样式 (金色背景块) */
+.code-badge {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: 'Rajdhani';
+    margin-left: 5px;
+    display: inline-block; /* 防止断行太难看 */
+}
+
+/* 3. 重点提示高亮 (如：SSR中转) */
+.text-highlight {
+    color: var(--primary);
+    font-weight: bold;
+}
     </style>
 </head>
 <body>
@@ -606,7 +531,7 @@
 
         <!-- 核心业务区 -->
         <div class="hero-grid">
-            <!-- 网络服务 (已删除自动播放事件) -->
+            <!-- 网络服务 -->
             <div class="holo-card hero-card" onclick="openModal('network')">
                 <span class="tag tag-hot">CORE</span>
                 <i class="fas fa-network-wired main-icon"></i>
@@ -615,7 +540,7 @@
                 <p>包含：VPS推荐、机场、独享IP、TK网络、账号购买等全套资源。</p>
             </div>
 
-            <!-- AI 视频 (已删除自动播放事件) -->
+            <!-- AI 视频 -->
             <div class="holo-card hero-card" onclick="openModal('ai-video')">
                 <span class="tag tag-new">AUTO</span>
                 <i class="fas fa-robot main-icon" style="color: var(--secondary);"></i>
@@ -625,7 +550,7 @@
             </div>
         </div>
         
-        <!-- 新增：系统警告广播条 (点击跳转网络服务/机场购买) -->
+        <!-- 系统警告广播条 -->
         <div class="system-warning-bar" onclick="openModal('network')">
             <i class="fas fa-exclamation-triangle"></i>
             <span>系统提示：下方软件需「科学上网」环境。如需稳定连接，<span class="highlight-text">请点击此处获取专线机场</span></span>
@@ -650,122 +575,119 @@
 
     <!-- ================= 弹窗区域 ================= -->
 
-    <!-- 网络服务弹窗 (含最新线性引导) -->
-   <div id="network-modal" class="modal-overlay">
+<!-- 网络服务弹窗 (高亮优化版) -->
+<div id="network-modal" class="modal-overlay">
     <div class="modal-content">
         <span class="modal-close" onclick="closeModal('network')">&times;</span>
         
-        <div class="ai-header" style="margin-bottom: 20px;">
-            <h2 style="font-size: 1.8em;">跨境网络构建序列</h2>
-            <p style="color:var(--primary);">DEPLOYMENT SEQUENCE</p>
+        <!-- 标题 -->
+        <div class="ai-header" style="margin-bottom: 30px;">
+            <h2 style="font-size: 1.8em;">跨境网络资源库</h2>
+            <p style="color:var(--primary);">NETWORK RESOURCES</p>
         </div>
 
-        <!-- 1-6 步 线性引导区 -->
-        <div class="roadmap-container">
-            
-            <!-- 1. 新手必读 -->
-            <a href="rumen.html" target="_blank" class="step-card">
-                <div class="step-num">01</div>
-                <div class="step-content">
-                    <h3><i class="fas fa-book-reader" style="color: #00f3ff;"></i> 新手必读 · 认知篇</h3>
-                    <p>从0到1完整操作指南，先看懂，再动手。</p>
+        <!-- 第一组：基础环境 -->
+        <div class="modal-section-title" style="margin-top:0;">基础环境 & 账号</div>
+        <div class="modal-grid">
+            <a href="rumen.html" target="_blank" class="link-card">
+                <i class="fas fa-book-reader"></i>
+                <div>
+                    <h3>新手必读 · 认知篇</h3>
+                    <p>小白第一步，防封避坑指南。</p>
                 </div>
-                <i class="fas fa-chevron-right step-icon"></i>
             </a>
-
-            <!-- 2. 账号购买 -->
-            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="step-card">
-                <div class="step-num">02</div>
-                <div class="step-content">
-                    <h3><i class="fas fa-id-card" style="color: #00f3ff;"></i> 基础账号储备</h3>
-                    <p>Apple ID (美区), Google, FB, TK 账号购买。（建议先注册平台再购买）</p>
+            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card">
+                <i class="fas fa-shopping-cart"></i>
+                <div>
+                    <h3>基础账号储备</h3>
+                    <p>美区ID / 谷歌 / TK号 / 各类账号购买。</p>
                 </div>
-                <i class="fas fa-shopping-cart step-icon"></i>
             </a>
-
-            <!-- 3. 专线机场 -->
-            <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="step-card">
-                <div class="step-num">03</div>
-                <div class="step-content">
-                    <h3><i class="fas fa-plane-departure" style="color: #bc13fe;"></i> 专线机场连接</h3>
-                    <p>解决能不能连上的问题。用于海外顶级AI使用、日常浏览、查资料及作为 ISP 的前置代理。</p>
+            <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
+                <i class="fas fa-plane-departure" style="color: #bc13fe;"></i>
+                <div>
+                    <h3>专线机场SSR连接</h3>
+                    <p>使用海外顶级AI必备 | 住宅IP前置代理必备。</p>
                 </div>
-                <i class="fas fa-bolt step-icon"></i>
-            </a>
-
-            <!-- 4. 住宅 IP (合并 Miya 和 Kookeey) -->
-            <div class="step-card" style="display: flex; flex-direction: column; align-items: stretch; cursor: default;">
-                <div style="display: flex; align-items: center;">
-                    <div class="step-num">04</div>
-                    <div class="step-content">
-                        <h3><i class="fas fa-map-marker-alt" style="color: #bc13fe;"></i> 纯净住宅 IP (ISP)</h3>
-                        <p>TK运营/直播必备。原生IP，解决0播放。请根据需求二选一：</p>
-                    </div>
-                </div>
-                <!-- 内部子选项 -->
-                <div class="sub-options" style="margin-left: 60px;">
-                    <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="sub-btn">
-                        <i class="fas fa-server"></i> <b>米亚 ISP</b> (短视频使用，无需中转 | 85折码: 3yue85D)
-                    </a>
-                    <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="sub-btn">
-                        <i class="fas fa-key"></i> <b>Kookeey</b> (短视频/直播使用，热门国家 | 需机场中转)
-                    </a>
-                </div>
-            </div>
-
-            <!-- 5. 软路由 (指向站长服务) -->
-            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="step-card premium-step">
-                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">05</div>
-                <div class="step-content">
-                    <h3><i class="fas fa-microchip" style="color: var(--gold);"></i> 软路由 / 硬件环境</h3>
-                    <p>硬核玩家首选。打造家庭/工作室无感跨境网络环境，全屋覆盖。</p>
-                </div>
-                <i class="fas fa-network-wired step-icon" style="color:var(--gold);"></i>
-            </a>
-
-            <!-- 6. 搭建课程 (指向站长服务) -->
-            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="step-card premium-step">
-                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">06</div>
-                <div class="step-content">
-                    <h3><i class="fas fa-graduation-cap" style="color: var(--gold);"></i> 节点搭建课程 / 代搭建</h3>
-                    <p>终极解决方案。自己做云端独享节点，彻底告别封号焦虑。</p>
-                </div>
-                <i class="fas fa-rocket step-icon" style="color:var(--gold);"></i>
             </a>
         </div>
 
-        <!-- 分隔线：以下是自建VPS -->
+        <!-- 第二组：住宅IP -->
+        <div class="modal-section-title">纯净住宅 IP (解决0播放/限流)</div>
+        <div class="modal-grid">
+            <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card">
+                <i class="fas fa-fire" style="color:#ff5f5f;"></i>
+                <div>
+                    <h3>米亚 (短视频推荐)</h3>
+                    <p>最简单无需中转 | 85折优惠码：<span class="code-badge">3yue85D</span></p>
+                </div>
+            </a>
+            <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
+                <i class="fas fa-globe"></i>
+                <div>
+                    <h3>Kookeey (短视频/直播推荐)</h3>
+                    <p>国家多 | <span class="text-highlight">需机场SSR中转</span></p>
+                </div>
+            </a>
+            <a href="https://www.proxystore.net/?ref=28502" target="_blank" class="link-card">
+                <i class="fab fa-paypal" style="color:#003087;"></i>
+                <div>
+                    <h3>ProxyStore</h3>
+                    <p>英美巨头住宅IP | <span class="text-highlight">不支持国内支付</span> | 只支持paypal/stripe</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- 第三组：核心业务 (金色高亮) -->
+        <div class="modal-section-title gold-title">🔥 站长核心业务 (防封终极方案)</div>
+        <div class="modal-grid">
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card gold-card">
+                <i class="fas fa-server"></i>
+                <div>
+                    <h3>软路由 / 硬件环境</h3>
+                    <p>工作室首选，打造全屋无感跨境网络。</p>
+                </div>
+            </a>
+            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card gold-card">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                    <h3>独享节点搭建课程</h3>
+                    <p>授人以渔，彻底告别封号焦虑。</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- 第四组：自建VPS -->
         <div class="vps-divider">
             <span>高阶 · 自建节点服务器 (VPS)</span>
         </div>
 
         <div class="modal-grid">
-            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                <i class="fas fa-lock"></i> <h3>IPRaft 原生VPS</h3>
-            </a>
-            <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                <i class="fas fa-crown"></i> <h3>搬瓦工 CN2 GIA</h3>
+            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired"></i> <div><h3>LisaHost 大带宽</h3><p>解锁流媒体</p></div>
             </a>
             <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                <i class="fas fa-cloud"></i> <h3>66云 纯净住宅</h3>
+                <i class="fas fa-cloud"></i> <div><h3>66云 纯净住宅</h3><p>适合多业务场景</p></div>
             </a>
-            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                <i class="fas fa-network-wired"></i> <h3>LisaHost 大带宽</h3>
+            <a href="cn2/banwagong.html" target="_blank" class="link-card">
+                <i class="fas fa-crown"></i> <div><h3>搬瓦工 CN2 GIA</h3><p>老牌稳定/速度快</p></div>
+            </a>
+            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
+                <i class="fas fa-lock"></i> <div><h3>IPRaft 原生VPS</h3><p>优质线路推荐</p></div>
             </a>
             <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                <i class="fas fa-bolt"></i> <h3>ZoroCloud 优化</h3>
+                <i class="fas fa-bolt"></i> <div><h3>ZoroCloud 优化</h3><p>性价比之选</p></div>
             </a>
             <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                <i class="fas fa-globe-asia"></i> <h3>WEPC VPS</h3>
+                <i class="fas fa-globe-asia"></i> <div><h3>WEPC VPS</h3><p>澳洲/香港线路</p></div>
             </a>
             <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
-                <i class="fas fa-home"></i> <h3>美国真实家宽ATT</h3>
+                <i class="fas fa-home"></i> <div><h3>美国真实家宽ATT</h3><p>稀缺家庭IP资源</p></div>
             </a>
         </div>
     </div>
 </div>
-
-    <!-- AI 视频弹窗 (UI 升级版) -->
+    <!-- AI 视频弹窗 -->
     <div id="ai-video-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 900px;">
             <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>

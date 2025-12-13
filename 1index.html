@@ -419,135 +419,135 @@
         }
 
         /* === 引导式列表样式 (Roadmap Style) === */
-.roadmap-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 35px;
-    position: relative;
-}
+        .roadmap-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 35px;
+            position: relative;
+        }
 
-/* 连接线效果 */
-.roadmap-container::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    bottom: 20px;
-    left: 28px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
-    z-index: 0;
-    opacity: 0.3;
-}
+        /* 连接线效果 */
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 28px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+            z-index: 0;
+            opacity: 0.3;
+        }
 
-.step-card {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
-    border-radius: 12px;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    backdrop-filter: blur(5px);
-}
+        .step-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
 
-.step-card:hover {
-    background: rgba(0, 243, 255, 0.08);
-    border-color: var(--primary);
-    transform: translateX(10px);
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-}
+        .step-card:hover {
+            background: rgba(0, 243, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateX(10px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        }
 
-/* 特殊步骤高亮 (如付费/核心步骤) */
-.step-card.premium-step:hover {
-    background: rgba(188, 19, 254, 0.08);
-    border-color: var(--secondary);
-    box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
-}
+        /* 特殊步骤高亮 (如付费/核心步骤) */
+        .step-card.premium-step:hover {
+            background: rgba(188, 19, 254, 0.08);
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
+        }
 
-.step-num {
-    font-family: 'Orbitron';
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #444;
-    margin-right: 20px;
-    min-width: 40px;
-    text-align: center;
-    background: #0f0f13; /* 遮挡背景线 */
-    padding: 5px 0;
-    border: 1px solid #333;
-    border-radius: 8px;
-    transition: 0.3s;
-}
+        .step-num {
+            font-family: 'Orbitron';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #444;
+            margin-right: 20px;
+            min-width: 40px;
+            text-align: center;
+            background: #0f0f13; /* 遮挡背景线 */
+            padding: 5px 0;
+            border: 1px solid #333;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
 
-.step-card:hover .step-num {
-    color: var(--primary);
-    border-color: var(--primary);
-    text-shadow: 0 0 10px var(--primary);
-}
-.step-card.premium-step:hover .step-num {
-    color: var(--secondary);
-    border-color: var(--secondary);
-    text-shadow: 0 0 10px var(--secondary);
-}
+        .step-card:hover .step-num {
+            color: var(--primary);
+            border-color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        .step-card.premium-step:hover .step-num {
+            color: var(--secondary);
+            border-color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
 
-.step-content { flex: 1; }
-.step-content h3 {
-    font-size: 1.1rem;
-    color: #eee;
-    margin-bottom: 4px;
-    font-family: 'Rajdhani';
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.step-content p { font-size: 0.85rem; color: #888; margin: 0; line-height: 1.4; }
+        .step-content { flex: 1; }
+        .step-content h3 {
+            font-size: 1.1rem;
+            color: #eee;
+            margin-bottom: 4px;
+            font-family: 'Rajdhani';
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-content p { font-size: 0.85rem; color: #888; margin: 0; line-height: 1.4; }
 
-.step-icon {
-    font-size: 1.4rem;
-    color: #666;
-    margin-left: 15px;
-    transition: 0.3s;
-}
-.step-card:hover .step-icon { color: #fff; transform: scale(1.2); }
+        .step-icon {
+            font-size: 1.4rem;
+            color: #666;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+        .step-card:hover .step-icon { color: #fff; transform: scale(1.2); }
 
-/* 住宅IP内部按钮组 */
-.sub-options {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-}
-.sub-btn {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid #444;
-    border-radius: 4px;
-    color: #aaa;
-    text-decoration: none;
-    transition: 0.3s;
-}
-.sub-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.1); }
+        /* 住宅IP内部按钮组 */
+        .sub-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .sub-btn {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .sub-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.1); }
 
-/* VPS 分隔区 */
-.vps-divider {
-    border-top: 1px dashed #333;
-    margin: 30px 0 20px;
-    position: relative;
-    text-align: center;
-}
-.vps-divider span {
-    background: #0f0f13;
-    padding: 0 15px;
-    position: relative;
-    top: -12px;
-    color: #666;
-    font-family: 'Orbitron';
-    font-size: 0.9em;
-}
+        /* VPS 分隔区 */
+        .vps-divider {
+            border-top: 1px dashed #333;
+            margin: 30px 0 20px;
+            position: relative;
+            text-align: center;
+        }
+        .vps-divider span {
+            background: #0f0f13;
+            padding: 0 15px;
+            position: relative;
+            top: -12px;
+            color: #666;
+            font-family: 'Orbitron';
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -606,8 +606,8 @@
 
         <!-- 核心业务区 -->
         <div class="hero-grid">
-            <!-- 网络服务 -->
-            <div class="holo-card hero-card" onclick="openModal('network'); initAudioContext();" >
+            <!-- 网络服务 (已删除自动播放事件) -->
+            <div class="holo-card hero-card" onclick="openModal('network')">
                 <span class="tag tag-hot">CORE</span>
                 <i class="fas fa-network-wired main-icon"></i>
                 <i class="fas fa-globe bg-icon"></i>
@@ -615,8 +615,8 @@
                 <p>包含：VPS推荐、机场、独享IP、TK网络、账号购买等全套资源。</p>
             </div>
 
-            <!-- AI 视频 -->
-            <div class="holo-card hero-card" onclick="openModal('ai-video'); initAudioContext();" >
+            <!-- AI 视频 (已删除自动播放事件) -->
+            <div class="holo-card hero-card" onclick="openModal('ai-video')">
                 <span class="tag tag-new">AUTO</span>
                 <i class="fas fa-robot main-icon" style="color: var(--secondary);"></i>
                 <i class="fas fa-video bg-icon"></i>
@@ -645,17 +645,12 @@
                 <i class="fas fa-hashtag"></i>
                 <h3>社交媒体</h3>
             </div>
-             <!-- <div class="holo-card mini-card" onclick="window.open('https://dapian.sbs','_blank')">
-                <i class="fas fa-film"></i>
-                <h3>免费电影</h3>
-            </div> -->
         </div>
     </main>
 
     <!-- ================= 弹窗区域 ================= -->
 
-    <!-- 网络服务弹窗 -->
-   <!-- 网络服务弹窗 -->
+    <!-- 网络服务弹窗 (含最新线性引导) -->
    <div id="network-modal" class="modal-overlay">
     <div class="modal-content">
         <span class="modal-close" onclick="closeModal('network')">&times;</span>
@@ -714,6 +709,9 @@
                     </a>
                     <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="sub-btn">
                         <i class="fas fa-key"></i> <b>Kookeey</b> (短视频/直播使用，热门国家 | 需机场中转)
+                    </a>
+                    <a href="https://www.proxystore.net/?ref=28502" target="_blank" class="sub-btn">
+                        <i class="fas fa-key"></i> <b>ProxyStore</b> (英美巨头住宅IP | 需机场中转 | 不支持国内支付软件| 只支持paypal/stripe支付)
                     </a>
                 </div>
             </div>
@@ -1028,7 +1026,7 @@
         });
 
 
-        /* ================= 2. 音乐播放器 ================= */
+        /* ================= 2. 音乐播放器 (纯手动模式) ================= */
         
         const playlist = [
             'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
@@ -1053,8 +1051,7 @@
         const playBtn = document.getElementById('playBtn');
         const trackDisplay = document.getElementById('trackNameDisplay');
         const visualizer = document.getElementById('visualizer');
-        let isPlaying = false;
-        let hasInteracted = false;
+        let isPlaying = false; 
 
         function getFileName(url) {
             try { return decodeURIComponent(url.split('/').pop().replace('.mp3', '')); } catch(e){ return "Unknown"; }
@@ -1064,16 +1061,19 @@
             currentTrack = (index + playlist.length) % playlist.length;
             audio.src = playlist[currentTrack];
             trackDisplay.textContent = getFileName(playlist[currentTrack]);
+            
+            // 只有当 isPlaying 为 true 时才自动播放（即用户已经开始播放了，切歌时才自动）
             if(isPlaying) {
-                audio.play().catch(e => console.warn("Auto-play blocked inside loadTrack"));
+                audio.play().catch(e => {
+                    console.warn("Auto-play blocked or waiting for interaction");
+                    isPlaying = false;
+                    updateUI(false);
+                });
             }
         }
 
         function togglePlay() {
             if(!audio.src) {
-                if (currentTrack === 0 && !hasInteracted) {
-                     currentTrack = Math.floor(Math.random() * playlist.length);
-                }
                 loadTrack(currentTrack);
             }
             
@@ -1082,7 +1082,7 @@
                     isPlaying = true;
                     updateUI(true);
                 }).catch(err => {
-                    console.log("Play failed, waiting for interaction");
+                    console.error("Play failed:", err);
                 });
             } else {
                 audio.pause();
@@ -1101,30 +1101,25 @@
             }
         }
 
-        function nextTrack() { loadTrack(currentTrack + 1); isPlaying = true; audio.play(); updateUI(true); }
-        function prevTrack() { loadTrack(currentTrack - 1); isPlaying = true; audio.play(); updateUI(true); }
-
-        function initAudioContext() {
-            if(!hasInteracted) {
-                hasInteracted = true;
-                if(!audio.src) {
-                    currentTrack = Math.floor(Math.random() * playlist.length);
-                    loadTrack(currentTrack);
-                }
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateUI(true);
-                }).catch(e => {
-                    console.log("Audio init failed (likely browser block), waiting for explicit play click");
-                });
-            }
+        function nextTrack() { 
+            isPlaying = true; 
+            loadTrack(currentTrack + 1); 
+            updateUI(true); 
         }
-        document.body.addEventListener('click', initAudioContext, { once: true });
+        
+        function prevTrack() { 
+            isPlaying = true;
+            loadTrack(currentTrack - 1); 
+            updateUI(true); 
+        }
+
         audio.addEventListener('ended', nextTrack);
         
+        // 初始加载第一首歌，但不播放
         currentTrack = Math.floor(Math.random() * playlist.length);
         loadTrack(currentTrack);
-
+        isPlaying = false;
+        updateUI(false);
 
         /* ================= 3. 弹窗控制 ================= */
         function closeAllModals() {
