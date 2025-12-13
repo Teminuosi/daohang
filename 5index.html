@@ -30,48 +30,41 @@
             flex-direction: column;
         }
 
-        body.modal-open { overflow: hidden; padding-right: 17px; /* 防止滚动条消失页面抖动 */ }
+        body.modal-open { overflow: hidden; padding-right: 17px; }
 
         /* === 背景特效 === */
+        .scanline-moving {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 243, 255, 0.02) 51%, transparent 51%);
+            background-size: 100% 4px;
+            animation: scan-move 10s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
+        .scan-beam {
+            position: fixed; top: -10%; left: 0; width: 100%; height: 20px;
+            background: rgba(0, 243, 255, 0.15);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            filter: blur(5px);
+            animation: beam-drop 8s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
 
-        /* === 新增特效升级 === */
+        .cyber-grid {
+            position: fixed; bottom: -20%; left: -50%; width: 200%; height: 60%;
+            background: 
+                linear-gradient(transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px),
+                linear-gradient(90deg, transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: grid-move 20s linear infinite;
+            z-index: -2;
+            mask-image: linear-gradient(to bottom, transparent, black 40%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%);
+        }
 
-/* 1. 动态扫描线 (模拟 CRT 显示器) */
-.scanline-moving {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0, 243, 255, 0.02) 51%, transparent 51%);
-    background-size: 100% 4px;
-    animation: scan-move 10s linear infinite;
-    pointer-events: none; z-index: 0;
-}
-.scan-beam {
-    position: fixed; top: -10%; left: 0; width: 100%; height: 20px;
-    background: rgba(0, 243, 255, 0.15);
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-    filter: blur(5px);
-    animation: beam-drop 8s linear infinite;
-    pointer-events: none; z-index: 0;
-}
-
-/* 2. 赛博朋克 3D 地网 (增加纵深感) */
-.cyber-grid {
-    position: fixed; bottom: -20%; left: -50%; width: 200%; height: 60%;
-    background: 
-        linear-gradient(transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px),
-        linear-gradient(90deg, transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px);
-    background-size: 60px 60px;
-    transform: perspective(500px) rotateX(60deg);
-    animation: grid-move 20s linear infinite;
-    z-index: -2;
-    mask-image: linear-gradient(to bottom, transparent, black 40%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%);
-}
-
-/* 动画定义 */
-@keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-@keyframes beam-drop { 0% { top: -10%; opacity: 0; } 20% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
-@keyframes grid-move { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
-
+        @keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
+        @keyframes beam-drop { 0% { top: -10%; opacity: 0; } 20% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+        @keyframes grid-move { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
 
         #canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .scanlines {
@@ -191,27 +184,54 @@
         }
         .tag-hot { background: rgba(255, 0, 100, 0.2); color: #ff0064; border: 1px solid #ff0064; }
         .tag-new { background: rgba(0, 243, 255, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+        
+        /* 新增：系统警告条 */
+        .system-warning-bar {
+            width: 100%; max-width: 1200px;
+            background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.6), rgba(188, 19, 254, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ddd;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            backdrop-filter: blur(5px);
+            animation: pulse-border 3s infinite;
+        }
+        .system-warning-bar:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+            transform: scale(1.01);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        }
+        .system-warning-bar i { color: var(--gold); font-size: 1.1em; }
+        .highlight-text { color: var(--gold); font-weight: bold; text-decoration: underline; margin-left: 5px; }
+
+        @keyframes pulse-border {
+            0% { border-color: rgba(255, 215, 0, 0.3); }
+            50% { border-color: rgba(255, 215, 0, 0.7); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+            100% { border-color: rgba(255, 215, 0, 0.3); }
+        }
 
         /* === 弹窗样式 === */
-      /* === 弹窗样式 (修复幽灵点击问题) === */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000;
             display: flex; justify-content: center; align-items: center;
-            /* 默认状态：不可见、完全透明、鼠标不可点击 */
             opacity: 0; 
             visibility: hidden; 
-            pointer-events: none; /* 关键：防止点击穿透 */
+            pointer-events: none;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         .modal-overlay.visible { 
-            /* 激活状态：可见、不透明、鼠标可点击 */
             opacity: 1; 
             visibility: visible; 
-            pointer-events: auto; /* 关键：允许点击 */
+            pointer-events: auto;
         }
 
-        /* 缩放动画保持不变 */
         .modal-content {
             background: #0f0f13; border: 1px solid var(--primary);
             box-shadow: 0 0 50px rgba(0, 243, 255, 0.15); border-radius: 16px;
@@ -241,13 +261,10 @@
         .link-card h3 { font-size: 1rem; margin: 0; font-weight: 500; }
         .link-card p { font-size: 0.8rem; color: #777; margin: 3px 0 0; }
         
-        /* 特殊卡片 */
         .card-highlight { border: 1px solid var(--secondary); background: rgba(188, 19, 254, 0.05); }
 
         /* VIP/Premium Card Styles */
-        .premium-card-container {
-            margin-bottom: 30px;
-        }
+        .premium-card-container { margin-bottom: 30px; }
         .premium-card {
             background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 30, 0, 0.3));
             border: 1px solid var(--gold);
@@ -293,23 +310,11 @@
             font-family: 'Rajdhani';
         }
 
-        /* 案例展示呼吸特效 */
-        .pulsing-card {
-            border-color: var(--secondary) !important;
-            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
-            animation: pulse-border 2s infinite;
-        }
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(188, 19, 254, 0.6); border-color: #e066ff !important; }
-            100% { box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); }
-        }
-
         /* 响应式 */
         @media (max-width: 1200px) {
             .sidebar { width: 70px; padding: 20px 5px; }
             .sidebar .tool-item { justify-content: center; } 
-            .sidebar .tool-item span { display: none; } /* 图标模式 */
+            .sidebar .tool-item span { display: none; }
             .sidebar-title { display: none; }
             .main-content { margin: 0 70px; }
         }
@@ -321,108 +326,227 @@
             .logo-text { font-size: 2.2rem; }
             .modal-content { padding: 25px 15px; }
             .premium-card { flex-direction: column; text-align: center; }
+            .system-warning-bar { font-size: 0.85rem; padding: 10px; text-align: left; }
         }
 
-/* === AI 视频模态框专属样式优化 === */
+        /* === AI 视频模态框专属样式优化 === */
+        .ai-header { text-align: center; margin-bottom: 35px; }
+        .ai-header h2 { 
+            font-family: 'Orbitron'; color: #fff; font-size: 2.2em; 
+            text-shadow: 0 0 20px rgba(188, 19, 254, 0.6); margin-bottom: 10px;
+        }
+        .ai-header p { color: #888; font-size: 0.95em; letter-spacing: 1px; }
 
-/* 头部介绍 */
-.ai-header { text-align: center; margin-bottom: 35px; }
-.ai-header h2 { 
-    font-family: 'Orbitron'; color: #fff; font-size: 2.2em; 
-    text-shadow: 0 0 20px rgba(188, 19, 254, 0.6); margin-bottom: 10px;
+        .pricing-container {
+            display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 30px;
+        }
+
+        .pricing-card {
+            flex: 1; min-width: 260px; max-width: 320px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px; padding: 30px 20px;
+            position: relative; overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pricing-card.premium {
+            background: linear-gradient(160deg, rgba(188, 19, 254, 0.1), rgba(0,0,0,0.4));
+            border: 1px solid rgba(188, 19, 254, 0.5);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
+        }
+        .pricing-card.premium::before {
+            content: 'RECOMMENDED'; position: absolute; top: 12px; right: -30px;
+            background: var(--secondary); color: #fff; font-size: 0.7em; font-weight: bold;
+            padding: 5px 30px; transform: rotate(45deg); box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .pricing-card.premium:hover {
+            transform: translateY(-5px); box-shadow: 0 10px 40px rgba(188, 19, 254, 0.3); border-color: #e066ff;
+        }
+
+        .pricing-card.basic { border: 1px solid rgba(255,255,255,0.1); }
+        .pricing-card.basic:hover { background: rgba(255,255,255,0.06); border-color: #666; }
+
+        .price-tag { margin: 20px 0; text-align: center; }
+        .price-currency { font-size: 1.2em; vertical-align: top; color: #888; }
+        .price-num { font-family: 'Orbitron'; font-size: 3em; font-weight: bold; color: #fff; }
+        .premium .price-num { 
+            background: linear-gradient(to bottom, #fff, var(--secondary)); 
+            -webkit-background-clip: text; color: transparent; 
+            text-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+        }
+
+        .feature-list { list-style: none; width: 100%; padding: 0 10px; margin-top: 10px; }
+        .feature-list li {
+            display: flex; align-items: center; gap: 10px;
+            color: #ccc; font-size: 0.9em; margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list i { font-size: 1em; width: 20px; text-align: center; }
+        .check-icon { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
+        .cross-icon { color: #ff3366; opacity: 0.7; }
+
+        .demo-banner {
+            display: flex; align-items: center; gap: 20px;
+            background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 243, 255, 0.05));
+            border: 1px solid var(--secondary); border-radius: 12px;
+            padding: 20px 30px; text-decoration: none;
+            transition: 0.3s; position: relative; overflow: hidden;
+            margin-top: 10px;
+        }
+        .demo-banner:hover {
+            background: linear-gradient(90deg, rgba(188, 19, 254, 0.2), rgba(0, 243, 255, 0.1));
+            border-color: #fff; transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(188, 19, 254, 0.4);
+        }
+        .play-btn-circle {
+            width: 50px; height: 50px; background: var(--secondary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--secondary); color: #fff; font-size: 1.2em;
+            animation: pulse 2s infinite; flex-shrink: 0;
+        }
+        .demo-info h3 { color: #fff; font-size: 1.1em; margin-bottom: 5px; font-family: 'Orbitron'; }
+        .demo-info p { color: #bbb; font-size: 0.85em; }
+        .demo-arrow { margin-left: auto; color: var(--secondary); font-size: 1.2em; transition:0.3s;}
+        .demo-banner:hover .demo-arrow { transform: translateX(5px); color: #fff; }
+
+        @media (max-width: 768px) {
+            .pricing-container { flex-direction: column; }
+            .pricing-card { max-width: 100%; }
+            .demo-banner { padding: 15px; }
+        }
+
+        /* === 引导式列表样式 (Roadmap Style) === */
+.roadmap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 35px;
+    position: relative;
 }
-.ai-header p { color: #888; font-size: 0.95em; letter-spacing: 1px; }
 
-/* 价格卡片容器 */
-.pricing-container {
-    display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 30px;
+/* 连接线效果 */
+.roadmap-container::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 28px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+    z-index: 0;
+    opacity: 0.3;
 }
 
-/* 卡片通用样式 */
-.pricing-card {
-    flex: 1; min-width: 260px; max-width: 320px;
+.step-card {
+    display: flex;
+    align-items: center;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 16px; padding: 30px 20px;
-    position: relative; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
     transition: all 0.3s ease;
-    display: flex; flex-direction: column; align-items: center;
-    border: 1px solid rgba(255,255,255,0.1);
+    text-decoration: none;
+    backdrop-filter: blur(5px);
 }
 
-/* 1. 站长配置版 (尊贵高亮) */
-.pricing-card.premium {
-    background: linear-gradient(160deg, rgba(188, 19, 254, 0.1), rgba(0,0,0,0.4));
-    border: 1px solid rgba(188, 19, 254, 0.5);
-    box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
-}
-.pricing-card.premium::before {
-    content: 'RECOMMENDED'; position: absolute; top: 12px; right: -30px;
-    background: var(--secondary); color: #fff; font-size: 0.7em; font-weight: bold;
-    padding: 5px 30px; transform: rotate(45deg); box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-.pricing-card.premium:hover {
-    transform: translateY(-5px); box-shadow: 0 10px 40px rgba(188, 19, 254, 0.3); border-color: #e066ff;
+.step-card:hover {
+    background: rgba(0, 243, 255, 0.08);
+    border-color: var(--primary);
+    transform: translateX(10px);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
 }
 
-/* 2. 源码版 (冷淡科技) */
-.pricing-card.basic {
-    border: 1px solid rgba(255,255,255,0.1);
-}
-.pricing-card.basic:hover {
-    background: rgba(255,255,255,0.06); border-color: #666;
-}
-
-/* 价格文字 */
-.price-tag { margin: 20px 0; text-align: center; }
-.price-currency { font-size: 1.2em; vertical-align: top; color: #888; }
-.price-num { font-family: 'Orbitron'; font-size: 3em; font-weight: bold; color: #fff; }
-.premium .price-num { 
-    background: linear-gradient(to bottom, #fff, var(--secondary)); 
-    -webkit-background-clip: text; color: transparent; 
-    text-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+/* 特殊步骤高亮 (如付费/核心步骤) */
+.step-card.premium-step:hover {
+    background: rgba(188, 19, 254, 0.08);
+    border-color: var(--secondary);
+    box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
 }
 
-/* 功能列表 */
-.feature-list { list-style: none; width: 100%; padding: 0 10px; margin-top: 10px; }
-.feature-list li {
-    display: flex; align-items: center; gap: 10px;
-    color: #ccc; font-size: 0.9em; margin-bottom: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;
+.step-num {
+    font-family: 'Orbitron';
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #444;
+    margin-right: 20px;
+    min-width: 40px;
+    text-align: center;
+    background: #0f0f13; /* 遮挡背景线 */
+    padding: 5px 0;
+    border: 1px solid #333;
+    border-radius: 8px;
+    transition: 0.3s;
 }
-.feature-list li:last-child { border-bottom: none; }
-.feature-list i { font-size: 1em; width: 20px; text-align: center; }
-.check-icon { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
-.cross-icon { color: #ff3366; opacity: 0.7; }
 
-/* 案例展示通栏按钮 */
-.demo-banner {
-    display: flex; align-items: center; gap: 20px;
-    background: linear-gradient(90deg, rgba(188, 19, 254, 0.1), rgba(0, 243, 255, 0.05));
-    border: 1px solid var(--secondary); border-radius: 12px;
-    padding: 20px 30px; text-decoration: none;
-    transition: 0.3s; position: relative; overflow: hidden;
-    margin-top: 10px;
+.step-card:hover .step-num {
+    color: var(--primary);
+    border-color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
 }
-.demo-banner:hover {
-    background: linear-gradient(90deg, rgba(188, 19, 254, 0.2), rgba(0, 243, 255, 0.1));
-    border-color: #fff; transform: scale(1.02);
-    box-shadow: 0 0 25px rgba(188, 19, 254, 0.4);
+.step-card.premium-step:hover .step-num {
+    color: var(--secondary);
+    border-color: var(--secondary);
+    text-shadow: 0 0 10px var(--secondary);
 }
-.play-btn-circle {
-    width: 50px; height: 50px; background: var(--secondary); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 15px var(--secondary); color: #fff; font-size: 1.2em;
-    animation: pulse 2s infinite; flex-shrink: 0;
-}
-.demo-info h3 { color: #fff; font-size: 1.1em; margin-bottom: 5px; font-family: 'Orbitron'; }
-.demo-info p { color: #bbb; font-size: 0.85em; }
-.demo-arrow { margin-left: auto; color: var(--secondary); font-size: 1.2em; transition:0.3s;}
-.demo-banner:hover .demo-arrow { transform: translateX(5px); color: #fff; }
 
-@media (max-width: 768px) {
-    .pricing-container { flex-direction: column; }
-    .pricing-card { max-width: 100%; }
-    .demo-banner { padding: 15px; }
+.step-content { flex: 1; }
+.step-content h3 {
+    font-size: 1.1rem;
+    color: #eee;
+    margin-bottom: 4px;
+    font-family: 'Rajdhani';
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.step-content p { font-size: 0.85rem; color: #888; margin: 0; line-height: 1.4; }
+
+.step-icon {
+    font-size: 1.4rem;
+    color: #666;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+.step-card:hover .step-icon { color: #fff; transform: scale(1.2); }
+
+/* 住宅IP内部按钮组 */
+.sub-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+.sub-btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.sub-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.1); }
+
+/* VPS 分隔区 */
+.vps-divider {
+    border-top: 1px dashed #333;
+    margin: 30px 0 20px;
+    position: relative;
+    text-align: center;
+}
+.vps-divider span {
+    background: #0f0f13;
+    padding: 0 15px;
+    position: relative;
+    top: -12px;
+    color: #666;
+    font-family: 'Orbitron';
+    font-size: 0.9em;
 }
     </style>
 </head>
@@ -441,7 +565,6 @@
         <div onclick="openModal('query-tools')" class="tool-item">
             <i class="fas fa-globe"></i> <span>查询工具</span>
         </div>
-        <!-- 测速软件独立出来 -->
         <div onclick="openModal('proxy-tools')" class="tool-item">
             <i class="fas fa-microchip"></i> <span>科学软件</span>
         </div>
@@ -459,12 +582,6 @@
         <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="tool-item">
             <i class="fab fa-telegram-plane"></i> <span>联系站长</span>
         </a>
-        <!-- <a href="member.html" class="tool-item" style="color: gold;">
-            <i class="fas fa-crown"></i> <span>会员中心</span>
-        </a>
-        <a href="https://dapian.sbs" target="_blank" class="tool-item">
-            <i class="fas fa-ticket-alt"></i> <span>电影天堂</span>
-        </a> -->
     </aside>
 
     <!-- 主内容区 -->
@@ -507,6 +624,12 @@
                 <p>N8N 全自动化母体。只需素材，AI自动剪辑、解说、去重。矩阵运营神器。</p>
             </div>
         </div>
+        
+        <!-- 新增：系统警告广播条 (点击跳转网络服务/机场购买) -->
+        <div class="system-warning-bar" onclick="openModal('network')">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>系统提示：下方软件需「科学上网」环境。如需稳定连接，<span class="highlight-text">请点击此处获取专线机场</span></span>
+        </div>
 
         <!-- 资源矩阵 -->
         <div class="resource-grid">
@@ -532,143 +655,181 @@
     <!-- ================= 弹窗区域 ================= -->
 
     <!-- 网络服务弹窗 -->
-    <div id="network-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('network')">&times;</span>
-            <h2 style="color:var(--primary); text-align:center; margin-bottom: 25px;">跨境网络核心资源</h2>
+   <!-- 网络服务弹窗 -->
+   <div id="network-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('network')">&times;</span>
+        
+        <div class="ai-header" style="margin-bottom: 20px;">
+            <h2 style="font-size: 1.8em;">跨境网络构建序列</h2>
+            <p style="color:var(--primary);">DEPLOYMENT SEQUENCE</p>
+        </div>
+
+        <!-- 1-6 步 线性引导区 -->
+        <div class="roadmap-container">
             
-            <!-- 核心业务置顶区 (原 TikTok 独享节点) -->
-            <div class="premium-card-container">
-                <a href="https://dajian.cyou/" target="_blank" class="premium-card">
-                    <div class="premium-badge">站长核心业务</div>
-                    <div class="premium-icon"><i class="fas fa-rocket"></i></div>
-                    <div class="premium-content">
-                        <h3>TikTok 独享原生节点搭建</h3>
-                        <p>告别封号，专为 TK 矩阵运营打造。独享纯净 IP，0 关联风险，完美解决 0 播放问题。点击咨询搭建。</p>
+            <!-- 1. 新手必读 -->
+            <a href="rumen.html" target="_blank" class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-book-reader" style="color: #00f3ff;"></i> 新手必读 · 认知篇</h3>
+                    <p>从0到1完整操作指南，先看懂，再动手。</p>
+                </div>
+                <i class="fas fa-chevron-right step-icon"></i>
+            </a>
+
+            <!-- 2. 账号购买 -->
+            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-id-card" style="color: #00f3ff;"></i> 基础账号储备</h3>
+                    <p>Apple ID (美区), Google, FB, TK 账号购买。（建议先注册平台再购买）</p>
+                </div>
+                <i class="fas fa-shopping-cart step-icon"></i>
+            </a>
+
+            <!-- 3. 专线机场 -->
+            <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-plane-departure" style="color: #bc13fe;"></i> 专线机场连接</h3>
+                    <p>解决能不能连上的问题。用于海外顶级AI使用、日常浏览、查资料及作为 ISP 的前置代理。</p>
+                </div>
+                <i class="fas fa-bolt step-icon"></i>
+            </a>
+
+            <!-- 4. 住宅 IP (合并 Miya 和 Kookeey) -->
+            <div class="step-card" style="display: flex; flex-direction: column; align-items: stretch; cursor: default;">
+                <div style="display: flex; align-items: center;">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <h3><i class="fas fa-map-marker-alt" style="color: #bc13fe;"></i> 纯净住宅 IP (ISP)</h3>
+                        <p>TK运营/直播必备。原生IP，解决0播放。请根据需求二选一：</p>
                     </div>
-                    <i class="fas fa-chevron-right" style="color:var(--gold); margin-left: auto;"></i>
-                </a>
-            </div>
-
-            <div class="modal-section-title">新手与基础</div>
-            <div class="modal-grid">
-                <a href="rumen.html" target="_blank" class="link-card card-highlight">
-                    <i class="fas fa-book"></i>
-                    <div><h3>出海 · 新手必读</h3><p>从0到1完整操作指南</p></div>
-                </a>
-                 <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <div><h3>账号购买</h3><p>Apple ID, Tk, FB, Google等</p></div>
-                </a>
-            </div>
-
-            <div class="modal-section-title">高质量代理 / 机场</div>
-            <div class="modal-grid">
-                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
-                    <i class="fas fa-plane"></i> <h3>专线机场</h3>
-                </a>
-                <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card">
-                    <i class="fas fa-server"></i> <h3>米亚静态ISP</h3>
-                </a>
-                <a href="https://app.proxy-cheap.com/r/pB87S2" target="_blank" class="link-card">
-                    <i class="fas fa-tags"></i> <h3>Proxy Cheap</h3>
-                </a>
-                <a href="https://www.lycheeip.com/home/ip?affId=r9Ku04aWaA" target="_blank" class="link-card">
-                    <i class="fas fa-lemon"></i> <h3>荔枝Socks5</h3>
-                </a>
-                <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
-                    <i class="fas fa-key"></i> <h3>Kookeey Socks5</h3>
-                </a>
-                <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
-                    <i class="fas fa-home"></i> <h3>美国真实家宽ATT</h3>
-                </a>
-            </div>
-
-            <div class="modal-section-title">精选 VPS 服务器</div>
-            <div class="modal-grid">
-                <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                    <i class="fas fa-lock"></i> <h3>IPRaft 原生VPS</h3>
-                </a>
-                <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                    <i class="fas fa-crown"></i> <h3>搬瓦工 CN2 GIA</h3>
-                </a>
-                 <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                    <i class="fas fa-cloud"></i> <h3>66云 纯净住宅</h3>
-                </a>
-                <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                    <i class="fas fa-network-wired"></i> <h3>LisaHost 大带宽</h3>
-                </a>
-                <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                    <i class="fas fa-bolt"></i> <h3>ZoroCloud 优化</h3>
-                </a>
-                 <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                    <i class="fas fa-globe-asia"></i> <h3>WEPC VPS</h3>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI 视频弹窗 (已修改：移除联系站长，突出案例) -->
-    <!-- AI 视频弹窗 (UI 升级版) -->
-<div id="ai-video-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 900px;">
-        <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
-        
-        <div class="ai-header">
-            <h2>N8N 视频创作母体</h2>
-            <p>AI 全自动化流水线 · 解放双手 · 矩阵运营必备</p>
-        </div>
-        
-        <!-- 价格卡片区 -->
-        <div class="pricing-container">
-            <!-- 卡片1：尊贵版 -->
-            <div class="pricing-card premium">
-                <h3 style="color:#e0e0e0; letter-spacing:2px;">站长配置版</h3>
-                <div class="price-tag">
-                    <span class="price-currency">¥</span>
-                    <span class="price-num">899</span>
                 </div>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle check-icon"></i> <span>包含核心 N8N 工作流文件</span></li>
-                    <li><i class="fas fa-check-circle check-icon"></i> <span>一对一远程安装调试</span></li>
-                    <li><i class="fas fa-check-circle check-icon"></i> <span>永久授权 + 后续更新</span></li>
-                    <li><i class="fas fa-check-circle check-icon"></i> <span>赠送 50G 混剪素材库</span></li>
-                </ul>
+                <!-- 内部子选项 -->
+                <div class="sub-options" style="margin-left: 60px;">
+                    <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="sub-btn">
+                        <i class="fas fa-server"></i> <b>米亚 ISP</b> (短视频使用，无需中转 | 85折码: 3yue85D)
+                    </a>
+                    <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="sub-btn">
+                        <i class="fas fa-key"></i> <b>Kookeey</b> (短视频/直播使用，热门国家 | 需机场中转)
+                    </a>
+                </div>
             </div>
 
-            <!-- 卡片2：源码版 -->
-            <div class="pricing-card basic">
-                <h3 style="color:#888;">源码自部署</h3>
-                <div class="price-tag">
-                    <span class="price-currency">¥</span>
-                    <span class="price-num" style="color:#aaa; text-shadow:none;">499</span>
+            <!-- 5. 软路由 (指向站长服务) -->
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="step-card premium-step">
+                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">05</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-microchip" style="color: var(--gold);"></i> 软路由 / 硬件环境</h3>
+                    <p>硬核玩家首选。打造家庭/工作室无感跨境网络环境，全屋覆盖。</p>
                 </div>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>提供完整 JSON 源码</span></li>
-                    <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>附带基础部署文档</span></li>
-                    <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含远程协助与配置</span></li>
-                    <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含素材库赠送</span></li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- 案例展示通栏 -->
-        <div style="margin-top: 10px;">
-            <div class="modal-section-title" style="margin: 0 0 15px 0; border:none; padding:0;">🔥 实战效果演示</div>
-            <a href="n8n/n8n.html" target="_blank" class="demo-banner">
-                <div class="play-btn-circle"><i class="fas fa-play"></i></div>
-                <div class="demo-info">
-                    <h3>WATCH DEMO: 视频自动切片与二创</h3>
-                    <p>点击观看完整工作流运行实录，见证 10 分钟产出 100 条视频的效率。</p>
+                <i class="fas fa-network-wired step-icon" style="color:var(--gold);"></i>
+            </a>
+
+            <!-- 6. 搭建课程 (指向站长服务) -->
+            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="step-card premium-step">
+                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">06</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-graduation-cap" style="color: var(--gold);"></i> 节点搭建课程 / 代搭建</h3>
+                    <p>终极解决方案。自己做云端独享节点，彻底告别封号焦虑。</p>
                 </div>
-                <i class="fas fa-chevron-right demo-arrow"></i>
+                <i class="fas fa-rocket step-icon" style="color:var(--gold);"></i>
             </a>
         </div>
 
+        <!-- 分隔线：以下是自建VPS -->
+        <div class="vps-divider">
+            <span>高阶 · 自建节点服务器 (VPS)</span>
+        </div>
+
+        <div class="modal-grid">
+            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
+                <i class="fas fa-lock"></i> <h3>IPRaft 原生VPS</h3>
+            </a>
+            <a href="cn2/banwagong.html" target="_blank" class="link-card">
+                <i class="fas fa-crown"></i> <h3>搬瓦工 CN2 GIA</h3>
+            </a>
+            <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
+                <i class="fas fa-cloud"></i> <h3>66云 纯净住宅</h3>
+            </a>
+            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired"></i> <h3>LisaHost 大带宽</h3>
+            </a>
+            <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
+                <i class="fas fa-bolt"></i> <h3>ZoroCloud 优化</h3>
+            </a>
+            <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
+                <i class="fas fa-globe-asia"></i> <h3>WEPC VPS</h3>
+            </a>
+            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
+                <i class="fas fa-home"></i> <h3>美国真实家宽ATT</h3>
+            </a>
+        </div>
     </div>
 </div>
 
-    <!-- 科学软件弹窗 (新增) -->
+    <!-- AI 视频弹窗 (UI 升级版) -->
+    <div id="ai-video-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
+            
+            <div class="ai-header">
+                <h2>N8N 视频创作母体</h2>
+                <p>AI 全自动化流水线 · 解放双手 · 矩阵运营必备</p>
+            </div>
+            
+            <!-- 价格卡片区 -->
+            <div class="pricing-container">
+                <!-- 卡片1：尊贵版 -->
+                <div class="pricing-card premium">
+                    <h3 style="color:#e0e0e0; letter-spacing:2px;">站长配置版</h3>
+                    <div class="price-tag">
+                        <span class="price-currency">¥</span>
+                        <span class="price-num">899</span>
+                    </div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle check-icon"></i> <span>包含核心 N8N 工作流文件</span></li>
+                        <li><i class="fas fa-check-circle check-icon"></i> <span>一对一远程安装调试</span></li>
+                        <li><i class="fas fa-check-circle check-icon"></i> <span>永久授权 + 后续更新</span></li>
+                        <li><i class="fas fa-check-circle check-icon"></i> <span>赠送 50G 混剪素材库</span></li>
+                    </ul>
+                </div>
+
+                <!-- 卡片2：源码版 -->
+                <div class="pricing-card basic">
+                    <h3 style="color:#888;">源码自部署</h3>
+                    <div class="price-tag">
+                        <span class="price-currency">¥</span>
+                        <span class="price-num" style="color:#aaa; text-shadow:none;">499</span>
+                    </div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>提供完整 JSON 源码</span></li>
+                        <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>附带基础部署文档</span></li>
+                        <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含远程协助与配置</span></li>
+                        <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含素材库赠送</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 案例展示通栏 -->
+            <div style="margin-top: 10px;">
+                <div class="modal-section-title" style="margin: 0 0 15px 0; border:none; padding:0;">🔥 实战效果演示</div>
+                <a href="n8n/n8n.html" target="_blank" class="demo-banner">
+                    <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    <div class="demo-info">
+                        <h3>WATCH DEMO: 视频自动切片与二创</h3>
+                        <p>点击观看完整工作流运行实录，见证 10 分钟产出 100 条视频的效率。</p>
+                    </div>
+                    <i class="fas fa-chevron-right demo-arrow"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 科学软件弹窗 -->
     <div id="proxy-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:600px;">
             <span class="modal-close" onclick="closeModal('proxy-tools')">&times;</span>
@@ -681,7 +842,7 @@
         </div>
     </div>
 
-    <!-- 测速弹窗 (已修改：移出软件) -->
+    <!-- 测速弹窗 -->
     <div id="speed-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:600px;">
             <span class="modal-close" onclick="closeModal('speed-tools')">&times;</span>
@@ -701,7 +862,6 @@
             <span class="modal-close" onclick="closeModal('streaming')">&times;</span>
             <h2>全球流媒体</h2>
             <div class="modal-grid">
-                <!-- <a href="https://music.mcya.cn/" target="_blank" class="link-card"><i class="fas fa-music"></i> <h3>QQ/网易云(免费)</h3></a> -->
                 <a href="https://www.netflix.com/" target="_blank" class="link-card"><img src="icon/netflix-1-logo-svgrepo-com.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Netflix</h3></a>
                 <a href="https://www.disneyplus.com/" target="_blank" class="link-card"><img src="icon/desney.svg" onerror="this.src='';this.className='fas fa-video'"/> <h3>Disney+</h3></a>
                 <a href="https://www.primevideo.com/" target="_blank" class="link-card"><img src="icon/primevideo.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Prime Video</h3></a>
@@ -773,14 +933,12 @@
 
     <script>
         /* ================= 1. 粒子背景逻辑 ================= */
-/* ================= 1. 升级版粒子背景逻辑 (更密、更连贯) ================= */
-const canvas = document.getElementById('canvas');
+        const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; 
         canvas.height = window.innerHeight;
         
         let particles = [];
-        // 鼠标感应范围加大
         const mouse = { x: null, y: null, radius: 250 };
 
         window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
@@ -789,8 +947,7 @@ const canvas = document.getElementById('canvas');
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5; // 稍微调小一点，显得更精致
-                // 速度稍微快一点点
+                this.size = Math.random() * 2 + 0.5;
                 this.speedX = (Math.random() * 1.5 - 0.75);
                 this.speedY = (Math.random() * 1.5 - 0.75);
             }
@@ -799,11 +956,10 @@ const canvas = document.getElementById('canvas');
                 if(this.x > canvas.width || this.x < 0) this.speedX *= -1;
                 if(this.y > canvas.height || this.y < 0) this.speedY *= -1;
                 
-                // 鼠标互动：靠近时连线，过近时轻微排斥
                 const dx = mouse.x - this.x; const dy = mouse.y - this.y;
                 const distance = Math.sqrt(dx*dx + dy*dy);
                 if(distance < mouse.radius) {
-                    if (distance < 100) { // 极近距离排斥
+                    if (distance < 100) {
                          this.x -= dx/10; this.y -= dy/10;
                     }
                 }
@@ -816,8 +972,6 @@ const canvas = document.getElementById('canvas');
 
         function initParticles() {
             particles = []; 
-            // 关键修改：根据屏幕面积计算粒子数量，而不是固定100
-            // 密度系数：越小越密 (原来的100太少了)
             let numberOfParticles = (canvas.width * canvas.height) / 8000; 
             for(let i=0; i<numberOfParticles; i++) particles.push(new Particle());
         }
@@ -830,13 +984,11 @@ const canvas = document.getElementById('canvas');
         }
 
         function connectParticles() {
-            // 优化性能：只对附近的点计算
             for(let a=0; a<particles.length; a++){
                 for(let b=a; b<particles.length; b++){
                     const dx = particles[a].x - particles[b].x;
                     const dy = particles[a].y - particles[b].y;
                     const dist = Math.sqrt(dx*dx + dy*dy);
-                    // 连线距离改为 120
                     if(dist < 120) {
                         ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/120})`;
                         ctx.lineWidth = 0.8; ctx.beginPath();
@@ -849,8 +1001,7 @@ const canvas = document.getElementById('canvas');
         initParticles(); animateParticles();
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
 
-        /* ================= 新增：3D 卡片悬浮特效 (复刻参考页) ================= */
-        // 让所有带有 .holo-card 类的卡片都拥有 3D 倾斜效果
+        /* ================= 3D 卡片悬浮特效 ================= */
         const cards = document.querySelectorAll('.holo-card');
         
         cards.forEach(card => {
@@ -861,17 +1012,15 @@ const canvas = document.getElementById('canvas');
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                // 计算旋转角度
-                const rotateX = (centerY - y) / 10; // 控制灵敏度
+                const rotateX = (centerY - y) / 10;
                 const rotateY = (x - centerX) / 10;
                 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                 card.style.borderColor = 'var(--primary)';
-                card.style.zIndex = '10'; // 悬浮时层级提高
+                card.style.zIndex = '10';
             });
 
             card.addEventListener('mouseleave', () => {
-                // 复位
                 card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
                 card.style.borderColor = 'var(--glass-border)';
                 card.style.zIndex = '1';
@@ -880,20 +1029,24 @@ const canvas = document.getElementById('canvas');
 
 
         /* ================= 2. 音乐播放器 ================= */
-        // const playlist = [
-        //     'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E4%BA%94%E6%9C%88%E9%9B%A8-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB%231N0v9.mp3',
-        //     'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
-        //     'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E9%BB%84%E6%98%8F).mp3'
-        // ];
-
-        const MUSIC_BASE_URL = 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/';
-        // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E4%BA%94%E6%9C%88%E9%9B%A8-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB%231N0v9.mp3'
-        const playlist = ['https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E9%BB%84%E6%98%8F).mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%89%93%E5%BC%80(%E3%81%A8).mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%BC%82%E6%B3%8A.mp3',
-        'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%A4%B1%E6%84%8F-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%86%8D%E4%B8%8D%E6%96%A9_%E7%99%BD(%E5%86%8D%E4%B8%8D%E6%96%A9%EF%BC%88%E3%82%82%E3%82%82%E3%81%A1%20%E3%82%B6%E3%83%96%E3%82%B6%EF%BC%89%20%EF%BC%86%20%E7%99%BD_%E3%83%8F%E3%82%AF_).mp3',
-        'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E5%8D%A1%E5%8D%A1%E8%A5%BF%E4%B8%8E%E5%B8%A6%E5%9C%9F).mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/563%E6%8F%92%E6%9B%B2.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%AC%AC%E4%B8%83%E7%8F%AD.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%90%BD%E8%91%89%E8%88%B9-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
-        'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E8%96%84%E6%9A%AE.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%20%E7%BA%A2%E8%8E%B2.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%A4%B1%E6%84%8F%20%E5%8A%A8%E6%BC%AB%E5%8E%9F%E5%A3%B0.mp3','https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%96%BE%E9%A3%8E%E4%BC%A0%20Ost2%20%E5%BD%A9%E9%9C%9E.mp3',
-        'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%A4%AA%E9%BB%91%E7%B4%A0%20-%20%E6%A2%93%E6%B8%9D.mp3'];
-        // const DEFAULT_TRACK_URLS = ['https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/Whiplash%20Fletchers%20Song%20In%20Club%20extended.mp3'];
+        
+        const playlist = [
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E9%BB%84%E6%98%8F).mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%89%93%E5%BC%80(%E3%81%A8).mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%BC%82%E6%B3%8A.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%A4%B1%E6%84%8F-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%86%8D%E4%B8%8D%E6%96%A9_%E7%99%BD(%E5%86%8D%E4%B8%8D%E6%96%A9%EF%BC%88%E3%82%82%E3%82%82%E3%81%A1%20%E3%82%B6%E3%83%96%E3%82%B6%EF%BC%89%20%EF%BC%86%20%E7%99%BD_%E3%83%8F%E3%82%AF_).mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E5%8D%A1%E5%8D%A1%E8%A5%BF%E4%B8%8E%E5%B8%A6%E5%9C%9F).mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/563%E6%8F%92%E6%9B%B2.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%AC%AC%E4%B8%83%E7%8F%AD.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%90%BD%E8%91%89%E8%88%B9-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E8%96%84%E6%9A%AE.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%20%E7%BA%A2%E8%8E%B2.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%A4%B1%E6%84%8F%20%E5%8A%A8%E6%BC%AB%E5%8E%9F%E5%A3%B0.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%96%BE%E9%A3%8E%E4%BC%A0%20Ost2%20%E5%BD%A9%E9%9C%9E.mp3',
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%A4%AA%E9%BB%91%E7%B4%A0%20-%20%E6%A2%93%E6%B8%9D.mp3'
+        ];
         
         let currentTrack = 0;
         const audio = document.getElementById('audioPlayer');
@@ -917,7 +1070,12 @@ const canvas = document.getElementById('canvas');
         }
 
         function togglePlay() {
-            if(!audio.src) loadTrack(0);
+            if(!audio.src) {
+                if (currentTrack === 0 && !hasInteracted) {
+                     currentTrack = Math.floor(Math.random() * playlist.length);
+                }
+                loadTrack(currentTrack);
+            }
             
             if(audio.paused) {
                 audio.play().then(() => {
@@ -949,7 +1107,10 @@ const canvas = document.getElementById('canvas');
         function initAudioContext() {
             if(!hasInteracted) {
                 hasInteracted = true;
-                if(!audio.src) loadTrack(0);
+                if(!audio.src) {
+                    currentTrack = Math.floor(Math.random() * playlist.length);
+                    loadTrack(currentTrack);
+                }
                 audio.play().then(() => {
                     isPlaying = true;
                     updateUI(true);
@@ -960,30 +1121,22 @@ const canvas = document.getElementById('canvas');
         }
         document.body.addEventListener('click', initAudioContext, { once: true });
         audio.addEventListener('ended', nextTrack);
-        loadTrack(0);
-
-
-        /* ================= 3. 弹窗控制 (已修复交互逻辑) ================= */
         
-        // 核心关闭功能，确保状态彻底清理
-       // 核心关闭功能
+        currentTrack = Math.floor(Math.random() * playlist.length);
+        loadTrack(currentTrack);
+
+
+        /* ================= 3. 弹窗控制 ================= */
         function closeAllModals() {
-            // 1. 隐藏所有弹窗
             document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
             document.body.classList.remove('modal-open');
-            
-            // 2. 关键修复：移除当前激活元素的焦点
-            // 防止 ESC 关闭后，焦点还停留在弹窗内的链接上
             if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
             }
         }
 
         function openModal(id) {
-            // 先关闭当前打开的弹窗，防止重叠
             closeAllModals();
-            
-            // 延时一点点打开，确保动画流畅
             setTimeout(() => {
                 const m = document.getElementById(id + '-modal');
                 if(m) { 
@@ -997,14 +1150,12 @@ const canvas = document.getElementById('canvas');
             const m = document.getElementById(id + '-modal');
             if(m) { 
                 m.classList.remove('visible'); 
-                // 只有当没有其他弹窗显示时才移除 body 类
                 if (document.querySelectorAll('.modal-overlay.visible').length === 0) {
                     document.body.classList.remove('modal-open');
                 }
             }
         }
 
-        // 点击背景关闭
         document.querySelectorAll('.modal-overlay').forEach(ov => {
             ov.addEventListener('click', (e) => { 
                 if(e.target === ov) {
@@ -1014,7 +1165,6 @@ const canvas = document.getElementById('canvas');
             });
         });
 
-        // 监听 ESC 键关闭
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
                 closeAllModals();

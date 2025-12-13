@@ -417,6 +417,137 @@
             .pricing-card { max-width: 100%; }
             .demo-banner { padding: 15px; }
         }
+
+        /* === 引导式列表样式 (Roadmap Style) === */
+        .roadmap-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        /* 连接线效果 */
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 28px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .step-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .step-card:hover {
+            background: rgba(0, 243, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateX(10px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        /* 特殊步骤高亮 (如付费/核心步骤) */
+        .step-card.premium-step:hover {
+            background: rgba(188, 19, 254, 0.08);
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
+        }
+
+        .step-num {
+            font-family: 'Orbitron';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #444;
+            margin-right: 20px;
+            min-width: 40px;
+            text-align: center;
+            background: #0f0f13; /* 遮挡背景线 */
+            padding: 5px 0;
+            border: 1px solid #333;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .step-card:hover .step-num {
+            color: var(--primary);
+            border-color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        .step-card.premium-step:hover .step-num {
+            color: var(--secondary);
+            border-color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .step-content { flex: 1; }
+        .step-content h3 {
+            font-size: 1.1rem;
+            color: #eee;
+            margin-bottom: 4px;
+            font-family: 'Rajdhani';
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-content p { font-size: 0.85rem; color: #888; margin: 0; line-height: 1.4; }
+
+        .step-icon {
+            font-size: 1.4rem;
+            color: #666;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+        .step-card:hover .step-icon { color: #fff; transform: scale(1.2); }
+
+        /* 住宅IP内部按钮组 */
+        .sub-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .sub-btn {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .sub-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 243, 255, 0.1); }
+
+        /* VPS 分隔区 */
+        .vps-divider {
+            border-top: 1px dashed #333;
+            margin: 30px 0 20px;
+            position: relative;
+            text-align: center;
+        }
+        .vps-divider span {
+            background: #0f0f13;
+            padding: 0 15px;
+            position: relative;
+            top: -12px;
+            color: #666;
+            font-family: 'Orbitron';
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -475,8 +606,8 @@
 
         <!-- 核心业务区 -->
         <div class="hero-grid">
-            <!-- 网络服务 -->
-            <div class="holo-card hero-card" onclick="openModal('network'); initAudioContext();" >
+            <!-- 网络服务 (已删除自动播放事件) -->
+            <div class="holo-card hero-card" onclick="openModal('network')">
                 <span class="tag tag-hot">CORE</span>
                 <i class="fas fa-network-wired main-icon"></i>
                 <i class="fas fa-globe bg-icon"></i>
@@ -484,8 +615,8 @@
                 <p>包含：VPS推荐、机场、独享IP、TK网络、账号购买等全套资源。</p>
             </div>
 
-            <!-- AI 视频 -->
-            <div class="holo-card hero-card" onclick="openModal('ai-video'); initAudioContext();" >
+            <!-- AI 视频 (已删除自动播放事件) -->
+            <div class="holo-card hero-card" onclick="openModal('ai-video')">
                 <span class="tag tag-new">AUTO</span>
                 <i class="fas fa-robot main-icon" style="color: var(--secondary);"></i>
                 <i class="fas fa-video bg-icon"></i>
@@ -514,91 +645,125 @@
                 <i class="fas fa-hashtag"></i>
                 <h3>社交媒体</h3>
             </div>
-             <!-- <div class="holo-card mini-card" onclick="window.open('https://dapian.sbs','_blank')">
-                <i class="fas fa-film"></i>
-                <h3>免费电影</h3>
-            </div> -->
         </div>
     </main>
 
     <!-- ================= 弹窗区域 ================= -->
 
-    <!-- 网络服务弹窗 -->
-    <div id="network-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('network')">&times;</span>
-            <h2 style="color:var(--primary); text-align:center; margin-bottom: 25px;">跨境网络核心资源</h2>
+    <!-- 网络服务弹窗 (含最新线性引导) -->
+   <div id="network-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('network')">&times;</span>
+        
+        <div class="ai-header" style="margin-bottom: 20px;">
+            <h2 style="font-size: 1.8em;">跨境网络构建序列</h2>
+            <p style="color:var(--primary);">DEPLOYMENT SEQUENCE</p>
+        </div>
+
+        <!-- 1-6 步 线性引导区 -->
+        <div class="roadmap-container">
             
-            <!-- 核心业务置顶区 -->
-            <div class="premium-card-container">
-                <a href="https://dajian.cyou/" target="_blank" class="premium-card">
-                    <div class="premium-badge">站长核心业务</div>
-                    <div class="premium-icon"><i class="fas fa-rocket"></i></div>
-                    <div class="premium-content">
-                        <h3>TikTok 独享原生节点搭建/软路由/搭建课程</h3>
-                        <p>告别封号，专为 TK 矩阵运营打造。独享纯净 IP，0 关联风险，完美解决 0 播放问题。点击咨询搭建。</p>
+            <!-- 1. 新手必读 -->
+            <a href="rumen.html" target="_blank" class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-book-reader" style="color: #00f3ff;"></i> 新手必读 · 认知篇</h3>
+                    <p>从0到1完整操作指南，先看懂，再动手。</p>
+                </div>
+                <i class="fas fa-chevron-right step-icon"></i>
+            </a>
+
+            <!-- 2. 账号购买 -->
+            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-id-card" style="color: #00f3ff;"></i> 基础账号储备</h3>
+                    <p>Apple ID (美区), Google, FB, TK 账号购买。（建议先注册平台再购买）</p>
+                </div>
+                <i class="fas fa-shopping-cart step-icon"></i>
+            </a>
+
+            <!-- 3. 专线机场 -->
+            <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-plane-departure" style="color: #bc13fe;"></i> 专线机场连接</h3>
+                    <p>解决能不能连上的问题。用于海外顶级AI使用、日常浏览、查资料及作为 ISP 的前置代理。</p>
+                </div>
+                <i class="fas fa-bolt step-icon"></i>
+            </a>
+
+            <!-- 4. 住宅 IP (合并 Miya 和 Kookeey) -->
+            <div class="step-card" style="display: flex; flex-direction: column; align-items: stretch; cursor: default;">
+                <div style="display: flex; align-items: center;">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <h3><i class="fas fa-map-marker-alt" style="color: #bc13fe;"></i> 纯净住宅 IP (ISP)</h3>
+                        <p>TK运营/直播必备。原生IP，解决0播放。请根据需求二选一：</p>
                     </div>
-                    <i class="fas fa-chevron-right" style="color:var(--gold); margin-left: auto;"></i>
-                </a>
+                </div>
+                <!-- 内部子选项 -->
+                <div class="sub-options" style="margin-left: 60px;">
+                    <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="sub-btn">
+                        <i class="fas fa-server"></i> <b>米亚 ISP</b> (短视频使用，无需中转 | 85折码: 3yue85D)
+                    </a>
+                    <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="sub-btn">
+                        <i class="fas fa-key"></i> <b>Kookeey</b> (短视频/直播使用，热门国家 | 需机场中转)
+                    </a>
+                </div>
             </div>
 
-            <div class="modal-section-title">新手与基础</div>
-            <div class="modal-grid">
-                <a href="rumen.html" target="_blank" class="link-card card-highlight">
-                    <i class="fas fa-book"></i>
-                    <div><h3>出海 · 新手必读</h3><p>从0到1完整操作指南</p></div>
-                </a>
-                 <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <div><h3>账号购买</h3><p>Apple ID, Tk, FB, Google等（注意先注册，有的朋友直接购买没有注册容易找不到订单）</p></div>
-                </a>
-            </div>
+            <!-- 5. 软路由 (指向站长服务) -->
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="step-card premium-step">
+                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">05</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-microchip" style="color: var(--gold);"></i> 软路由 / 硬件环境</h3>
+                    <p>硬核玩家首选。打造家庭/工作室无感跨境网络环境，全屋覆盖。</p>
+                </div>
+                <i class="fas fa-network-wired step-icon" style="color:var(--gold);"></i>
+            </a>
 
-            <div class="modal-section-title">高质量代理 / 机场</div>
-            <div class="modal-grid">
-                <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
-                    <i class="fas fa-plane"></i> <h3>专线机场(用于中转以及海外AI工具使用)</h3>
-                </a>
-                <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card">
-                    <i class="fas fa-server"></i> <h3>米亚静态ISP（用于TK短视频，无需中转，85折优惠码：3yue85D）</h3>
-                </a>
-                <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
-                    <i class="fas fa-key"></i> <h3>Kookeey静态ISP（用于TK短视频，热门国家代理，需搭配机场中转）</h3>
-                </a>
-                 <!-- <a href="https://app.proxy-cheap.com/r/pB87S2" target="_blank" class="link-card">
-                    <i class="fas fa-tags"></i> <h3>Proxy Cheap静态ISP</h3>
-                </a> 
-               <a href="https://www.lycheeip.com/home/ip?affId=r9Ku04aWaA" target="_blank" class="link-card">
-                    <i class="fas fa-lemon"></i> <h3>lycheeip静态ISP</h3>
-                </a>  -->
-                <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
-                    <i class="fas fa-home"></i> <h3>美国真实家宽ATT</h3>
-                </a>
-            </div>
+            <!-- 6. 搭建课程 (指向站长服务) -->
+            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="step-card premium-step">
+                <div class="step-num" style="color:var(--gold); border-color:var(--gold);">06</div>
+                <div class="step-content">
+                    <h3><i class="fas fa-graduation-cap" style="color: var(--gold);"></i> 节点搭建课程 / 代搭建</h3>
+                    <p>终极解决方案。自己做云端独享节点，彻底告别封号焦虑。</p>
+                </div>
+                <i class="fas fa-rocket step-icon" style="color:var(--gold);"></i>
+            </a>
+        </div>
 
-            <div class="modal-section-title">精选 VPS 服务器</div>
-            <div class="modal-grid">
-                <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                    <i class="fas fa-lock"></i> <h3>IPRaft 原生VPS</h3>
-                </a>
-                <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                    <i class="fas fa-crown"></i> <h3>搬瓦工 CN2 GIA</h3>
-                </a>
-                 <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                    <i class="fas fa-cloud"></i> <h3>66云 纯净住宅</h3>
-                </a>
-                <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                    <i class="fas fa-network-wired"></i> <h3>LisaHost 大带宽</h3>
-                </a>
-                <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                    <i class="fas fa-bolt"></i> <h3>ZoroCloud 优化</h3>
-                </a>
-                 <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                    <i class="fas fa-globe-asia"></i> <h3>WEPC VPS</h3>
-                </a>
-            </div>
+        <!-- 分隔线：以下是自建VPS -->
+        <div class="vps-divider">
+            <span>高阶 · 自建节点服务器 (VPS)</span>
+        </div>
+
+        <div class="modal-grid">
+            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
+                <i class="fas fa-lock"></i> <h3>IPRaft 原生VPS</h3>
+            </a>
+            <a href="cn2/banwagong.html" target="_blank" class="link-card">
+                <i class="fas fa-crown"></i> <h3>搬瓦工 CN2 GIA</h3>
+            </a>
+            <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
+                <i class="fas fa-cloud"></i> <h3>66云 纯净住宅</h3>
+            </a>
+            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired"></i> <h3>LisaHost 大带宽</h3>
+            </a>
+            <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
+                <i class="fas fa-bolt"></i> <h3>ZoroCloud 优化</h3>
+            </a>
+            <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
+                <i class="fas fa-globe-asia"></i> <h3>WEPC VPS</h3>
+            </a>
+            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
+                <i class="fas fa-home"></i> <h3>美国真实家宽ATT</h3>
+            </a>
         </div>
     </div>
+</div>
 
     <!-- AI 视频弹窗 (UI 升级版) -->
     <div id="ai-video-modal" class="modal-overlay">
@@ -858,7 +1023,7 @@
         });
 
 
-        /* ================= 2. 音乐播放器 ================= */
+        /* ================= 2. 音乐播放器 (纯手动模式) ================= */
         
         const playlist = [
             'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
@@ -883,8 +1048,7 @@
         const playBtn = document.getElementById('playBtn');
         const trackDisplay = document.getElementById('trackNameDisplay');
         const visualizer = document.getElementById('visualizer');
-        let isPlaying = false;
-        let hasInteracted = false;
+        let isPlaying = false; 
 
         function getFileName(url) {
             try { return decodeURIComponent(url.split('/').pop().replace('.mp3', '')); } catch(e){ return "Unknown"; }
@@ -894,16 +1058,19 @@
             currentTrack = (index + playlist.length) % playlist.length;
             audio.src = playlist[currentTrack];
             trackDisplay.textContent = getFileName(playlist[currentTrack]);
+            
+            // 只有当 isPlaying 为 true 时才自动播放（即用户已经开始播放了，切歌时才自动）
             if(isPlaying) {
-                audio.play().catch(e => console.warn("Auto-play blocked inside loadTrack"));
+                audio.play().catch(e => {
+                    console.warn("Auto-play blocked or waiting for interaction");
+                    isPlaying = false;
+                    updateUI(false);
+                });
             }
         }
 
         function togglePlay() {
             if(!audio.src) {
-                if (currentTrack === 0 && !hasInteracted) {
-                     currentTrack = Math.floor(Math.random() * playlist.length);
-                }
                 loadTrack(currentTrack);
             }
             
@@ -912,7 +1079,7 @@
                     isPlaying = true;
                     updateUI(true);
                 }).catch(err => {
-                    console.log("Play failed, waiting for interaction");
+                    console.error("Play failed:", err);
                 });
             } else {
                 audio.pause();
@@ -931,30 +1098,25 @@
             }
         }
 
-        function nextTrack() { loadTrack(currentTrack + 1); isPlaying = true; audio.play(); updateUI(true); }
-        function prevTrack() { loadTrack(currentTrack - 1); isPlaying = true; audio.play(); updateUI(true); }
-
-        function initAudioContext() {
-            if(!hasInteracted) {
-                hasInteracted = true;
-                if(!audio.src) {
-                    currentTrack = Math.floor(Math.random() * playlist.length);
-                    loadTrack(currentTrack);
-                }
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateUI(true);
-                }).catch(e => {
-                    console.log("Audio init failed (likely browser block), waiting for explicit play click");
-                });
-            }
+        function nextTrack() { 
+            isPlaying = true; 
+            loadTrack(currentTrack + 1); 
+            updateUI(true); 
         }
-        document.body.addEventListener('click', initAudioContext, { once: true });
+        
+        function prevTrack() { 
+            isPlaying = true;
+            loadTrack(currentTrack - 1); 
+            updateUI(true); 
+        }
+
         audio.addEventListener('ended', nextTrack);
         
+        // 初始加载第一首歌，但不播放
         currentTrack = Math.floor(Math.random() * playlist.length);
         loadTrack(currentTrack);
-
+        isPlaying = false;
+        updateUI(false);
 
         /* ================= 3. 弹窗控制 ================= */
         function closeAllModals() {
