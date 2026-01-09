@@ -423,10 +423,12 @@
 /* 标题 */
 .link-card h3 {
     font-size: 1.05rem;
-    margin-bottom: 6px;
-    white-space: nowrap; /* 标题尽量不换行 */
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0 0 6px 0; /* 标题和描述之间增加间距 */
+    font-weight: 500; 
+    font-family: 'Rajdhani';
+    /* white-space: nowrap; /* 标题尽量不换行 - 这个可能会导致长标题溢出 */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
 }
 
 /* 描述文字 (您加字的地方) */
@@ -466,6 +468,7 @@
     font-family: 'Rajdhani';
     margin-left: 5px;
     display: inline-block; /* 防止断行太难看 */
+    white-space: nowrap; /* 防止内部文字换行 */
 }
 
 /* 3. 重点提示高亮 (如：SSR中转) */
@@ -611,23 +614,101 @@
                     <p>无需买真机 | 独享原生环境 | <span class="text-highlight">矩阵运营神器</span></p>
                 </div>
             </a>
+            
+            <!-- 恢复的原来机场 -->
             <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
                 <i class="fas fa-plane-departure" style="color: #bc13fe;"></i>
                 <div>
-                    <h3>专线机场SSR连接</h3>
-                    <p>使用海外顶级AI必备 | 住宅IP前置代理必备。</p>
+                    <h3>专线机场 SSR连接</h3>
+                    <p>使用海外顶级AI必备 | 住宅IP前置代理必备。<span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe; ">推荐</span></p>
+                </div>
+            </a>
+
+            <!-- 新增的糖果云机场 -->
+            <a href="https://candytally3.com/web/#/login?code=UXbg9gDv" target="_blank" class="link-card">
+                <i class="fas fa-cloud" style="color: #ff69b4;"></i>
+                <div>
+                    <h3>专线机场 (糖果云)</h3>
+                    <p>稳定高速 | 住宅IP前置代理。<span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe; ">推荐</span></p>
                 </div>
             </a>
         </div>
 
-        <!-- 第二组：住宅IP -->
-        <div class="modal-section-title">纯净住宅 IP (解决0播放/限流)</div>
+        <!-- 第二组：TikTok静态IP选择 -->
+        <div class="modal-section-title">TK静态IP(解决0播放/限流)</div>
         <div class="modal-grid">
+
+          <!-- 米亚 (优化高亮版：突出扫码直连/无需中转) -->
+        <!-- 米亚 (样式优化版：金色统一风格) -->
+        <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card"
+        style="background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid rgba(255, 215, 0, 0.3); 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s ease;">
+        
+        <!-- 图标：改为金色火焰，呼应整体 -->
+        <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); font-size: 1.6rem;"></i>
+        
+        <div style="width: 100%;">
+            <!-- 标题行 -->
+            <h3 style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+                <span style="color: #ffd700;">米亚 (短视频推荐)</span>
+                
+                <!-- 标签：使用和优惠码一样的金色半透明样式 -->
+                <span style="
+                    font-size: 0.75rem; 
+                    color: #ffd700; 
+                    background: rgba(255, 215, 0, 0.15);
+                    border: 1px solid rgba(255, 215, 0, 0.4);
+                    padding: 2px 8px; 
+                    border-radius: 4px; 
+                    font-weight: bold; 
+                    display: inline-flex;
+                    align-items: center;
+                    white-space: nowrap;
+                ">
+                    <i class="fas fa-qrcode" style="font-size: 0.75rem; width: auto; margin-right: 4px; color: #ffd700;"></i>扫码直连
+                </span>
+            </h3>
+            
+            <!-- 描述行 -->
+            <p style="color: #ccc; font-size: 0.85rem;">
+                <span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 85折码：<span class="code-badge">3yue85D</span>
+            </p>
+        </div>
+        </a>
+              <!-- 优化后的 985 Proxy 卡片 -->
+        <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
+        style="background: linear-gradient(145deg, rgba(255, 80, 0, 0.15), rgba(0, 0, 0, 0.6)); 
+                border: 1px solid rgba(255, 80, 0, 0.5); 
+                box-shadow: 0 0 15px rgba(255, 80, 0, 0.15);">
+            
+            <!-- 图标：使用更加高亮的橙色，增加发光 -->
+            <i class="fas fa-meteor" style="color: #ff6600; text-shadow: 0 0 12px rgba(255, 80, 0, 0.8);"></i>
+            
+            <div>
+                <!-- 标题：稍微提亮，增加文字阴影，看起来更立体 -->
+                <h3 style="color: #ff9933; text-shadow: 0 0 5px rgba(255, 80, 0, 0.3);">985 Proxy (最便宜原生IP，批量起号专用 )</h3>
+                
+                <!-- 描述：精简文字，防止换行难看 -->
+                <p style="color: #ccc;">
+                 <span style="color: #ffcc00; font-weight:bold;">批量可以找站长拿6-9折优惠</span> | 
+                    <!-- 胶囊标签：样式更精致 -->
+                    <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1); font-size: 0.75rem;">需SSR中转</span>
+                </p>
+            </div>
+        </a>
+
+            <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
+                <i class="fas fa-globe"></i>
+                <div>
+                    <h3>Kookeey (短视频/直播推荐)</h3>
+                    <p>国家多 | <span class="text-highlight">需机场SSR中转</span></p>
+                </div>
+            </a>
+
         <!-- 美国专线 ATT (深蓝高亮版) -->
-            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card" 
-            style="background: linear-gradient(145deg, rgba(0, 140, 255, 0.15), rgba(0, 0, 0, 0.6)); 
-                border: 1px solid rgba(0, 140, 255, 0.5); 
-                box-shadow: 0 0 15px rgba(0, 140, 255, 0.2);">
+            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card"            >
             
             <!-- 图标：使用冰蓝色，带发光效果 -->
             <i class="fas fa-home" style="color: #00bfff; text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);"></i>
@@ -643,42 +724,9 @@
             </div>
             </a>
 
-        <!-- 优化后的 985 Proxy 卡片 -->
-        <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
-        style="background: linear-gradient(145deg, rgba(255, 80, 0, 0.15), rgba(0, 0, 0, 0.6)); 
-                border: 1px solid rgba(255, 80, 0, 0.5); 
-                box-shadow: 0 0 15px rgba(255, 80, 0, 0.15);">
-            
-            <!-- 图标：使用更加高亮的橙色，增加发光 -->
-            <i class="fas fa-meteor" style="color: #ff6600; text-shadow: 0 0 12px rgba(255, 80, 0, 0.8);"></i>
-            
-            <div>
-                <!-- 标题：稍微提亮，增加文字阴影，看起来更立体 -->
-                <h3 style="color: #ff9933; text-shadow: 0 0 5px rgba(255, 80, 0, 0.3);">985 Proxy (优质原生IP-起号专用 )</h3>
-                
-                <!-- 描述：精简文字，防止换行难看 -->
-                <p style="color: #ccc;">
-                 <span style="color: #ffcc00; font-weight:bold;">批量可以找站长拿6-9折优惠</span> | 
-                    <!-- 胶囊标签：样式更精致 -->
-                    <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1); font-size: 0.75rem;">需SSR中转</span>
-                </p>
-            </div>
-        </a>
+      
 
-            <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card">
-                <i class="fas fa-fire" style="color:#ff5f5f;"></i>
-                <div>
-                    <h3>米亚 (短视频推荐)</h3>
-                    <p>最简单无需中转 | 85折优惠码：<span class="code-badge">3yue85D</span></p>
-                </div>
-            </a>
-            <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
-                <i class="fas fa-globe"></i>
-                <div>
-                    <h3>Kookeey (短视频/直播推荐)</h3>
-                    <p>国家多 | <span class="text-highlight">需机场SSR中转</span></p>
-                </div>
-            </a>
+          
 
             	
              <!-- <a href="https://www.lycheeip.com/home/ip?affId=r9Ku04aWaA" target="_blank" class="link-card">
@@ -740,29 +788,27 @@
     </a>
 </div>
 
-        <!-- 第四组：自建VPS -->
-        <div class="vps-divider">
-            <span>高阶 · 自建节点服务器 (VPS)</span>
-        </div>
+        <!-- 这里的 VPS 标题已经保持高亮 -->
+        <div class="modal-section-title gold-title">高阶 · 自建节点服务器 (VPS)</div>
 
         <div class="modal-grid">
             <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                <i class="fas fa-network-wired"></i> <div><h3>LisaHost 大带宽</h3><p>解锁流媒体</p></div>
+                <i class="fas fa-network-wired"></i> <div><h3>LisaHost TK自建VPS</h3><p>解锁流媒体</p></div>
             </a>
             <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                <i class="fas fa-cloud"></i> <div><h3>66云 纯净住宅</h3><p>适合多业务场景</p></div>
+                <i class="fas fa-cloud"></i> <div><h3>66云 TK自建VPS</h3><p>适合多业务场景</p></div>
             </a>
             <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                <i class="fas fa-crown"></i> <div><h3>搬瓦工 CN2 GIA</h3><p>老牌稳定/速度快</p></div>
+                <i class="fas fa-crown"></i> <div><h3>搬瓦工 CN2 GIA</h3><p>个人能用最好的线路，没有之一</p></div>
             </a>
             <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                <i class="fas fa-lock"></i> <div><h3>IPRaft 原生VPS</h3><p>优质线路推荐</p></div>
+                <i class="fas fa-lock"></i> <div><h3>IPRaft 原生VPS</h3><p>矩阵号首选</p></div>
             </a>
             <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                <i class="fas fa-bolt"></i> <div><h3>ZoroCloud 优化</h3><p>性价比之选</p></div>
+                <i class="fas fa-bolt"></i> <div><h3>ZoroCloud 优化</h3><p>性价比之选，线路优化</p></div>
             </a>
             <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                <i class="fas fa-globe-asia"></i> <div><h3>WEPC VPS</h3><p>澳洲/香港线路</p></div>
+                <i class="fas fa-globe-asia"></i> <div><h3>WEPC VPS</h3><p>多地区线路可选</p></div>
             </a>
    
         </div>
