@@ -476,9 +476,1222 @@
     color: var(--primary);
     font-weight: bold;
 }
+
+/* === 登录/注册系统样式 === */
+.auth-header-btn {
+    position: fixed;
+    top: 20px;
+    right: calc(var(--sidebar-width) + 20px);
+    z-index: 150;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.auth-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.auth-btn-outline:hover {
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.auth-btn-filled {
+    background: linear-gradient(135deg, var(--primary), #00a8b5);
+    border: none;
+    color: #000;
+}
+
+.auth-btn-filled:hover {
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+/* 用户信息显示 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 15px;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron';
+    font-weight: bold;
+    color: #000;
+    font-size: 1rem;
+}
+
+.user-name {
+    color: #fff;
+    font-family: 'Rajdhani';
+    font-weight: 600;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 1px solid #ff4757;
+    color: #ff4757;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 71, 87, 0.2);
+}
+
+/* 登录/注册弹窗 */
+.auth-modal-content {
+    background: linear-gradient(145deg, #0f0f13, #1a1a22);
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 60px rgba(0, 243, 255, 0.2);
+    border-radius: 20px;
+    padding: 50px 40px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+    background-size: 200% 100%;
+    animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-title h2 {
+    font-family: 'Orbitron';
+    font-size: 1.8em;
+    color: #fff;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.auth-title p {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    color: var(--primary);
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    padding-right: 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    background: rgba(0, 243, 255, 0.05);
+}
+
+.form-group input::placeholder {
+    color: #666;
+}
+
+/* 密码可见性切换 */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 42px;
+    color: #666;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary), #00a8b5);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Orbitron';
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-btn .btn-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+.submit-btn.loading .btn-text {
+    display: none;
+}
+
+.submit-btn.loading .btn-loader {
+    display: inline-block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 25px;
+    color: #888;
+    font-size: 0.95em;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.auth-switch a:hover {
+    text-shadow: 0 0 10px var(--primary);
+}
+
+/* 消息提示 */
+.message-toast {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    z-index: 9999;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 300px;
+    justify-content: center;
+}
+
+.message-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.message-toast.success {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(0, 200, 100, 0.9));
+    color: #000;
+    box-shadow: 0 5px 30px rgba(0, 255, 136, 0.4);
+}
+
+.message-toast.error {
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.9), rgba(200, 50, 60, 0.9));
+    color: #fff;
+    box-shadow: 0 5px 30px rgba(255, 71, 87, 0.4);
+}
+
+.message-toast.warning {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.9), rgba(200, 160, 0, 0.9));
+    color: #000;
+    box-shadow: 0 5px 30px rgba(255, 215, 0, 0.4);
+}
+
+.message-toast.info {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.9), rgba(0, 150, 200, 0.9));
+    color: #000;
+    box-shadow: 0 5px 30px rgba(0, 243, 255, 0.4);
+}
+
+/* 表单验证样式 */
+.form-group.error input {
+    border-color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+}
+
+.form-group .error-text {
+    color: #ff4757;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-group.error .error-text {
+    display: block;
+}
+
+/* 密码强度指示器 */
+.password-strength {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.strength-bar.weak { background: #ff4757; }
+.strength-bar.medium { background: #ffd700; }
+.strength-bar.strong { background: #00ff88; }
+
+.strength-text {
+    font-size: 0.75em;
+    margin-top: 5px;
+    color: #888;
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+    .auth-header-btn {
+        right: 90px;
+    }
+}
+
+/* 头像选择器样式 */
+.avatar-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.avatar-option {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.avatar-option:hover {
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.avatar-option.selected {
+    border-color: var(--primary);
+    background: rgba(0, 243, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .auth-header-btn {
+        right: 20px;
+        top: 15px;
+    }
+    
+    .auth-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
+    
+    .auth-modal-content {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .user-info {
+        padding: 6px 10px;
+    }
+    
+    .user-name {
+        display: none;
+    }
+}
+
+/* ================= 通讯终端样式 ================= */
+.comm-terminal {
+    margin: 30px 0 40px 0;
+    padding: 0;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.comm-container {
+    display: flex;
+    background: rgba(10, 10, 15, 0.9);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+    min-height: 450px;
+}
+
+/* 左侧频道栏 */
+.comm-sidebar {
+    width: 180px;
+    background: rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(0, 243, 255, 0.2);
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comm-channel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #888;
+    position: relative;
+}
+
+.comm-channel i {
+    font-size: 1.1em;
+    width: 20px;
+    text-align: center;
+}
+
+.comm-channel span {
+    font-size: 0.95em;
+    white-space: nowrap;
+}
+
+.comm-channel:hover {
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--primary);
+}
+
+.comm-channel.active {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(188, 19, 254, 0.1));
+    color: var(--primary);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.channel-badge {
+    position: absolute;
+    right: 10px;
+    background: #ff4757;
+    color: #fff;
+    font-size: 0.75em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* 右侧内容区 */
+.comm-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* 顶部状态栏 */
+.comm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+    margin-bottom: 15px;
+}
+
+.comm-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary);
+    font-size: 1.1em;
+}
+
+.comm-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85em;
+    color: #888;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: pulse 2s infinite;
+}
+
+.status-divider {
+    color: #444;
+}
+
+/* 频道说明 */
+.comm-description {
+    background: rgba(0, 243, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.15);
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 0.9em;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.comm-description i {
+    color: var(--primary);
+    margin-right: 8px;
+}
+
+/* 发布区域 */
+.comm-input-area {
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary);
+}
+
+.input-wrapper textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 15px;
+    color: #e0e0e0;
+    font-size: 1em;
+    resize: none;
+    font-family: inherit;
+}
+
+.input-wrapper textarea:focus {
+    outline: none;
+}
+
+.input-wrapper textarea::placeholder {
+    color: #555;
+}
+
+.input-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 标签选择器 */
+.tag-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag-label {
+    color: #666;
+    font-size: 0.85em;
+}
+
+.tag-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tag-btn:hover {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.tag-btn.active {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.input-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #555;
+}
+
+.execute-btn {
+    background: linear-gradient(135deg, var(--primary), #00a8b5);
+    border: none;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.execute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+}
+
+.execute-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.login-hint {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    color: #ffc107;
+}
+
+.login-hint a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* 回复提示条 */
+.reply-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(188, 19, 254, 0.1);
+    border: 1px solid rgba(188, 19, 254, 0.3);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    color: #bc13fe;
+    font-size: 0.9em;
+}
+
+.reply-bar button {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.reply-bar button:hover {
+    color: #ff4757;
+}
+
+/* 消息列表 */
+.comm-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.comm-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.comm-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.comm-messages::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+.loading-messages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px;
+    color: #666;
+}
+
+/* 单条消息 */
+.message-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.message-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.message-card.pinned {
+    background: rgba(255, 215, 0, 0.05);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.message-card.pending {
+    opacity: 0.6;
+    border-style: dashed;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.message-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.message-avatar.admin {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    animation: admin-glow 2s ease-in-out infinite;
+}
+
+@keyframes admin-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
+}
+
+.message-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.message-name {
+    font-weight: 600;
+    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.message-name.admin {
+    color: var(--gold);
+}
+
+.admin-badge {
+    background: linear-gradient(135deg, var(--gold), #ff8c00);
+    color: #000;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+.message-meta {
+    font-size: 0.8em;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message-tag {
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.75em;
+}
+
+.message-status {
+    color: #ffc107;
+    font-size: 0.75em;
+}
+
+.message-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.message-actions button {
+    background: transparent;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    font-size: 0.85em;
+}
+
+.message-actions button:hover {
+    color: var(--primary);
+}
+
+.message-actions button.delete:hover {
+    color: #ff4757;
+}
+
+.message-content {
+    color: #ccc;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.message-card.admin-message {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 140, 0, 0.03));
+    border-color: rgba(255, 215, 0, 0.2);
+}
+
+/* 回复消息 */
+.message-replies {
+    margin-top: 15px;
+    padding-left: 20px;
+    border-left: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.reply-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.reply-card:last-child {
+    margin-bottom: 0;
+}
+
+.reply-to-hint {
+    color: var(--primary);
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.reply-indicator {
+    color: #666;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.reply-indicator i {
+    margin-right: 5px;
+}
+
+/* 加载更多 */
+.load-more {
+    text-align: center;
+    padding: 20px;
+}
+
+.load-more button {
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary);
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95em;
+}
+
+.load-more button:hover {
+    background: rgba(0, 243, 255, 0.2);
+}
+
+/* 空状态 */
+.empty-messages {
+    text-align: center;
+    padding: 60px 20px;
+    color: #555;
+}
+
+.empty-messages i {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 置顶标记 */
+.pinned-badge {
+    background: linear-gradient(135deg, var(--gold), #ff8c00);
+    color: #000;
+    font-size: 0.7em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* ================= 私信聊天样式 ================= */
+.dm-chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.dm-bubble {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 85%;
+}
+
+.dm-bubble.dm-mine {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.dm-bubble.dm-other {
+    align-self: flex-start;
+}
+
+.dm-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    flex-shrink: 0;
+}
+
+.dm-avatar.admin {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.dm-content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dm-sender {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.dm-sender .admin-name {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.dm-time {
+    color: #555;
+    margin-left: 8px;
+}
+
+.dm-text {
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: #ddd;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.dm-mine .dm-text {
+    background: rgba(188, 19, 254, 0.15);
+    border-color: rgba(188, 19, 254, 0.3);
+}
+
+.dm-other .dm-text {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+    border-color: rgba(255, 215, 0, 0.2);
+}
+
+/* 私信用户列表（站长视角） */
+.dm-user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dm-user-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dm-user-item:hover {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: rgba(0, 243, 255, 0.3);
+}
+
+.dm-user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+.dm-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.dm-user-name {
+    font-weight: 600;
+    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.dm-unread-badge {
+    background: #ff4757;
+    color: #fff;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.dm-user-preview {
+    font-size: 0.85em;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dm-user-time {
+    font-size: 0.8em;
+    color: #555;
+    white-space: nowrap;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .comm-container {
+        flex-direction: column;
+    }
+    
+    .comm-sidebar {
+        width: 100%;
+        flex-direction: row;
+        padding: 10px;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+    }
+    
+    .comm-channel {
+        padding: 10px 15px;
+        white-space: nowrap;
+    }
+    
+    .comm-channel span {
+        font-size: 0.85em;
+    }
+    
+    .comm-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .input-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .tag-selector {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .input-actions {
+        justify-content: space-between;
+    }
+}
     </style>
 </head>
 <body>
+
+    <!-- 消息提示容器 -->
+    <div id="messageToast" class="message-toast"></div>
+
+    <!-- 登录/注册按钮区域 -->
+    <div class="auth-header-btn" id="authHeaderBtn">
+        <!-- 未登录状态 -->
+        <div id="authBtnsContainer">
+            <button class="auth-btn auth-btn-outline" onclick="openAuthModal('login')">
+                <i class="fas fa-sign-in-alt"></i> 登录
+            </button>
+            <button class="auth-btn auth-btn-filled" onclick="openAuthModal('register')">
+                <i class="fas fa-user-plus"></i> 注册
+            </button>
+        </div>
+        <!-- 已登录状态 -->
+        <div id="userInfoContainer" style="display: none;">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar" onclick="openSettingsModal()" style="cursor: pointer;" title="点击修改资料">U</div>
+                <span class="user-name" id="userName" onclick="openSettingsModal()" style="cursor: pointer;" title="点击修改资料">用户</span>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- 背景特效 -->
     <div class="scanlines"></div>
@@ -508,7 +1721,7 @@
     <aside class="sidebar sidebar-right">
         <div class="sidebar-title">Links</div>
         <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="tool-item">
-            <i class="fab fa-telegram-plane"></i> <span>联系站长</span>
+            <i class="fab fa-telegram-plane"></i> <span>站长社群</span>
         </a>
     </aside>
 
@@ -574,6 +1787,102 @@
                 <h3>社交媒体</h3>
             </div>
         </div>
+
+        <!-- ================= 通讯终端 ================= -->
+        <section class="comm-terminal" id="commTerminal">
+            <div class="comm-container">
+                <!-- 左侧频道切换 -->
+                <div class="comm-sidebar">
+                    <div class="comm-channel active" data-channel="public" onclick="switchChannel('public')">
+                        <i class="fas fa-globe"></i>
+                        <span>公共频段</span>
+                        <div class="channel-badge" id="publicBadge" style="display:none;">0</div>
+                    </div>
+                    <div class="comm-channel" data-channel="private" onclick="switchChannel('private')">
+                        <i class="fas fa-lock"></i>
+                        <span>加密信箱</span>
+                        <div class="channel-badge" id="privateBadge" style="display:none;">0</div>
+                    </div>
+                    <div class="comm-channel" data-channel="notice" onclick="switchChannel('notice')">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>站务公告</span>
+                    </div>
+                </div>
+
+            <!-- 右侧内容区 -->
+            <div class="comm-main">
+                <!-- 顶部状态栏 -->
+                <div class="comm-header">
+                    <div class="comm-title">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span id="channelTitle">公共频段 · PUBLIC CHANNEL</span>
+                    </div>
+                    <div class="comm-status">
+                        <span class="status-dot"></span>
+                        <span>连接稳定</span>
+                        <span class="status-divider">|</span>
+                        <span id="onlineCount">正在监听...</span>
+                    </div>
+                </div>
+
+                <!-- 频道说明 -->
+                <div class="comm-description" id="channelDesc">
+                    <i class="fas fa-info-circle"></i>
+                    因各平台限制严格、频繁封号，且私信无法留敏感内容。考虑到很多朋友没有TG/WhatsApp，站长特开放此留言区。有需求尽管留言，站长会通过注册手机联系你。
+                </div>
+
+                <!-- 发布区域 -->
+                <div class="comm-input-area" id="messageInputArea">
+                    <div class="input-wrapper">
+                        <textarea id="messageInput" placeholder="输入情报..." maxlength="500" rows="3"></textarea>
+                        <div class="input-footer">
+                            <div class="tag-selector" id="tagSelector">
+                                <span class="tag-label">标签:</span>
+                                <button type="button" class="tag-btn" data-tag="网络故障" onclick="selectTag(this)">网络故障</button>
+                                <button type="button" class="tag-btn" data-tag="资源求助" onclick="selectTag(this)">资源求助</button>
+                                <button type="button" class="tag-btn" data-tag="小白提问" onclick="selectTag(this)">小白提问</button>
+                                <button type="button" class="tag-btn" data-tag="经验分享" onclick="selectTag(this)">经验分享</button>
+                                <button type="button" class="tag-btn" data-tag="BUG反馈" onclick="selectTag(this)">BUG反馈</button>
+                            </div>
+                            <div class="input-actions">
+                                <span class="char-count"><span id="charCount">0</span>/500</span>
+                                <button type="button" class="execute-btn" onclick="submitMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>执行 EXECUTE</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login-hint" id="loginHint" style="display:none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        请先 <a href="javascript:void(0)" onclick="openAuthModal('login')">登录</a> 后发布留言
+                    </div>
+                </div>
+
+                <!-- 回复提示条 -->
+                <div class="reply-bar" id="replyBar" style="display:none;">
+                    <span><i class="fas fa-reply"></i> 回复 <strong id="replyToName"></strong>：</span>
+                    <button type="button" onclick="cancelReply()"><i class="fas fa-times"></i> 取消</button>
+                </div>
+
+                <!-- 消息列表 -->
+                <div class="comm-messages" id="messageList">
+                    <div class="loading-messages" id="loadingMessages">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>正在接收信号...</span>
+                    </div>
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more" id="loadMoreBtn" style="display:none;">
+                    <button type="button" onclick="loadMoreMessages()">
+                        <i class="fas fa-chevron-down"></i>
+                        加载更多情报
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
     </main>
 
     <!-- ================= 弹窗区域 ================= -->
@@ -1015,6 +2324,172 @@
         </div>
     </div>
 
+    <!-- ================= 登录弹窗 ================= -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('login')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-rocket"></i> 欢迎回来</h2>
+                <p>登录您的 NEXUS 账户</p>
+            </div>
+            
+            <div class="auth-form" id="loginForm">
+                <div class="form-group" id="loginEmailGroup">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="loginEmail" placeholder="请输入邮箱">
+                    <span class="error-text">请输入有效的邮箱地址</span>
+                </div>
+                
+                <div class="form-group" id="loginPasswordGroup">
+                    <label><i class="fas fa-lock"></i> 密码</label>
+                    <input type="password" id="loginPassword" placeholder="请输入密码" onkeypress="if(event.keyCode===13)handleLogin()">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+                    <span class="error-text">密码不能为空</span>
+                </div>
+                
+                <button type="button" class="submit-btn" id="loginSubmitBtn" onclick="handleLogin()">
+                    <span class="btn-text">登 录</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                还没有账户？<a href="javascript:void(0)" onclick="switchToRegister()">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 注册弹窗 ================= -->
+    <div id="register-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('register')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-user-astronaut"></i> 创建账户</h2>
+                <p>加入 NEXUS 空间站</p>
+            </div>
+            
+            <div class="auth-form" id="registerForm">
+                <div class="form-group" id="registerNameGroup">
+                    <label><i class="fas fa-user"></i> 昵称 <span style="color:#666;font-weight:normal;font-size:0.85em;">(唯一标识)</span></label>
+                    <div style="display:flex;gap:10px;">
+                        <input type="text" id="registerName" placeholder="请输入昵称" minlength="2" maxlength="20" style="flex:1;">
+                        <button type="button" onclick="fillRandomNickname()" style="padding:10px 15px;background:rgba(0,243,255,0.2);border:1px solid var(--primary);border-radius:8px;color:var(--primary);cursor:pointer;white-space:nowrap;font-size:0.9em;" title="随机生成昵称">
+                            <i class="fas fa-dice"></i> 随机
+                        </button>
+                    </div>
+                    <span class="error-text">昵称长度应为2-20个字符</span>
+                </div>
+                
+                <div class="form-group" id="registerEmailGroup">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="registerEmail" placeholder="请输入邮箱">
+                    <span class="error-text">请输入有效的邮箱地址</span>
+                </div>
+                
+                <div class="form-group" id="registerPhoneGroup">
+                    <label><i class="fas fa-phone"></i> 手机号码 (选填)</label>
+                    <input type="tel" id="registerPhone" placeholder="请输入手机号码">
+                    <span class="error-text">请输入有效的手机号码</span>
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知，不会泄露给第三方
+                    </div>
+                </div>
+                
+                <div class="form-group" id="registerPasswordGroup">
+                    <label><i class="fas fa-lock"></i> 设置密码</label>
+                    <input type="password" id="registerPassword" placeholder="至少6位字符" minlength="6" oninput="checkPasswordStrength(this.value)">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('registerPassword', this)"></i>
+                    <span class="error-text">密码长度至少6位</span>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar1"></div>
+                        <div class="strength-bar" id="strengthBar2"></div>
+                        <div class="strength-bar" id="strengthBar3"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                </div>
+                
+                <div class="form-group" id="registerConfirmGroup">
+                    <label><i class="fas fa-lock"></i> 确认密码</label>
+                    <input type="password" id="registerConfirm" placeholder="再次输入密码" onkeypress="if(event.keyCode===13)handleRegister()">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('registerConfirm', this)"></i>
+                    <span class="error-text">两次密码输入不一致</span>
+                </div>
+                
+                <button type="button" class="submit-btn" id="registerSubmitBtn" onclick="handleRegister()">
+                    <span class="btn-text">注 册</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                已有账户？<a href="javascript:void(0)" onclick="switchToLogin()">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 用户设置弹窗 ================= -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('settings')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-cog"></i> 账户设置</h2>
+                <p>管理您的个人信息</p>
+            </div>
+            
+            <div class="auth-form" id="settingsForm">
+                <!-- 头像选择 -->
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> 选择头像</label>
+                    <div class="avatar-selector" id="avatarSelector">
+                        <div class="avatar-option selected" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
+                        <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
+                        <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
+                        <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
+                        <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
+                        <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
+                        <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
+                        <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
+                        <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
+                        <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
+                        <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
+                        <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="settingsNameGroup">
+                    <label><i class="fas fa-user"></i> 昵称</label>
+                    <input type="text" id="settingsName" placeholder="请输入昵称" minlength="2" maxlength="20">
+                    <span class="error-text">昵称长度应为2-20个字符</span>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="settingsEmail" disabled style="opacity: 0.6; cursor: not-allowed;">
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-lock"></i> 邮箱为登录账号，不可修改
+                    </div>
+                </div>
+                
+                <div class="form-group" id="settingsPhoneGroup">
+                    <label><i class="fas fa-phone"></i> 手机号码</label>
+                    <input type="tel" id="settingsPhone" placeholder="请输入手机号码">
+                    <span class="error-text">请输入有效的手机号码</span>
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知
+                    </div>
+                </div>
+                
+                <button type="button" class="submit-btn" id="settingsSubmitBtn" onclick="handleUpdateProfile()">
+                    <span class="btn-text">保存修改</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 查询工具弹窗 -->
     <div id="query-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:600px;">
@@ -1035,6 +2510,795 @@
     </div>
 
     <script>
+        /* ================= Supabase 认证系统 (REST API 版本) ================= */
+        const SUPABASE_URL = 'https://qzpvogxvlescfwpqahsn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6cHZvZ3h2bGVzY2Z3cHFhaHNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MzMyMzMsImV4cCI6MjA4MzUwOTIzM30.2uadJyp_KJNxRuFm1NIkuRPrTzq0-lBfuH3gb20LXGc';
+        
+        // 站长邮箱
+        const ADMIN_EMAIL = 'terminos888@gmail.com';
+        const ADMIN_UUID = '71c4e4e1-a1b6-47f8-aaa8-c62ae020e1eb';
+        
+        // 留言系统变量
+        var currentChannel = 'public';
+        var messagesData = [];
+        var currentPage = 0;
+        var pageSize = 10;
+        var hasMoreMessages = true;
+        var replyToId = null;
+        var replyToName = '';
+        var selectedTag = null;
+        
+        // 随机昵称生成器
+        var nicknameAdjectives = ['快乐', '神秘', '赛博', '星际', '暗夜', '闪电', '量子', '幻影', '极光', '烈焰', '冰霜', '雷霆', '风暴', '梦幻', '自由', '无畏', '光速', '深空', '迷雾', '破晓'];
+        var nicknameNouns = ['星球', '旅人', '水手', '骑士', '猎人', '行者', '使者', '守望', '飞鸟', '游侠', '精灵', '战士', '探索', '漫步', '流浪', '追风', '逐梦', '先锋', '领航', '开拓'];
+        
+        function generateRandomNickname() {
+            var adj = nicknameAdjectives[Math.floor(Math.random() * nicknameAdjectives.length)];
+            var noun = nicknameNouns[Math.floor(Math.random() * nicknameNouns.length)];
+            var num = Math.floor(Math.random() * 9000) + 1000; // 1000-9999
+            return adj + noun + num;
+        }
+        
+        // 检查昵称是否已存在
+        function checkNicknameExists(nickname) {
+            return fetch(SUPABASE_URL + '/rest/v1/profiles?full_name=eq.' + encodeURIComponent(nickname) + '&select=id', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                return data && data.length > 0; // true = 已存在
+            })
+            .catch(function() {
+                return false;
+            });
+        }
+        
+        // 生成唯一昵称（如果重复就重新生成）
+        function generateUniqueNickname() {
+            return new Promise(function(resolve) {
+                var tryGenerate = function(attempts) {
+                    if (attempts > 10) {
+                        // 超过10次，加时间戳确保唯一
+                        resolve('用户' + Date.now());
+                        return;
+                    }
+                    var nickname = generateRandomNickname();
+                    checkNicknameExists(nickname).then(function(exists) {
+                        if (exists) {
+                            tryGenerate(attempts + 1);
+                        } else {
+                            resolve(nickname);
+                        }
+                    });
+                };
+                tryGenerate(0);
+            });
+        }
+        
+        // 当前用户状态
+        let currentUser = null;
+        
+        // 页面加载时检查登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const userData = localStorage.getItem('nexus_user');
+            const accessToken = localStorage.getItem('nexus_access_token');
+            
+            if (userData && accessToken) {
+                try {
+                    currentUser = JSON.parse(userData);
+                    updateAuthUI(true);
+                } catch (e) {
+                    clearAuthData();
+                    updateAuthUI(false);
+                }
+            } else {
+                updateAuthUI(false);
+            }
+        }
+        
+        // 清除认证数据
+        function clearAuthData() {
+            localStorage.removeItem('nexus_user');
+            localStorage.removeItem('nexus_access_token');
+            localStorage.removeItem('nexus_refresh_token');
+            currentUser = null;
+        }
+        
+        // 更新认证UI
+        function updateAuthUI(isLoggedIn) {
+            var authBtns = document.getElementById('authBtnsContainer');
+            var userInfo = document.getElementById('userInfoContainer');
+            
+            if (isLoggedIn && currentUser) {
+                authBtns.style.display = 'none';
+                userInfo.style.display = 'block';
+                
+                var avatar = document.getElementById('userAvatar');
+                var userName = document.getElementById('userName');
+                
+                var displayName = '用户';
+                var displayAvatar = '👤';
+                
+                if (currentUser.user_metadata) {
+                    if (currentUser.user_metadata.full_name) {
+                        displayName = currentUser.user_metadata.full_name;
+                    }
+                    if (currentUser.user_metadata.avatar) {
+                        displayAvatar = currentUser.user_metadata.avatar;
+                    }
+                }
+                
+                if (displayName === '用户' && currentUser.email) {
+                    displayName = currentUser.email.split('@')[0];
+                }
+                
+                avatar.textContent = displayAvatar;
+                avatar.style.fontSize = '1.2rem';
+                userName.textContent = displayName;
+            } else {
+                authBtns.style.display = 'flex';
+                userInfo.style.display = 'none';
+            }
+        }
+        
+        // 显示消息提示
+        function showMessage(text, type) {
+            type = type || 'info';
+            const toast = document.getElementById('messageToast');
+            const iconMap = {
+                success: 'check-circle',
+                error: 'exclamation-circle',
+                warning: 'exclamation-triangle',
+                info: 'info-circle'
+            };
+            toast.innerHTML = '<i class="fas fa-' + (iconMap[type] || 'info-circle') + '"></i> ' + text;
+            toast.className = 'message-toast ' + type;
+            
+            setTimeout(function() { toast.classList.add('show'); }, 10);
+            setTimeout(function() { toast.classList.remove('show'); }, 3500);
+        }
+        
+        // 打开认证弹窗
+        function openAuthModal(type) {
+            var modalId = type + '-modal';
+            var modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('visible');
+                document.body.classList.add('modal-open');
+            }
+        }
+        
+        // 关闭认证弹窗
+        function closeAuthModal(type) {
+            var modalId = type + '-modal';
+            var modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('visible');
+                if (document.querySelectorAll('.modal-overlay.visible').length === 0) {
+                    document.body.classList.remove('modal-open');
+                }
+            }
+        }
+        
+        // 切换密码可见性
+        function togglePassword(inputId, icon) {
+            var input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        // 密码强度检测
+        function checkPasswordStrength(password) {
+            var bar1 = document.getElementById('strengthBar1');
+            var bar2 = document.getElementById('strengthBar2');
+            var bar3 = document.getElementById('strengthBar3');
+            var text = document.getElementById('strengthText');
+            
+            bar1.className = 'strength-bar';
+            bar2.className = 'strength-bar';
+            bar3.className = 'strength-bar';
+            
+            if (!password) {
+                text.textContent = '';
+                return;
+            }
+            
+            var strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[a-zA-Z]/.test(password)) strength++;
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            
+            if (strength <= 2) {
+                bar1.classList.add('weak');
+                text.textContent = '密码强度：弱';
+                text.style.color = '#ff4757';
+            } else if (strength <= 4) {
+                bar1.classList.add('medium');
+                bar2.classList.add('medium');
+                text.textContent = '密码强度：中';
+                text.style.color = '#ffd700';
+            } else {
+                bar1.classList.add('strong');
+                bar2.classList.add('strong');
+                bar3.classList.add('strong');
+                text.textContent = '密码强度：强';
+                text.style.color = '#00ff88';
+            }
+        }
+        
+        // 表单验证
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        function validatePhone(phone) {
+            if (!phone) return true;
+            return /^1[3-9]\d{9}$/.test(phone);
+        }
+        
+        function setFieldError(groupId, hasError) {
+            var group = document.getElementById(groupId);
+            if (hasError) {
+                group.classList.add('error');
+            } else {
+                group.classList.remove('error');
+            }
+        }
+        
+        // 切换到注册
+        function switchToRegister() {
+            closeAuthModal('login');
+            setTimeout(function() { 
+                openAuthModal('register');
+                // 自动生成一个随机昵称
+                fillRandomNickname();
+            }, 200);
+        }
+        
+        // 填充随机昵称
+        function fillRandomNickname() {
+            var input = document.getElementById('registerName');
+            var btn = event ? event.target.closest('button') : null;
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
+            
+            generateUniqueNickname().then(function(nickname) {
+                input.value = nickname;
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-dice"></i> 随机';
+                }
+            });
+        }
+        
+        // 切换到登录
+        function switchToLogin() {
+            closeAuthModal('register');
+            setTimeout(function() { openAuthModal('login'); }, 200);
+        }
+        
+        // 设置按钮加载状态
+        function setButtonLoading(btnId, loading) {
+            var btn = document.getElementById(btnId);
+            if (loading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+        
+        // 登录处理 - 使用 Supabase Auth REST API
+        function handleLogin() {
+            var email = document.getElementById('loginEmail').value.trim();
+            var password = document.getElementById('loginPassword').value;
+            
+            // 验证
+            var hasError = false;
+            
+            if (!validateEmail(email)) {
+                setFieldError('loginEmailGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('loginEmailGroup', false);
+            }
+            
+            if (!password) {
+                setFieldError('loginPasswordGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('loginPasswordGroup', false);
+            }
+            
+            if (hasError) {
+                showMessage('请检查输入信息', 'error');
+                return;
+            }
+            
+            setButtonLoading('loginSubmitBtn', true);
+            
+            // 调用 Supabase Auth API
+            fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+            .then(function(response) {
+                return response.json().then(function(data) {
+                    return { ok: response.ok, data: data };
+                });
+            })
+            .then(function(result) {
+                if (!result.ok) {
+                    var errorMsg = result.data.error_description || result.data.msg || result.data.message || '登录失败';
+                    
+                    // 更友好的错误提示
+                    if (errorMsg.includes('Invalid login credentials')) {
+                        showMessage('账号不存在或密码错误，请检查后重试', 'error');
+                    } else if (errorMsg.includes('Email not confirmed')) {
+                        showMessage('请先验证您的邮箱后再登录', 'warning');
+                    } else if (errorMsg.includes('Too many requests') || errorMsg.includes('rate limit')) {
+                        showMessage('操作过于频繁，请1分钟后再试', 'warning');
+                    } else if (errorMsg.includes('network') || errorMsg.includes('fetch')) {
+                        showMessage('网络连接失败，请检查网络后重试', 'error');
+                    } else {
+                        showMessage('登录失败: ' + errorMsg, 'error');
+                    }
+                    setButtonLoading('loginSubmitBtn', false);
+                    return;
+                }
+                
+                // 登录成功
+                currentUser = result.data.user;
+                localStorage.setItem('nexus_user', JSON.stringify(result.data.user));
+                localStorage.setItem('nexus_access_token', result.data.access_token);
+                localStorage.setItem('nexus_refresh_token', result.data.refresh_token);
+                
+                showMessage('登录成功！欢迎回来', 'success');
+                updateAuthUI(true);
+                
+                setTimeout(function() {
+                    closeAuthModal('login');
+                    setButtonLoading('loginSubmitBtn', false);
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                }, 1000);
+            })
+            .catch(function(error) {
+                console.error('登录错误:', error);
+                showMessage('网络连接失败，请检查网络后重试', 'error');
+                setButtonLoading('loginSubmitBtn', false);
+            });
+        }
+        
+        // 注册处理 - 使用 Supabase Auth REST API
+        function handleRegister() {
+            var name = document.getElementById('registerName').value.trim();
+            var email = document.getElementById('registerEmail').value.trim();
+            var phone = document.getElementById('registerPhone').value.trim();
+            var password = document.getElementById('registerPassword').value;
+            var confirmPassword = document.getElementById('registerConfirm').value;
+            
+            // 验证
+            var hasError = false;
+            
+            if (name.length < 2 || name.length > 20) {
+                setFieldError('registerNameGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('registerNameGroup', false);
+            }
+            
+            if (!validateEmail(email)) {
+                setFieldError('registerEmailGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('registerEmailGroup', false);
+            }
+            
+            if (!validatePhone(phone)) {
+                setFieldError('registerPhoneGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('registerPhoneGroup', false);
+            }
+            
+            if (password.length < 6) {
+                setFieldError('registerPasswordGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('registerPasswordGroup', false);
+            }
+            
+            if (password !== confirmPassword) {
+                setFieldError('registerConfirmGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('registerConfirmGroup', false);
+            }
+            
+            if (hasError) {
+                showMessage('请检查输入信息', 'error');
+                return;
+            }
+            
+            setButtonLoading('registerSubmitBtn', true);
+            
+            // 先检查昵称是否已存在
+            checkNicknameExists(name).then(function(exists) {
+                if (exists) {
+                    showMessage('该昵称已被使用，请换一个或点击随机生成', 'warning');
+                    setFieldError('registerNameGroup', true);
+                    setButtonLoading('registerSubmitBtn', false);
+                    return;
+                }
+                
+                // 昵称可用，继续注册
+                doRegister(name, email, phone, password);
+            }).catch(function() {
+                // 检查失败，仍然尝试注册
+                doRegister(name, email, phone, password);
+            });
+        }
+        
+        // 执行注册
+        function doRegister(name, email, phone, password) {
+            // 调用 Supabase Auth API 注册
+            fetch(SUPABASE_URL + '/auth/v1/signup', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    data: {
+                        full_name: name,
+                        phone: phone,
+                        avatar: '👤'
+                    }
+                })
+            })
+            .then(function(response) {
+                return response.json().then(function(data) {
+                    return { ok: response.ok, status: response.status, data: data };
+                });
+            })
+            .then(function(result) {
+                if (!result.ok) {
+                    var errorMsg = result.data.error_description || result.data.msg || result.data.message || '注册失败';
+                    
+                    if (errorMsg.includes('already registered') || errorMsg.includes('already been registered')) {
+                        showMessage('该邮箱已被注册', 'warning');
+                    } else if (errorMsg.includes('Password')) {
+                        showMessage('密码不符合要求，请使用更强的密码', 'error');
+                    } else {
+                        showMessage(errorMsg, 'error');
+                    }
+                    setButtonLoading('registerSubmitBtn', false);
+                    return;
+                }
+                
+                // 注册成功，将用户信息写入 profiles 表
+                var userId = result.data.user ? result.data.user.id : null;
+                if (userId) {
+                    saveUserProfile(userId, name, email, phone);
+                }
+                
+                // 检查是否需要邮箱验证
+                if (result.data.user && !result.data.session) {
+                    showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
+                } else if (result.data.access_token) {
+                    // 直接登录成功
+                    currentUser = result.data.user;
+                    localStorage.setItem('nexus_user', JSON.stringify(result.data.user));
+                    localStorage.setItem('nexus_access_token', result.data.access_token);
+                    localStorage.setItem('nexus_refresh_token', result.data.refresh_token);
+                    showMessage('注册成功！欢迎加入 NEXUS', 'success');
+                    updateAuthUI(true);
+                } else {
+                    showMessage('注册成功！请检查邮箱完成验证', 'success');
+                }
+                
+                setTimeout(function() {
+                    closeAuthModal('register');
+                    setButtonLoading('registerSubmitBtn', false);
+                    document.getElementById('registerName').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPhone').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    document.getElementById('registerConfirm').value = '';
+                    document.getElementById('strengthBar1').className = 'strength-bar';
+                    document.getElementById('strengthBar2').className = 'strength-bar';
+                    document.getElementById('strengthBar3').className = 'strength-bar';
+                    document.getElementById('strengthText').textContent = '';
+                }, 1500);
+            })
+            .catch(function(error) {
+                console.error('注册错误:', error);
+                showMessage('注册失败: 网络错误，请稍后重试', 'error');
+                setButtonLoading('registerSubmitBtn', false);
+            });
+        }
+        
+        // 保存用户资料到 profiles 表
+        function saveUserProfile(userId, fullName, email, phone) {
+            fetch(SUPABASE_URL + '/rest/v1/profiles', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    full_name: fullName,
+                    email_contact: email,
+                    phone_number: phone || null
+                })
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    console.error('保存用户资料失败');
+                }
+            })
+            .catch(function(error) {
+                console.error('保存用户资料错误:', error);
+            });
+        }
+        
+        // 退出登录
+        function handleLogout() {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            if (accessToken) {
+                fetch(SUPABASE_URL + '/auth/v1/logout', {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken
+                    }
+                }).catch(function() {});
+            }
+            
+            clearAuthData();
+            updateAuthUI(false);
+            showMessage('已安全退出登录', 'info');
+        }
+        
+        // 打开设置弹窗时填充当前用户信息
+        function openSettingsModal() {
+            if (!currentUser) {
+                showMessage('请先登录', 'warning');
+                return;
+            }
+            
+            var displayName = '';
+            var avatar = '👤';
+            var phone = '';
+            
+            if (currentUser.user_metadata) {
+                if (currentUser.user_metadata.full_name) {
+                    displayName = currentUser.user_metadata.full_name;
+                }
+                if (currentUser.user_metadata.avatar) {
+                    avatar = currentUser.user_metadata.avatar;
+                }
+                if (currentUser.user_metadata.phone) {
+                    phone = currentUser.user_metadata.phone;
+                }
+            }
+            
+            if (!displayName && currentUser.email) {
+                displayName = currentUser.email.split('@')[0];
+            }
+            
+            document.getElementById('settingsName').value = displayName;
+            document.getElementById('settingsEmail').value = currentUser.email || '';
+            document.getElementById('settingsPhone').value = phone;
+            
+            // 设置头像选中状态
+            var avatarOptions = document.querySelectorAll('.avatar-option');
+            avatarOptions.forEach(function(opt) {
+                opt.classList.remove('selected');
+                if (opt.getAttribute('data-avatar') === avatar) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            openAuthModal('settings');
+        }
+        
+        // 头像选择
+        function selectAvatar(element) {
+            document.querySelectorAll('.avatar-option').forEach(function(opt) {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+        
+        // 获取当前选中的头像
+        function getSelectedAvatar() {
+            var selected = document.querySelector('.avatar-option.selected');
+            return selected ? selected.getAttribute('data-avatar') : '👤';
+        }
+        
+        // 修改用户资料
+        function handleUpdateProfile() {
+            var newName = document.getElementById('settingsName').value.trim();
+            var newPhone = document.getElementById('settingsPhone').value.trim();
+            var newAvatar = getSelectedAvatar();
+            
+            // 验证
+            var hasError = false;
+            
+            if (newName.length < 2 || newName.length > 20) {
+                setFieldError('settingsNameGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('settingsNameGroup', false);
+            }
+            
+            if (newPhone && !validatePhone(newPhone)) {
+                setFieldError('settingsPhoneGroup', true);
+                hasError = true;
+            } else {
+                setFieldError('settingsPhoneGroup', false);
+            }
+            
+            if (hasError) {
+                showMessage('请检查输入信息', 'error');
+                return;
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            if (!accessToken) {
+                showMessage('登录已过期，请重新登录', 'error');
+                handleLogout();
+                return;
+            }
+            
+            setButtonLoading('settingsSubmitBtn', true);
+            
+            // 获取当前昵称
+            var currentName = '';
+            if (currentUser && currentUser.user_metadata && currentUser.user_metadata.full_name) {
+                currentName = currentUser.user_metadata.full_name;
+            }
+            
+            // 如果昵称改变了，检查唯一性
+            if (newName !== currentName) {
+                checkNicknameExists(newName).then(function(exists) {
+                    if (exists) {
+                        showMessage('该昵称已被使用，请换一个', 'warning');
+                        setFieldError('settingsNameGroup', true);
+                        setButtonLoading('settingsSubmitBtn', false);
+                        return;
+                    }
+                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+                }).catch(function() {
+                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+                });
+            } else {
+                doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+            }
+        }
+        
+        // 执行更新资料
+        function doUpdateProfile(newName, newPhone, newAvatar, accessToken) {
+            // 调用 Supabase Auth API 更新用户信息
+            fetch(SUPABASE_URL + '/auth/v1/user', {
+                method: 'PUT',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: {
+                        full_name: newName,
+                        avatar: newAvatar,
+                        phone: newPhone
+                    }
+                })
+            })
+            .then(function(response) {
+                return response.json().then(function(data) {
+                    return { ok: response.ok, data: data };
+                });
+            })
+            .then(function(result) {
+                if (!result.ok) {
+                    var errorMsg = result.data.error_description || result.data.msg || result.data.message || '更新失败';
+                    if (errorMsg.includes('JWT') || errorMsg.includes('token') || errorMsg.includes('expired')) {
+                        showMessage('登录已过期，请重新登录', 'error');
+                        handleLogout();
+                    } else if (errorMsg.includes('rate limit') || errorMsg.includes('Too many')) {
+                        showMessage('操作过于频繁，请稍后再试', 'warning');
+                    } else {
+                        showMessage('更新失败: ' + errorMsg, 'error');
+                    }
+                    setButtonLoading('settingsSubmitBtn', false);
+                    return;
+                }
+                
+                // 更新本地存储的用户信息
+                currentUser = result.data;
+                localStorage.setItem('nexus_user', JSON.stringify(result.data));
+                
+                // 同步更新 profiles 表中的昵称
+                if (currentUser && currentUser.id) {
+                    updateProfilesTable(currentUser.id, newName, newPhone);
+                }
+                
+                showMessage('资料修改成功！', 'success');
+                updateAuthUI(true);
+                
+                setTimeout(function() {
+                    closeAuthModal('settings');
+                    setButtonLoading('settingsSubmitBtn', false);
+                }, 1000);
+            })
+            .catch(function(error) {
+                console.error('更新资料错误:', error);
+                showMessage('网络连接失败，请检查网络后重试', 'error');
+                setButtonLoading('settingsSubmitBtn', false);
+            });
+        }
+        
+        // 更新 profiles 表
+        function updateProfilesTable(userId, fullName, phone) {
+            fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    phone_number: phone || null
+                })
+            }).catch(function(error) {
+                console.error('更新profiles表失败:', error);
+            });
+        }
+        
+        // 登录注册设置弹窗只能通过点击X关闭，不需要点击遮罩关闭
+
         /* ================= 1. 粒子背景逻辑 ================= */
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -1258,6 +3522,11 @@
 
         document.querySelectorAll('.modal-overlay').forEach(ov => {
             ov.addEventListener('click', (e) => { 
+                // 登录、注册、设置弹窗只能通过X按钮关闭
+                var modalId = ov.id;
+                if (modalId === 'login-modal' || modalId === 'register-modal' || modalId === 'settings-modal') {
+                    return; // 不处理点击遮罩关闭
+                }
                 if(e.target === ov) {
                     ov.classList.remove('visible'); 
                     document.body.classList.remove('modal-open');
@@ -1267,9 +3536,884 @@
 
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
+                // ESC键也不关闭登录、注册、设置弹窗
+                var loginModal = document.getElementById('login-modal');
+                var registerModal = document.getElementById('register-modal');
+                var settingsModal = document.getElementById('settings-modal');
+                
+                if ((loginModal && loginModal.classList.contains('visible')) ||
+                    (registerModal && registerModal.classList.contains('visible')) ||
+                    (settingsModal && settingsModal.classList.contains('visible'))) {
+                    return; // 不处理ESC关闭
+                }
                 closeAllModals();
             }
         });
+
+        /* ================= 通讯终端（留言系统） ================= */
+        
+        // 检查是否是站长
+        function isAdmin() {
+            return currentUser && (currentUser.id === ADMIN_UUID || currentUser.email === ADMIN_EMAIL);
+        }
+        
+        // 切换频道
+        function switchChannel(channel) {
+            currentChannel = channel;
+            
+            // 更新频道按钮状态
+            document.querySelectorAll('.comm-channel').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.dataset.channel === channel) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 更新标题和描述
+            var titleEl = document.getElementById('channelTitle');
+            var descEl = document.getElementById('channelDesc');
+            var inputArea = document.getElementById('messageInputArea');
+            var tagSelector = document.getElementById('tagSelector');
+            
+            if (channel === 'public') {
+                titleEl.textContent = '公共频段 · PUBLIC CHANNEL';
+                descEl.innerHTML = '<i class="fas fa-info-circle"></i> 因各平台限制严格、频繁封号，且私信无法留敏感内容。考虑到很多朋友没有TG/WhatsApp，站长特开放此留言区。有需求尽管留言，站长会通过注册手机联系你。';
+                inputArea.style.display = 'block';
+                tagSelector.style.display = 'flex';
+                loadMessages();
+            } else if (channel === 'private') {
+                titleEl.textContent = '加密信箱 · SECURE CHANNEL';
+                if (isAdmin()) {
+                    descEl.innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，点击用户查看对话并回复。';
+                } else {
+                    descEl.innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，只有你和站长可见。适合咨询敏感业务或私密问题。';
+                }
+                inputArea.style.display = currentUser ? 'block' : 'none';
+                tagSelector.style.display = 'none';
+                if (!currentUser) {
+                    document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-lock"></i><p>请先登录后使用加密信箱</p></div>';
+                    document.getElementById('loadMoreBtn').style.display = 'none';
+                    document.getElementById('loginHint').style.display = 'block';
+                } else {
+                    loadDirectMessages();
+                }
+            } else if (channel === 'notice') {
+                titleEl.textContent = '站务公告 · ANNOUNCEMENT';
+                descEl.innerHTML = '<i class="fas fa-bullhorn"></i> 站长发布的重要通知和公告。';
+                inputArea.style.display = isAdmin() ? 'block' : 'none';
+                tagSelector.style.display = 'none';
+                showMessage('公告功能开发中，敬请期待', 'info');
+                document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-bullhorn"></i><p>暂无公告</p></div>';
+                document.getElementById('loadMoreBtn').style.display = 'none';
+            }
+        }
+        
+        // 选择标签
+        function selectTag(btn) {
+            var tag = btn.dataset.tag;
+            
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                selectedTag = null;
+            } else {
+                document.querySelectorAll('.tag-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+                selectedTag = tag;
+            }
+        }
+        
+        // 字数统计
+        document.getElementById('messageInput').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+        
+        // 加载留言
+        function loadMessages(append) {
+            if (!append) {
+                currentPage = 0;
+                messagesData = [];
+                document.getElementById('messageList').innerHTML = '<div class="loading-messages"><i class="fas fa-spinner fa-spin"></i><span>正在接收信号...</span></div>';
+            }
+            
+            var offset = currentPage * pageSize;
+            var accessToken = localStorage.getItem('nexus_access_token') || SUPABASE_KEY;
+            
+            // 简化查询：直接获取所有主留言（取消审核后都是approved）
+            var queryUrl = SUPABASE_URL + '/rest/v1/messages?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
+            
+            fetch(queryUrl, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('加载失败: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function(messages) {
+                if (!messages || !Array.isArray(messages)) {
+                    messages = [];
+                }
+                
+                if (!append) {
+                    messagesData = messages;
+                } else {
+                    messagesData = messagesData.concat(messages);
+                }
+                
+                hasMoreMessages = messages.length === pageSize;
+                
+                // 获取所有回复
+                if (messages.length > 0) {
+                    var parentIds = messages.map(function(m) { return m.id; }).join(',');
+                    return fetch(SUPABASE_URL + '/rest/v1/messages?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
+                        method: 'GET',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken
+                        }
+                    }).then(function(res) { return res.json(); });
+                }
+                return [];
+            })
+            .then(function(replies) {
+                renderMessages(messagesData, replies || [], append);
+            })
+            .catch(function(error) {
+                console.error('加载留言失败:', error);
+                document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+            });
+        }
+        
+        // 渲染留言
+        function renderMessages(messages, replies, append) {
+            var container = document.getElementById('messageList');
+            var loadMoreBtn = document.getElementById('loadMoreBtn');
+            
+            if (!append) {
+                container.innerHTML = '';
+            }
+            
+            if (messages.length === 0 && !append) {
+                container.innerHTML = '<div class="empty-messages"><i class="fas fa-satellite-dish"></i><p>暂无情报，成为第一个发言的人吧</p></div>';
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+            
+            // 按 parent_id 分组回复
+            var repliesMap = {};
+            if (replies && replies.length > 0) {
+                replies.forEach(function(reply) {
+                    if (!repliesMap[reply.parent_id]) {
+                        repliesMap[reply.parent_id] = [];
+                    }
+                    repliesMap[reply.parent_id].push(reply);
+                });
+            }
+            
+            messages.forEach(function(msg) {
+                var msgReplies = repliesMap[msg.id] || [];
+                var html = createMessageHTML(msg, msgReplies);
+                container.insertAdjacentHTML('beforeend', html);
+            });
+            
+            loadMoreBtn.style.display = hasMoreMessages ? 'block' : 'none';
+        }
+        
+        // 创建单条消息HTML
+        function createMessageHTML(msg, replies) {
+            var isAdminMsg = msg.is_admin;
+            var isOwn = currentUser && currentUser.id === msg.user_id;
+            var isPending = msg.status === 'pending';
+            var isPinned = msg.is_pinned;
+            
+            var cardClass = 'message-card';
+            if (isAdminMsg) cardClass += ' admin-message';
+            if (isPending) cardClass += ' pending';
+            if (isPinned) cardClass += ' pinned';
+            
+            var timeAgo = getTimeAgo(msg.created_at);
+            
+            var html = '<div class="' + cardClass + '" data-id="' + msg.id + '">';
+            html += '<div class="message-header">';
+            html += '<div class="message-user">';
+            html += '<div class="message-avatar' + (isAdminMsg ? ' admin' : '') + '">' + (msg.user_avatar || '👤') + '</div>';
+            html += '<div class="message-info">';
+            html += '<div class="message-name' + (isAdminMsg ? ' admin' : '') + '">' + escapeHtml(msg.user_name);
+            if (isAdminMsg) html += '<span class="admin-badge">站长</span>';
+            if (isPinned) html += '<span class="pinned-badge"><i class="fas fa-thumbtack"></i> 置顶</span>';
+            html += '</div>';
+            html += '<div class="message-meta">';
+            html += '<span>' + timeAgo + '</span>';
+            if (msg.tag) html += '<span class="message-tag">' + escapeHtml(msg.tag) + '</span>';
+            if (isPending) html += '<span class="message-status"><i class="fas fa-clock"></i> 待审核</span>';
+            html += '</div></div></div>';
+            
+            // 操作按钮
+            html += '<div class="message-actions">';
+            html += '<button onclick="replyTo(\'' + msg.id + '\', \'' + escapeHtml(msg.user_name) + '\')"><i class="fas fa-comment"></i> 回复</button>';
+            if (isOwn || isAdmin()) {
+                html += '<button class="delete" onclick="deleteMessage(\'' + msg.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
+            }
+            if (isAdmin() && !isPinned) {
+                html += '<button onclick="pinMessage(\'' + msg.id + '\')"><i class="fas fa-thumbtack"></i> 置顶</button>';
+            }
+            if (isAdmin() && isPending) {
+                html += '<button onclick="approveMessage(\'' + msg.id + '\')"><i class="fas fa-check"></i> 通过</button>';
+            }
+            html += '</div></div>';
+            
+            // 内容
+            html += '<div class="message-content">' + escapeHtml(msg.content) + '</div>';
+            
+            // 回复列表
+            if (replies && replies.length > 0) {
+                html += '<div class="message-replies">';
+                replies.forEach(function(reply) {
+                    var replyIsAdmin = reply.is_admin;
+                    var replyIsOwn = currentUser && currentUser.id === reply.user_id;
+                    var replyTimeAgo = getTimeAgo(reply.created_at);
+                    
+                    html += '<div class="reply-card' + (replyIsAdmin ? ' admin-message' : '') + '" data-id="' + reply.id + '">';
+                    html += '<div class="message-header">';
+                    html += '<div class="message-user">';
+                    html += '<div class="message-avatar' + (replyIsAdmin ? ' admin' : '') + '" style="width:32px;height:32px;font-size:1em;">' + (reply.user_avatar || '👤') + '</div>';
+                    html += '<div class="message-info">';
+                    html += '<div class="message-name' + (replyIsAdmin ? ' admin' : '') + '">' + escapeHtml(reply.user_name);
+                    if (replyIsAdmin) html += '<span class="admin-badge">站长</span>';
+                    html += '</div>';
+                    html += '<div class="message-meta"><span>' + replyTimeAgo + '</span>';
+                    if (reply.status === 'pending') html += '<span class="message-status"><i class="fas fa-clock"></i> 待审核</span>';
+                    html += '</div></div></div>';
+                    html += '<div class="message-actions">';
+                    html += '<button onclick="replyTo(\'' + reply.parent_id + '\', \'' + escapeHtml(reply.user_name) + '\')"><i class="fas fa-comment"></i> 回复</button>';
+                    if (replyIsOwn || isAdmin()) {
+                        html += '<button class="delete" onclick="deleteMessage(\'' + reply.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
+                    }
+                    if (isAdmin() && reply.status === 'pending') {
+                        html += '<button onclick="approveMessage(\'' + reply.id + '\')"><i class="fas fa-check"></i> 通过</button>';
+                    }
+                    html += '</div></div>';
+                    html += '<div class="message-content"><span class="reply-to-hint">回复 @' + escapeHtml(msg.user_name) + '：</span>' + escapeHtml(reply.content) + '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // 时间格式化
+        function getTimeAgo(dateStr) {
+            var date = new Date(dateStr);
+            var now = new Date();
+            var diff = Math.floor((now - date) / 1000);
+            
+            if (diff < 60) return '刚刚';
+            if (diff < 3600) return Math.floor(diff / 60) + '分钟前';
+            if (diff < 86400) return Math.floor(diff / 3600) + '小时前';
+            if (diff < 604800) return Math.floor(diff / 86400) + '天前';
+            
+            return date.toLocaleDateString('zh-CN');
+        }
+        
+        // HTML转义
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        
+        // 回复
+        function replyTo(id, name) {
+            if (!currentUser) {
+                showMessage('请先登录后再回复', 'warning');
+                openAuthModal('login');
+                return;
+            }
+            
+            replyToId = id;
+            replyToName = name;
+            
+            document.getElementById('replyBar').style.display = 'flex';
+            document.getElementById('replyToName').textContent = name;
+            document.getElementById('messageInput').focus();
+            document.getElementById('messageInput').placeholder = '回复 ' + name + '...';
+        }
+        
+        // 取消回复
+        function cancelReply() {
+            replyToId = null;
+            replyToName = '';
+            document.getElementById('replyBar').style.display = 'none';
+            document.getElementById('messageInput').placeholder = '输入情报...';
+        }
+        
+        // 发布留言
+        function submitMessage() {
+            var content = document.getElementById('messageInput').value.trim();
+            
+            if (!currentUser) {
+                showMessage('请先登录后再发布', 'warning');
+                openAuthModal('login');
+                return;
+            }
+            
+            if (!content) {
+                showMessage('请输入内容', 'warning');
+                return;
+            }
+            
+            if (content.length > 500) {
+                showMessage('内容不能超过500字', 'warning');
+                return;
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var isAdminUser = isAdmin();
+            
+            var userName = '用户';
+            var userAvatar = '👤';
+            if (currentUser.user_metadata) {
+                userName = currentUser.user_metadata.full_name || userName;
+                userAvatar = currentUser.user_metadata.avatar || userAvatar;
+            }
+            
+            var messageData = {
+                user_id: currentUser.id,
+                user_name: userName,
+                user_avatar: userAvatar,
+                content: content,
+                parent_id: replyToId || null,
+                tag: replyToId ? null : selectedTag,
+                status: 'approved',
+                is_admin: isAdminUser
+            };
+            
+            var btn = document.querySelector('.execute-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
+            
+            fetch(SUPABASE_URL + '/rest/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(messageData)
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('发送失败');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                document.getElementById('messageInput').value = '';
+                document.getElementById('charCount').textContent = '0';
+                cancelReply();
+                
+                // 清除选中的标签
+                document.querySelectorAll('.tag-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                selectedTag = null;
+                
+                if (isAdminUser) {
+                    showMessage('发送成功', 'success');
+                } else {
+                    showMessage('发送成功', 'success');
+                }
+                
+                loadMessages();
+            })
+            .catch(function(error) {
+                console.error('发送失败:', error);
+                showMessage('发送失败，请重试', 'error');
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>执行 EXECUTE</span>';
+            });
+        }
+        
+        // 删除留言
+        function deleteMessage(id) {
+            if (!confirm('确定要删除这条留言吗？')) {
+                return;
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/messages?id=eq.' + id, {
+                method: 'DELETE',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('删除失败');
+                }
+                showMessage('删除成功', 'success');
+                loadMessages();
+            })
+            .catch(function(error) {
+                console.error('删除失败:', error);
+                showMessage('删除失败', 'error');
+            });
+        }
+        
+        // 置顶留言（站长功能）
+        function pinMessage(id) {
+            if (!isAdmin()) return;
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/messages?id=eq.' + id, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ is_pinned: true })
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('操作失败');
+                }
+                showMessage('已置顶', 'success');
+                loadMessages();
+            })
+            .catch(function(error) {
+                console.error('置顶失败:', error);
+                showMessage('操作失败', 'error');
+            });
+        }
+        
+        // 审核通过（站长功能）
+        function approveMessage(id) {
+            if (!isAdmin()) return;
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/messages?id=eq.' + id, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'approved' })
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('操作失败');
+                }
+                showMessage('已通过审核', 'success');
+                loadMessages();
+            })
+            .catch(function(error) {
+                console.error('审核失败:', error);
+                showMessage('操作失败', 'error');
+            });
+        }
+        
+        // 加载更多
+        function loadMoreMessages() {
+            currentPage++;
+            loadMessages(true);
+        }
+        
+        /* ================= 加密信箱（私信功能） ================= */
+        
+        var dmData = [];
+        var dmPage = 0;
+        var hasMoreDM = true;
+        var dmUserList = []; // 站长用：用户列表
+        var currentDMUserId = null; // 当前对话的用户ID
+        var currentDMUserName = ''; // 当前对话的用户名
+        
+        // 加载私信
+        function loadDirectMessages(append) {
+            if (!currentUser) return;
+            
+            if (!append) {
+                dmPage = 0;
+                dmData = [];
+                document.getElementById('messageList').innerHTML = '<div class="loading-messages"><i class="fas fa-spinner fa-spin"></i><span>正在解密通信...</span></div>';
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            if (isAdmin()) {
+                // 站长：显示用户列表
+                loadDMUserList();
+            } else {
+                // 普通用户：显示与站长的对话
+                loadDMConversation(ADMIN_UUID, '站长');
+            }
+        }
+        
+        // 站长端：加载私信用户列表
+        function loadDMUserList() {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            // 查询所有发给站长的私信，按用户分组
+            fetch(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + ADMIN_UUID + '&order=created_at.desc', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(messages) {
+                // 按发送者分组，获取最新消息
+                var userMap = {};
+                var unreadCount = 0;
+                messages.forEach(function(msg) {
+                    if (!userMap[msg.sender_id]) {
+                        userMap[msg.sender_id] = {
+                            user_id: msg.sender_id,
+                            user_name: msg.sender_name,
+                            user_avatar: msg.sender_avatar,
+                            last_message: msg.content,
+                            last_time: msg.created_at,
+                            unread: msg.is_read ? 0 : 1
+                        };
+                    } else if (!msg.is_read) {
+                        userMap[msg.sender_id].unread++;
+                    }
+                    if (!msg.is_read) unreadCount++;
+                });
+                
+                dmUserList = Object.values(userMap);
+                renderDMUserList(dmUserList);
+                
+                // 更新未读数
+                updatePrivateBadge(unreadCount);
+            })
+            .catch(function(error) {
+                console.error('加载用户列表失败:', error);
+            });
+        }
+        
+        // 渲染用户列表（站长视角）
+        function renderDMUserList(users) {
+            var container = document.getElementById('messageList');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<div class="empty-messages"><i class="fas fa-inbox"></i><p>暂无私信</p></div>';
+                return;
+            }
+            
+            var html = '<div class="dm-user-list">';
+            users.forEach(function(user) {
+                var timeStr = getTimeAgo(user.last_time);
+                html += '<div class="dm-user-item" onclick="openDMConversation(\'' + user.user_id + '\', \'' + escapeHtml(user.user_name) + '\')">';
+                html += '<div class="dm-user-avatar">' + (user.user_avatar || '👤') + '</div>';
+                html += '<div class="dm-user-info">';
+                html += '<div class="dm-user-name">' + escapeHtml(user.user_name);
+                if (user.unread > 0) {
+                    html += '<span class="dm-unread-badge">' + user.unread + '</span>';
+                }
+                html += '</div>';
+                html += '<div class="dm-user-preview">' + escapeHtml(user.last_message.substring(0, 30)) + (user.last_message.length > 30 ? '...' : '') + '</div>';
+                html += '</div>';
+                html += '<div class="dm-user-time">' + timeStr + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        }
+        
+        // 打开与某用户的对话（站长用）
+        function openDMConversation(userId, userName) {
+            currentDMUserId = userId;
+            currentDMUserName = userName;
+            loadDMConversation(userId, userName);
+            
+            // 显示返回按钮
+            document.getElementById('channelDesc').innerHTML = '<i class="fas fa-arrow-left" style="cursor:pointer;margin-right:10px;" onclick="backToDMList()"></i> 与 <strong>' + escapeHtml(userName) + '</strong> 的对话';
+        }
+        
+        // 返回用户列表
+        function backToDMList() {
+            currentDMUserId = null;
+            currentDMUserName = '';
+            document.getElementById('channelDesc').innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，点击用户查看对话并回复。';
+            loadDMUserList();
+        }
+        
+        // 加载与某用户的对话
+        function loadDMConversation(targetUserId, targetUserName) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var myId = currentUser.id;
+            
+            // 查询双方的消息
+            var queryUrl = SUPABASE_URL + '/rest/v1/direct_messages?or=(and(sender_id.eq.' + myId + ',receiver_id.eq.' + targetUserId + '),and(sender_id.eq.' + targetUserId + ',receiver_id.eq.' + myId + '))&order=created_at.asc';
+            
+            fetch(queryUrl, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(messages) {
+                renderDMConversation(messages, targetUserName);
+                
+                // 标记为已读（不管是站长还是普通用户）
+                markDMAsRead(targetUserId);
+            })
+            .catch(function(error) {
+                console.error('加载对话失败:', error);
+            });
+        }
+        
+        // 渲染对话
+        function renderDMConversation(messages, targetUserName) {
+            var container = document.getElementById('messageList');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="empty-messages"><i class="fas fa-envelope-open"></i><p>暂无消息，发送第一条吧</p></div>';
+                return;
+            }
+            
+            var html = '<div class="dm-chat-container">';
+            messages.forEach(function(msg) {
+                var isMine = msg.sender_id === currentUser.id;
+                var timeStr = getTimeAgo(msg.created_at);
+                var senderName = isMine ? '我' : (msg.is_admin_sent ? '<span class="admin-name">站长</span>' : escapeHtml(msg.sender_name));
+                
+                html += '<div class="dm-bubble ' + (isMine ? 'dm-mine' : 'dm-other') + '">';
+                if (!isMine) {
+                    html += '<div class="dm-avatar' + (msg.is_admin_sent ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                }
+                html += '<div class="dm-content-wrap">';
+                html += '<div class="dm-sender">' + senderName + ' <span class="dm-time">' + timeStr + '</span></div>';
+                html += '<div class="dm-text">' + escapeHtml(msg.content) + '</div>';
+                html += '</div>';
+                if (isMine) {
+                    html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+            container.scrollTop = container.scrollHeight;
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        }
+        
+        // 标记私信为已读
+        function markDMAsRead(senderId) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var myId = currentUser.id;
+            
+            // 标记发给我的、来自senderId的未读消息为已读
+            fetch(SUPABASE_URL + '/rest/v1/direct_messages?sender_id=eq.' + senderId + '&receiver_id=eq.' + myId + '&is_read=eq.false', {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ is_read: true })
+            })
+            .then(function() {
+                // 更新角标
+                checkUnreadDM();
+            })
+            .catch(function(e) { console.error('标记已读失败', e); });
+        }
+        
+        // 发送私信
+        function sendDirectMessage() {
+            var content = document.getElementById('messageInput').value.trim();
+            
+            if (!currentUser) {
+                showMessage('请先登录', 'warning');
+                openAuthModal('login');
+                return;
+            }
+            
+            if (!content) {
+                showMessage('请输入内容', 'warning');
+                return;
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var isAdminUser = isAdmin();
+            
+            var userName = '用户';
+            var userAvatar = '👤';
+            if (currentUser.user_metadata) {
+                userName = currentUser.user_metadata.full_name || userName;
+                userAvatar = currentUser.user_metadata.avatar || userAvatar;
+            }
+            
+            // 确定接收者
+            var receiverId;
+            if (isAdminUser) {
+                // 站长回复：发给当前选中的用户
+                if (!currentDMUserId) {
+                    showMessage('请先选择要回复的用户', 'warning');
+                    return;
+                }
+                receiverId = currentDMUserId;
+            } else {
+                // 普通用户：发给站长
+                receiverId = ADMIN_UUID;
+            }
+            
+            var dmData = {
+                sender_id: currentUser.id,
+                sender_name: userName,
+                sender_avatar: userAvatar,
+                receiver_id: receiverId,
+                content: content,
+                is_admin_sent: isAdminUser
+            };
+            
+            var btn = document.querySelector('.execute-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加密发送中...';
+            
+            fetch(SUPABASE_URL + '/rest/v1/direct_messages', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(dmData)
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('发送失败');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                document.getElementById('messageInput').value = '';
+                document.getElementById('charCount').textContent = '0';
+                showMessage('发送成功', 'success');
+                
+                // 刷新对话
+                if (isAdminUser && currentDMUserId) {
+                    loadDMConversation(currentDMUserId, currentDMUserName);
+                } else {
+                    loadDMConversation(ADMIN_UUID, '站长');
+                }
+            })
+            .catch(function(error) {
+                console.error('发送失败:', error);
+                showMessage('发送失败，请重试', 'error');
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>执行 EXECUTE</span>';
+            });
+        }
+        
+        // 更新私信未读数角标
+        function updatePrivateBadge(count) {
+            var badge = document.getElementById('privateBadge');
+            if (count > 0) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        // 检查未读私信数量
+        function checkUnreadDM() {
+            if (!currentUser) return;
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var myId = currentUser.id;
+            
+            // 查询发给我的未读消息
+            fetch(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + myId + '&is_read=eq.false&select=id', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                updatePrivateBadge(data.length);
+            })
+            .catch(function(e) { console.error('检查未读失败', e); });
+        }
+        
+        // 修改提交函数，根据频道决定发送方式
+        var originalSubmitMessage = submitMessage;
+        submitMessage = function() {
+            if (currentChannel === 'private') {
+                sendDirectMessage();
+            } else {
+                originalSubmitMessage();
+            }
+        };
+        
+        // 更新输入区域显示状态
+        function updateInputAreaState() {
+            var inputWrapper = document.querySelector('.input-wrapper');
+            var loginHint = document.getElementById('loginHint');
+            
+            if (currentUser) {
+                inputWrapper.style.display = 'block';
+                loginHint.style.display = 'none';
+            } else {
+                inputWrapper.style.display = 'none';
+                loginHint.style.display = 'block';
+            }
+        }
+        
+        // 页面加载时初始化留言板
+        document.addEventListener('DOMContentLoaded', function() {
+            // 延迟加载留言，等待认证状态确认
+            setTimeout(function() {
+                updateInputAreaState();
+                loadMessages();
+                checkUnreadDM();
+            }, 500);
+        });
+        
+        // 监听登录状态变化，更新输入区域
+        var originalUpdateAuthUI = updateAuthUI;
+        updateAuthUI = function(isLoggedIn) {
+            originalUpdateAuthUI(isLoggedIn);
+            updateInputAreaState();
+            if (currentChannel === 'public') {
+                loadMessages();
+            }
+            // 检查未读私信
+            if (isLoggedIn) {
+                checkUnreadDM();
+            } else {
+                updatePrivateBadge(0);
+            }
+        };
 
     </script>
 </body>

@@ -1,0 +1,328 @@
+    <!-- 替换原来底部的 script 标签 -->
+    <script>
+        /* ================= 1. 粒子背景逻辑 ================= */
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        const mouse = { x: null, y: null, radius: 250 };
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() * 1.5 - 0.75);
+                this.speedY = (Math.random() * 1.5 - 0.75);
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if(this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if(this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                
+                const dx = mouse.x - this.x; const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                if(distance < mouse.radius) {
+                    if (distance < 100) {
+                         this.x -= dx/10; this.y -= dy/10;
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = '#00f3ff'; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = []; 
+            let numberOfParticles = (canvas.width * canvas.height) / 8000; 
+            for(let i=0; i<numberOfParticles; i++) particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            connectParticles(); 
+            requestAnimationFrame(animateParticles);
+        }
+
+        function connectParticles() {
+            for(let a=0; a<particles.length; a++){
+                for(let b=a; b<particles.length; b++){
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 120) {
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/120})`;
+                        ctx.lineWidth = 0.8; ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        initParticles(); animateParticles();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
+
+        /* ================= 3D 卡片悬浮特效 ================= */
+        const cards = document.querySelectorAll('.holo-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (centerY - y) / 10;
+                const rotateY = (x - centerX) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                card.style.borderColor = 'var(--primary)';
+                card.style.zIndex = '10';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+                card.style.borderColor = 'var(--glass-border)';
+                card.style.zIndex = '1';
+            });
+        });
+
+
+        /* ================= 2. 音乐播放器 (纯手动模式) ================= */
+        const playlist = [
+            // 你的音乐列表保持不变
+            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3'
+        ];
+        
+        let currentTrack = 0;
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const trackDisplay = document.getElementById('trackNameDisplay');
+        const visualizer = document.getElementById('visualizer');
+        let isPlaying = false; 
+
+        function getFileName(url) {
+            try { return decodeURIComponent(url.split('/').pop().replace('.mp3', '')); } catch(e){ return "Unknown"; }
+        }
+
+        function loadTrack(index) {
+            if(playlist.length === 0) return;
+            currentTrack = (index + playlist.length) % playlist.length;
+            audio.src = playlist[currentTrack];
+            trackDisplay.textContent = getFileName(playlist[currentTrack]);
+            if(isPlaying) {
+                audio.play().catch(e => { isPlaying = false; updateUI(false); });
+            }
+        }
+
+        function togglePlay() {
+            if(!audio.src) loadTrack(currentTrack);
+            
+            if(audio.paused) {
+                audio.play().then(() => { isPlaying = true; updateUI(true); })
+                     .catch(err => console.error("Play failed:", err));
+            } else {
+                audio.pause();
+                isPlaying = false;
+                updateUI(false);
+            }
+        }
+
+        function updateUI(playing) {
+            if(playing) {
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                visualizer.classList.remove('music-paused');
+            } else {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                visualizer.classList.add('music-paused');
+            }
+        }
+
+        function nextTrack() { isPlaying = true; loadTrack(currentTrack + 1); updateUI(true); }
+        function prevTrack() { isPlaying = true; loadTrack(currentTrack - 1); updateUI(true); }
+        audio.addEventListener('ended', nextTrack);
+        
+        if(playlist.length > 0) {
+            loadTrack(0);
+            isPlaying = false;
+            updateUI(false);
+        }
+
+        /* ================= 3. 弹窗控制 (修复 ReferenceError) ================= */
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+            document.body.classList.remove('modal-open');
+        }
+
+        function openModal(id) {
+            closeAllModals();
+            setTimeout(() => {
+                const m = document.getElementById(id + '-modal');
+                if(m) { 
+                    m.classList.add('visible'); 
+                    document.body.classList.add('modal-open'); 
+                }
+            }, 10);
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id + '-modal');
+            if(m) { 
+                m.classList.remove('visible'); 
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(ov => {
+            ov.addEventListener('click', (e) => { 
+                if(e.target === ov) {
+                    ov.classList.remove('visible'); 
+                    document.body.classList.remove('modal-open');
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") closeAllModals();
+        });
+
+        // ================= 4. Supabase 认证逻辑 (关键修复) =================
+        const SUPABASE_URL = 'https://qzpvogxvlescfwpqahsn.supabase.co'; 
+        const SUPABASE_KEY = 'sb_publishable_Zt9V5vdRPdkJyfw1yYt92Q_av2HhNp4'; // 确保这是你的 Anon Key
+        
+        // ❌ 之前错误: const supabase = supa.createClient...
+        // ✅ 修正如下: 使用全局 supabase 对象创建客户端，并改名为 sbClient 防止冲突
+        const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let authMode = 'login'; 
+
+        // 页面加载完毕
+        window.addEventListener('DOMContentLoaded', async () => {
+            // 1. 检查是否已登录 (注意这里改用了 sbClient)
+            const { data: { session } } = await sbClient.auth.getSession();
+            if (session) {
+                updateAuthUI(session.user);
+            }
+
+            // 2. 监听登录状态变化
+            sbClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN') {
+                    updateAuthUI(session.user);
+                    closeModal('auth'); 
+                } else if (event === 'SIGNED_OUT') {
+                    resetAuthUI();
+                }
+            });
+        });
+
+        function updateAuthUI(user) {
+            const phone = user.email.split('@')[0];
+            const displayName = user.user_metadata.full_name || user.user_metadata.nickname || phone;
+            
+            const btn = document.querySelector('.user-access');
+            if(btn) {
+                btn.innerHTML = `<i class="fas fa-user-check" style="color:#00ff9d;"></i> <span>${displayName}</span>`;
+                btn.style.borderColor = '#00ff9d';
+                btn.style.color = '#00ff9d';
+                btn.onclick = () => {
+                    if(confirm('系统提示：确认断开连接 (Logout)?')) {
+                        sbClient.auth.signOut();
+                    }
+                };
+            }
+        }
+
+        function resetAuthUI() {
+            const btn = document.querySelector('.user-access');
+            if(btn) {
+                btn.innerHTML = `<i class="fas fa-user-astronaut"></i> <span>GUEST_ACCESS</span>`;
+                btn.style.borderColor = 'var(--primary)';
+                btn.style.color = 'var(--primary)';
+                btn.onclick = () => openModal('auth');
+            }
+        }
+
+        function toggleAuthMode() {
+            authMode = authMode === 'login' ? 'register' : 'login';
+            const isReg = authMode === 'register';
+            
+            document.getElementById('auth-title').innerText = isReg ? 'CREATE PROFILE' : 'MEMBER ACCESS';
+            document.getElementById('btn-text').innerText = isReg ? 'REGISTER (提交档案)' : 'LOGIN (登录)';
+            document.getElementById('toggle-text').innerText = isReg ? '已有账号? ' : '未注册? ';
+            document.getElementById('register-extras').style.display = isReg ? 'block' : 'none';
+            document.getElementById('auth-error').style.display = 'none';
+        }
+
+        async function handleAuthAction() {
+            const phone = document.getElementById('reg-phone').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+
+            if(!phone || !password) return showError('账号和密码不能为空');
+            if(authMode === 'register' && (!name || !email)) return showError('请完善姓名和联系邮箱');
+
+            const loginId = `${phone}@nexus.link`; 
+
+            const btn = document.getElementById('auth-action-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+            btn.disabled = true;
+
+            try {
+                let result;
+                if (authMode === 'register') {
+                    // === 注册 (使用 sbClient) ===
+                    result = await sbClient.auth.signUp({
+                        email: loginId,
+                        password: password,
+                        options: {
+                            data: { 
+                                full_name: name,
+                                phone: phone,
+                                email: email
+                            }
+                        }
+                    });
+                } else {
+                    // === 登录 (使用 sbClient) ===
+                    result = await sbClient.auth.signInWithPassword({
+                        email: loginId,
+                        password: password
+                    });
+                }
+
+                if (result.error) throw result.error;
+
+                if (authMode === 'register') {
+                    alert('档案建立成功！系统将为您自动登录。');
+                    setTimeout(() => location.reload(), 1000);
+                } 
+
+            } catch (error) {
+                console.error(error); // 方便调试
+                let msg = error.message;
+                if(msg.includes('already registered')) msg = '该手机号已存在';
+                if(msg.includes('Invalid login')) msg = '手机号或密码错误';
+                showError(msg);
+            } finally {
+                btn.innerHTML = document.getElementById('btn-text').innerText;
+                btn.disabled = false;
+            }
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('auth-error');
+            el.innerText = "⚠️ " + msg;
+            el.style.display = 'block';
+        }
+
+    </script>
