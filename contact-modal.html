@@ -175,6 +175,31 @@
             .contact-container { padding: 1.5rem; }
             .contact-header .title { font-size: 1.8rem; }
         }
+
+        /* --- 新增：横跨底部的提示卡片样式 --- */
+.contact-card.full-width {
+    grid-column: 1 / -1; /* 强制横跨所有列 */
+    background: rgba(5, 10, 15, 0.85); /* 深色背景，沉浸感 */
+    border-color: rgba(188, 19, 254, 0.4); /* 紫色边框，区分于上方 */
+    text-align: center; /* 居中对齐，因为是纯提示 */
+    align-items: center;
+}
+
+/* 让内部元素也居中 */
+.contact-card.full-width .card-header {
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.contact-card.full-width .card-body {
+    text-align: center;
+    max-width: 800px; /* 限制文字宽度，防止太宽难读 */
+}
+
+.contact-card.full-width footer {
+    width: 100%;
+    max-width: 300px; /* 按钮不要太宽 */
+}
     </style>
 </head>
 <body>
@@ -234,6 +259,30 @@
                 </div>
                 <footer>
                     <div class="info-box">terminos888@gmail.com</div>
+                </footer>
+            </section>
+
+            <!-- 卡片 4: 首页留言引导 (纯提示) -->
+            <section class="contact-card full-width">
+                <div class="card-header">
+                    <!-- 换个紫色图标，表示特殊通道 -->
+                    <span class="icon" style="color: var(--secondary);"><i class="fas fa-bullhorn"></i></span>
+                    <h3 style="color: var(--secondary); text-shadow: 0 0 10px rgba(188,19,254,0.5);">
+                        无加密软件？请使用首页信箱
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p>
+                        如果您不方便使用 Telegram 或 WhatsApp，也不习惯发送邮件：<br><br>
+                        请直接返回 <strong>网站首页</strong>，在底部的 <strong>【加密信箱】</strong> 版块留言。<br>
+                        <span style="color: #fff; font-weight: 500;">只需简述需求并留下电话号码，站长收到加密讯息后会直接回电给您。</span>
+                    </p>
+                </div>
+                <footer>
+                    <!-- 链接改为你的首页地址，例如 / 或 index.html -->
+                    <a href="index.html" class="btn-glow" style="border-color: var(--secondary); color: var(--secondary);">
+                        <i class="fas fa-undo-alt"></i> 返回首页留言
+                    </a>
                 </footer>
             </section>
         </main>
