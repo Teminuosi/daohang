@@ -2472,9 +2472,9 @@
                 </div>
                 
                 <div class="form-group" id="registerPhoneGroup">
-                    <label><i class="fas fa-phone"></i> 手机号码 <span style="color:#ff4757;">*</span></label>
-                    <input type="tel" id="registerPhone" placeholder="请输入手机号码" required>
-                    <span class="error-text">请输入有效的11位手机号码</span>
+                    <label><i class="fas fa-phone"></i> 手机号码 (选填)</label>
+                    <input type="tel" id="registerPhone" placeholder="请输入手机号码">
+                    <span class="error-text">请输入有效的手机号码</span>
                     <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
                         <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知，不会泄露给第三方
                     </div>
@@ -3196,7 +3196,7 @@
                 setFieldError('registerEmailGroup', false);
             }
             
-            if (!phone || !validatePhone(phone)) {
+            if (!validatePhone(phone)) {
                 setFieldError('registerPhoneGroup', true);
                 hasError = true;
             } else {
