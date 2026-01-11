@@ -1326,150 +1326,6 @@
     color: #ff4757;
 }
 
-/* 图片上传按钮 */
-.image-upload-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: rgba(0, 243, 255, 0.1);
-    border: 1px solid rgba(0, 243, 255, 0.3);
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-right: 10px;
-}
-
-.image-upload-btn:hover {
-    background: rgba(0, 243, 255, 0.2);
-    transform: scale(1.05);
-}
-
-/* 图片预览区 */
-.image-preview-area {
-    padding: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.image-preview-item {
-    position: relative;
-    display: inline-block;
-    max-width: 200px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 2px solid rgba(0, 243, 255, 0.3);
-}
-
-.image-preview-item img {
-    max-width: 100%;
-    max-height: 150px;
-    display: block;
-}
-
-.remove-image-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: rgba(255, 71, 87, 0.9);
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    transition: all 0.3s;
-}
-
-.remove-image-btn:hover {
-    background: #ff4757;
-    transform: scale(1.1);
-}
-
-/* 拖拽遮罩 */
-.comm-input-area {
-    position: relative;
-}
-
-.drag-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 243, 255, 0.1);
-    border: 3px dashed var(--primary);
-    border-radius: 12px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: var(--primary);
-    font-size: 1.2em;
-    z-index: 10;
-    backdrop-filter: blur(5px);
-}
-
-.drag-overlay i {
-    font-size: 3em;
-    animation: bounce-up 1s infinite;
-}
-
-@keyframes bounce-up {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.comm-input-area.dragging .drag-overlay {
-    display: flex;
-}
-
-/* 消息中的图片 */
-.message-image {
-    max-width: 100%;
-    max-height: 300px;
-    border-radius: 8px;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.message-image:hover {
-    transform: scale(1.02);
-}
-
-/* 图片灯箱 */
-.image-lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.95);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    cursor: zoom-out;
-}
-
-.image-lightbox.show {
-    display: flex;
-}
-
-.image-lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 8px;
-}
-
 /* 消息列表 */
 .comm-messages {
     flex: 1;
@@ -2141,17 +1997,6 @@
                 <div class="comm-input-area" id="messageInputArea">
                     <div class="input-wrapper">
                         <textarea id="messageInput" placeholder="输入情报..." maxlength="500" rows="3"></textarea>
-                        
-                        <!-- 图片预览区 -->
-                        <div class="image-preview-area" id="imagePreviewArea" style="display:none;">
-                            <div class="image-preview-item" id="imagePreviewItem">
-                                <img id="imagePreview" src="" alt="预览">
-                                <button type="button" class="remove-image-btn" onclick="removeImage()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
                         <div class="input-footer">
                             <div class="tag-selector" id="tagSelector">
                                 <span class="tag-label">标签:</span>
@@ -2162,12 +2007,6 @@
                                 <button type="button" class="tag-btn" data-tag="BUG反馈" onclick="selectTag(this)">BUG反馈</button>
                             </div>
                             <div class="input-actions">
-                                <!-- 图片上传按钮 -->
-                                <label class="image-upload-btn" for="messageImageInput" title="上传图片">
-                                    <i class="fas fa-image"></i>
-                                </label>
-                                <input type="file" id="messageImageInput" accept="image/*" style="display:none;" onchange="handleMessageImage(event)">
-                                
                                 <span class="char-count"><span id="charCount">0</span>/500</span>
                                 <button type="button" class="execute-btn" onclick="submitMessage()">
                                     <i class="fas fa-paper-plane"></i>
@@ -2176,13 +2015,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- 拖拽提示遮罩 -->
-                    <div class="drag-overlay" id="dragOverlay">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>释放以上传图片</span>
-                    </div>
-                    
                     <div class="login-hint" id="loginHint" style="display:none;">
                         <i class="fas fa-exclamation-triangle"></i>
                         请先 <a href="javascript:void(0)" onclick="openAuthModal('login')">登录</a> 后发布留言
@@ -2795,7 +2627,6 @@
         var replyToName = '';
         var selectedTag = null;
         var isRefreshing = false;
-        var pendingMessageImage = null; // 待发送的图片URL
         
         // Token 刷新函数
         function refreshAccessToken() {
@@ -4392,15 +4223,7 @@
             html += '</div></div>';
             
             // 内容
-            html += '<div class="message-content">';
-            if (msg.content) {
-                html += escapeHtml(msg.content);
-            }
-            // 显示图片
-            if (msg.image_url) {
-                html += '<img class="message-image" src="' + msg.image_url + '" alt="图片" onclick="openLightbox(\'' + msg.image_url + '\')">';
-            }
-            html += '</div>';
+            html += '<div class="message-content">' + escapeHtml(msg.content) + '</div>';
             
             // 回复列表
             if (replies && replies.length > 0) {
@@ -4430,11 +4253,7 @@
                         html += '<button onclick="approveMessage(\'' + reply.id + '\')"><i class="fas fa-check"></i> 通过</button>';
                     }
                     html += '</div></div>';
-                    html += '<div class="message-content"><span class="reply-to-hint">回复 @' + escapeHtml(msg.user_name) + '：</span>' + escapeHtml(reply.content);
-                    if (reply.image_url) {
-                        html += '<img class="message-image" src="' + reply.image_url + '" alt="图片" onclick="openLightbox(\'' + reply.image_url + '\')">';
-                    }
-                    html += '</div>';
+                    html += '<div class="message-content"><span class="reply-to-hint">回复 @' + escapeHtml(msg.user_name) + '：</span>' + escapeHtml(reply.content) + '</div>';
                     html += '</div>';
                 });
                 html += '</div>';
@@ -4499,9 +4318,8 @@
                 return;
             }
             
-            // 允许只发图片或只发文字
-            if (!content && !pendingMessageImage) {
-                showMessage('请输入内容或上传图片', 'warning');
+            if (!content) {
+                showMessage('请输入内容', 'warning');
                 return;
             }
             
@@ -4523,16 +4341,11 @@
                 user_id: currentUser.id,
                 user_name: userName,
                 content: content,
-                image_url: pendingMessageImage || null,
                 parent_id: replyToId || null,
                 tag: replyToId ? null : selectedTag,
                 status: 'approved',
                 is_admin: isAdminUser
             };
-            
-            // 调试日志
-            console.log('发送消息 - pendingMessageImage:', pendingMessageImage);
-            console.log('发送消息 - messageData:', messageData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -4558,7 +4371,6 @@
                 document.getElementById('messageInput').value = '';
                 document.getElementById('charCount').textContent = '0';
                 cancelReply();
-                removeImage(); // 清除图片
                 
                 // 清除选中的标签
                 document.querySelectorAll('.tag-btn').forEach(function(b) {
@@ -4845,14 +4657,7 @@
                 }
                 html += '<div class="dm-content-wrap">';
                 html += '<div class="dm-sender">' + senderName + ' <span class="dm-time">' + timeStr + '</span></div>';
-                html += '<div class="dm-text">';
-                if (msg.content) {
-                    html += escapeHtml(msg.content);
-                }
-                if (msg.image_url) {
-                    html += '<img class="message-image" src="' + msg.image_url + '" alt="图片" onclick="openLightbox(\'' + msg.image_url + '\')" style="max-width:200px;margin-top:8px;border-radius:8px;cursor:pointer;">';
-                }
-                html += '</div>';
+                html += '<div class="dm-text">' + escapeHtml(msg.content) + '</div>';
                 html += '</div>';
                 if (isMine) {
                     html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
@@ -4898,9 +4703,8 @@
                 return;
             }
             
-            // 允许只发图片或只发文字
-            if (!content && !pendingMessageImage) {
-                showMessage('请输入内容或上传图片', 'warning');
+            if (!content) {
+                showMessage('请输入内容', 'warning');
                 return;
             }
             
@@ -4934,13 +4738,8 @@
                 sender_avatar: userAvatar,
                 receiver_id: receiverId,
                 content: content,
-                image_url: pendingMessageImage || null,
                 is_admin_sent: isAdminUser
             };
-            
-            // 调试日志
-            console.log('发送私信 - pendingMessageImage:', pendingMessageImage);
-            console.log('发送私信 - dmData:', dmData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -4965,7 +4764,6 @@
             .then(function(data) {
                 document.getElementById('messageInput').value = '';
                 document.getElementById('charCount').textContent = '0';
-                removeImage(); // 清除图片
                 showMessage('发送成功', 'success');
                 
                 // 刷新对话
@@ -5068,158 +4866,6 @@
             }
         };
 
-        // ================= 图片上传功能 =================
-        
-        // 处理图片选择
-        function handleMessageImage(event) {
-            var file = event.target.files[0];
-            if (file) {
-                processImageFile(file);
-            }
-        }
-        
-        // 处理图片文件
-        function processImageFile(file) {
-            if (!currentUser) {
-                showMessage('请先登录', 'warning');
-                return;
-            }
-            
-            if (!file.type.startsWith('image/')) {
-                showMessage('请选择图片文件', 'error');
-                return;
-            }
-            
-            if (file.size > 5 * 1024 * 1024) {
-                showMessage('图片大小不能超过5MB', 'error');
-                return;
-            }
-            
-            // 显示本地预览
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imagePreview').src = e.target.result;
-                document.getElementById('imagePreviewArea').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-            
-            // 上传图片
-            uploadMessageImage(file);
-        }
-        
-        // 上传留言图片到Storage
-        function uploadMessageImage(file) {
-            var accessToken = localStorage.getItem('nexus_access_token');
-            if (!accessToken || !currentUser) {
-                showMessage('请先登录', 'error');
-                return;
-            }
-            
-            showMessage('图片上传中...', 'info');
-            
-            var fileExt = file.name.split('.').pop().toLowerCase();
-            var fileName = 'msg_' + currentUser.id + '_' + Date.now() + '.' + fileExt;
-            
-            fetch(SUPABASE_URL + '/storage/v1/object/message-images/' + fileName, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + accessToken,
-                    'Content-Type': file.type,
-                    'x-upsert': 'true'
-                },
-                body: file
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('上传失败');
-                }
-                return response.json();
-            })
-            .then(function(data) {
-                pendingMessageImage = SUPABASE_URL + '/storage/v1/object/public/message-images/' + fileName;
-                console.log('图片上传成功 - pendingMessageImage 已设置:', pendingMessageImage);
-                showMessage('图片已准备好，点击发送', 'success');
-            })
-            .catch(function(error) {
-                console.error('图片上传失败:', error);
-                showMessage('图片上传失败', 'error');
-                removeImage();
-            });
-        }
-        
-        // 移除待发送的图片
-        function removeImage() {
-            pendingMessageImage = null;
-            document.getElementById('imagePreviewArea').style.display = 'none';
-            document.getElementById('imagePreview').src = '';
-            document.getElementById('messageImageInput').value = '';
-        }
-        
-        // 拖拽上传
-        var inputArea = document.getElementById('messageInputArea');
-        
-        inputArea.addEventListener('dragenter', function(e) {
-            e.preventDefault();
-            if (currentUser) {
-                this.classList.add('dragging');
-            }
-        });
-        
-        inputArea.addEventListener('dragover', function(e) {
-            e.preventDefault();
-        });
-        
-        inputArea.addEventListener('dragleave', function(e) {
-            if (e.target === this || !this.contains(e.relatedTarget)) {
-                this.classList.remove('dragging');
-            }
-        });
-        
-        inputArea.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragging');
-            
-            if (!currentUser) {
-                showMessage('请先登录', 'warning');
-                return;
-            }
-            
-            var files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type.startsWith('image/')) {
-                processImageFile(files[0]);
-            }
-        });
-        
-        // 粘贴图片
-        document.getElementById('messageInput').addEventListener('paste', function(e) {
-            var items = e.clipboardData.items;
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].type.startsWith('image/')) {
-                    var file = items[i].getAsFile();
-                    processImageFile(file);
-                    e.preventDefault();
-                    break;
-                }
-            }
-        });
-        
-        // 图片灯箱
-        function openLightbox(src) {
-            var lightbox = document.getElementById('imageLightbox');
-            document.getElementById('lightboxImage').src = src;
-            lightbox.classList.add('show');
-        }
-        
-        function closeLightbox() {
-            document.getElementById('imageLightbox').classList.remove('show');
-        }
-
     </script>
-    
-    <!-- 图片灯箱 -->
-    <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
-        <img id="lightboxImage" src="" alt="大图">
-    </div>
 </body>
 </html>
