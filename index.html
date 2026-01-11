@@ -586,6 +586,13 @@
     font-weight: bold;
     color: #000;
     font-size: 1rem;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-name {
@@ -890,15 +897,15 @@
 }
 
 .avatar-option {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.3em;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -912,6 +919,80 @@
     border-color: var(--primary);
     background: rgba(0, 243, 255, 0.2);
     box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* 头像上传区域 */
+.avatar-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 15px;
+}
+
+.avatar-preview-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-upload-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--secondary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid #1a1a2e;
+}
+
+.avatar-upload-btn:hover {
+    background: #d946ef;
+    transform: scale(1.1);
+}
+
+.avatar-upload-hint {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #888;
+}
+
+.avatar-emoji-section {
+    padding-top: 10px;
+}
+
+.avatar-emoji-label {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 8px;
 }
 
 @media (max-width: 768px) {
@@ -1322,6 +1403,14 @@
     align-items: center;
     justify-content: center;
     font-size: 1.2em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-avatar.admin {
@@ -2436,20 +2525,36 @@
             <div class="auth-form" id="settingsForm">
                 <!-- 头像选择 -->
                 <div class="form-group">
-                    <label><i class="fas fa-image"></i> 选择头像</label>
-                    <div class="avatar-selector" id="avatarSelector">
-                        <div class="avatar-option selected" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
-                        <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
-                        <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
-                        <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
-                        <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
-                        <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
-                        <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
-                        <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
-                        <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
-                        <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
-                        <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
-                        <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                    <label><i class="fas fa-image"></i> 头像设置</label>
+                    <div class="avatar-upload-section">
+                        <!-- 头像预览 -->
+                        <div class="avatar-preview-container">
+                            <div class="avatar-preview" id="avatarPreview">👤</div>
+                            <label class="avatar-upload-btn" for="avatarFileInput">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                        </div>
+                        <div class="avatar-upload-hint">点击相机图标上传图片</div>
+                    </div>
+                    
+                    <!-- emoji头像选择 -->
+                    <div class="avatar-emoji-section">
+                        <div class="avatar-emoji-label">或选择表情头像：</div>
+                        <div class="avatar-selector" id="avatarSelector">
+                            <div class="avatar-option" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
+                            <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
+                            <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
+                            <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
+                            <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
+                            <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
+                            <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
+                            <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
+                            <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
+                            <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
+                            <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
+                            <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -2708,8 +2813,8 @@
                     currentUser = JSON.parse(userData);
                     updateAuthUI(true);
                     
-                    // 后台验证token有效性，无效则尝试刷新
-                    checkAndRefreshToken();
+                    // 后台验证token有效性并获取最新用户数据
+                    fetchLatestUserData(accessToken);
                 } catch (e) {
                     clearAuthData();
                     updateAuthUI(false);
@@ -2725,6 +2830,36 @@
             } else {
                 updateAuthUI(false);
             }
+        }
+        
+        // 获取最新用户数据
+        function fetchLatestUserData(accessToken) {
+            fetch(SUPABASE_URL + '/auth/v1/user', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) {
+                if (response.status === 401) {
+                    // Token过期，尝试刷新
+                    return refreshAccessToken().then(function() {
+                        updateAuthUI(true);
+                    });
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                if (data && data.id) {
+                    currentUser = data;
+                    localStorage.setItem('nexus_user', JSON.stringify(data));
+                    updateAuthUI(true);
+                }
+            })
+            .catch(function(error) {
+                console.error('获取用户数据失败:', error);
+            });
         }
         
         // 清除认证数据
@@ -2749,6 +2884,7 @@
                 
                 var displayName = '用户';
                 var displayAvatar = '👤';
+                var avatarUrl = null;
                 
                 if (currentUser.user_metadata) {
                     if (currentUser.user_metadata.full_name) {
@@ -2757,14 +2893,28 @@
                     if (currentUser.user_metadata.avatar) {
                         displayAvatar = currentUser.user_metadata.avatar;
                     }
+                    if (currentUser.user_metadata.avatar_url) {
+                        avatarUrl = currentUser.user_metadata.avatar_url;
+                    }
                 }
+                
+                // 调试日志
+                console.log('updateAuthUI - avatarUrl:', avatarUrl);
+                console.log('updateAuthUI - user_metadata:', currentUser.user_metadata);
                 
                 if (displayName === '用户' && currentUser.email) {
                     displayName = currentUser.email.split('@')[0];
                 }
                 
-                avatar.textContent = displayAvatar;
-                avatar.style.fontSize = '1.2rem';
+                // 显示头像
+                if (avatarUrl) {
+                    // 添加时间戳防止缓存
+                    var imgUrl = avatarUrl.indexOf('?') > -1 ? avatarUrl : avatarUrl + '?t=' + Date.now();
+                    avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
+                } else {
+                    avatar.innerHTML = '';
+                    avatar.textContent = displayAvatar;
+                }
                 userName.textContent = displayName;
             } else {
                 authBtns.style.display = 'flex';
@@ -3232,6 +3382,7 @@
             var displayName = '';
             var avatar = '👤';
             var phone = '';
+            var avatarUrl = '';
             
             if (currentUser.user_metadata) {
                 if (currentUser.user_metadata.full_name) {
@@ -3239,6 +3390,9 @@
                 }
                 if (currentUser.user_metadata.avatar) {
                     avatar = currentUser.user_metadata.avatar;
+                }
+                if (currentUser.user_metadata.avatar_url) {
+                    avatarUrl = currentUser.user_metadata.avatar_url;
                 }
                 if (currentUser.user_metadata.phone) {
                     phone = currentUser.user_metadata.phone;
@@ -3253,11 +3407,23 @@
             document.getElementById('settingsEmail').value = currentUser.email || '';
             document.getElementById('settingsPhone').value = phone;
             
+            // 设置头像预览
+            var avatarPreview = document.getElementById('avatarPreview');
+            if (avatarUrl) {
+                avatarPreview.innerHTML = '<img src="' + avatarUrl + '" alt="头像">';
+                avatarPreview.setAttribute('data-type', 'image');
+                avatarPreview.setAttribute('data-url', avatarUrl);
+            } else {
+                avatarPreview.innerHTML = avatar;
+                avatarPreview.setAttribute('data-type', 'emoji');
+                avatarPreview.removeAttribute('data-url');
+            }
+            
             // 设置头像选中状态
             var avatarOptions = document.querySelectorAll('.avatar-option');
             avatarOptions.forEach(function(opt) {
                 opt.classList.remove('selected');
-                if (opt.getAttribute('data-avatar') === avatar) {
+                if (!avatarUrl && opt.getAttribute('data-avatar') === avatar) {
                     opt.classList.add('selected');
                 }
             });
@@ -3265,18 +3431,149 @@
             openAuthModal('settings');
         }
         
-        // 头像选择
+        // 头像选择（emoji）
         function selectAvatar(element) {
             document.querySelectorAll('.avatar-option').forEach(function(opt) {
                 opt.classList.remove('selected');
             });
             element.classList.add('selected');
+            
+            // 更新预览
+            var avatar = element.getAttribute('data-avatar');
+            var avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.innerHTML = avatar;
+            avatarPreview.setAttribute('data-type', 'emoji');
+            avatarPreview.removeAttribute('data-url');
+        }
+        
+        // 上传头像变量
+        var uploadedAvatarUrl = null;
+        
+        // 处理头像上传
+        function handleAvatarUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            
+            // 检查文件类型
+            if (!file.type.startsWith('image/')) {
+                showMessage('请选择图片文件', 'error');
+                return;
+            }
+            
+            // 检查文件大小（最大2MB）
+            if (file.size > 2 * 1024 * 1024) {
+                showMessage('图片大小不能超过2MB', 'error');
+                return;
+            }
+            
+            // 显示上传中状态
+            var avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--primary);"></i>';
+            
+            // 读取文件并预览
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // 先显示本地预览
+                avatarPreview.innerHTML = '<img src="' + e.target.result + '" alt="头像">';
+                avatarPreview.setAttribute('data-type', 'image');
+                
+                // 上传到 Supabase Storage
+                uploadAvatarToStorage(file);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // 上传头像到 Supabase Storage
+        function uploadAvatarToStorage(file) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            if (!accessToken || !currentUser) {
+                showMessage('请先登录', 'error');
+                return;
+            }
+            
+            // 获取旧头像URL（用于删除）
+            var oldAvatarUrl = null;
+            if (currentUser.user_metadata && currentUser.user_metadata.avatar_url) {
+                oldAvatarUrl = currentUser.user_metadata.avatar_url;
+            }
+            
+            // 使用用户ID作为文件名，每次上传覆盖旧文件
+            var fileExt = file.name.split('.').pop().toLowerCase();
+            var fileName = currentUser.id + '.' + fileExt;
+            
+            // 先删除可能存在的旧头像（不同扩展名）
+            var deleteOldAvatar = Promise.resolve();
+            if (oldAvatarUrl) {
+                var oldFileName = oldAvatarUrl.split('/').pop();
+                if (oldFileName && oldFileName !== fileName) {
+                    deleteOldAvatar = fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + oldFileName, {
+                        method: 'DELETE',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken
+                        }
+                    }).catch(function() { /* 忽略删除失败 */ });
+                }
+            }
+            
+            deleteOldAvatar.then(function() {
+                return fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + fileName, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': file.type,
+                        'x-upsert': 'true'
+                    },
+                    body: file
+                });
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    return response.text().then(function(text) {
+                        console.error('上传失败响应:', text);
+                        throw new Error('上传失败: ' + text);
+                    });
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // 获取公开URL（添加时间戳防止缓存）
+                uploadedAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + fileName + '?t=' + Date.now();
+                
+                var avatarPreview = document.getElementById('avatarPreview');
+                avatarPreview.setAttribute('data-url', uploadedAvatarUrl);
+                avatarPreview.innerHTML = '<img src="' + uploadedAvatarUrl + '" alt="头像">';
+                
+                // 清除emoji选中状态
+                document.querySelectorAll('.avatar-option').forEach(function(opt) {
+                    opt.classList.remove('selected');
+                });
+                
+                showMessage('头像上传成功，请点击保存', 'success');
+            })
+            .catch(function(error) {
+                console.error('头像上传失败:', error);
+                showMessage('头像上传失败: ' + error.message, 'error');
+                
+                // 恢复默认头像
+                var avatarPreview = document.getElementById('avatarPreview');
+                avatarPreview.innerHTML = '👤';
+                avatarPreview.setAttribute('data-type', 'emoji');
+            });
         }
         
         // 获取当前选中的头像
         function getSelectedAvatar() {
-            var selected = document.querySelector('.avatar-option.selected');
-            return selected ? selected.getAttribute('data-avatar') : '👤';
+            var avatarPreview = document.getElementById('avatarPreview');
+            var type = avatarPreview.getAttribute('data-type');
+            
+            if (type === 'image') {
+                return { type: 'image', url: avatarPreview.getAttribute('data-url') };
+            } else {
+                var selected = document.querySelector('.avatar-option.selected');
+                return { type: 'emoji', avatar: selected ? selected.getAttribute('data-avatar') : '👤' };
+            }
         }
         
         // 修改用户资料
@@ -3342,6 +3639,16 @@
         
         // 执行更新资料
         function doUpdateProfile(newName, newPhone, newAvatar, accessToken) {
+            // 处理头像数据
+            var avatarEmoji = '👤';
+            var avatarUrl = null;
+            
+            if (newAvatar.type === 'image') {
+                avatarUrl = newAvatar.url;
+            } else {
+                avatarEmoji = newAvatar.avatar;
+            }
+            
             // 调用 Supabase Auth API 更新用户信息
             fetch(SUPABASE_URL + '/auth/v1/user', {
                 method: 'PUT',
@@ -3353,7 +3660,8 @@
                 body: JSON.stringify({
                     data: {
                         full_name: newName,
-                        avatar: newAvatar,
+                        avatar: avatarEmoji,
+                        avatar_url: avatarUrl,
                         phone: newPhone
                     }
                 })
@@ -3384,7 +3692,7 @@
                 
                 // 同步更新 profiles 表中的昵称
                 if (currentUser && currentUser.id) {
-                    updateProfilesTable(currentUser.id, newName, newPhone);
+                    updateProfilesTable(currentUser.id, newName, newPhone, avatarUrl);
                 }
                 
                 showMessage('资料修改成功！', 'success');
@@ -3402,20 +3710,30 @@
             });
         }
         
-        // 更新 profiles 表
-        function updateProfilesTable(userId, fullName, phone) {
+        // 更新 profiles 表（头像通过视图自动关联，无需更新 messages）
+        function updateProfilesTable(userId, fullName, phone, avatarUrl) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            var updateData = {
+                full_name: fullName,
+                phone_number: phone || null
+            };
+            if (avatarUrl) {
+                updateData.avatar_url = avatarUrl;
+            }
+            
+            // 更新 profiles 表
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
                 method: 'PATCH',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
                     'Content-Type': 'application/json',
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    full_name: fullName,
-                    phone_number: phone || null
-                })
+                body: JSON.stringify(updateData)
+            }).then(function() {
+                console.log('profiles表更新成功');
             }).catch(function(error) {
                 console.error('更新profiles表失败:', error);
             });
@@ -3763,8 +4081,8 @@
             
             var offset = currentPage * pageSize;
             
-            // 简化查询：直接获取所有主留言（取消审核后都是approved）
-            var queryUrl = SUPABASE_URL + '/rest/v1/messages?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
+            // 从视图读取，自动关联 profiles 表获取最新头像
+            var queryUrl = SUPABASE_URL + '/rest/v1/messages_with_profile?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
             
             fetchWithAuth(queryUrl, { method: 'GET' })
             .then(function(response) {
@@ -3786,10 +4104,10 @@
                 
                 hasMoreMessages = messages.length === pageSize;
                 
-                // 获取所有回复
+                // 获取所有回复（也从视图读取以获取最新头像）
                 if (messages.length > 0) {
                     var parentIds = messages.map(function(m) { return m.id; }).join(',');
-                    return fetchWithAuth(SUPABASE_URL + '/rest/v1/messages?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
+                    return fetchWithAuth(SUPABASE_URL + '/rest/v1/messages_with_profile?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
                         method: 'GET'
                     }).then(function(res) { return res.json(); });
                 }
@@ -3849,6 +4167,19 @@
         }
         
         // 创建单条消息HTML
+        // 生成头像HTML（支持图片和emoji）
+        function renderAvatar(avatarEmoji, avatarUrl, isAdmin, size) {
+            size = size || 'normal'; // 'normal' 或 'small'
+            var sizeStyle = size === 'small' ? ' style="width:32px;height:32px;font-size:1em;"' : '';
+            var adminClass = isAdmin ? ' admin' : '';
+            
+            if (avatarUrl) {
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
+            } else {
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>' + (avatarEmoji || '👤') + '</div>';
+            }
+        }
+        
         function createMessageHTML(msg, replies) {
             var isAdminMsg = msg.is_admin;
             var isOwn = currentUser && currentUser.id === msg.user_id;
@@ -3865,7 +4196,7 @@
             var html = '<div class="' + cardClass + '" data-id="' + msg.id + '">';
             html += '<div class="message-header">';
             html += '<div class="message-user">';
-            html += '<div class="message-avatar' + (isAdminMsg ? ' admin' : '') + '">' + (msg.user_avatar || '👤') + '</div>';
+            html += renderAvatar(msg.user_avatar, msg.avatar_url, isAdminMsg, 'normal');
             html += '<div class="message-info">';
             html += '<div class="message-name' + (isAdminMsg ? ' admin' : '') + '">' + escapeHtml(msg.user_name);
             if (isAdminMsg) html += '<span class="admin-badge">站长</span>';
@@ -3905,7 +4236,7 @@
                     html += '<div class="reply-card' + (replyIsAdmin ? ' admin-message' : '') + '" data-id="' + reply.id + '">';
                     html += '<div class="message-header">';
                     html += '<div class="message-user">';
-                    html += '<div class="message-avatar' + (replyIsAdmin ? ' admin' : '') + '" style="width:32px;height:32px;font-size:1em;">' + (reply.user_avatar || '👤') + '</div>';
+                    html += renderAvatar(reply.user_avatar, reply.avatar_url, replyIsAdmin, 'small');
                     html += '<div class="message-info">';
                     html += '<div class="message-name' + (replyIsAdmin ? ' admin' : '') + '">' + escapeHtml(reply.user_name);
                     if (replyIsAdmin) html += '<span class="admin-badge">站长</span>';
@@ -4000,17 +4331,15 @@
             var accessToken = localStorage.getItem('nexus_access_token');
             var isAdminUser = isAdmin();
             
+            // 只存储必要字段，头像从 profiles 表关联获取
             var userName = '用户';
-            var userAvatar = '👤';
-            if (currentUser.user_metadata) {
-                userName = currentUser.user_metadata.full_name || userName;
-                userAvatar = currentUser.user_metadata.avatar || userAvatar;
+            if (currentUser.user_metadata && currentUser.user_metadata.full_name) {
+                userName = currentUser.user_metadata.full_name;
             }
             
             var messageData = {
                 user_id: currentUser.id,
                 user_name: userName,
-                user_avatar: userAvatar,
                 content: content,
                 parent_id: replyToId || null,
                 tag: replyToId ? null : selectedTag,
