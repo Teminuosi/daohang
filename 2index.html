@@ -102,20 +102,6 @@
         }
         .tool-item i { width: 20px; text-align: center; color: var(--primary); }
 
-        .tool-item.warning-item {
-            color: var(--gold);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            background: rgba(255, 215, 0, 0.05);
-        }
-        .tool-item.warning-item:hover {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-        .tool-item.warning-item i {
-            color: var(--gold);
-        }
-
         /* === 主内容区域 === */
         .main-content {
             margin: 0 var(--sidebar-width); padding: 40px;
@@ -160,7 +146,7 @@
 
         /* === 布局矩阵 === */
         .hero-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 25px;
             width: 100%; max-width: 1200px; margin-bottom: 25px;
         }
         .resource-grid {
@@ -170,17 +156,17 @@
 
         .holo-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 12px; padding: 25px; position: relative; overflow: hidden;
+            border-radius: 12px; padding: 30px; position: relative; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer; display: flex; flex-direction: column; justify-content: center;
         }
 
-        .hero-card { min-height: 160px; align-items: flex-start; text-align: left; }
-        .hero-card h2 { font-size: 1.1rem; color: #fff; margin: 10px 0 8px; font-family: 'Orbitron'; }
-        .hero-card p { color: #aaa; font-size: 0.8rem; line-height: 1.5; }
-        .hero-card i.main-icon { font-size: 1.8rem; color: var(--primary); }
+        .hero-card { min-height: 260px; align-items: flex-start; text-align: left; }
+        .hero-card h2 { font-size: 1.8rem; color: #fff; margin: 15px 0; font-family: 'Orbitron'; }
+        .hero-card p { color: #aaa; font-size: 0.95rem; max-width: 90%; line-height: 1.6; }
+        .hero-card i.main-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
         .hero-card .bg-icon {
-            position: absolute; right: -15px; bottom: -15px; font-size: 5rem;
+            position: absolute; right: -20px; bottom: -20px; font-size: 10rem;
             opacity: 0.05; transform: rotate(-15deg); transition: 0.4s;
         }
         .hero-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 40px rgba(0, 243, 255, 0.15); }
@@ -261,31 +247,6 @@
         .modal-section-title {
             color: var(--primary); font-size: 1.2em; border-left: 4px solid var(--secondary);
             padding-left: 15px; margin: 30px 0 15px; font-weight: bold; text-transform: uppercase;
-        }
-
-        .modal-network-tip {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9em;
-            color: #ccc;
-        }
-        .modal-network-tip i {
-            color: var(--gold);
-            font-size: 1.1em;
-        }
-        .modal-network-tip a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .modal-network-tip a:hover {
-            text-decoration: underline;
         }
         
         /* 核心业务金边标题 */
@@ -1471,13 +1432,6 @@
     font-size: 0.95em;
 }
 
-.pagination-info {
-    text-align: center;
-    padding: 10px;
-    color: #666;
-    font-size: 0.85em;
-}
-
 .load-more button:hover {
     background: rgba(0, 243, 255, 0.2);
 }
@@ -1769,15 +1723,6 @@
         <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="tool-item">
             <i class="fab fa-telegram-plane"></i> <span>站长社群</span>
         </a>
-        <div class="tool-item" onclick="openModal('streaming')">
-            <i class="fas fa-play-circle"></i> <span>流媒体大全</span>
-        </div>
-        <div class="tool-item" onclick="openModal('ai-tools')">
-            <i class="fas fa-brain"></i> <span>AI 工具库</span>
-        </div>
-        <div class="tool-item" onclick="openModal('social')">
-            <i class="fas fa-hashtag"></i> <span>社交媒体</span>
-        </div>
     </aside>
 
     <!-- 主内容区 -->
@@ -1802,62 +1747,44 @@
 
         <!-- 核心业务区 -->
         <div class="hero-grid">
-            <!-- 基础环境 -->
-            <div class="holo-card hero-card" onclick="openModal('basic-env')">
-                <i class="fas fa-layer-group main-icon"></i>
-                <i class="fas fa-cog bg-icon"></i>
-                <h2>基础环境</h2>
-                <p>新手导航、账号储备、海外云手机</p>
-            </div>
-
-            <!-- IP配置 -->
-            <div class="holo-card hero-card" onclick="openModal('ip-config')">
-                <i class="fas fa-network-wired main-icon" style="color: #bc13fe;"></i>
+            <!-- 网络服务 -->
+            <div class="holo-card hero-card" onclick="openModal('network')">
+                <span class="tag tag-hot">CORE</span>
+                <i class="fas fa-network-wired main-icon"></i>
                 <i class="fas fa-globe bg-icon"></i>
-                <h2>IP配置</h2>
-                <p>专线机场、静态住宅IP、原生ISP</p>
+                <h2>跨境网络构建</h2>
+                <p>包含：VPS推荐、机场、独享IP、TK网络、账号购买等全套资源。</p>
             </div>
 
-            <!-- 软路由 -->
-            <div class="holo-card hero-card" onclick="openModal('router')">
-                <i class="fas fa-server main-icon" style="color: #ffd700;"></i>
-                <i class="fas fa-wifi bg-icon"></i>
-                <h2>软路由</h2>
-                <p>全屋无感跨境网络方案</p>
-            </div>
-
-            <!-- 搭建课程 -->
-            <div class="holo-card hero-card" onclick="openModal('course')">
-                <i class="fas fa-graduation-cap main-icon" style="color: #00ff9d;"></i>
-                <i class="fas fa-book bg-icon"></i>
-                <h2>搭建课程</h2>
-                <p>独享节点搭建，告别封号焦虑</p>
-            </div>
-
-            <!-- 站长陪跑 -->
-            <div class="holo-card hero-card" onclick="openModal('peipao')">
-                <span class="tag tag-hot">HOT</span>
-                <i class="fas fa-user-shield main-icon" style="color: #ff6b81;"></i>
-                <i class="fas fa-hands-helping bg-icon"></i>
-                <h2>站长陪跑</h2>
-                <p>1对1指导，你只管发视频</p>
-            </div>
-
-            <!-- VPS服务器 -->
-            <div class="holo-card hero-card" onclick="openModal('vps')">
-                <i class="fas fa-cloud main-icon" style="color: #74b9ff;"></i>
-                <i class="fas fa-database bg-icon"></i>
-                <h2>VPS服务器</h2>
-                <p>自建节点服务器推荐</p>
-            </div>
-
-            <!-- AI 视频工作流 -->
+            <!-- AI 视频 -->
             <div class="holo-card hero-card" onclick="openModal('ai-video')">
                 <span class="tag tag-new">AUTO</span>
                 <i class="fas fa-robot main-icon" style="color: var(--secondary);"></i>
                 <i class="fas fa-video bg-icon"></i>
-                <h2>AI视频工作流</h2>
-                <p>N8N自动化，AI剪辑解说去重</p>
+                <h2>AI 视频工作流</h2>
+                <p>N8N 全自动化母体。只需素材，AI自动剪辑、解说、去重。矩阵运营神器。</p>
+            </div>
+        </div>
+        
+        <!-- 系统警告广播条 -->
+        <div class="system-warning-bar" onclick="openModal('network')">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>系统提示：下方软件需「科学上网」环境。如需稳定连接，<span class="highlight-text">请点击此处获取专线机场</span></span>
+        </div>
+
+        <!-- 资源矩阵 -->
+        <div class="resource-grid">
+            <div class="holo-card mini-card" onclick="openModal('streaming')">
+                <i class="fas fa-play-circle"></i>
+                <h3>流媒体大全</h3>
+            </div>
+            <div class="holo-card mini-card" onclick="openModal('ai-tools')">
+                <i class="fas fa-brain"></i>
+                <h3>AI 工具库</h3>
+            </div>
+            <div class="holo-card mini-card" onclick="openModal('social')">
+                <i class="fas fa-hashtag"></i>
+                <h3>社交媒体</h3>
             </div>
         </div>
 
@@ -1953,7 +1880,6 @@
                         加载更多情报
                     </button>
                 </div>
-                <div class="pagination-info" id="paginationInfo"></div>
             </div>
         </div>
     </section>
@@ -1962,209 +1888,301 @@
     <!-- ================= 弹窗区域 ================= -->
 
 <!-- 网络服务弹窗 (高亮优化版) -->
-<!-- 基础环境弹窗 -->
-<div id="basic-env-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 700px;">
-        <span class="modal-close" onclick="closeModal('basic-env')">&times;</span>
-        <h2><i class="fas fa-layer-group" style="color: var(--primary); margin-right: 10px;"></i>基础环境 & 账号 & 云手机</h2>
+<div id="network-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('network')">&times;</span>
+        
+        <!-- 标题 -->
+        <div class="ai-header" style="margin-bottom: 30px;">
+            <h2 style="font-size: 1.8em;">跨境网络资源库</h2>
+            <p style="color:var(--primary);">NETWORK RESOURCES</p>
+        </div>
+
+
+     <!-- 第三组：核心业务 (金色高亮) -->
+     <div class="modal-section-title gold-title">🔥 站长核心业务 (防封终极方案)</div>
+     <div class="modal-grid">
+         
+         <!-- 新增：环境陪跑方案 (放在第一个或显眼位置) -->
+         <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="link-card gold-card" style="border-color: #ff4757; background: linear-gradient(145deg, rgba(255, 71, 87, 0.15), rgba(0, 0, 0, 0.6));">
+             <!-- 使用盾牌图标代表环境安全/守护 -->
+             <i class="fas fa-user-shield" style="color: #ff6b81; text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);"></i>
+             <div>
+                 <h3 style="color: #ff6b81;">账号环境稳定陪跑 <span style="font-size:0.6em; border:1px solid #ff4757; padding:1px 4px; border-radius:3px; vertical-align:middle; margin-left:5px;">NEW</span></h3>
+                 <p style="color: #e0e0e0;">非代运营 | 1V1解决0播放 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
+             </div>
+         </a>
+     
+         <!-- <a href="https://dajian.cyou/lesson/node" target="_blank" class="link-card gold-card">
+             <i class="fas fa-qrcode"></i>
+             <div>
+                 <h3>站长自建节点 (懒人专用)</h3>
+                 <p>拒绝繁琐搭建 | 扫码即用 | 独享纯净IP。</p>
+             </div>
+         </a> -->
+     
+         <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card gold-card">
+             <i class="fas fa-server"></i>
+             <div>
+                 <h3>软路由 / 硬件环境</h3>
+                 <p>工作室首选，打造全屋无感跨境网络。</p>
+             </div>
+         </a>
+     
+         <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card gold-card">
+             <i class="fas fa-graduation-cap"></i>
+             <div>
+                 <h3>独享节点搭建课程</h3>
+                 <p>授人以渔，彻底告别封号焦虑。</p>
+             </div>
+         </a>
+     </div>
+
+        <!-- 第一组：基础环境 -->
+        <div class="modal-section-title" style="margin-top:0;">基础环境 & 账号</div>
         <div class="modal-grid">
             <a href="rumen.html" target="_blank" class="link-card">
-                <i class="fas fa-compass" style="color: #00f3ff;"></i>
+                <i class="fas fa-book-reader"></i>
                 <div>
-                    <h3>新手导航</h3>
+                    <h3>新手必读 · 认知篇</h3>
                     <p>小白第一步，防封避坑指南。</p>
                 </div>
             </a>
+            <!-- 基础账号储备 (优化版：荧光绿高亮 + 自动发货标签) -->
             <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card" 
-               style="border: 1px solid rgba(0, 255, 157, 0.5); background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));">
-                <i class="fas fa-shopping-cart" style="color: #00ff9d;"></i>
-                <div>
-                    <h3>基础账号储备 <span style="font-size:0.6rem; background:rgba(0, 255, 157, 0.15); color:#00ff9d; border:1px solid #00ff9d; padding:0 4px; border-radius:3px;">自动发货</span></h3>
-                    <p style="color: #00ff9d;">苹果带🚀 | 谷歌号 | TK白号 | Facebook | ChatGPT | Netflix/Spotify等</p>
+               style="padding: 15px;
+                      border: 1px solid rgba(0, 255, 157, 0.5); 
+                      background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));
+                      box-shadow: 0 0 10px rgba(0, 255, 157, 0.1);">
+                
+                <!-- 图标：荧光绿，带发光 -->
+                <i class="fas fa-shopping-cart" style="font-size: 1.4rem; color: #00ff9d; filter: drop-shadow(0 0 5px rgba(0, 255, 157, 0.5));"></i>
+                
+                <div style="flex: 1; min-width: 0;">
+                    <h3 style="font-size:0.95rem; margin-bottom: 4px; color:#fff; display: flex; align-items: center; gap: 6px;">
+                        基础账号储备
+                        <!-- 标签 -->
+                        <span style="font-size:0.6rem; background:rgba(0, 255, 157, 0.15); color:#00ff9d; border:1px solid #00ff9d; padding:0 4px; border-radius:3px; white-space: nowrap;">
+                            自动发货
+                        </span>
+                    </h3>
+                    <p style="font-size:0.8rem; color:#bbb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <span style="color: #00ff9d;">TK号/美区ID/谷歌/AI/影音/各类账号购买</span> 
+                    </p>
                 </div>
             </a>
-            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
-               style="border: 1px solid rgba(32, 227, 178, 0.4); background: linear-gradient(145deg, rgba(32, 227, 178, 0.08), rgba(0, 0, 0, 0.4));">
+            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card">
+                <!-- 使用青色图标，代表云端科技感 -->
                 <i class="fas fa-mobile-alt" style="color: #20e3b2;"></i> 
                 <div>
-                    <h3 style="color: #20e3b2;">DuoPlus 海外云手机</h3>
-                    <p>无需买真机 | 独享原生环境 | <span style="color: #20e3b2; font-weight: bold;">养号/发视频都可以</span></p>
+                    <h3>DuoPlus 海外云手机</h3>
+                    <p>无需买真机 | 独享原生环境 | <span class="text-highlight">矩阵运营神器</span></p>
                 </div>
             </a>
-        </div>
-    </div>
-</div>
-
-<!-- IP配置弹窗 -->
-<div id="ip-config-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 800px;">
-        <span class="modal-close" onclick="closeModal('ip-config')">&times;</span>
-        <h2><i class="fas fa-network-wired" style="color: #bc13fe; margin-right: 10px;"></i>IP配置 (机场 & 静态IP)</h2>
-        
-        <div class="modal-section-title">专线机场</div>
-        <div class="modal-grid">
+            
+            <!-- 恢复的原来机场 -->
             <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
                 <i class="fas fa-plane-departure" style="color: #bc13fe;"></i>
                 <div>
-                    <h3>专线机场 SSR <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe;">推荐</span></h3>
+                    <h3>专线机场 SSR <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe; ">推荐</span></h3>
                     <p>使用海外顶级AI必备 | 住宅IP前置代理必备。</p>
                 </div>
             </a>
+
+            <!-- 新增的糖果云机场 -->
             <a href="https://candytally3.com/web/#/login?code=UXbg9gDv" target="_blank" class="link-card">
                 <i class="fas fa-cloud" style="color: #ff69b4;"></i>
                 <div>
-                    <h3>专线机场 (糖果云) <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe;">推荐</span></h3>
+                    <h3>专线机场 (糖果云) <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe; ">推荐</span></h3>
                     <p>稳定高速 | 住宅IP前置代理。</p>
                 </div>
             </a>
         </div>
-        
-        <div class="modal-section-title">静态住宅IP</div>
+
+        <!-- 第二组：TikTok静态IP选择 -->
+        <div class="modal-section-title">TK静态IP(解决0播放/限流)</div>
         <div class="modal-grid">
-            <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card"
-               style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
-                <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></i>
-                <div>
-                    <h3 style="color: #ffd700;">米亚IP (新手短视频推荐) <span style="font-size: 0.7rem; color: #ffd700; background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); padding: 2px 6px; border-radius: 4px;">扫码直连</span></h3>
-                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 85折码：<span class="code-badge">3yue85D</span></p>
-                </div>
-            </a>
-            <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
-               style="background: linear-gradient(145deg, rgba(255, 80, 0, 0.15), rgba(0, 0, 0, 0.6)); border: 1px solid rgba(255, 80, 0, 0.5);">
-                <i class="fas fa-meteor" style="color: #ff6600;"></i>
-                <div>
-                    <h3 style="color: #ff9933;">985 Proxy (最便宜原生IP，批量起号专用)</h3>
-                    <p><span style="color: #ffcc00; font-weight:bold;">批量找站长拿6-9折</span> | <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1);">需SSR中转</span></p>
-                </div>
-            </a>
+
+          <!-- 米亚 (优化高亮版：突出扫码直连/无需中转) -->
+        <!-- 米亚 (样式优化版：金色统一风格) -->
+        <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card"
+        style="background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid rgba(255, 215, 0, 0.3); 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s ease;">
+        
+        <!-- 图标：改为金色火焰，呼应整体 -->
+        <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); font-size: 1.6rem;"></i>
+        
+        <div style="width: 100%;">
+            <!-- 标题行 -->
+            <h3 style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+                <span style="color: #ffd700;">米亚IP (新手短视频推荐)</span>
+                
+                <!-- 标签：使用和优惠码一样的金色半透明样式 -->
+                <span style="
+                    font-size: 0.75rem; 
+                    color: #ffd700; 
+                    background: rgba(255, 215, 0, 0.15);
+                    border: 1px solid rgba(255, 215, 0, 0.4);
+                    padding: 2px 8px; 
+                    border-radius: 4px; 
+                    font-weight: bold; 
+                    display: inline-flex;
+                    align-items: center;
+                    white-space: nowrap;
+                ">
+                    <i class="fas fa-qrcode" style="font-size: 0.75rem; width: auto; margin-right: 4px; color: #ffd700;"></i>扫码直连
+                </span>
+            </h3>
+            
+            <!-- 描述行 -->
+            <p style="color: #ccc; font-size: 0.85rem;">
+                <span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 85折码：<span class="code-badge">3yue85D</span>
+            </p>
+        </div>
+        </a>
+              <!-- 优化后的 985 Proxy 卡片 -->
+        <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
+        style="background: linear-gradient(145deg, rgba(255, 80, 0, 0.15), rgba(0, 0, 0, 0.6)); 
+                border: 1px solid rgba(255, 80, 0, 0.5); 
+                box-shadow: 0 0 15px rgba(255, 80, 0, 0.15);">
+            
+            <!-- 图标：使用更加高亮的橙色，增加发光 -->
+            <i class="fas fa-meteor" style="color: #ff6600; text-shadow: 0 0 12px rgba(255, 80, 0, 0.8);"></i>
+            
+            <div>
+                <!-- 标题：稍微提亮，增加文字阴影，看起来更立体 -->
+                <h3 style="color: #ff9933; text-shadow: 0 0 5px rgba(255, 80, 0, 0.3);">985 Proxy (最便宜原生IP，批量起号专用 )</h3>
+                
+                <!-- 描述：精简文字，防止换行难看 -->
+                <p style="color: #ccc;">
+                 <span style="color: #ffcc00; font-weight:bold;">批量可以找站长拿6-9折优惠</span> | 
+                    <!-- 胶囊标签：样式更精致 -->
+                    <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1); font-size: 0.75rem;">需SSR中转</span>
+                </p>
+            </div>
+        </a>
+
             <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
-                <i class="fas fa-globe" style="color: #00bcd4;"></i>
+                <i class="fas fa-globe"></i>
                 <div>
                     <h3>Kookeey (短视频/直播推荐)</h3>
                     <p>国家多 | <span class="text-highlight">需机场SSR中转</span></p>
                 </div>
             </a>
-            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
-                <i class="fas fa-home" style="color: #00bfff;"></i>
-                <div>
-                    <h3 style="color: #66ccff;">美国真实住宅家庭宽带ATT</h3>
-                    <p>稀缺家庭IP资源 | <span style="color: #00bfff; font-weight:bold;">原生独享</span></p>
-                </div>
+
+        <!-- 美国专线 ATT (深蓝高亮版) -->
+            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card"            >
+            
+            <!-- 图标：使用冰蓝色，带发光效果 -->
+            <i class="fas fa-home" style="color: #00bfff; text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);"></i>
+            
+            <div>
+                <!-- 标题：亮蓝色，突出专线感 -->
+                <h3 style="color: #66ccff; text-shadow: 0 0 5px rgba(0, 140, 255, 0.3);">美国真实住宅家庭宽带ATT</h3>
+                
+                <!-- 描述：字体提亮，增加“独享”高亮词 -->
+                <p style="color: #ccc;">
+                    稀缺家庭IP资源 | <span style="color: #00bfff; font-weight:bold;">原生独享</span>
+                </p>
+            </div>
             </a>
+
+      
+
+          
+
+            	
+             <!-- <a href="https://www.lycheeip.com/home/ip?affId=r9Ku04aWaA" target="_blank" class="link-card">
+                <i class="fas fa-globe"></i>
+                <div>
+                    <h3>LycheeIP (其余国家)</h3>
+                    <p>国家多 | <span class="text-highlight">需机场SSR中转 | 跨境百宝箱（含各类资源，物流， 代办开店等）</span></p>
+                </div>
+            </a> -->
+
+
             <a href="https://www.proxystore.net/?ref=28502" target="_blank" class="link-card">
                 <i class="fab fa-paypal" style="color:#003087;"></i>
                 <div>
                     <h3>ProxyStore</h3>
-                    <p>英美巨头住宅IP | <span class="text-highlight">不支持国内支付</span> | paypal/stripe</p>
+                    <p>英美巨头住宅IP | <span class="text-highlight">不支持国内支付</span> | 只支持paypal/stripe</p>
                 </div>
             </a>
-        </div>
-    </div>
-</div>
 
-<!-- 软路由弹窗 -->
-<div id="router-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('router')">&times;</span>
-        <h2><i class="fas fa-server" style="color: #ffd700; margin-right: 10px;"></i>软路由 / 硬件环境</h2>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card gold-card" style="padding: 25px;">
-                <i class="fas fa-server" style="font-size: 2rem;"></i>
-                <div>
-                    <h3 style="font-size: 1.2rem;">软路由配置方案</h3>
-                    <p style="font-size: 0.95rem;">工作室首选，打造全屋无感跨境网络。一次配置，全家科学上网，无需每台设备单独设置。</p>
-                </div>
-            </a>
+           
         </div>
-    </div>
-</div>
 
-<!-- 搭建课程弹窗 -->
-<div id="course-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('course')">&times;</span>
-        <h2><i class="fas fa-graduation-cap" style="color: #00ff9d; margin-right: 10px;"></i>独享节点搭建课程</h2>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card gold-card" style="padding: 25px;">
-                <i class="fas fa-graduation-cap" style="font-size: 2rem;"></i>
-                <div>
-                    <h3 style="font-size: 1.2rem;">节点搭建教学</h3>
-                    <p style="font-size: 0.95rem;">授人以渔，彻底告别封号焦虑。从零开始搭建自己的专属节点，不再依赖第三方。</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
 
-<!-- 站长陪跑弹窗 -->
-<div id="peipao-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('peipao')">&times;</span>
-        <h2><i class="fas fa-user-shield" style="color: #ff6b81; margin-right: 10px;"></i>站长陪跑项目</h2>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="link-card" style="padding: 25px; border-color: #ff4757; background: linear-gradient(145deg, rgba(255, 71, 87, 0.15), rgba(0, 0, 0, 0.6));">
-                <i class="fas fa-user-shield" style="font-size: 2rem; color: #ff6b81;"></i>
-                <div>
-                    <h3 style="font-size: 1.2rem; color: #ff6b81;">账号环境稳定陪跑 <span style="font-size:0.7em; border:1px solid #ff4757; padding:2px 6px; border-radius:3px; margin-left:8px;">NEW</span></h3>
-                    <p style="font-size: 0.95rem; color: #e0e0e0;">1对1全程指导 | 你只管发视频，其余问题站长帮你搞定 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
+        <!-- 这里的 VPS 标题已经保持高亮 -->
+        <div class="modal-section-title gold-title">高阶 · 自建节点服务器 (VPS)</div>
 
-<!-- VPS服务器弹窗 -->
-<div id="vps-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 800px;">
-        <span class="modal-close" onclick="closeModal('vps')">&times;</span>
-        <h2><i class="fas fa-cloud" style="color: #74b9ff; margin-right: 10px;"></i>高阶 · 自建节点服务器 (VPS)</h2>
         <div class="modal-grid">
-            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
-                <div>
-                    <h3>LisaHost 大带宽 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
-                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
-                </div>
-            </a>
-            <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                <i class="fas fa-crown" style="color: #ff9900;"></i>
-                <div>
-                    <h3>搬瓦工 CN2 GIA <span class="code-badge" style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.3); color: #ff9900;">速度之王</span></h3>
-                    <p>个人能用最好的线路，没有之一</p>
+           <!-- LisaHost (优化版：青色高亮 + TK推荐标签) -->
+           <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card" 
+           style="padding: 15px; 
+                  border: 1px solid rgba(0, 243, 255, 0.5); 
+                  background: linear-gradient(145deg, rgba(0, 243, 255, 0.05), rgba(0, 0, 0, 0.4));
+                  box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);">
+            
+            <!-- 图标：青色高亮 -->
+            <i class="fas fa-network-wired" style="font-size: 1.4rem; color: #00f3ff; filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5));"></i>
+            
+            <div style="flex: 1; min-width: 0;">
+                <h3 style="font-size:0.9rem; margin-bottom: 4px; color:#fff; display: flex; align-items: center; gap: 6px;">
+                    LisaHost 大带宽
+                    <!-- 推荐标签 -->
+                    <span style="font-size:0.6rem; background:rgba(0, 243, 255, 0.15); color:#00f3ff; border:1px solid #00f3ff; padding:0 4px; border-radius:3px; white-space: nowrap;">
+                        TK推荐
+                    </span>
+                </h3>
+                <p style="font-size:0.75rem; color:#bbb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <span style="color: #00f3ff;">大量用户反馈，配置影响流量</span> | 双ISP/解锁强
+                </p>
+            </div>
+        </a>
+         
+            <!-- 搬瓦工 (优化版：皇冠橙金高亮 + 顶级线路标签) -->
+            <a href="cn2/banwagong.html" target="_blank" class="link-card" 
+               style="padding: 15px; 
+                      border: 1px solid rgba(255, 153, 0, 0.5); 
+                      background: linear-gradient(145deg, rgba(255, 153, 0, 0.05), rgba(0, 0, 0, 0.4));
+                      box-shadow: 0 0 10px rgba(255, 153, 0, 0.1);">
+                
+                <!-- 图标：橙金色皇冠，带光晕 -->
+                <i class="fas fa-crown" style="font-size: 1.4rem; color: #ff9900; filter: drop-shadow(0 0 5px rgba(255, 153, 0, 0.5));"></i>
+                
+                <div style="flex: 1; min-width: 0;">
+                    <h3 style="font-size:0.9rem; margin-bottom: 4px; color:#fff; display: flex; align-items: center; gap: 6px;">
+                        搬瓦工 CN2 GIA
+                        <!-- 推荐标签 -->
+                        <span style="font-size:0.6rem; background:rgba(255, 153, 0, 0.15); color:#ff9900; border:1px solid #ff9900; padding:0 4px; border-radius:3px; white-space: nowrap;">
+                            速度之王
+                        </span>
+                    </h3>
+                    <p style="font-size:0.75rem; color:#bbb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <span style="color: #ff9900;">个人能用最好的线路</span>，没有之一
+                    </p>
                 </div>
             </a>
             <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                <i class="fas fa-cloud" style="color: #9c88ff;"></i>
-                <div>
-                    <h3>66云 纯净住宅</h3>
-                    <p>适合多业务场景</p>
-                </div>
+                <i class="fas fa-cloud"></i> <div><h3>66云 纯净住宅</h3><p>适合多业务场景</p></div>
             </a>
             <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                <i class="fas fa-lock" style="color: #00cec9;"></i>
-                <div>
-                    <h3>IPRaft 原生VPS</h3>
-                    <p>优质线路推荐</p>
-                </div>
+                <i class="fas fa-lock"></i> <div><h3>IPRaft 原生VPS</h3><p>优质线路推荐</p></div>
             </a>
             <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                <i class="fas fa-bolt" style="color: #fdcb6e;"></i>
-                <div>
-                    <h3>ZoroCloud 优化</h3>
-                    <p>性价比之选</p>
-                </div>
+                <i class="fas fa-bolt"></i> <div><h3>ZoroCloud 优化</h3><p>性价比之选</p></div>
             </a>
             <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                <i class="fas fa-globe-asia" style="color: #74b9ff;"></i>
-                <div>
-                    <h3>WEPC VPS</h3>
-                    <p>澳洲/香港线路</p>
-                </div>
+                <i class="fas fa-globe-asia"></i> <div><h3>WEPC VPS</h3><p>澳洲/香港线路</p></div>
             </a>
+   
         </div>
     </div>
 </div>
-
+    <!-- AI 视频弹窗 -->
     <div id="ai-video-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 900px;">
             <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
@@ -2255,10 +2273,6 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('streaming')">&times;</span>
             <h2>全球流媒体</h2>
-            <div class="modal-network-tip">
-                <i class="fas fa-info-circle"></i>
-                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('streaming');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('streaming');openModal('network');">糖果云</a>，里面也有教学视频。</span>
-            </div>
             <div class="modal-grid">
                 <a href="https://www.netflix.com/" target="_blank" class="link-card"><img src="icon/netflix-1-logo-svgrepo-com.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Netflix</h3></a>
                 <a href="https://www.disneyplus.com/" target="_blank" class="link-card"><img src="icon/desney.svg" onerror="this.src='';this.className='fas fa-video'"/> <h3>Disney+</h3></a>
@@ -2276,10 +2290,6 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
             <h2>AI 前沿工具库</h2>
-            <div class="modal-network-tip">
-                <i class="fas fa-info-circle"></i>
-                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('ai-tools');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('ai-tools');openModal('network');">糖果云</a>，里面也有教学视频。</span>
-            </div>
             <div class="modal-grid">
                 <a href="https://nf.video/OXYNE" target="_blank" class="link-card card-highlight"><i class="fas fa-shopping-bag"></i> <h3>AI/影音合租</h3></a>
                 <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card"><img src="icon/heygen.svg" onerror="this.src='';this.className='fas fa-user-astronaut'"/> <h3>Heygen 数字人</h3></a>
@@ -2299,10 +2309,6 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('social')">&times;</span>
             <h2>热门社交媒体</h2>
-            <div class="modal-network-tip">
-                <i class="fas fa-info-circle"></i>
-                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('social');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('social');openModal('network');">糖果云</a>，里面也有教学视频。</span>
-            </div>
             <div class="modal-grid">
                 <a href="https://www.youtube.com/" target="_blank" class="link-card"><img src="icon/youtube-color-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-youtube'"/> <h3>YouTube</h3></a>
                 <a href="https://www.tiktok.com/" target="_blank" class="link-card"><img src="icon/tiktok.svg" onerror="this.src='';this.className='fab fa-tiktok'"/> <h3>TikTok</h3></a>
@@ -2521,120 +2527,6 @@
         var replyToId = null;
         var replyToName = '';
         var selectedTag = null;
-        var isRefreshing = false;
-        
-        // Token 刷新函数
-        function refreshAccessToken() {
-            return new Promise(function(resolve, reject) {
-                var refreshToken = localStorage.getItem('nexus_refresh_token');
-                if (!refreshToken) {
-                    reject(new Error('No refresh token'));
-                    return;
-                }
-                
-                if (isRefreshing) {
-                    // 如果正在刷新，等待一下再试
-                    setTimeout(function() { resolve(); }, 1000);
-                    return;
-                }
-                
-                isRefreshing = true;
-                
-                fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        refresh_token: refreshToken
-                    })
-                })
-                .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error('Refresh failed');
-                    }
-                    return response.json();
-                })
-                .then(function(data) {
-                    if (data.access_token) {
-                        localStorage.setItem('nexus_access_token', data.access_token);
-                        localStorage.setItem('nexus_refresh_token', data.refresh_token);
-                        localStorage.setItem('nexus_user', JSON.stringify(data.user));
-                        currentUser = data.user;
-                        console.log('Token 刷新成功');
-                        resolve(data.access_token);
-                    } else {
-                        throw new Error('No access token in response');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Token 刷新失败:', error);
-                    // 刷新失败，清除登录状态
-                    handleLogout();
-                    reject(error);
-                })
-                .finally(function() {
-                    isRefreshing = false;
-                });
-            });
-        }
-        
-        // 带自动刷新的 fetch 封装
-        function fetchWithAuth(url, options) {
-            var accessToken = localStorage.getItem('nexus_access_token');
-            
-            if (!options) options = {};
-            if (!options.headers) options.headers = {};
-            
-            options.headers['apikey'] = SUPABASE_KEY;
-            options.headers['Authorization'] = 'Bearer ' + (accessToken || SUPABASE_KEY);
-            
-            return fetch(url, options).then(function(response) {
-                if (response.status === 401 && accessToken) {
-                    // Token 过期，尝试刷新
-                    return refreshAccessToken().then(function(newToken) {
-                        options.headers['Authorization'] = 'Bearer ' + newToken;
-                        return fetch(url, options);
-                    });
-                }
-                return response;
-            });
-        }
-        
-        // 页面加载时检查并刷新 token
-        function checkAndRefreshToken() {
-            var accessToken = localStorage.getItem('nexus_access_token');
-            var refreshToken = localStorage.getItem('nexus_refresh_token');
-            
-            if (accessToken && refreshToken) {
-                // 尝试用当前 token 获取用户信息
-                fetch(SUPABASE_URL + '/auth/v1/user', {
-                    method: 'GET',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': 'Bearer ' + accessToken
-                    }
-                })
-                .then(function(response) {
-                    if (response.status === 401) {
-                        // Token 过期，刷新
-                        return refreshAccessToken();
-                    }
-                    return response.json();
-                })
-                .then(function(data) {
-                    if (data && data.id) {
-                        currentUser = data;
-                        localStorage.setItem('nexus_user', JSON.stringify(data));
-                        updateAuthUI(true);
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Token 验证失败:', error);
-                });
-            }
-        }
         
         // 随机昵称生成器
         var nicknameAdjectives = ['快乐', '神秘', '赛博', '星际', '暗夜', '闪电', '量子', '幻影', '极光', '烈焰', '冰霜', '雷霆', '风暴', '梦幻', '自由', '无畏', '光速', '深空', '迷雾', '破晓'];
@@ -2701,27 +2593,15 @@
         function checkLoginStatus() {
             const userData = localStorage.getItem('nexus_user');
             const accessToken = localStorage.getItem('nexus_access_token');
-            const refreshToken = localStorage.getItem('nexus_refresh_token');
             
             if (userData && accessToken) {
                 try {
                     currentUser = JSON.parse(userData);
                     updateAuthUI(true);
-                    
-                    // 后台验证token有效性，无效则尝试刷新
-                    checkAndRefreshToken();
                 } catch (e) {
                     clearAuthData();
                     updateAuthUI(false);
                 }
-            } else if (refreshToken) {
-                // 有refresh token但没有access token，尝试刷新
-                refreshAccessToken().then(function() {
-                    updateAuthUI(true);
-                }).catch(function() {
-                    clearAuthData();
-                    updateAuthUI(false);
-                });
             } else {
                 updateAuthUI(false);
             }
@@ -3137,22 +3017,18 @@
                 }
                 
                 // 检查是否需要邮箱验证
-                if (result.data.user && !result.data.session && !result.data.access_token) {
+                if (result.data.user && !result.data.session) {
                     showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
-                } else if (result.data.access_token || result.data.session) {
+                } else if (result.data.access_token) {
                     // 直接登录成功
-                    var userData = result.data.user;
-                    var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
-                    var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
-                    
-                    currentUser = userData;
-                    localStorage.setItem('nexus_user', JSON.stringify(userData));
-                    localStorage.setItem('nexus_access_token', accessToken);
-                    localStorage.setItem('nexus_refresh_token', refreshToken);
+                    currentUser = result.data.user;
+                    localStorage.setItem('nexus_user', JSON.stringify(result.data.user));
+                    localStorage.setItem('nexus_access_token', result.data.access_token);
+                    localStorage.setItem('nexus_refresh_token', result.data.refresh_token);
                     showMessage('注册成功！欢迎加入 NEXUS', 'success');
                     updateAuthUI(true);
                 } else {
-                    showMessage('注册成功！请登录', 'success');
+                    showMessage('注册成功！请检查邮箱完成验证', 'success');
                 }
                 
                 setTimeout(function() {
@@ -3762,11 +3638,18 @@
             }
             
             var offset = currentPage * pageSize;
+            var accessToken = localStorage.getItem('nexus_access_token') || SUPABASE_KEY;
             
             // 简化查询：直接获取所有主留言（取消审核后都是approved）
             var queryUrl = SUPABASE_URL + '/rest/v1/messages?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
             
-            fetchWithAuth(queryUrl, { method: 'GET' })
+            fetch(queryUrl, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('加载失败: ' + response.status);
@@ -3789,8 +3672,12 @@
                 // 获取所有回复
                 if (messages.length > 0) {
                     var parentIds = messages.map(function(m) { return m.id; }).join(',');
-                    return fetchWithAuth(SUPABASE_URL + '/rest/v1/messages?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
-                        method: 'GET'
+                    return fetch(SUPABASE_URL + '/rest/v1/messages?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
+                        method: 'GET',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken
+                        }
                     }).then(function(res) { return res.json(); });
                 }
                 return [];
@@ -3837,15 +3724,6 @@
             });
             
             loadMoreBtn.style.display = hasMoreMessages ? 'block' : 'none';
-            
-            // 更新分页信息
-            var paginationInfo = document.getElementById('paginationInfo');
-            var totalShown = messagesData.length;
-            if (totalShown > 0) {
-                paginationInfo.innerHTML = '已加载 ' + totalShown + ' 条留言' + (hasMoreMessages ? '' : ' · 已全部加载');
-            } else {
-                paginationInfo.innerHTML = '';
-            }
         }
         
         // 创建单条消息HTML
