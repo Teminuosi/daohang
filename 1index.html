@@ -586,6 +586,13 @@
     font-weight: bold;
     color: #000;
     font-size: 1rem;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-name {
@@ -890,15 +897,15 @@
 }
 
 .avatar-option {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.3em;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -912,6 +919,80 @@
     border-color: var(--primary);
     background: rgba(0, 243, 255, 0.2);
     box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* 头像上传区域 */
+.avatar-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 15px;
+}
+
+.avatar-preview-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-upload-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--secondary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid #1a1a2e;
+}
+
+.avatar-upload-btn:hover {
+    background: #d946ef;
+    transform: scale(1.1);
+}
+
+.avatar-upload-hint {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #888;
+}
+
+.avatar-emoji-section {
+    padding-top: 10px;
+}
+
+.avatar-emoji-label {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 8px;
 }
 
 @media (max-width: 768px) {
@@ -1245,6 +1326,150 @@
     color: #ff4757;
 }
 
+/* 图片上传按钮 */
+.image-upload-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-right: 10px;
+}
+
+.image-upload-btn:hover {
+    background: rgba(0, 243, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* 图片预览区 */
+.image-preview-area {
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-preview-item {
+    position: relative;
+    display: inline-block;
+    max-width: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.image-preview-item img {
+    max-width: 100%;
+    max-height: 150px;
+    display: block;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 71, 87, 0.9);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.remove-image-btn:hover {
+    background: #ff4757;
+    transform: scale(1.1);
+}
+
+/* 拖拽遮罩 */
+.comm-input-area {
+    position: relative;
+}
+
+.drag-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 243, 255, 0.1);
+    border: 3px dashed var(--primary);
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--primary);
+    font-size: 1.2em;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.drag-overlay i {
+    font-size: 3em;
+    animation: bounce-up 1s infinite;
+}
+
+@keyframes bounce-up {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.comm-input-area.dragging .drag-overlay {
+    display: flex;
+}
+
+/* 消息中的图片 */
+.message-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-image:hover {
+    transform: scale(1.02);
+}
+
+/* 图片灯箱 */
+.image-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    cursor: zoom-out;
+}
+
+.image-lightbox.show {
+    display: flex;
+}
+
+.image-lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+}
+
 /* 消息列表 */
 .comm-messages {
     flex: 1;
@@ -1322,6 +1547,14 @@
     align-items: center;
     justify-content: center;
     font-size: 1.2em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-avatar.admin {
@@ -1908,6 +2141,17 @@
                 <div class="comm-input-area" id="messageInputArea">
                     <div class="input-wrapper">
                         <textarea id="messageInput" placeholder="输入情报..." maxlength="500" rows="3"></textarea>
+                        
+                        <!-- 图片预览区 -->
+                        <div class="image-preview-area" id="imagePreviewArea" style="display:none;">
+                            <div class="image-preview-item" id="imagePreviewItem">
+                                <img id="imagePreview" src="" alt="预览">
+                                <button type="button" class="remove-image-btn" onclick="removeImage()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
                         <div class="input-footer">
                             <div class="tag-selector" id="tagSelector">
                                 <span class="tag-label">标签:</span>
@@ -1918,6 +2162,12 @@
                                 <button type="button" class="tag-btn" data-tag="BUG反馈" onclick="selectTag(this)">BUG反馈</button>
                             </div>
                             <div class="input-actions">
+                                <!-- 图片上传按钮 -->
+                                <label class="image-upload-btn" for="messageImageInput" title="上传图片">
+                                    <i class="fas fa-image"></i>
+                                </label>
+                                <input type="file" id="messageImageInput" accept="image/*" style="display:none;" onchange="handleMessageImage(event)">
+                                
                                 <span class="char-count"><span id="charCount">0</span>/500</span>
                                 <button type="button" class="execute-btn" onclick="submitMessage()">
                                     <i class="fas fa-paper-plane"></i>
@@ -1926,6 +2176,13 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- 拖拽提示遮罩 -->
+                    <div class="drag-overlay" id="dragOverlay">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>释放以上传图片</span>
+                    </div>
+                    
                     <div class="login-hint" id="loginHint" style="display:none;">
                         <i class="fas fa-exclamation-triangle"></i>
                         请先 <a href="javascript:void(0)" onclick="openAuthModal('login')">登录</a> 后发布留言
@@ -2383,9 +2640,9 @@
                 </div>
                 
                 <div class="form-group" id="registerPhoneGroup">
-                    <label><i class="fas fa-phone"></i> 手机号码 (选填)</label>
-                    <input type="tel" id="registerPhone" placeholder="请输入手机号码">
-                    <span class="error-text">请输入有效的手机号码</span>
+                    <label><i class="fas fa-phone"></i> 手机号码 <span style="color:#ff4757;">*</span></label>
+                    <input type="tel" id="registerPhone" placeholder="请输入手机号码" required>
+                    <span class="error-text">请输入有效的11位手机号码</span>
                     <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
                         <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知，不会泄露给第三方
                     </div>
@@ -2436,20 +2693,36 @@
             <div class="auth-form" id="settingsForm">
                 <!-- 头像选择 -->
                 <div class="form-group">
-                    <label><i class="fas fa-image"></i> 选择头像</label>
-                    <div class="avatar-selector" id="avatarSelector">
-                        <div class="avatar-option selected" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
-                        <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
-                        <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
-                        <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
-                        <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
-                        <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
-                        <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
-                        <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
-                        <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
-                        <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
-                        <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
-                        <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                    <label><i class="fas fa-image"></i> 头像设置</label>
+                    <div class="avatar-upload-section">
+                        <!-- 头像预览 -->
+                        <div class="avatar-preview-container">
+                            <div class="avatar-preview" id="avatarPreview">👤</div>
+                            <label class="avatar-upload-btn" for="avatarFileInput">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                        </div>
+                        <div class="avatar-upload-hint">点击相机图标上传图片</div>
+                    </div>
+                    
+                    <!-- emoji头像选择 -->
+                    <div class="avatar-emoji-section">
+                        <div class="avatar-emoji-label">或选择表情头像：</div>
+                        <div class="avatar-selector" id="avatarSelector">
+                            <div class="avatar-option" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
+                            <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
+                            <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
+                            <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
+                            <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
+                            <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
+                            <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
+                            <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
+                            <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
+                            <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
+                            <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
+                            <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -2522,6 +2795,7 @@
         var replyToName = '';
         var selectedTag = null;
         var isRefreshing = false;
+        var pendingMessageImage = null; // 待发送的图片URL
         
         // Token 刷新函数
         function refreshAccessToken() {
@@ -2708,8 +2982,8 @@
                     currentUser = JSON.parse(userData);
                     updateAuthUI(true);
                     
-                    // 后台验证token有效性，无效则尝试刷新
-                    checkAndRefreshToken();
+                    // 后台验证token有效性并获取最新用户数据
+                    fetchLatestUserData(accessToken);
                 } catch (e) {
                     clearAuthData();
                     updateAuthUI(false);
@@ -2725,6 +2999,36 @@
             } else {
                 updateAuthUI(false);
             }
+        }
+        
+        // 获取最新用户数据
+        function fetchLatestUserData(accessToken) {
+            fetch(SUPABASE_URL + '/auth/v1/user', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(response) {
+                if (response.status === 401) {
+                    // Token过期，尝试刷新
+                    return refreshAccessToken().then(function() {
+                        updateAuthUI(true);
+                    });
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                if (data && data.id) {
+                    currentUser = data;
+                    localStorage.setItem('nexus_user', JSON.stringify(data));
+                    updateAuthUI(true);
+                }
+            })
+            .catch(function(error) {
+                console.error('获取用户数据失败:', error);
+            });
         }
         
         // 清除认证数据
@@ -2749,6 +3053,7 @@
                 
                 var displayName = '用户';
                 var displayAvatar = '👤';
+                var avatarUrl = null;
                 
                 if (currentUser.user_metadata) {
                     if (currentUser.user_metadata.full_name) {
@@ -2757,14 +3062,28 @@
                     if (currentUser.user_metadata.avatar) {
                         displayAvatar = currentUser.user_metadata.avatar;
                     }
+                    if (currentUser.user_metadata.avatar_url) {
+                        avatarUrl = currentUser.user_metadata.avatar_url;
+                    }
                 }
+                
+                // 调试日志
+                console.log('updateAuthUI - avatarUrl:', avatarUrl);
+                console.log('updateAuthUI - user_metadata:', currentUser.user_metadata);
                 
                 if (displayName === '用户' && currentUser.email) {
                     displayName = currentUser.email.split('@')[0];
                 }
                 
-                avatar.textContent = displayAvatar;
-                avatar.style.fontSize = '1.2rem';
+                // 显示头像
+                if (avatarUrl) {
+                    // 添加时间戳防止缓存
+                    var imgUrl = avatarUrl.indexOf('?') > -1 ? avatarUrl : avatarUrl + '?t=' + Date.now();
+                    avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
+                } else {
+                    avatar.innerHTML = '';
+                    avatar.textContent = displayAvatar;
+                }
                 userName.textContent = displayName;
             } else {
                 authBtns.style.display = 'flex';
@@ -3046,7 +3365,7 @@
                 setFieldError('registerEmailGroup', false);
             }
             
-            if (!validatePhone(phone)) {
+            if (!phone || !validatePhone(phone)) {
                 setFieldError('registerPhoneGroup', true);
                 hasError = true;
             } else {
@@ -3232,6 +3551,7 @@
             var displayName = '';
             var avatar = '👤';
             var phone = '';
+            var avatarUrl = '';
             
             if (currentUser.user_metadata) {
                 if (currentUser.user_metadata.full_name) {
@@ -3239,6 +3559,9 @@
                 }
                 if (currentUser.user_metadata.avatar) {
                     avatar = currentUser.user_metadata.avatar;
+                }
+                if (currentUser.user_metadata.avatar_url) {
+                    avatarUrl = currentUser.user_metadata.avatar_url;
                 }
                 if (currentUser.user_metadata.phone) {
                     phone = currentUser.user_metadata.phone;
@@ -3253,11 +3576,23 @@
             document.getElementById('settingsEmail').value = currentUser.email || '';
             document.getElementById('settingsPhone').value = phone;
             
+            // 设置头像预览
+            var avatarPreview = document.getElementById('avatarPreview');
+            if (avatarUrl) {
+                avatarPreview.innerHTML = '<img src="' + avatarUrl + '" alt="头像">';
+                avatarPreview.setAttribute('data-type', 'image');
+                avatarPreview.setAttribute('data-url', avatarUrl);
+            } else {
+                avatarPreview.innerHTML = avatar;
+                avatarPreview.setAttribute('data-type', 'emoji');
+                avatarPreview.removeAttribute('data-url');
+            }
+            
             // 设置头像选中状态
             var avatarOptions = document.querySelectorAll('.avatar-option');
             avatarOptions.forEach(function(opt) {
                 opt.classList.remove('selected');
-                if (opt.getAttribute('data-avatar') === avatar) {
+                if (!avatarUrl && opt.getAttribute('data-avatar') === avatar) {
                     opt.classList.add('selected');
                 }
             });
@@ -3265,18 +3600,149 @@
             openAuthModal('settings');
         }
         
-        // 头像选择
+        // 头像选择（emoji）
         function selectAvatar(element) {
             document.querySelectorAll('.avatar-option').forEach(function(opt) {
                 opt.classList.remove('selected');
             });
             element.classList.add('selected');
+            
+            // 更新预览
+            var avatar = element.getAttribute('data-avatar');
+            var avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.innerHTML = avatar;
+            avatarPreview.setAttribute('data-type', 'emoji');
+            avatarPreview.removeAttribute('data-url');
+        }
+        
+        // 上传头像变量
+        var uploadedAvatarUrl = null;
+        
+        // 处理头像上传
+        function handleAvatarUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            
+            // 检查文件类型
+            if (!file.type.startsWith('image/')) {
+                showMessage('请选择图片文件', 'error');
+                return;
+            }
+            
+            // 检查文件大小（最大2MB）
+            if (file.size > 2 * 1024 * 1024) {
+                showMessage('图片大小不能超过2MB', 'error');
+                return;
+            }
+            
+            // 显示上传中状态
+            var avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--primary);"></i>';
+            
+            // 读取文件并预览
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // 先显示本地预览
+                avatarPreview.innerHTML = '<img src="' + e.target.result + '" alt="头像">';
+                avatarPreview.setAttribute('data-type', 'image');
+                
+                // 上传到 Supabase Storage
+                uploadAvatarToStorage(file);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // 上传头像到 Supabase Storage
+        function uploadAvatarToStorage(file) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            if (!accessToken || !currentUser) {
+                showMessage('请先登录', 'error');
+                return;
+            }
+            
+            // 获取旧头像URL（用于删除）
+            var oldAvatarUrl = null;
+            if (currentUser.user_metadata && currentUser.user_metadata.avatar_url) {
+                oldAvatarUrl = currentUser.user_metadata.avatar_url;
+            }
+            
+            // 使用用户ID作为文件名，每次上传覆盖旧文件
+            var fileExt = file.name.split('.').pop().toLowerCase();
+            var fileName = currentUser.id + '.' + fileExt;
+            
+            // 先删除可能存在的旧头像（不同扩展名）
+            var deleteOldAvatar = Promise.resolve();
+            if (oldAvatarUrl) {
+                var oldFileName = oldAvatarUrl.split('/').pop();
+                if (oldFileName && oldFileName !== fileName) {
+                    deleteOldAvatar = fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + oldFileName, {
+                        method: 'DELETE',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken
+                        }
+                    }).catch(function() { /* 忽略删除失败 */ });
+                }
+            }
+            
+            deleteOldAvatar.then(function() {
+                return fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + fileName, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': file.type,
+                        'x-upsert': 'true'
+                    },
+                    body: file
+                });
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    return response.text().then(function(text) {
+                        console.error('上传失败响应:', text);
+                        throw new Error('上传失败: ' + text);
+                    });
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // 获取公开URL（添加时间戳防止缓存）
+                uploadedAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + fileName + '?t=' + Date.now();
+                
+                var avatarPreview = document.getElementById('avatarPreview');
+                avatarPreview.setAttribute('data-url', uploadedAvatarUrl);
+                avatarPreview.innerHTML = '<img src="' + uploadedAvatarUrl + '" alt="头像">';
+                
+                // 清除emoji选中状态
+                document.querySelectorAll('.avatar-option').forEach(function(opt) {
+                    opt.classList.remove('selected');
+                });
+                
+                showMessage('头像上传成功，请点击保存', 'success');
+            })
+            .catch(function(error) {
+                console.error('头像上传失败:', error);
+                showMessage('头像上传失败: ' + error.message, 'error');
+                
+                // 恢复默认头像
+                var avatarPreview = document.getElementById('avatarPreview');
+                avatarPreview.innerHTML = '👤';
+                avatarPreview.setAttribute('data-type', 'emoji');
+            });
         }
         
         // 获取当前选中的头像
         function getSelectedAvatar() {
-            var selected = document.querySelector('.avatar-option.selected');
-            return selected ? selected.getAttribute('data-avatar') : '👤';
+            var avatarPreview = document.getElementById('avatarPreview');
+            var type = avatarPreview.getAttribute('data-type');
+            
+            if (type === 'image') {
+                return { type: 'image', url: avatarPreview.getAttribute('data-url') };
+            } else {
+                var selected = document.querySelector('.avatar-option.selected');
+                return { type: 'emoji', avatar: selected ? selected.getAttribute('data-avatar') : '👤' };
+            }
         }
         
         // 修改用户资料
@@ -3342,6 +3808,16 @@
         
         // 执行更新资料
         function doUpdateProfile(newName, newPhone, newAvatar, accessToken) {
+            // 处理头像数据
+            var avatarEmoji = '👤';
+            var avatarUrl = null;
+            
+            if (newAvatar.type === 'image') {
+                avatarUrl = newAvatar.url;
+            } else {
+                avatarEmoji = newAvatar.avatar;
+            }
+            
             // 调用 Supabase Auth API 更新用户信息
             fetch(SUPABASE_URL + '/auth/v1/user', {
                 method: 'PUT',
@@ -3353,7 +3829,8 @@
                 body: JSON.stringify({
                     data: {
                         full_name: newName,
-                        avatar: newAvatar,
+                        avatar: avatarEmoji,
+                        avatar_url: avatarUrl,
                         phone: newPhone
                     }
                 })
@@ -3384,7 +3861,7 @@
                 
                 // 同步更新 profiles 表中的昵称
                 if (currentUser && currentUser.id) {
-                    updateProfilesTable(currentUser.id, newName, newPhone);
+                    updateProfilesTable(currentUser.id, newName, newPhone, avatarUrl);
                 }
                 
                 showMessage('资料修改成功！', 'success');
@@ -3402,20 +3879,30 @@
             });
         }
         
-        // 更新 profiles 表
-        function updateProfilesTable(userId, fullName, phone) {
+        // 更新 profiles 表（头像通过视图自动关联，无需更新 messages）
+        function updateProfilesTable(userId, fullName, phone, avatarUrl) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            var updateData = {
+                full_name: fullName,
+                phone_number: phone || null
+            };
+            if (avatarUrl) {
+                updateData.avatar_url = avatarUrl;
+            }
+            
+            // 更新 profiles 表
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
                 method: 'PATCH',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
                     'Content-Type': 'application/json',
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    full_name: fullName,
-                    phone_number: phone || null
-                })
+                body: JSON.stringify(updateData)
+            }).then(function() {
+                console.log('profiles表更新成功');
             }).catch(function(error) {
                 console.error('更新profiles表失败:', error);
             });
@@ -3682,10 +4169,18 @@
         }
         
         // 切换频道
+        var isLoadingChannel = false; // 防止重复加载
+        
         function switchChannel(channel) {
+            // 防止重复点击
+            if (isLoadingChannel || currentChannel === channel) {
+                return;
+            }
+            
+            isLoadingChannel = true;
             currentChannel = channel;
             
-            // 更新频道按钮状态
+            // 立即更新UI状态
             document.querySelectorAll('.comm-channel').forEach(function(btn) {
                 btn.classList.remove('active');
                 if (btn.dataset.channel === channel) {
@@ -3693,18 +4188,32 @@
                 }
             });
             
+            // 显示加载中
+            document.getElementById('messageList').innerHTML = '<div class="loading-messages"><i class="fas fa-spinner fa-spin"></i><span>正在切换频道...</span></div>';
+            document.getElementById('loadMoreBtn').style.display = 'none';
+            
             // 更新标题和描述
             var titleEl = document.getElementById('channelTitle');
             var descEl = document.getElementById('channelDesc');
             var inputArea = document.getElementById('messageInputArea');
             var tagSelector = document.getElementById('tagSelector');
             
+            // 重置图片预览
+            removeImage();
+            
             if (channel === 'public') {
                 titleEl.textContent = '公共频段 · PUBLIC CHANNEL';
                 descEl.innerHTML = '<i class="fas fa-info-circle"></i> 因各平台限制严格、频繁封号，且私信无法留敏感内容。考虑到很多朋友没有TG/WhatsApp，站长特开放此留言区。有需求尽管留言，站长会通过注册手机联系你。';
                 inputArea.style.display = 'block';
                 tagSelector.style.display = 'flex';
-                loadMessages();
+                document.getElementById('loginHint').style.display = 'none';
+                
+                // 延迟加载，确保UI更新完成
+                setTimeout(function() {
+                    loadMessages();
+                    isLoadingChannel = false;
+                }, 100);
+                
             } else if (channel === 'private') {
                 titleEl.textContent = '加密信箱 · SECURE CHANNEL';
                 if (isAdmin()) {
@@ -3712,23 +4221,31 @@
                 } else {
                     descEl.innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，只有你和站长可见。适合咨询敏感业务或私密问题。';
                 }
-                inputArea.style.display = currentUser ? 'block' : 'none';
                 tagSelector.style.display = 'none';
+                
                 if (!currentUser) {
+                    inputArea.style.display = 'none';
                     document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-lock"></i><p>请先登录后使用加密信箱</p></div>';
-                    document.getElementById('loadMoreBtn').style.display = 'none';
                     document.getElementById('loginHint').style.display = 'block';
+                    isLoadingChannel = false;
                 } else {
-                    loadDirectMessages();
+                    inputArea.style.display = 'block';
+                    document.getElementById('loginHint').style.display = 'none';
+                    setTimeout(function() {
+                        loadDirectMessages();
+                        isLoadingChannel = false;
+                    }, 100);
                 }
+                
             } else if (channel === 'notice') {
                 titleEl.textContent = '站务公告 · ANNOUNCEMENT';
                 descEl.innerHTML = '<i class="fas fa-bullhorn"></i> 站长发布的重要通知和公告。';
                 inputArea.style.display = isAdmin() ? 'block' : 'none';
                 tagSelector.style.display = 'none';
+                document.getElementById('loginHint').style.display = 'none';
                 showMessage('公告功能开发中，敬请期待', 'info');
                 document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-bullhorn"></i><p>暂无公告</p></div>';
-                document.getElementById('loadMoreBtn').style.display = 'none';
+                isLoadingChannel = false;
             }
         }
         
@@ -3754,7 +4271,16 @@
         });
         
         // 加载留言
+        var loadMessagesRequestId = 0; // 请求ID，用于取消旧请求
+        
         function loadMessages(append) {
+            // 检查是否还在公共频道
+            if (currentChannel !== 'public') {
+                return;
+            }
+            
+            var thisRequestId = ++loadMessagesRequestId;
+            
             if (!append) {
                 currentPage = 0;
                 messagesData = [];
@@ -3763,17 +4289,25 @@
             
             var offset = currentPage * pageSize;
             
-            // 简化查询：直接获取所有主留言（取消审核后都是approved）
-            var queryUrl = SUPABASE_URL + '/rest/v1/messages?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
+            // 从视图读取，自动关联 profiles 表获取最新头像
+            var queryUrl = SUPABASE_URL + '/rest/v1/messages_with_profile?parent_id=is.null&order=is_pinned.desc,created_at.desc&limit=' + pageSize + '&offset=' + offset;
             
             fetchWithAuth(queryUrl, { method: 'GET' })
             .then(function(response) {
+                // 检查请求是否已过期
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    throw new Error('请求已取消');
+                }
                 if (!response.ok) {
                     throw new Error('加载失败: ' + response.status);
                 }
                 return response.json();
             })
             .then(function(messages) {
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    throw new Error('请求已取消');
+                }
+                
                 if (!messages || !Array.isArray(messages)) {
                     messages = [];
                 }
@@ -3786,21 +4320,29 @@
                 
                 hasMoreMessages = messages.length === pageSize;
                 
-                // 获取所有回复
+                // 获取所有回复（也从视图读取以获取最新头像）
                 if (messages.length > 0) {
                     var parentIds = messages.map(function(m) { return m.id; }).join(',');
-                    return fetchWithAuth(SUPABASE_URL + '/rest/v1/messages?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
+                    return fetchWithAuth(SUPABASE_URL + '/rest/v1/messages_with_profile?parent_id=in.(' + parentIds + ')&order=created_at.asc', {
                         method: 'GET'
                     }).then(function(res) { return res.json(); });
                 }
                 return [];
             })
             .then(function(replies) {
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    return; // 静默忽略
+                }
                 renderMessages(messagesData, replies || [], append);
             })
             .catch(function(error) {
+                if (error.message === '请求已取消') {
+                    return; // 静默忽略取消的请求
+                }
                 console.error('加载留言失败:', error);
-                document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+                if (currentChannel === 'public') {
+                    document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+                }
             });
         }
         
@@ -3849,6 +4391,19 @@
         }
         
         // 创建单条消息HTML
+        // 生成头像HTML（支持图片和emoji）
+        function renderAvatar(avatarEmoji, avatarUrl, isAdmin, size) {
+            size = size || 'normal'; // 'normal' 或 'small'
+            var sizeStyle = size === 'small' ? ' style="width:32px;height:32px;font-size:1em;"' : '';
+            var adminClass = isAdmin ? ' admin' : '';
+            
+            if (avatarUrl) {
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
+            } else {
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>' + (avatarEmoji || '👤') + '</div>';
+            }
+        }
+        
         function createMessageHTML(msg, replies) {
             var isAdminMsg = msg.is_admin;
             var isOwn = currentUser && currentUser.id === msg.user_id;
@@ -3865,7 +4420,7 @@
             var html = '<div class="' + cardClass + '" data-id="' + msg.id + '">';
             html += '<div class="message-header">';
             html += '<div class="message-user">';
-            html += '<div class="message-avatar' + (isAdminMsg ? ' admin' : '') + '">' + (msg.user_avatar || '👤') + '</div>';
+            html += renderAvatar(msg.user_avatar, msg.avatar_url, isAdminMsg, 'normal');
             html += '<div class="message-info">';
             html += '<div class="message-name' + (isAdminMsg ? ' admin' : '') + '">' + escapeHtml(msg.user_name);
             if (isAdminMsg) html += '<span class="admin-badge">站长</span>';
@@ -3892,7 +4447,15 @@
             html += '</div></div>';
             
             // 内容
-            html += '<div class="message-content">' + escapeHtml(msg.content) + '</div>';
+            html += '<div class="message-content">';
+            if (msg.content) {
+                html += escapeHtml(msg.content);
+            }
+            // 显示图片
+            if (msg.image_url) {
+                html += '<img class="message-image" src="' + msg.image_url + '" alt="图片" onclick="openLightbox(\'' + msg.image_url + '\')">';
+            }
+            html += '</div>';
             
             // 回复列表
             if (replies && replies.length > 0) {
@@ -3905,7 +4468,7 @@
                     html += '<div class="reply-card' + (replyIsAdmin ? ' admin-message' : '') + '" data-id="' + reply.id + '">';
                     html += '<div class="message-header">';
                     html += '<div class="message-user">';
-                    html += '<div class="message-avatar' + (replyIsAdmin ? ' admin' : '') + '" style="width:32px;height:32px;font-size:1em;">' + (reply.user_avatar || '👤') + '</div>';
+                    html += renderAvatar(reply.user_avatar, reply.avatar_url, replyIsAdmin, 'small');
                     html += '<div class="message-info">';
                     html += '<div class="message-name' + (replyIsAdmin ? ' admin' : '') + '">' + escapeHtml(reply.user_name);
                     if (replyIsAdmin) html += '<span class="admin-badge">站长</span>';
@@ -3922,7 +4485,11 @@
                         html += '<button onclick="approveMessage(\'' + reply.id + '\')"><i class="fas fa-check"></i> 通过</button>';
                     }
                     html += '</div></div>';
-                    html += '<div class="message-content"><span class="reply-to-hint">回复 @' + escapeHtml(msg.user_name) + '：</span>' + escapeHtml(reply.content) + '</div>';
+                    html += '<div class="message-content"><span class="reply-to-hint">回复 @' + escapeHtml(msg.user_name) + '：</span>' + escapeHtml(reply.content);
+                    if (reply.image_url) {
+                        html += '<img class="message-image" src="' + reply.image_url + '" alt="图片" onclick="openLightbox(\'' + reply.image_url + '\')">';
+                    }
+                    html += '</div>';
                     html += '</div>';
                 });
                 html += '</div>';
@@ -3987,8 +4554,9 @@
                 return;
             }
             
-            if (!content) {
-                showMessage('请输入内容', 'warning');
+            // 允许只发图片或只发文字
+            if (!content && !pendingMessageImage) {
+                showMessage('请输入内容或上传图片', 'warning');
                 return;
             }
             
@@ -4000,23 +4568,26 @@
             var accessToken = localStorage.getItem('nexus_access_token');
             var isAdminUser = isAdmin();
             
+            // 只存储必要字段，头像从 profiles 表关联获取
             var userName = '用户';
-            var userAvatar = '👤';
-            if (currentUser.user_metadata) {
-                userName = currentUser.user_metadata.full_name || userName;
-                userAvatar = currentUser.user_metadata.avatar || userAvatar;
+            if (currentUser.user_metadata && currentUser.user_metadata.full_name) {
+                userName = currentUser.user_metadata.full_name;
             }
             
             var messageData = {
                 user_id: currentUser.id,
                 user_name: userName,
-                user_avatar: userAvatar,
                 content: content,
+                image_url: pendingMessageImage || null,
                 parent_id: replyToId || null,
                 tag: replyToId ? null : selectedTag,
                 status: 'approved',
                 is_admin: isAdminUser
             };
+            
+            // 调试日志
+            console.log('发送消息 - pendingMessageImage:', pendingMessageImage);
+            console.log('发送消息 - messageData:', messageData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -4042,6 +4613,7 @@
                 document.getElementById('messageInput').value = '';
                 document.getElementById('charCount').textContent = '0';
                 cancelReply();
+                removeImage(); // 清除图片
                 
                 // 清除选中的标签
                 document.querySelectorAll('.tag-btn').forEach(function(b) {
@@ -4169,6 +4741,11 @@
         // 加载私信
         function loadDirectMessages(append) {
             if (!currentUser) return;
+            
+            // 检查是否还在私信频道
+            if (currentChannel !== 'private') {
+                return;
+            }
             
             if (!append) {
                 dmPage = 0;
@@ -4328,7 +4905,14 @@
                 }
                 html += '<div class="dm-content-wrap">';
                 html += '<div class="dm-sender">' + senderName + ' <span class="dm-time">' + timeStr + '</span></div>';
-                html += '<div class="dm-text">' + escapeHtml(msg.content) + '</div>';
+                html += '<div class="dm-text">';
+                if (msg.content) {
+                    html += escapeHtml(msg.content);
+                }
+                if (msg.image_url) {
+                    html += '<img class="message-image" src="' + msg.image_url + '" alt="图片" onclick="openLightbox(\'' + msg.image_url + '\')" style="max-width:200px;margin-top:8px;border-radius:8px;cursor:pointer;">';
+                }
+                html += '</div>';
                 html += '</div>';
                 if (isMine) {
                     html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
@@ -4374,8 +4958,9 @@
                 return;
             }
             
-            if (!content) {
-                showMessage('请输入内容', 'warning');
+            // 允许只发图片或只发文字
+            if (!content && !pendingMessageImage) {
+                showMessage('请输入内容或上传图片', 'warning');
                 return;
             }
             
@@ -4409,8 +4994,13 @@
                 sender_avatar: userAvatar,
                 receiver_id: receiverId,
                 content: content,
+                image_url: pendingMessageImage || null,
                 is_admin_sent: isAdminUser
             };
+            
+            // 调试日志
+            console.log('发送私信 - pendingMessageImage:', pendingMessageImage);
+            console.log('发送私信 - dmData:', dmData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -4435,6 +5025,7 @@
             .then(function(data) {
                 document.getElementById('messageInput').value = '';
                 document.getElementById('charCount').textContent = '0';
+                removeImage(); // 清除图片
                 showMessage('发送成功', 'success');
                 
                 // 刷新对话
@@ -4537,6 +5128,158 @@
             }
         };
 
+        // ================= 图片上传功能 =================
+        
+        // 处理图片选择
+        function handleMessageImage(event) {
+            var file = event.target.files[0];
+            if (file) {
+                processImageFile(file);
+            }
+        }
+        
+        // 处理图片文件
+        function processImageFile(file) {
+            if (!currentUser) {
+                showMessage('请先登录', 'warning');
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                showMessage('请选择图片文件', 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('图片大小不能超过5MB', 'error');
+                return;
+            }
+            
+            // 显示本地预览
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreviewArea').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // 上传图片
+            uploadMessageImage(file);
+        }
+        
+        // 上传留言图片到Storage
+        function uploadMessageImage(file) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            if (!accessToken || !currentUser) {
+                showMessage('请先登录', 'error');
+                return;
+            }
+            
+            showMessage('图片上传中...', 'info');
+            
+            var fileExt = file.name.split('.').pop().toLowerCase();
+            var fileName = 'msg_' + currentUser.id + '_' + Date.now() + '.' + fileExt;
+            
+            fetch(SUPABASE_URL + '/storage/v1/object/message-images/' + fileName, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': file.type,
+                    'x-upsert': 'true'
+                },
+                body: file
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('上传失败');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                pendingMessageImage = SUPABASE_URL + '/storage/v1/object/public/message-images/' + fileName;
+                console.log('图片上传成功 - pendingMessageImage 已设置:', pendingMessageImage);
+                showMessage('图片已准备好，点击发送', 'success');
+            })
+            .catch(function(error) {
+                console.error('图片上传失败:', error);
+                showMessage('图片上传失败', 'error');
+                removeImage();
+            });
+        }
+        
+        // 移除待发送的图片
+        function removeImage() {
+            pendingMessageImage = null;
+            document.getElementById('imagePreviewArea').style.display = 'none';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('messageImageInput').value = '';
+        }
+        
+        // 拖拽上传
+        var inputArea = document.getElementById('messageInputArea');
+        
+        inputArea.addEventListener('dragenter', function(e) {
+            e.preventDefault();
+            if (currentUser) {
+                this.classList.add('dragging');
+            }
+        });
+        
+        inputArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+        
+        inputArea.addEventListener('dragleave', function(e) {
+            if (e.target === this || !this.contains(e.relatedTarget)) {
+                this.classList.remove('dragging');
+            }
+        });
+        
+        inputArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragging');
+            
+            if (!currentUser) {
+                showMessage('请先登录', 'warning');
+                return;
+            }
+            
+            var files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                processImageFile(files[0]);
+            }
+        });
+        
+        // 粘贴图片
+        document.getElementById('messageInput').addEventListener('paste', function(e) {
+            var items = e.clipboardData.items;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.startsWith('image/')) {
+                    var file = items[i].getAsFile();
+                    processImageFile(file);
+                    e.preventDefault();
+                    break;
+                }
+            }
+        });
+        
+        // 图片灯箱
+        function openLightbox(src) {
+            var lightbox = document.getElementById('imageLightbox');
+            document.getElementById('lightboxImage').src = src;
+            lightbox.classList.add('show');
+        }
+        
+        function closeLightbox() {
+            document.getElementById('imageLightbox').classList.remove('show');
+        }
+
     </script>
+    
+    <!-- 图片灯箱 -->
+    <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
+        <img id="lightboxImage" src="" alt="大图">
+    </div>
 </body>
 </html>

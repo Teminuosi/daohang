@@ -1774,6 +1774,13 @@
     justify-content: center;
     font-size: 1.1em;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.dm-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .dm-avatar.admin {
@@ -4169,10 +4176,18 @@
         }
         
         // 切换频道
+        var isLoadingChannel = false; // 防止重复加载
+        
         function switchChannel(channel) {
+            // 防止重复点击
+            if (isLoadingChannel || currentChannel === channel) {
+                return;
+            }
+            
+            isLoadingChannel = true;
             currentChannel = channel;
             
-            // 更新频道按钮状态
+            // 立即更新UI状态
             document.querySelectorAll('.comm-channel').forEach(function(btn) {
                 btn.classList.remove('active');
                 if (btn.dataset.channel === channel) {
@@ -4180,18 +4195,32 @@
                 }
             });
             
+            // 显示加载中
+            document.getElementById('messageList').innerHTML = '<div class="loading-messages"><i class="fas fa-spinner fa-spin"></i><span>正在切换频道...</span></div>';
+            document.getElementById('loadMoreBtn').style.display = 'none';
+            
             // 更新标题和描述
             var titleEl = document.getElementById('channelTitle');
             var descEl = document.getElementById('channelDesc');
             var inputArea = document.getElementById('messageInputArea');
             var tagSelector = document.getElementById('tagSelector');
             
+            // 重置图片预览
+            removeImage();
+            
             if (channel === 'public') {
                 titleEl.textContent = '公共频段 · PUBLIC CHANNEL';
                 descEl.innerHTML = '<i class="fas fa-info-circle"></i> 因各平台限制严格、频繁封号，且私信无法留敏感内容。考虑到很多朋友没有TG/WhatsApp，站长特开放此留言区。有需求尽管留言，站长会通过注册手机联系你。';
                 inputArea.style.display = 'block';
                 tagSelector.style.display = 'flex';
-                loadMessages();
+                document.getElementById('loginHint').style.display = 'none';
+                
+                // 延迟加载，确保UI更新完成
+                setTimeout(function() {
+                    loadMessages();
+                    isLoadingChannel = false;
+                }, 100);
+                
             } else if (channel === 'private') {
                 titleEl.textContent = '加密信箱 · SECURE CHANNEL';
                 if (isAdmin()) {
@@ -4199,23 +4228,31 @@
                 } else {
                     descEl.innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，只有你和站长可见。适合咨询敏感业务或私密问题。';
                 }
-                inputArea.style.display = currentUser ? 'block' : 'none';
                 tagSelector.style.display = 'none';
+                
                 if (!currentUser) {
+                    inputArea.style.display = 'none';
                     document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-lock"></i><p>请先登录后使用加密信箱</p></div>';
-                    document.getElementById('loadMoreBtn').style.display = 'none';
                     document.getElementById('loginHint').style.display = 'block';
+                    isLoadingChannel = false;
                 } else {
-                    loadDirectMessages();
+                    inputArea.style.display = 'block';
+                    document.getElementById('loginHint').style.display = 'none';
+                    setTimeout(function() {
+                        loadDirectMessages();
+                        isLoadingChannel = false;
+                    }, 100);
                 }
+                
             } else if (channel === 'notice') {
                 titleEl.textContent = '站务公告 · ANNOUNCEMENT';
                 descEl.innerHTML = '<i class="fas fa-bullhorn"></i> 站长发布的重要通知和公告。';
                 inputArea.style.display = isAdmin() ? 'block' : 'none';
                 tagSelector.style.display = 'none';
+                document.getElementById('loginHint').style.display = 'none';
                 showMessage('公告功能开发中，敬请期待', 'info');
                 document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-bullhorn"></i><p>暂无公告</p></div>';
-                document.getElementById('loadMoreBtn').style.display = 'none';
+                isLoadingChannel = false;
             }
         }
         
@@ -4241,7 +4278,16 @@
         });
         
         // 加载留言
+        var loadMessagesRequestId = 0; // 请求ID，用于取消旧请求
+        
         function loadMessages(append) {
+            // 检查是否还在公共频道
+            if (currentChannel !== 'public') {
+                return;
+            }
+            
+            var thisRequestId = ++loadMessagesRequestId;
+            
             if (!append) {
                 currentPage = 0;
                 messagesData = [];
@@ -4255,12 +4301,20 @@
             
             fetchWithAuth(queryUrl, { method: 'GET' })
             .then(function(response) {
+                // 检查请求是否已过期
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    throw new Error('请求已取消');
+                }
                 if (!response.ok) {
                     throw new Error('加载失败: ' + response.status);
                 }
                 return response.json();
             })
             .then(function(messages) {
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    throw new Error('请求已取消');
+                }
+                
                 if (!messages || !Array.isArray(messages)) {
                     messages = [];
                 }
@@ -4283,11 +4337,19 @@
                 return [];
             })
             .then(function(replies) {
+                if (thisRequestId !== loadMessagesRequestId || currentChannel !== 'public') {
+                    return; // 静默忽略
+                }
                 renderMessages(messagesData, replies || [], append);
             })
             .catch(function(error) {
+                if (error.message === '请求已取消') {
+                    return; // 静默忽略取消的请求
+                }
                 console.error('加载留言失败:', error);
-                document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+                if (currentChannel === 'public') {
+                    document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+                }
             });
         }
         
@@ -4687,6 +4749,11 @@
         function loadDirectMessages(append) {
             if (!currentUser) return;
             
+            // 检查是否还在私信频道
+            if (currentChannel !== 'private') {
+                return;
+            }
+            
             if (!append) {
                 dmPage = 0;
                 dmData = [];
@@ -4839,9 +4906,25 @@
                 var timeStr = getTimeAgo(msg.created_at);
                 var senderName = isMine ? '我' : (msg.is_admin_sent ? '<span class="admin-name">站长</span>' : escapeHtml(msg.sender_name));
                 
+                // 获取头像：优先使用图片头像
+                var avatarHtml = '';
+                if (isMine) {
+                    // 自己的头像：从 currentUser 获取
+                    var myAvatarUrl = currentUser.user_metadata ? currentUser.user_metadata.avatar_url : null;
+                    var myAvatarEmoji = currentUser.user_metadata ? currentUser.user_metadata.avatar : '👤';
+                    if (myAvatarUrl) {
+                        avatarHtml = '<img src="' + myAvatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                    } else {
+                        avatarHtml = myAvatarEmoji || '👤';
+                    }
+                } else {
+                    // 对方的头像：使用消息中的 sender_avatar
+                    avatarHtml = msg.sender_avatar || '👤';
+                }
+                
                 html += '<div class="dm-bubble ' + (isMine ? 'dm-mine' : 'dm-other') + '">';
                 if (!isMine) {
-                    html += '<div class="dm-avatar' + (msg.is_admin_sent ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                    html += '<div class="dm-avatar' + (msg.is_admin_sent ? ' admin' : '') + '">' + avatarHtml + '</div>';
                 }
                 html += '<div class="dm-content-wrap">';
                 html += '<div class="dm-sender">' + senderName + ' <span class="dm-time">' + timeStr + '</span></div>';
@@ -4855,7 +4938,7 @@
                 html += '</div>';
                 html += '</div>';
                 if (isMine) {
-                    html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                    html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + avatarHtml + '</div>';
                 }
                 html += '</div>';
             });
