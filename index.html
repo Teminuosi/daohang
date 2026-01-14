@@ -3105,12 +3105,15 @@
                 authBtns.style.display = 'none';
                 userInfo.style.display = 'block';
                 
+                // 从 profiles 表获取最新的用户资料（包括头像）
+                fetchLatestProfile(currentUser.id);
+                
+                // 先用 user_metadata 显示，等 profiles 加载完会更新
                 var avatar = document.getElementById('userAvatar');
                 var userName = document.getElementById('userName');
                 
                 var displayName = '用户';
                 var displayAvatar = '👤';
-                var avatarUrl = null;
                 
                 if (currentUser.user_metadata) {
                     if (currentUser.user_metadata.full_name) {
@@ -3119,33 +3122,64 @@
                     if (currentUser.user_metadata.avatar) {
                         displayAvatar = currentUser.user_metadata.avatar;
                     }
-                    if (currentUser.user_metadata.avatar_url) {
-                        avatarUrl = currentUser.user_metadata.avatar_url;
-                    }
                 }
-                
-                // 调试日志
-                console.log('updateAuthUI - avatarUrl:', avatarUrl);
-                console.log('updateAuthUI - user_metadata:', currentUser.user_metadata);
                 
                 if (displayName === '用户' && currentUser.email) {
                     displayName = currentUser.email.split('@')[0];
                 }
                 
-                // 显示头像
-                if (avatarUrl) {
-                    // 添加时间戳防止缓存
-                    var imgUrl = avatarUrl.indexOf('?') > -1 ? avatarUrl : avatarUrl + '?t=' + Date.now();
-                    avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
-                } else {
-                    avatar.innerHTML = '';
-                    avatar.textContent = displayAvatar;
-                }
+                avatar.textContent = displayAvatar;
                 userName.textContent = displayName;
             } else {
                 authBtns.style.display = 'flex';
                 userInfo.style.display = 'none';
             }
+        }
+        
+        // 从 profiles 表获取最新用户资料
+        function fetchLatestProfile(userId) {
+            fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId + '&select=full_name,avatar_url', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY
+                }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data && data.length > 0) {
+                    var profile = data[0];
+                    console.log('从profiles获取的资料:', profile);
+                    
+                    // 更新 currentUser 的 user_metadata
+                    if (!currentUser.user_metadata) {
+                        currentUser.user_metadata = {};
+                    }
+                    if (profile.full_name) {
+                        currentUser.user_metadata.full_name = profile.full_name;
+                    }
+                    if (profile.avatar_url) {
+                        currentUser.user_metadata.avatar_url = profile.avatar_url;
+                    }
+                    
+                    // 更新localStorage
+                    localStorage.setItem('nexus_user', JSON.stringify(currentUser));
+                    
+                    // 更新界面显示
+                    var avatar = document.getElementById('userAvatar');
+                    var userName = document.getElementById('userName');
+                    
+                    if (profile.avatar_url) {
+                        var imgUrl = profile.avatar_url + '?t=' + Date.now();
+                        avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
+                    }
+                    if (profile.full_name) {
+                        userName.textContent = profile.full_name;
+                    }
+                }
+            })
+            .catch(function(err) {
+                console.error('获取用户资料失败:', err);
+            });
         }
         
         // 显示消息提示
@@ -3398,9 +3432,10 @@
         }
         
         // 注册头像相关变量
-        var registerAvatarFile = null;
+        var registerAvatarUrl = null;  // 存储已上传的头像URL
+        var isUploadingAvatar = false; // 是否正在上传
         
-        // 预览注册头像
+        // 预览并上传注册头像
         function previewRegisterAvatar(input) {
             if (input.files && input.files[0]) {
                 var file = input.files[0];
@@ -3415,20 +3450,58 @@
                     return;
                 }
                 
-                registerAvatarFile = file;
-                
+                // 先显示预览
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('registerAvatarPreview').innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
                     document.getElementById('removeRegisterAvatarBtn').style.display = 'inline-block';
                 };
                 reader.readAsDataURL(file);
+                
+                // 立即上传头像
+                uploadRegisterAvatarNow(file);
             }
+        }
+        
+        // 立即上传头像
+        function uploadRegisterAvatarNow(file) {
+            isUploadingAvatar = true;
+            var btn = document.getElementById('registerSubmitBtn');
+            btn.disabled = true;
+            btn.querySelector('.btn-text').textContent = '头像上传中...';
+            
+            var ext = file.name.split('.').pop();
+            var filename = 'reg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) + '.' + ext;
+            
+            fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + filename, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Content-Type': file.type
+                },
+                body: file
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('上传失败');
+                registerAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
+                showMessage('头像上传成功', 'success');
+            })
+            .catch(function(err) {
+                console.error('头像上传失败:', err);
+                showMessage('头像上传失败，请重试', 'error');
+                registerAvatarUrl = null;
+            })
+            .finally(function() {
+                isUploadingAvatar = false;
+                btn.disabled = false;
+                btn.querySelector('.btn-text').textContent = '注 册';
+            });
         }
         
         // 移除注册头像
         function removeRegisterAvatar() {
-            registerAvatarFile = null;
+            registerAvatarUrl = null;
             document.getElementById('registerAvatarPreview').innerHTML = '👤';
             document.getElementById('registerAvatarInput').value = '';
             document.getElementById('removeRegisterAvatarBtn').style.display = 'none';
@@ -3506,45 +3579,15 @@
         
         // 执行注册
         function doRegister(name, email, phone, password) {
-            // 如果有头像文件，先上传头像
-            if (registerAvatarFile) {
-                uploadRegisterAvatar(registerAvatarFile)
-                    .then(function(avatarUrl) {
-                        doRegisterWithAvatar(name, email, phone, password, avatarUrl);
-                    })
-                    .catch(function(err) {
-                        console.error('头像上传失败:', err);
-                        // 即使头像上传失败也继续注册
-                        doRegisterWithAvatar(name, email, phone, password, null);
-                    });
-            } else {
-                doRegisterWithAvatar(name, email, phone, password, null);
+            // 检查是否正在上传头像
+            if (isUploadingAvatar) {
+                showMessage('请等待头像上传完成', 'warning');
+                setButtonLoading('registerSubmitBtn', false);
+                return;
             }
-        }
-        
-        // 上传注册头像
-        function uploadRegisterAvatar(file) {
-            return new Promise(function(resolve, reject) {
-                // 生成临时文件名
-                var ext = file.name.split('.').pop();
-                var filename = 'reg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) + '.' + ext;
-                
-                fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + filename, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': 'Bearer ' + SUPABASE_KEY,
-                        'Content-Type': file.type
-                    },
-                    body: file
-                })
-                .then(function(res) {
-                    if (!res.ok) throw new Error('上传失败');
-                    var avatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
-                    resolve(avatarUrl);
-                })
-                .catch(reject);
-            });
+            
+            // 直接使用已上传的头像URL
+            doRegisterWithAvatar(name, email, phone, password, registerAvatarUrl);
         }
         
         // 带头像URL的注册
@@ -3798,6 +3841,9 @@
             reader.readAsDataURL(file);
         }
         
+        // 设置头像上传状态
+        var isUploadingSettingsAvatar = false;
+        
         // 上传头像到 Supabase Storage
         function uploadAvatarToStorage(file) {
             var accessToken = localStorage.getItem('nexus_access_token');
@@ -3805,6 +3851,12 @@
                 showMessage('请先登录', 'error');
                 return;
             }
+            
+            // 禁用保存按钮
+            isUploadingSettingsAvatar = true;
+            var saveBtn = document.getElementById('settingsSubmitBtn');
+            saveBtn.disabled = true;
+            saveBtn.querySelector('.btn-text').textContent = '头像上传中...';
             
             // 获取旧头像URL（用于删除）
             var oldAvatarUrl = null;
@@ -3875,6 +3927,13 @@
                 var avatarPreview = document.getElementById('avatarPreview');
                 avatarPreview.innerHTML = '👤';
                 avatarPreview.setAttribute('data-type', 'emoji');
+            })
+            .finally(function() {
+                // 恢复保存按钮
+                isUploadingSettingsAvatar = false;
+                var saveBtn = document.getElementById('settingsSubmitBtn');
+                saveBtn.disabled = false;
+                saveBtn.querySelector('.btn-text').textContent = '保存修改';
             });
         }
         
@@ -3896,6 +3955,12 @@
             var newName = document.getElementById('settingsName').value.trim();
             var newPhone = document.getElementById('settingsPhone').value.trim();
             var newAvatar = getSelectedAvatar();
+            
+            // 检查是否正在上传头像
+            if (isUploadingSettingsAvatar) {
+                showMessage('请等待头像上传完成', 'warning');
+                return;
+            }
             
             // 验证
             var hasError = false;
