@@ -255,6 +255,8 @@
             visibility: hidden; 
             pointer-events: none;
             transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         .modal-overlay.visible { 
@@ -642,8 +644,9 @@
     padding: 50px 40px;
     width: 90%;
     max-width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
     position: relative;
-    overflow: hidden;
 }
 
 .auth-modal-content::before {
@@ -1026,6 +1029,8 @@
     .auth-modal-content {
         padding: 30px 20px;
         margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
     }
     
     .user-info {
