@@ -4607,16 +4607,16 @@
         }
         
         // 创建单条消息HTML
-        // 生成头像HTML（支持图片和emoji）
-        function renderAvatar(avatarEmoji, avatarUrl, isAdmin, size) {
-            size = size || 'normal'; // 'normal' 或 'small'
+        // 生成头像HTML（只用avatar_url，从profiles表获取）
+        function renderAvatar(avatarUrl, isAdmin, size) {
+            size = size || 'normal';
             var sizeStyle = size === 'small' ? ' style="width:32px;height:32px;font-size:1em;"' : '';
             var adminClass = isAdmin ? ' admin' : '';
             
             if (avatarUrl) {
-                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '?t=' + Date.now() + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
             } else {
-                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>' + (avatarEmoji || '👤') + '</div>';
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>👤</div>';
             }
         }
         
@@ -4636,7 +4636,7 @@
             var html = '<div class="' + cardClass + '" data-id="' + msg.id + '">';
             html += '<div class="message-header">';
             html += '<div class="message-user">';
-            html += renderAvatar(msg.user_avatar, msg.avatar_url, isAdminMsg, 'normal');
+            html += renderAvatar(msg.avatar_url, isAdminMsg, 'normal');
             html += '<div class="message-info">';
             html += '<div class="message-name' + (isAdminMsg ? ' admin' : '') + '">' + escapeHtml(msg.user_name);
             if (isAdminMsg) html += '<span class="admin-badge">站长</span>';
@@ -4684,7 +4684,7 @@
                     html += '<div class="reply-card' + (replyIsAdmin ? ' admin-message' : '') + '" data-id="' + reply.id + '">';
                     html += '<div class="message-header">';
                     html += '<div class="message-user">';
-                    html += renderAvatar(reply.user_avatar, reply.avatar_url, replyIsAdmin, 'small');
+                    html += renderAvatar(reply.avatar_url, replyIsAdmin, 'small');
                     html += '<div class="message-info">';
                     html += '<div class="message-name' + (replyIsAdmin ? ' admin' : '') + '">' + escapeHtml(reply.user_name);
                     if (replyIsAdmin) html += '<span class="admin-badge">站长</span>';
@@ -4984,7 +4984,7 @@
         function loadDMUserList() {
             var accessToken = localStorage.getItem('nexus_access_token');
             
-            // 查询所有发给站长的私信，按用户分组
+            // 查询所有发给站长的私信
             fetch(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + ADMIN_UUID + '&order=created_at.desc', {
                 method: 'GET',
                 headers: {
@@ -4994,29 +4994,49 @@
             })
             .then(function(response) { return response.json(); })
             .then(function(messages) {
-                // 按发送者分组，获取最新消息
+                // 按发送者分组
                 var userMap = {};
                 var unreadCount = 0;
+                var userIds = [];
+                
                 messages.forEach(function(msg) {
                     if (!userMap[msg.sender_id]) {
                         userMap[msg.sender_id] = {
                             user_id: msg.sender_id,
                             user_name: msg.sender_name,
-                            user_avatar: msg.sender_avatar,
+                            avatar_url: null,
                             last_message: msg.content,
                             last_time: msg.created_at,
                             unread: msg.is_read ? 0 : 1
                         };
+                        userIds.push(msg.sender_id);
                     } else if (!msg.is_read) {
                         userMap[msg.sender_id].unread++;
                     }
                     if (!msg.is_read) unreadCount++;
                 });
                 
-                dmUserList = Object.values(userMap);
-                renderDMUserList(dmUserList);
+                // 批量查询用户头像
+                if (userIds.length > 0) {
+                    fetch(SUPABASE_URL + '/rest/v1/profiles?id=in.(' + userIds.join(',') + ')&select=id,avatar_url', {
+                        method: 'GET',
+                        headers: { 'apikey': SUPABASE_KEY }
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(profiles) {
+                        profiles.forEach(function(p) {
+                            if (userMap[p.id]) {
+                                userMap[p.id].avatar_url = p.avatar_url;
+                            }
+                        });
+                        dmUserList = Object.values(userMap);
+                        renderDMUserList(dmUserList);
+                    });
+                } else {
+                    dmUserList = [];
+                    renderDMUserList(dmUserList);
+                }
                 
-                // 更新未读数
                 updatePrivateBadge(unreadCount);
             })
             .catch(function(error) {
@@ -5036,8 +5056,11 @@
             var html = '<div class="dm-user-list">';
             users.forEach(function(user) {
                 var timeStr = getTimeAgo(user.last_time);
+                var avatarHtml = user.avatar_url 
+                    ? '<img src="' + user.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+                    : '👤';
                 html += '<div class="dm-user-item" onclick="openDMConversation(\'' + user.user_id + '\', \'' + escapeHtml(user.user_name) + '\')">';
-                html += '<div class="dm-user-avatar">' + (user.user_avatar || '👤') + '</div>';
+                html += '<div class="dm-user-avatar">' + avatarHtml + '</div>';
                 html += '<div class="dm-user-info">';
                 html += '<div class="dm-user-name">' + escapeHtml(user.user_name);
                 if (user.unread > 0) {
@@ -5167,9 +5190,20 @@
             })
             .then(function(response) { return response.json(); })
             .then(function(messages) {
-                renderDMConversation(messages, targetUserName);
+                // 查询对方的头像
+                fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + targetUserId + '&select=avatar_url', {
+                    method: 'GET',
+                    headers: { 'apikey': SUPABASE_KEY }
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(profiles) {
+                    var targetAvatarUrl = profiles.length > 0 ? profiles[0].avatar_url : null;
+                    renderDMConversation(messages, targetUserName, targetAvatarUrl);
+                })
+                .catch(function() {
+                    renderDMConversation(messages, targetUserName, null);
+                });
                 
-                // 标记为已读（不管是站长还是普通用户）
                 markDMAsRead(targetUserId);
             })
             .catch(function(error) {
@@ -5178,7 +5212,7 @@
         }
         
         // 渲染对话
-        function renderDMConversation(messages, targetUserName) {
+        function renderDMConversation(messages, targetUserName, targetAvatarUrl) {
             var container = document.getElementById('messageList');
             
             if (messages.length === 0) {
@@ -5192,20 +5226,23 @@
                 var timeStr = getTimeAgo(msg.created_at);
                 var senderName = isMine ? '我' : (msg.is_admin_sent ? '<span class="admin-name">站长</span>' : escapeHtml(msg.sender_name));
                 
-                // 获取头像：优先使用图片头像
+                // 获取头像
                 var avatarHtml = '';
                 if (isMine) {
-                    // 自己的头像：从 currentUser 获取
+                    // 自己的头像
                     var myAvatarUrl = currentUser.user_metadata ? currentUser.user_metadata.avatar_url : null;
-                    var myAvatarEmoji = currentUser.user_metadata ? currentUser.user_metadata.avatar : '👤';
                     if (myAvatarUrl) {
-                        avatarHtml = '<img src="' + myAvatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                        avatarHtml = '<img src="' + myAvatarUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
                     } else {
-                        avatarHtml = myAvatarEmoji || '👤';
+                        avatarHtml = '👤';
                     }
                 } else {
-                    // 对方的头像：使用消息中的 sender_avatar
-                    avatarHtml = msg.sender_avatar || '👤';
+                    // 对方的头像
+                    if (targetAvatarUrl) {
+                        avatarHtml = '<img src="' + targetAvatarUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                    } else {
+                        avatarHtml = '👤';
+                    }
                 }
                 
                 html += '<div class="dm-bubble ' + (isMine ? 'dm-mine' : 'dm-other') + '">';
@@ -5300,7 +5337,6 @@
             var dmData = {
                 sender_id: currentUser.id,
                 sender_name: userName,
-                sender_avatar: userAvatar,
                 receiver_id: receiverId,
                 content: content,
                 image_url: pendingMessageImage || null,
