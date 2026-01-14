@@ -3684,26 +3684,30 @@
                 id: userId,
                 full_name: fullName,
                 email_contact: email,
-                phone_number: phone || null
+                phone_number: phone || null,
+                avatar_url: avatarUrl || null
             };
             
-            if (avatarUrl) {
-                profileData.avatar_url = avatarUrl;
-            }
+            console.log('保存用户资料:', profileData);
             
+            // 使用 upsert：如果存在就更新，不存在就插入
             fetch(SUPABASE_URL + '/rest/v1/profiles', {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': 'Bearer ' + SUPABASE_KEY,
                     'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
+                    'Prefer': 'resolution=merge-duplicates'
                 },
                 body: JSON.stringify(profileData)
             })
             .then(function(response) {
                 if (!response.ok) {
-                    console.error('保存用户资料失败');
+                    return response.text().then(function(text) {
+                        console.error('保存用户资料失败:', text);
+                    });
+                } else {
+                    console.log('用户资料保存成功');
                 }
             })
             .catch(function(error) {
@@ -4096,11 +4100,11 @@
             
             var updateData = {
                 full_name: fullName,
-                phone_number: phone || null
+                phone_number: phone || null,
+                avatar_url: avatarUrl || null  // 始终更新头像字段
             };
-            if (avatarUrl) {
-                updateData.avatar_url = avatarUrl;
-            }
+            
+            console.log('更新用户资料:', updateData);
             
             // 更新 profiles 表
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
@@ -4112,8 +4116,14 @@
                     'Prefer': 'return=minimal'
                 },
                 body: JSON.stringify(updateData)
-            }).then(function() {
-                console.log('profiles表更新成功');
+            }).then(function(response) {
+                if (response.ok) {
+                    console.log('profiles表更新成功');
+                } else {
+                    response.text().then(function(text) {
+                        console.error('更新profiles表失败:', text);
+                    });
+                }
             }).catch(function(error) {
                 console.error('更新profiles表失败:', error);
             });
