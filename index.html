@@ -377,6 +377,125 @@
             
             /* 移动端强制单列，防止挤压 */
             .modal-grid { grid-template-columns: 1fr; }
+            
+            /* 移动端导航按钮 */
+            .mobile-nav-btns { display: flex !important; }
+        }
+        
+        /* 移动端导航按钮 */
+        .mobile-nav-btns {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            gap: 15px;
+        }
+        .mobile-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 243, 255, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        .mobile-nav-btn:hover, .mobile-nav-btn.active {
+            background: rgba(0, 243, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        /* 移动端抽屉菜单 */
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: rgba(10, 10, 15, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 60px 20px 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        .mobile-drawer.left {
+            left: 0;
+            transform: translateX(-100%);
+            border-right: 1px solid var(--primary);
+        }
+        .mobile-drawer.right {
+            right: 0;
+            transform: translateX(100%);
+            border-left: 1px solid var(--primary);
+        }
+        .mobile-drawer.open {
+            transform: translateX(0);
+        }
+        .mobile-drawer-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-drawer-title {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .mobile-drawer .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+        .mobile-drawer .tool-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .mobile-overlay.open {
+            display: block;
         }
 
         /* AI 视频模态框 */
@@ -2270,6 +2389,14 @@
                     <p>小白第一步，防封避坑指南。</p>
                 </div>
             </a>
+            <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
+               style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
+                <div>
+                    <h3 style="color: #8a2be2;">ADS 指纹浏览器</h3>
+                    <p>多账号防关联 | 模拟真实浏览器环境</p>
+                </div>
+            </a>
             <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card" 
                style="border: 1px solid rgba(0, 255, 157, 0.5); background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));">
                 <i class="fas fa-shopping-cart" style="color: #00ff9d;"></i>
@@ -2549,7 +2676,6 @@
                 <a href="https://www.speedtest.net/" target="_blank" class="link-card"><i class="fas fa-tachometer-alt"></i> SpeedTest 测速</a>
                 <a href="https://speed.cloudflare.com/" target="_blank" class="link-card"><i class="fas fa-cloud"></i> Cloudflare 测速</a>
                 <a href="https://fast.com/" target="_blank" class="link-card"><i class="fas fa-film"></i> Netflix Fast 测速</a>
-                <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"><i class="fas fa-fingerprint"></i> ADS 指纹浏览器</a>
             </div>
         </div>
     </div>
@@ -2930,29 +3056,16 @@
             options.headers['apikey'] = SUPABASE_KEY;
             options.headers['Authorization'] = 'Bearer ' + (accessToken || SUPABASE_KEY);
             
-            return fetch(url, options)
-                .then(function(response) {
-                    if (response.status === 401 && accessToken) {
-                        // Token 过期，尝试刷新
-                        return refreshAccessToken()
-                            .then(function(newToken) {
-                                if (newToken) {
-                                    options.headers['Authorization'] = 'Bearer ' + newToken;
-                                    return fetch(url, options);
-                                }
-                                return response;
-                            })
-                            .catch(function() {
-                                // 刷新失败，用原来的response
-                                return response;
-                            });
-                    }
-                    return response;
-                })
-                .catch(function(error) {
-                    console.error('网络请求失败:', error);
-                    throw error;
-                });
+            return fetch(url, options).then(function(response) {
+                if (response.status === 401 && accessToken) {
+                    // Token 过期，尝试刷新
+                    return refreshAccessToken().then(function(newToken) {
+                        options.headers['Authorization'] = 'Bearer ' + newToken;
+                        return fetch(url, options);
+                    });
+                }
+                return response;
+            });
         }
         
         // 页面加载时检查并刷新 token
@@ -4589,7 +4702,7 @@
                 }
                 console.error('加载留言失败:', error);
                 if (currentChannel === 'public') {
-                    document.getElementById('messageList').innerHTML = '<div class="empty-messages" style="cursor:pointer;" onclick="loadMessages()"><i class="fas fa-exclamation-triangle"></i><p>信号中断，点击重试</p></div>';
+                    document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
                 }
             });
         }
@@ -5480,31 +5593,13 @@
         }
         
         // 页面加载时初始化留言板
-        var initRetryCount = 0;
-        var maxInitRetry = 3;
-        
-        function initMessageBoard() {
-            updateInputAreaState();
-            loadMessages();
-            checkUnreadDM();
-        }
-        
         document.addEventListener('DOMContentLoaded', function() {
-            // 延迟加载留言，等待认证状态和网络就绪
+            // 延迟加载留言，等待认证状态确认
             setTimeout(function() {
-                initMessageBoard();
-            }, 800);
-        });
-        
-        // 添加重试按钮点击事件
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.empty-messages') && currentChannel === 'public') {
-                var emptyMsg = e.target.closest('.empty-messages');
-                if (emptyMsg.querySelector('.fa-exclamation-triangle')) {
-                    // 点击错误提示区域重试
-                    loadMessages();
-                }
-            }
+                updateInputAreaState();
+                loadMessages();
+                checkUnreadDM();
+            }, 500);
         });
         
         // 监听登录状态变化，更新输入区域
@@ -5676,5 +5771,52 @@
     <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
         <img id="lightboxImage" src="" alt="大图">
     </div>
+    
+    <!-- 移动端导航 -->
+    <div class="mobile-nav-btns">
+        <button class="mobile-nav-btn" onclick="openMobileDrawer('left')" title="工具"><i class="fas fa-tools"></i></button>
+        <button class="mobile-nav-btn" onclick="openMobileDrawer('right')" title="链接"><i class="fas fa-link"></i></button>
+    </div>
+    
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileDrawer()"></div>
+    
+    <!-- 左侧抽屉 - Tools -->
+    <div class="mobile-drawer left" id="mobileDrawerLeft">
+        <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
+        <div class="mobile-drawer-title">Tools</div>
+        <a href="https://ipcheck.ing" target="_blank" class="tool-item"><i class="fas fa-search"></i><span>查询工具</span></a>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-flask"></i><span>科学软件</span></a>
+        <a href="https://www.speedtest.net/zh-Hans" target="_blank" class="tool-item"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></a>
+        <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo" target="_blank" class="tool-item"><i class="fas fa-terminal"></i><span>命令终端</span></a>
+    </div>
+    
+    <!-- 右侧抽屉 - Links -->
+    <div class="mobile-drawer right" id="mobileDrawerRight">
+        <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
+        <div class="mobile-drawer-title">Links</div>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-users"></i><span>站长社群</span></a>
+        <a href="https://zmk.pw" target="_blank" class="tool-item"><i class="fas fa-play-circle"></i><span>流媒体大全</span></a>
+        <a href="https://www.toolify.ai/zh/" target="_blank" class="tool-item"><i class="fas fa-robot"></i><span>AI 工具库</span></a>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-hashtag"></i><span>社交媒体</span></a>
+    </div>
+    
+    <script>
+        function openMobileDrawer(side) {
+            document.getElementById('mobileOverlay').classList.add('open');
+            if (side === 'left') {
+                document.getElementById('mobileDrawerLeft').classList.add('open');
+            } else {
+                document.getElementById('mobileDrawerRight').classList.add('open');
+            }
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileDrawer() {
+            document.getElementById('mobileOverlay').classList.remove('open');
+            document.getElementById('mobileDrawerLeft').classList.remove('open');
+            document.getElementById('mobileDrawerRight').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    </script>
 </body>
 </html>
