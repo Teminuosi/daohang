@@ -2930,16 +2930,29 @@
             options.headers['apikey'] = SUPABASE_KEY;
             options.headers['Authorization'] = 'Bearer ' + (accessToken || SUPABASE_KEY);
             
-            return fetch(url, options).then(function(response) {
-                if (response.status === 401 && accessToken) {
-                    // Token 过期，尝试刷新
-                    return refreshAccessToken().then(function(newToken) {
-                        options.headers['Authorization'] = 'Bearer ' + newToken;
-                        return fetch(url, options);
-                    });
-                }
-                return response;
-            });
+            return fetch(url, options)
+                .then(function(response) {
+                    if (response.status === 401 && accessToken) {
+                        // Token 过期，尝试刷新
+                        return refreshAccessToken()
+                            .then(function(newToken) {
+                                if (newToken) {
+                                    options.headers['Authorization'] = 'Bearer ' + newToken;
+                                    return fetch(url, options);
+                                }
+                                return response;
+                            })
+                            .catch(function() {
+                                // 刷新失败，用原来的response
+                                return response;
+                            });
+                    }
+                    return response;
+                })
+                .catch(function(error) {
+                    console.error('网络请求失败:', error);
+                    throw error;
+                });
         }
         
         // 页面加载时检查并刷新 token
@@ -4576,7 +4589,7 @@
                 }
                 console.error('加载留言失败:', error);
                 if (currentChannel === 'public') {
-                    document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-exclamation-triangle"></i><p>信号中断，请刷新重试</p></div>';
+                    document.getElementById('messageList').innerHTML = '<div class="empty-messages" style="cursor:pointer;" onclick="loadMessages()"><i class="fas fa-exclamation-triangle"></i><p>信号中断，点击重试</p></div>';
                 }
             });
         }
@@ -5467,13 +5480,31 @@
         }
         
         // 页面加载时初始化留言板
+        var initRetryCount = 0;
+        var maxInitRetry = 3;
+        
+        function initMessageBoard() {
+            updateInputAreaState();
+            loadMessages();
+            checkUnreadDM();
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // 延迟加载留言，等待认证状态确认
+            // 延迟加载留言，等待认证状态和网络就绪
             setTimeout(function() {
-                updateInputAreaState();
-                loadMessages();
-                checkUnreadDM();
-            }, 500);
+                initMessageBoard();
+            }, 800);
+        });
+        
+        // 添加重试按钮点击事件
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.empty-messages') && currentChannel === 'public') {
+                var emptyMsg = e.target.closest('.empty-messages');
+                if (emptyMsg.querySelector('.fa-exclamation-triangle')) {
+                    // 点击错误提示区域重试
+                    loadMessages();
+                }
+            }
         });
         
         // 监听登录状态变化，更新输入区域
