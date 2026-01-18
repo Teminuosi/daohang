@@ -198,6 +198,23 @@
         }
         .tag-hot { background: rgba(255, 0, 100, 0.2); color: #ff0064; border: 1px solid #ff0064; }
         .tag-new { background: rgba(0, 243, 255, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+        .tag-vip { 
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 140, 0, 0.3)); 
+            color: #ffd700; 
+            border: 1px solid #ffd700;
+            animation: vip-glow 2s ease-in-out infinite;
+        }
+        @keyframes vip-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        }
+        .vip-card {
+            border-color: rgba(255, 215, 0, 0.3) !important;
+        }
+        .vip-card:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3) !important;
+        }
         
         /* 系统警告条 */
         .system-warning-bar {
@@ -238,6 +255,8 @@
             visibility: hidden; 
             pointer-events: none;
             transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         .modal-overlay.visible { 
@@ -358,6 +377,125 @@
             
             /* 移动端强制单列，防止挤压 */
             .modal-grid { grid-template-columns: 1fr; }
+            
+            /* 移动端导航按钮 */
+            .mobile-nav-btns { display: flex !important; }
+        }
+        
+        /* 移动端导航按钮 */
+        .mobile-nav-btns {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            gap: 15px;
+        }
+        .mobile-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 243, 255, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        .mobile-nav-btn:hover, .mobile-nav-btn.active {
+            background: rgba(0, 243, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        /* 移动端抽屉菜单 */
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: rgba(10, 10, 15, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 60px 20px 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        .mobile-drawer.left {
+            left: 0;
+            transform: translateX(-100%);
+            border-right: 1px solid var(--primary);
+        }
+        .mobile-drawer.right {
+            right: 0;
+            transform: translateX(100%);
+            border-left: 1px solid var(--primary);
+        }
+        .mobile-drawer.open {
+            transform: translateX(0);
+        }
+        .mobile-drawer-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-drawer-title {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .mobile-drawer .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+        .mobile-drawer .tool-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .mobile-overlay.open {
+            display: block;
         }
 
         /* AI 视频模态框 */
@@ -625,8 +763,9 @@
     padding: 50px 40px;
     width: 90%;
     max-width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
     position: relative;
-    overflow: hidden;
 }
 
 .auth-modal-content::before {
@@ -1009,6 +1148,8 @@
     .auth-modal-content {
         padding: 30px 20px;
         margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
     }
     
     .user-info {
@@ -1774,6 +1915,13 @@
     justify-content: center;
     font-size: 1.1em;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.dm-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .dm-avatar.admin {
@@ -2092,6 +2240,15 @@
                 <h2>AI视频工作流</h2>
                 <p>N8N自动化，AI剪辑解说去重</p>
             </div>
+
+            <!-- 会员专区 -->
+            <!-- <div class="holo-card hero-card vip-card" onclick="goToVip()">
+                <span class="tag tag-vip">VIP</span>
+                <i class="fas fa-crown main-icon" style="color: #ffd700;"></i>
+                <i class="fas fa-gem bg-icon"></i>
+                <h2>会员专区</h2>
+                <p>精华课程，国内独家内容</p>
+            </div> -->
         </div>
 
         <!-- ================= 通讯终端 ================= -->
@@ -2232,6 +2389,14 @@
                     <p>小白第一步，防封避坑指南。</p>
                 </div>
             </a>
+            <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
+               style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
+                <div>
+                    <h3 style="color: #8a2be2;">ADS 指纹浏览器</h3>
+                    <p>多账号防关联 | 模拟真实浏览器环境</p>
+                </div>
+            </a>
             <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card" 
                style="border: 1px solid rgba(0, 255, 157, 0.5); background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));">
                 <i class="fas fa-shopping-cart" style="color: #00ff9d;"></i>
@@ -2278,12 +2443,12 @@
         
         <div class="modal-section-title">静态住宅IP</div>
         <div class="modal-grid">
-            <a href="https://www.miyaip.com/signup?invitecode=6860557" target="_blank" class="link-card"
+            <a href="https://www.miyaip.com/signup?invitecode=9143527" target="_blank" class="link-card"
                style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
                 <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></i>
                 <div>
                     <h3 style="color: #ffd700;">米亚IP (新手短视频推荐) <span style="font-size: 0.7rem; color: #ffd700; background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); padding: 2px 6px; border-radius: 4px;">扫码直连</span></h3>
-                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 85折码：<span class="code-badge">3yue85D</span></p>
+                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhe</span></p>
                 </div>
             </a>
             <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
@@ -2376,13 +2541,7 @@
         <span class="modal-close" onclick="closeModal('vps')">&times;</span>
         <h2><i class="fas fa-cloud" style="color: #74b9ff; margin-right: 10px;"></i>高阶 · 自建节点服务器 (VPS)</h2>
         <div class="modal-grid">
-            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
-                <div>
-                    <h3>LisaHost 大带宽 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
-                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
-                </div>
-            </a>
+      
             <a href="cn2/banwagong.html" target="_blank" class="link-card">
                 <i class="fas fa-crown" style="color: #ff9900;"></i>
                 <div>
@@ -2404,6 +2563,7 @@
                     <p>优质线路推荐</p>
                 </div>
             </a>
+
             <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
                 <i class="fas fa-bolt" style="color: #fdcb6e;"></i>
                 <div>
@@ -2418,6 +2578,20 @@
                     <p>澳洲/香港线路</p>
                 </div>
             </a>
+            <a href="https://gorelay.net/#register/YAXRFFIVEW" target="_blank" class="link-card">
+                <i class="fas fa-bolt" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>GoRelay 专线中转 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
+                    <p>多节点专线接入 | 低延迟/极速稳定</p>
+                </div>
+            </a>
+            <!-- <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>LisaHost 大带宽 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
+                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
+                </div>
+            </a> -->
         </div>
     </div>
 </div>
@@ -2471,7 +2645,7 @@
                     <div class="play-btn-circle"><i class="fas fa-play"></i></div>
                     <div class="demo-info">
                         <h3>WATCH DEMO: 视频自动切片与二创</h3>
-                        <p>点击观看完整工作流运行实录，见证 10 分钟产出 100 条视频的效率。</p>
+                        <p>点击观看完整工作流运行实录，见证最强AI自动化剪辑工具</p>
                     </div>
                     <i class="fas fa-chevron-right demo-arrow"></i>
                 </a>
@@ -2502,7 +2676,6 @@
                 <a href="https://www.speedtest.net/" target="_blank" class="link-card"><i class="fas fa-tachometer-alt"></i> SpeedTest 测速</a>
                 <a href="https://speed.cloudflare.com/" target="_blank" class="link-card"><i class="fas fa-cloud"></i> Cloudflare 测速</a>
                 <a href="https://fast.com/" target="_blank" class="link-card"><i class="fas fa-film"></i> Netflix Fast 测速</a>
-                <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"><i class="fas fa-fingerprint"></i> ADS 指纹浏览器</a>
             </div>
         </div>
     </div>
@@ -2622,6 +2795,25 @@
             </div>
             
             <div class="auth-form" id="registerForm">
+                <!-- 头像上传 -->
+                <div class="form-group" id="registerAvatarGroup">
+                    <label><i class="fas fa-camera"></i> 头像 <span style="color:#666;font-weight:normal;font-size:0.85em;">(可选)</span></label>
+                    <div style="display:flex;align-items:center;gap:15px;">
+                        <div id="registerAvatarPreview" style="width:60px;height:60px;border-radius:50%;background:rgba(0,243,255,0.1);border:2px dashed rgba(0,243,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.5em;overflow:hidden;cursor:pointer;" onclick="document.getElementById('registerAvatarInput').click()">
+                            👤
+                        </div>
+                        <div style="flex:1;">
+                            <input type="file" id="registerAvatarInput" accept="image/*" style="display:none;" onchange="previewRegisterAvatar(this)">
+                            <button type="button" onclick="document.getElementById('registerAvatarInput').click()" style="padding:8px 15px;background:rgba(0,243,255,0.2);border:1px solid var(--primary);border-radius:8px;color:var(--primary);cursor:pointer;font-size:0.85em;">
+                                <i class="fas fa-upload"></i> 选择头像
+                            </button>
+                            <button type="button" id="removeRegisterAvatarBtn" onclick="removeRegisterAvatar()" style="display:none;margin-left:10px;padding:8px 15px;background:rgba(255,71,87,0.2);border:1px solid #ff4757;border-radius:8px;color:#ff4757;cursor:pointer;font-size:0.85em;">
+                                <i class="fas fa-times"></i> 移除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group" id="registerNameGroup">
                     <label><i class="fas fa-user"></i> 昵称 <span style="color:#666;font-weight:normal;font-size:0.85em;">(唯一标识)</span></label>
                     <div style="display:flex;gap:10px;">
@@ -3048,12 +3240,15 @@
                 authBtns.style.display = 'none';
                 userInfo.style.display = 'block';
                 
+                // 从 profiles 表获取最新的用户资料（包括头像）
+                fetchLatestProfile(currentUser.id);
+                
+                // 先用 user_metadata 显示，等 profiles 加载完会更新
                 var avatar = document.getElementById('userAvatar');
                 var userName = document.getElementById('userName');
                 
                 var displayName = '用户';
                 var displayAvatar = '👤';
-                var avatarUrl = null;
                 
                 if (currentUser.user_metadata) {
                     if (currentUser.user_metadata.full_name) {
@@ -3062,33 +3257,64 @@
                     if (currentUser.user_metadata.avatar) {
                         displayAvatar = currentUser.user_metadata.avatar;
                     }
-                    if (currentUser.user_metadata.avatar_url) {
-                        avatarUrl = currentUser.user_metadata.avatar_url;
-                    }
                 }
-                
-                // 调试日志
-                console.log('updateAuthUI - avatarUrl:', avatarUrl);
-                console.log('updateAuthUI - user_metadata:', currentUser.user_metadata);
                 
                 if (displayName === '用户' && currentUser.email) {
                     displayName = currentUser.email.split('@')[0];
                 }
                 
-                // 显示头像
-                if (avatarUrl) {
-                    // 添加时间戳防止缓存
-                    var imgUrl = avatarUrl.indexOf('?') > -1 ? avatarUrl : avatarUrl + '?t=' + Date.now();
-                    avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
-                } else {
-                    avatar.innerHTML = '';
-                    avatar.textContent = displayAvatar;
-                }
+                avatar.textContent = displayAvatar;
                 userName.textContent = displayName;
             } else {
                 authBtns.style.display = 'flex';
                 userInfo.style.display = 'none';
             }
+        }
+        
+        // 从 profiles 表获取最新用户资料
+        function fetchLatestProfile(userId) {
+            fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId + '&select=full_name,avatar_url', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY
+                }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data && data.length > 0) {
+                    var profile = data[0];
+                    console.log('从profiles获取的资料:', profile);
+                    
+                    // 更新 currentUser 的 user_metadata
+                    if (!currentUser.user_metadata) {
+                        currentUser.user_metadata = {};
+                    }
+                    if (profile.full_name) {
+                        currentUser.user_metadata.full_name = profile.full_name;
+                    }
+                    if (profile.avatar_url) {
+                        currentUser.user_metadata.avatar_url = profile.avatar_url;
+                    }
+                    
+                    // 更新localStorage
+                    localStorage.setItem('nexus_user', JSON.stringify(currentUser));
+                    
+                    // 更新界面显示
+                    var avatar = document.getElementById('userAvatar');
+                    var userName = document.getElementById('userName');
+                    
+                    if (profile.avatar_url) {
+                        var imgUrl = profile.avatar_url + '?t=' + Date.now();
+                        avatar.innerHTML = '<img src="' + imgUrl + '" alt="头像">';
+                    }
+                    if (profile.full_name) {
+                        userName.textContent = profile.full_name;
+                    }
+                }
+            })
+            .catch(function(err) {
+                console.error('获取用户资料失败:', err);
+            });
         }
         
         // 显示消息提示
@@ -3340,6 +3566,82 @@
             });
         }
         
+        // 注册头像相关变量
+        var registerAvatarUrl = null;  // 存储已上传的头像URL
+        var isUploadingAvatar = false; // 是否正在上传
+        
+        // 预览并上传注册头像
+        function previewRegisterAvatar(input) {
+            if (input.files && input.files[0]) {
+                var file = input.files[0];
+                
+                // 验证文件
+                if (!file.type.startsWith('image/')) {
+                    showMessage('请选择图片文件', 'error');
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    showMessage('图片大小不能超过2MB', 'error');
+                    return;
+                }
+                
+                // 先显示预览
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('registerAvatarPreview').innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+                    document.getElementById('removeRegisterAvatarBtn').style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+                
+                // 立即上传头像
+                uploadRegisterAvatarNow(file);
+            }
+        }
+        
+        // 立即上传头像
+        function uploadRegisterAvatarNow(file) {
+            isUploadingAvatar = true;
+            var btn = document.getElementById('registerSubmitBtn');
+            btn.disabled = true;
+            btn.querySelector('.btn-text').textContent = '头像上传中...';
+            
+            var ext = file.name.split('.').pop();
+            var filename = 'reg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) + '.' + ext;
+            
+            fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + filename, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Content-Type': file.type
+                },
+                body: file
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('上传失败');
+                registerAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
+                showMessage('头像上传成功', 'success');
+            })
+            .catch(function(err) {
+                console.error('头像上传失败:', err);
+                showMessage('头像上传失败，请重试', 'error');
+                registerAvatarUrl = null;
+            })
+            .finally(function() {
+                isUploadingAvatar = false;
+                btn.disabled = false;
+                btn.querySelector('.btn-text').textContent = '注 册';
+            });
+        }
+        
+        // 移除注册头像
+        function removeRegisterAvatar() {
+            registerAvatarUrl = null;
+            document.getElementById('registerAvatarPreview').innerHTML = '👤';
+            document.getElementById('registerAvatarInput').value = '';
+            document.getElementById('removeRegisterAvatarBtn').style.display = 'none';
+        }
+        
         // 注册处理 - 使用 Supabase Auth REST API
         function handleRegister() {
             var name = document.getElementById('registerName').value.trim();
@@ -3412,6 +3714,19 @@
         
         // 执行注册
         function doRegister(name, email, phone, password) {
+            // 检查是否正在上传头像
+            if (isUploadingAvatar) {
+                showMessage('请等待头像上传完成', 'warning');
+                setButtonLoading('registerSubmitBtn', false);
+                return;
+            }
+            
+            // 直接使用已上传的头像URL
+            doRegisterWithAvatar(name, email, phone, password, registerAvatarUrl);
+        }
+        
+        // 带头像URL的注册
+        function doRegisterWithAvatar(name, email, phone, password, avatarUrl) {
             // 调用 Supabase Auth API 注册
             fetch(SUPABASE_URL + '/auth/v1/signup', {
                 method: 'POST',
@@ -3425,7 +3740,8 @@
                     data: {
                         full_name: name,
                         phone: phone,
-                        avatar: '👤'
+                        avatar: '👤',
+                        avatar_url: avatarUrl || null
                     }
                 })
             })
@@ -3449,10 +3765,10 @@
                     return;
                 }
                 
-                // 注册成功，将用户信息写入 profiles 表
+                // 注册成功，将用户信息写入 profiles 表（带头像）
                 var userId = result.data.user ? result.data.user.id : null;
                 if (userId) {
-                    saveUserProfile(userId, name, email, phone);
+                    saveUserProfile(userId, name, email, phone, avatarUrl);
                 }
                 
                 // 检查是否需要邮箱验证
@@ -3486,6 +3802,8 @@
                     document.getElementById('strengthBar2').className = 'strength-bar';
                     document.getElementById('strengthBar3').className = 'strength-bar';
                     document.getElementById('strengthText').textContent = '';
+                    // 清理注册头像
+                    removeRegisterAvatar();
                 }, 1500);
             })
             .catch(function(error) {
@@ -3496,25 +3814,35 @@
         }
         
         // 保存用户资料到 profiles 表
-        function saveUserProfile(userId, fullName, email, phone) {
+        function saveUserProfile(userId, fullName, email, phone, avatarUrl) {
+            var profileData = {
+                id: userId,
+                full_name: fullName,
+                email_contact: email,
+                phone_number: phone || null,
+                avatar_url: avatarUrl || null
+            };
+            
+            console.log('保存用户资料:', profileData);
+            
+            // 使用 upsert：如果存在就更新，不存在就插入
             fetch(SUPABASE_URL + '/rest/v1/profiles', {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': 'Bearer ' + SUPABASE_KEY,
                     'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
+                    'Prefer': 'resolution=merge-duplicates'
                 },
-                body: JSON.stringify({
-                    id: userId,
-                    full_name: fullName,
-                    email_contact: email,
-                    phone_number: phone || null
-                })
+                body: JSON.stringify(profileData)
             })
             .then(function(response) {
                 if (!response.ok) {
-                    console.error('保存用户资料失败');
+                    return response.text().then(function(text) {
+                        console.error('保存用户资料失败:', text);
+                    });
+                } else {
+                    console.log('用户资料保存成功');
                 }
             })
             .catch(function(error) {
@@ -3652,6 +3980,9 @@
             reader.readAsDataURL(file);
         }
         
+        // 设置头像上传状态
+        var isUploadingSettingsAvatar = false;
+        
         // 上传头像到 Supabase Storage
         function uploadAvatarToStorage(file) {
             var accessToken = localStorage.getItem('nexus_access_token');
@@ -3659,6 +3990,12 @@
                 showMessage('请先登录', 'error');
                 return;
             }
+            
+            // 禁用保存按钮
+            isUploadingSettingsAvatar = true;
+            var saveBtn = document.getElementById('settingsSubmitBtn');
+            saveBtn.disabled = true;
+            saveBtn.querySelector('.btn-text').textContent = '头像上传中...';
             
             // 获取旧头像URL（用于删除）
             var oldAvatarUrl = null;
@@ -3729,6 +4066,13 @@
                 var avatarPreview = document.getElementById('avatarPreview');
                 avatarPreview.innerHTML = '👤';
                 avatarPreview.setAttribute('data-type', 'emoji');
+            })
+            .finally(function() {
+                // 恢复保存按钮
+                isUploadingSettingsAvatar = false;
+                var saveBtn = document.getElementById('settingsSubmitBtn');
+                saveBtn.disabled = false;
+                saveBtn.querySelector('.btn-text').textContent = '保存修改';
             });
         }
         
@@ -3750,6 +4094,12 @@
             var newName = document.getElementById('settingsName').value.trim();
             var newPhone = document.getElementById('settingsPhone').value.trim();
             var newAvatar = getSelectedAvatar();
+            
+            // 检查是否正在上传头像
+            if (isUploadingSettingsAvatar) {
+                showMessage('请等待头像上传完成', 'warning');
+                return;
+            }
             
             // 验证
             var hasError = false;
@@ -3885,11 +4235,11 @@
             
             var updateData = {
                 full_name: fullName,
-                phone_number: phone || null
+                phone_number: phone || null,
+                avatar_url: avatarUrl || null  // 始终更新头像字段
             };
-            if (avatarUrl) {
-                updateData.avatar_url = avatarUrl;
-            }
+            
+            console.log('更新用户资料:', updateData);
             
             // 更新 profiles 表
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
@@ -3901,8 +4251,14 @@
                     'Prefer': 'return=minimal'
                 },
                 body: JSON.stringify(updateData)
-            }).then(function() {
-                console.log('profiles表更新成功');
+            }).then(function(response) {
+                if (response.ok) {
+                    console.log('profiles表更新成功');
+                } else {
+                    response.text().then(function(text) {
+                        console.error('更新profiles表失败:', text);
+                    });
+                }
             }).catch(function(error) {
                 console.error('更新profiles表失败:', error);
             });
@@ -4009,20 +4365,20 @@
         /* ================= 2. 音乐播放器 (纯手动模式) ================= */
         
         const playlist = [
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E9%BB%84%E6%98%8F).mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%89%93%E5%BC%80(%E3%81%A8).mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%BC%82%E6%B3%8A.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%A4%B1%E6%84%8F-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%86%8D%E4%B8%8D%E6%96%A9_%E7%99%BD(%E5%86%8D%E4%B8%8D%E6%96%A9%EF%BC%88%E3%82%82%E3%82%82%E3%81%A1%20%E3%82%B6%E3%83%96%E3%82%B6%EF%BC%89%20%EF%BC%86%20%E7%99%BD_%E3%83%8F%E3%82%AF_).mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E5%8D%A1%E5%8D%A1%E8%A5%BF%E4%B8%8E%E5%B8%A6%E5%9C%9F).mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/563%E6%8F%92%E6%9B%B2.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%AC%AC%E4%B8%83%E7%8F%AD.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%90%BD%E8%91%89%E8%88%B9-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E8%96%84%E6%9A%AE.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%20%E7%BA%A2%E8%8E%B2.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%A4%B1%E6%84%8F%20%E5%8A%A8%E6%BC%AB%E5%8E%9F%E5%A3%B0.mp3',
-            'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%96%BE%E9%A3%8E%E4%BC%A0%20Ost2%20%E5%BD%A9%E9%9C%9E.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%AD%A4%E7%8B%AC.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E9%BB%84%E6%98%8F).mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%89%93%E5%BC%80(%E3%81%A8).mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E6%BC%82%E6%B3%8A.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%A4%B1%E6%84%8F-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E5%86%8D%E4%B8%8D%E6%96%A9_%E7%99%BD(%E5%86%8D%E4%B8%8D%E6%96%A9%EF%BC%88%E3%82%82%E3%82%82%E3%81%A1%20%E3%82%B6%E3%83%96%E3%82%B6%EF%BC%89%20%EF%BC%86%20%E7%99%BD_%E3%83%8F%E3%82%AF_).mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/(%E5%8D%A1%E5%8D%A1%E8%A5%BF%E4%B8%8E%E5%B8%A6%E5%9C%9F).mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/563%E6%8F%92%E6%9B%B2.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%AC%AC%E4%B8%83%E7%8F%AD.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%90%BD%E8%91%89%E8%88%B9-%E9%AB%98%E6%A2%A8%E5%BA%B7%E6%B2%BB.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E8%96%84%E6%9A%AE.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%20%E7%BA%A2%E8%8E%B2.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/-%E5%A4%B1%E6%84%8F%20%E5%8A%A8%E6%BC%AB%E5%8E%9F%E5%A3%B0.mp3',
+            // 'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E7%96%BE%E9%A3%8E%E4%BC%A0%20Ost2%20%E5%BD%A9%E9%9C%9E.mp3',
             'https://pub-24a821a3b60e4e7c9e58082c112dec4f.r2.dev/%E8%A4%AA%E9%BB%91%E7%B4%A0%20-%20%E6%A2%93%E6%B8%9D.mp3'
         ];
         
@@ -4108,6 +4464,11 @@
             if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
             }
+        }
+
+        // 跳转会员专区
+        function goToVip() {
+            window.location.href = 'vip.html';
         }
 
         function openModal(id) {
@@ -4391,16 +4752,16 @@
         }
         
         // 创建单条消息HTML
-        // 生成头像HTML（支持图片和emoji）
-        function renderAvatar(avatarEmoji, avatarUrl, isAdmin, size) {
-            size = size || 'normal'; // 'normal' 或 'small'
+        // 生成头像HTML（只用avatar_url，从profiles表获取）
+        function renderAvatar(avatarUrl, isAdmin, size) {
+            size = size || 'normal';
             var sizeStyle = size === 'small' ? ' style="width:32px;height:32px;font-size:1em;"' : '';
             var adminClass = isAdmin ? ' admin' : '';
             
             if (avatarUrl) {
-                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '><img src="' + avatarUrl + '?t=' + Date.now() + '" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>';
             } else {
-                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>' + (avatarEmoji || '👤') + '</div>';
+                return '<div class="message-avatar' + adminClass + '"' + sizeStyle + '>👤</div>';
             }
         }
         
@@ -4420,7 +4781,7 @@
             var html = '<div class="' + cardClass + '" data-id="' + msg.id + '">';
             html += '<div class="message-header">';
             html += '<div class="message-user">';
-            html += renderAvatar(msg.user_avatar, msg.avatar_url, isAdminMsg, 'normal');
+            html += renderAvatar(msg.avatar_url, isAdminMsg, 'normal');
             html += '<div class="message-info">';
             html += '<div class="message-name' + (isAdminMsg ? ' admin' : '') + '">' + escapeHtml(msg.user_name);
             if (isAdminMsg) html += '<span class="admin-badge">站长</span>';
@@ -4468,7 +4829,7 @@
                     html += '<div class="reply-card' + (replyIsAdmin ? ' admin-message' : '') + '" data-id="' + reply.id + '">';
                     html += '<div class="message-header">';
                     html += '<div class="message-user">';
-                    html += renderAvatar(reply.user_avatar, reply.avatar_url, replyIsAdmin, 'small');
+                    html += renderAvatar(reply.avatar_url, replyIsAdmin, 'small');
                     html += '<div class="message-info">';
                     html += '<div class="message-name' + (replyIsAdmin ? ' admin' : '') + '">' + escapeHtml(reply.user_name);
                     if (replyIsAdmin) html += '<span class="admin-badge">站长</span>';
@@ -4768,7 +5129,7 @@
         function loadDMUserList() {
             var accessToken = localStorage.getItem('nexus_access_token');
             
-            // 查询所有发给站长的私信，按用户分组
+            // 查询所有发给站长的私信
             fetch(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + ADMIN_UUID + '&order=created_at.desc', {
                 method: 'GET',
                 headers: {
@@ -4778,29 +5139,49 @@
             })
             .then(function(response) { return response.json(); })
             .then(function(messages) {
-                // 按发送者分组，获取最新消息
+                // 按发送者分组
                 var userMap = {};
                 var unreadCount = 0;
+                var userIds = [];
+                
                 messages.forEach(function(msg) {
                     if (!userMap[msg.sender_id]) {
                         userMap[msg.sender_id] = {
                             user_id: msg.sender_id,
                             user_name: msg.sender_name,
-                            user_avatar: msg.sender_avatar,
+                            avatar_url: null,
                             last_message: msg.content,
                             last_time: msg.created_at,
                             unread: msg.is_read ? 0 : 1
                         };
+                        userIds.push(msg.sender_id);
                     } else if (!msg.is_read) {
                         userMap[msg.sender_id].unread++;
                     }
                     if (!msg.is_read) unreadCount++;
                 });
                 
-                dmUserList = Object.values(userMap);
-                renderDMUserList(dmUserList);
+                // 批量查询用户头像
+                if (userIds.length > 0) {
+                    fetch(SUPABASE_URL + '/rest/v1/profiles?id=in.(' + userIds.join(',') + ')&select=id,avatar_url', {
+                        method: 'GET',
+                        headers: { 'apikey': SUPABASE_KEY }
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(profiles) {
+                        profiles.forEach(function(p) {
+                            if (userMap[p.id]) {
+                                userMap[p.id].avatar_url = p.avatar_url;
+                            }
+                        });
+                        dmUserList = Object.values(userMap);
+                        renderDMUserList(dmUserList);
+                    });
+                } else {
+                    dmUserList = [];
+                    renderDMUserList(dmUserList);
+                }
                 
-                // 更新未读数
                 updatePrivateBadge(unreadCount);
             })
             .catch(function(error) {
@@ -4820,8 +5201,11 @@
             var html = '<div class="dm-user-list">';
             users.forEach(function(user) {
                 var timeStr = getTimeAgo(user.last_time);
+                var avatarHtml = user.avatar_url 
+                    ? '<img src="' + user.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+                    : '👤';
                 html += '<div class="dm-user-item" onclick="openDMConversation(\'' + user.user_id + '\', \'' + escapeHtml(user.user_name) + '\')">';
-                html += '<div class="dm-user-avatar">' + (user.user_avatar || '👤') + '</div>';
+                html += '<div class="dm-user-avatar">' + avatarHtml + '</div>';
                 html += '<div class="dm-user-info">';
                 html += '<div class="dm-user-name">' + escapeHtml(user.user_name);
                 if (user.unread > 0) {
@@ -4845,8 +5229,14 @@
             currentDMUserName = userName;
             loadDMConversation(userId, userName);
             
-            // 显示返回按钮
-            document.getElementById('channelDesc').innerHTML = '<i class="fas fa-arrow-left" style="cursor:pointer;margin-right:10px;" onclick="backToDMList()"></i> 与 <strong>' + escapeHtml(userName) + '</strong> 的对话';
+            // 显示返回按钮和操作按钮（站长视角）
+            var headerHtml = '<i class="fas fa-arrow-left" style="cursor:pointer;margin-right:10px;" onclick="backToDMList()"></i> 与 <strong>' + escapeHtml(userName) + '</strong> 的对话';
+            
+            if (isAdmin()) {
+                headerHtml += '<button onclick="toggleUserMembership(\'' + userId + '\', \'' + escapeHtml(userName) + '\')" style="margin-left:15px;background:linear-gradient(135deg,#ffd700,#ff8c00);border:none;padding:5px 12px;border-radius:5px;color:#000;font-weight:bold;cursor:pointer;font-size:0.8em;"><i class="fas fa-crown"></i> 开通会员</button>';
+            }
+            
+            document.getElementById('channelDesc').innerHTML = headerHtml;
         }
         
         // 返回用户列表
@@ -4855,6 +5245,77 @@
             currentDMUserName = '';
             document.getElementById('channelDesc').innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，点击用户查看对话并回复。';
             loadDMUserList();
+        }
+        
+        // 站长开通/取消用户会员
+        function toggleUserMembership(userId, userName) {
+            if (!isAdmin()) {
+                showMessage('无权限操作', 'error');
+                return;
+            }
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            // 先查询用户当前会员状态
+            fetch(SUPABASE_URL + '/rest/v1/user_memberships?user_id=eq.' + userId, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                var isPremium = data && data.length > 0 && data[0].membership_type === 'premium';
+                var action = isPremium ? '取消' : '开通';
+                
+                if (!confirm(action + ' ' + userName + ' 的永久会员？')) {
+                    return Promise.reject('cancelled');
+                }
+                
+                if (isPremium) {
+                    // 取消会员：更新为 free
+                    return fetch(SUPABASE_URL + '/rest/v1/user_memberships?user_id=eq.' + userId, {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            membership_type: 'free',
+                            activated_at: null,
+                            activated_by: null
+                        })
+                    }).then(function() { return '已取消 ' + userName + ' 的会员'; });
+                } else {
+                    // 开通会员：upsert
+                    return fetch(SUPABASE_URL + '/rest/v1/user_memberships', {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'resolution=merge-duplicates'
+                        },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            membership_type: 'premium',
+                            activated_at: new Date().toISOString(),
+                            activated_by: currentUser.id
+                        })
+                    }).then(function() { return '已为 ' + userName + ' 开通永久会员'; });
+                }
+            })
+            .then(function(msg) {
+                if (msg) showMessage(msg, 'success');
+            })
+            .catch(function(err) {
+                if (err !== 'cancelled') {
+                    console.error('操作失败:', err);
+                    showMessage('操作失败', 'error');
+                }
+            });
         }
         
         // 加载与某用户的对话
@@ -4874,9 +5335,20 @@
             })
             .then(function(response) { return response.json(); })
             .then(function(messages) {
-                renderDMConversation(messages, targetUserName);
+                // 查询对方的头像
+                fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + targetUserId + '&select=avatar_url', {
+                    method: 'GET',
+                    headers: { 'apikey': SUPABASE_KEY }
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(profiles) {
+                    var targetAvatarUrl = profiles.length > 0 ? profiles[0].avatar_url : null;
+                    renderDMConversation(messages, targetUserName, targetAvatarUrl);
+                })
+                .catch(function() {
+                    renderDMConversation(messages, targetUserName, null);
+                });
                 
-                // 标记为已读（不管是站长还是普通用户）
                 markDMAsRead(targetUserId);
             })
             .catch(function(error) {
@@ -4885,7 +5357,7 @@
         }
         
         // 渲染对话
-        function renderDMConversation(messages, targetUserName) {
+        function renderDMConversation(messages, targetUserName, targetAvatarUrl) {
             var container = document.getElementById('messageList');
             
             if (messages.length === 0) {
@@ -4899,9 +5371,28 @@
                 var timeStr = getTimeAgo(msg.created_at);
                 var senderName = isMine ? '我' : (msg.is_admin_sent ? '<span class="admin-name">站长</span>' : escapeHtml(msg.sender_name));
                 
+                // 获取头像
+                var avatarHtml = '';
+                if (isMine) {
+                    // 自己的头像
+                    var myAvatarUrl = currentUser.user_metadata ? currentUser.user_metadata.avatar_url : null;
+                    if (myAvatarUrl) {
+                        avatarHtml = '<img src="' + myAvatarUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                    } else {
+                        avatarHtml = '👤';
+                    }
+                } else {
+                    // 对方的头像
+                    if (targetAvatarUrl) {
+                        avatarHtml = '<img src="' + targetAvatarUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                    } else {
+                        avatarHtml = '👤';
+                    }
+                }
+                
                 html += '<div class="dm-bubble ' + (isMine ? 'dm-mine' : 'dm-other') + '">';
                 if (!isMine) {
-                    html += '<div class="dm-avatar' + (msg.is_admin_sent ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                    html += '<div class="dm-avatar' + (msg.is_admin_sent ? ' admin' : '') + '">' + avatarHtml + '</div>';
                 }
                 html += '<div class="dm-content-wrap">';
                 html += '<div class="dm-sender">' + senderName + ' <span class="dm-time">' + timeStr + '</span></div>';
@@ -4915,7 +5406,7 @@
                 html += '</div>';
                 html += '</div>';
                 if (isMine) {
-                    html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + (msg.sender_avatar || '👤') + '</div>';
+                    html += '<div class="dm-avatar' + (isAdmin() ? ' admin' : '') + '">' + avatarHtml + '</div>';
                 }
                 html += '</div>';
             });
@@ -4991,7 +5482,6 @@
             var dmData = {
                 sender_id: currentUser.id,
                 sender_name: userName,
-                sender_avatar: userAvatar,
                 receiver_id: receiverId,
                 content: content,
                 image_url: pendingMessageImage || null,
@@ -5281,5 +5771,52 @@
     <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
         <img id="lightboxImage" src="" alt="大图">
     </div>
+    
+    <!-- 移动端导航 -->
+    <div class="mobile-nav-btns">
+        <button class="mobile-nav-btn" onclick="openMobileDrawer('left')" title="工具"><i class="fas fa-tools"></i></button>
+        <button class="mobile-nav-btn" onclick="openMobileDrawer('right')" title="链接"><i class="fas fa-link"></i></button>
+    </div>
+    
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileDrawer()"></div>
+    
+    <!-- 左侧抽屉 - Tools -->
+    <div class="mobile-drawer left" id="mobileDrawerLeft">
+        <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
+        <div class="mobile-drawer-title">Tools</div>
+        <a href="https://ipcheck.ing" target="_blank" class="tool-item"><i class="fas fa-search"></i><span>查询工具</span></a>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-flask"></i><span>科学软件</span></a>
+        <a href="https://www.speedtest.net/zh-Hans" target="_blank" class="tool-item"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></a>
+        <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo" target="_blank" class="tool-item"><i class="fas fa-terminal"></i><span>命令终端</span></a>
+    </div>
+    
+    <!-- 右侧抽屉 - Links -->
+    <div class="mobile-drawer right" id="mobileDrawerRight">
+        <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
+        <div class="mobile-drawer-title">Links</div>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-users"></i><span>站长社群</span></a>
+        <a href="https://zmk.pw" target="_blank" class="tool-item"><i class="fas fa-play-circle"></i><span>流媒体大全</span></a>
+        <a href="https://www.toolify.ai/zh/" target="_blank" class="tool-item"><i class="fas fa-robot"></i><span>AI 工具库</span></a>
+        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-hashtag"></i><span>社交媒体</span></a>
+    </div>
+    
+    <script>
+        function openMobileDrawer(side) {
+            document.getElementById('mobileOverlay').classList.add('open');
+            if (side === 'left') {
+                document.getElementById('mobileDrawerLeft').classList.add('open');
+            } else {
+                document.getElementById('mobileDrawerRight').classList.add('open');
+            }
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileDrawer() {
+            document.getElementById('mobileOverlay').classList.remove('open');
+            document.getElementById('mobileDrawerLeft').classList.remove('open');
+            document.getElementById('mobileDrawerRight').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    </script>
 </body>
 </html>

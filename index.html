@@ -2448,7 +2448,7 @@
                 <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></i>
                 <div>
                     <h3 style="color: #ffd700;">米亚IP (新手短视频推荐) <span style="font-size: 0.7rem; color: #ffd700; background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); padding: 2px 6px; border-radius: 4px;">扫码直连</span></h3>
-                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhe</span></p>
+                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhhe</span></p>
                 </div>
             </a>
             <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
@@ -5593,23 +5593,47 @@
         }
         
         // 页面加载时初始化留言板
+        var authReady = false;
+        var messagesInitialized = false;
+        
+        function initMessagesWhenReady() {
+            if (messagesInitialized) return;
+            messagesInitialized = true;
+            updateInputAreaState();
+            loadMessages();
+            checkUnreadDM();
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // 延迟加载留言，等待认证状态确认
-            setTimeout(function() {
-                updateInputAreaState();
-                loadMessages();
-                checkUnreadDM();
-            }, 500);
+            // 如果没有 token，直接加载（匿名访问）
+            var accessToken = localStorage.getItem('nexus_access_token');
+            if (!accessToken) {
+                setTimeout(initMessagesWhenReady, 300);
+            } else {
+                // 有 token，等待认证完成后再加载，最多等2秒
+                setTimeout(function() {
+                    if (!messagesInitialized) {
+                        initMessagesWhenReady();
+                    }
+                }, 2000);
+            }
         });
         
         // 监听登录状态变化，更新输入区域
         var originalUpdateAuthUI = updateAuthUI;
         updateAuthUI = function(isLoggedIn) {
             originalUpdateAuthUI(isLoggedIn);
+            authReady = true;
             updateInputAreaState();
-            if (currentChannel === 'public') {
+            
+            // 认证完成后加载留言
+            if (!messagesInitialized) {
+                initMessagesWhenReady();
+            } else if (currentChannel === 'public') {
+                // 已初始化过，只刷新
                 loadMessages();
             }
+            
             // 检查未读私信
             if (isLoggedIn) {
                 checkUnreadDM();
