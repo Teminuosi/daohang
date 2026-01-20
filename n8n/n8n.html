@@ -229,6 +229,112 @@
             .workflow-step { flex-direction: column; text-align: center; }
             .step-icon { margin-bottom: 10px; }
         }
+
+        /* 美化弹窗 */
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .custom-modal-overlay.show {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .custom-modal-box {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 80px rgba(99, 102, 241, 0.25);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .custom-modal-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
+        }
+        .custom-modal-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 28px;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        .custom-modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .custom-modal-text {
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        .custom-modal-text strong {
+            color: #f59e0b;
+        }
+        .custom-modal-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+        .custom-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+        .custom-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .custom-modal-close:hover {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -244,10 +350,55 @@
                 <span class="benefit-item">💰 适合批量起号</span>
             </div>
             <div style="margin-top: 40px;">
-                <div id="buy-now-button" class="cta-button">立即获取神器</div>
+                <a href="#pricing" class="cta-button" style="text-decoration: none;">查看价格方案</a>
             </div>
         </div>
     </header>
+
+    <!-- 定价区域 - 高亮展示 -->
+    <section id="pricing" style="background: linear-gradient(180deg, #1e1b4b 0%, var(--bg-color) 100%); padding: 80px 20px; border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="section-header" style="margin: 0 0 50px 0;">
+                <h2>选择你的版本</h2>
+                <p>一次购买，永久使用，持续更新</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto;">
+                <!-- 站长配置版 - 高亮 -->
+                <div style="background: linear-gradient(180deg, rgba(245, 158, 11, 0.15) 0%, var(--card-bg) 40%); border: 2px solid var(--highlight-border); border-radius: 20px; padding: 40px 30px; position: relative; box-shadow: 0 0 40px rgba(245, 158, 11, 0.2);">
+                    <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--highlight-border); color: #000; font-size: 12px; font-weight: 800; padding: 6px 16px; border-radius: 20px;">推荐</div>
+                    <h3 style="color: #fff; font-size: 22px; text-align: center; margin-bottom: 20px;">站长配置版</h3>
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <span style="font-size: 24px; color: var(--text-muted);">¥</span>
+                        <span style="font-size: 56px; font-weight: 900; background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">899</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 30px 0;">
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-main);"><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 包含核心 N8N 工作流文件</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-main);"><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 一对一远程安装调试</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-main);"><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 永久授权 + 后续更新</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-main);"><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 赠送 50G 混剪素材库</li>
+                    </ul>
+                    <div class="cta-button" style="width: 100%; text-align: center; cursor: pointer;" onclick="openContactModal()">立即获取</div>
+                </div>
+
+                <!-- 源码版 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px 30px;">
+                    <h3 style="color: var(--text-muted); font-size: 22px; text-align: center; margin-bottom: 20px;">源码自部署</h3>
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <span style="font-size: 24px; color: var(--text-muted);">¥</span>
+                        <span style="font-size: 56px; font-weight: 900; color: var(--text-muted);">499</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 30px 0;">
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--text-muted);"></i> 提供完整 JSON 源码</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-muted);"><i class="fas fa-check-circle" style="color: var(--text-muted);"></i> 附带基础部署文档</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #555;"><i class="fas fa-times-circle" style="color: #555;"></i> 不含远程协助与配置</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #555;"><i class="fas fa-times-circle" style="color: #555;"></i> 不含素材库赠送</li>
+                    </ul>
+                    <div class="cta-button" style="width: 100%; text-align: center; cursor: pointer; background: var(--border-color); box-shadow: none;" onclick="openContactModal()">立即获取</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <main>
         <!-- 2. 视频展示区域 (保留动态预览) -->
@@ -575,36 +726,25 @@
         </div>
     </div>
 
-    <!-- Contact Modal -->
-    <div id="payment-modal" class="modal-overlay">
-        <div class="payment-modal-content">
-            <span id="payment-modal-close" class="payment-modal-close-button">&times;</span>
-            <div class="instruction-section">
-                <h2 style="color: #fff; text-align: center; margin-bottom: 20px;">联系我们，获取神器</h2>
-                <div class="contact-methods">
-                    <div class="contact-option-box">
-                        <h3><i class="fas fa-envelope"></i> 邮件联系 (推荐)</h3>
-                        <p>请备注您的付款信息，我会第一时间回复。</p>
-                        <div class="email-copy-wrapper">
-                            <div id="email-to-copy" class="email-address">terminos888@gmail.com</div>
-                            <button id="copy-email-button" class="copy-button">复制</button>
-                        </div>
-                    </div>
-                    <div class="contact-option-box">
-                        <h3><i class="fab fa-telegram-plane"></i> Telegram 社群</h3>
-                        <a href="https://t.me/sanyuedaohang" target="_blank" class="tg-button">加入 TG 社群</a>
-                    </div>
-                     <div class="contact-option-box">
-                        <h3><i class="fab fa-qq"></i> QQ 联系</h3>
-                        <p>QQ号：<strong>370034225</strong></p>
-                        <a href="tencent://message/?uin=370034225&site=qq&menu=yes" target="_blank" class="qq-button">唤起 QQ</a>
-                    </div>
-                </div>
+    <!-- 美化联系弹窗 -->
+    <div class="custom-modal-overlay" id="contactModal">
+        <div class="custom-modal-box">
+            <span class="custom-modal-close" onclick="closeContactModal()">&times;</span>
+            <div class="custom-modal-icon">
+                <i class="fas fa-envelope"></i>
             </div>
+            <h3 class="custom-modal-title">联系站长获取</h3>
+            <p class="custom-modal-text">
+                请通过首页 <strong>加密信箱</strong> 联系站长<br>
+                留下您的联系方式，站长会电话联系您！
+            </p>
+            <button class="custom-modal-btn" onclick="window.location.href='../index.html#contact'">
+                <i class="fas fa-home" style="margin-right: 8px;"></i>返回首页
+            </button>
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // --- 1. 小网格自动播放逻辑 (Live Preview) ---
         document.addEventListener('DOMContentLoaded', () => {
             const previewVideos = document.querySelectorAll('.live-preview');
@@ -668,22 +808,25 @@
             if (e.target === lightbox) closeLightbox();
         });
 
-        // --- 3. 弹窗逻辑 ---
-        const paymentModal = document.getElementById('payment-modal');
-        const openBtn = document.getElementById('buy-now-button');
-        const closeBtn = document.getElementById('payment-modal-close');
-        const copyBtn = document.getElementById('copy-email-button');
-        const emailTxt = document.getElementById('email-to-copy').textContent;
-
-        if(openBtn) openBtn.addEventListener('click', () => paymentModal.classList.add('visible'));
-        if(closeBtn) closeBtn.addEventListener('click', () => paymentModal.classList.remove('visible'));
-        paymentModal.addEventListener('click', (e) => { if(e.target === paymentModal) paymentModal.classList.remove('visible'); });
-
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(emailTxt).then(() => {
-                copyBtn.textContent = 'OK';
-                setTimeout(() => copyBtn.textContent = '复制', 2000);
-            });
+        // --- 3. 美化弹窗逻辑 ---
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // 点击遮罩关闭
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) closeContactModal();
+        });
+        
+        // ESC关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeContactModal();
         });
     </script>
 

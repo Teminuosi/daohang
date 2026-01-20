@@ -248,6 +248,101 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+
+        /* 美化弹窗 */
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: customFadeIn 0.3s ease;
+        }
+        .custom-modal-overlay.show { display: flex; }
+        @keyframes customFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .custom-modal-box {
+            background: linear-gradient(180deg, rgba(16, 16, 20, 0.98), rgba(10, 10, 15, 0.98));
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 80px rgba(0, 243, 255, 0.15);
+            animation: customSlideUp 0.3s ease;
+        }
+        @keyframes customSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .custom-modal-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        .custom-modal-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 28px;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+        .custom-modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .custom-modal-text {
+            color: #aaa;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        .custom-modal-text strong { color: var(--primary); }
+        .custom-modal-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3);
+        }
+        .custom-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 243, 255, 0.4);
+        }
+        .custom-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .custom-modal-close:hover { color: #fff; }
         
         /* 系统警告条 */
         .system-warning-bar {
@@ -2232,29 +2327,13 @@
                 <p>专线机场、静态住宅IP、原生ISP</p>
             </div>
 
-            <!-- 软路由 -->
-            <div class="holo-card hero-card" onclick="openModal('router')">
-                <i class="fas fa-server main-icon" style="color: #ffd700;"></i>
-                <i class="fas fa-wifi bg-icon"></i>
-                <h2>软路由</h2>
-                <p>全屋无感跨境网络方案</p>
-            </div>
-
-            <!-- 搭建课程 -->
-            <div class="holo-card hero-card" onclick="openModal('course')">
-                <i class="fas fa-graduation-cap main-icon" style="color: #00ff9d;"></i>
-                <i class="fas fa-book bg-icon"></i>
-                <h2>搭建课程</h2>
-                <p>独享节点搭建，告别封号焦虑</p>
-            </div>
-
-            <!-- 站长陪跑 -->
-            <div class="holo-card hero-card" onclick="openModal('peipao')">
+            <!-- 站长服务 (合并软路由+搭建+陪跑+网站) -->
+            <div class="holo-card hero-card" onclick="openModal('zhanzhang')">
                 <span class="tag tag-hot">HOT</span>
-                <i class="fas fa-user-shield main-icon" style="color: #ff6b81;"></i>
+                <i class="fas fa-user-tie main-icon" style="color: #ff6b81;"></i>
                 <i class="fas fa-hands-helping bg-icon"></i>
-                <h2>站长陪跑</h2>
-                <p>1对1指导，你只管发视频</p>
+                <h2>站长服务</h2>
+                <p>软路由、搭建课程、陪跑、品牌网站</p>
             </div>
 
             <!-- VPS服务器 -->
@@ -2265,13 +2344,13 @@
                 <p>自建节点服务器推荐</p>
             </div>
 
-            <!-- AI 视频工作流 -->
-            <div class="holo-card hero-card" onclick="openModal('ai-video')">
-                <span class="tag tag-new">AUTO</span>
-                <i class="fas fa-robot main-icon" style="color: var(--secondary);"></i>
-                <i class="fas fa-video bg-icon"></i>
-                <h2>AI视频工作流</h2>
-                <p>N8N自动化，AI剪辑解说去重</p>
+            <!-- AI工具 -->
+            <div class="holo-card hero-card" onclick="openModal('ai-tools')">
+                <span class="tag tag-new">AI</span>
+                <i class="fas fa-brain main-icon" style="color: var(--secondary);"></i>
+                <i class="fas fa-robot bg-icon"></i>
+                <h2>AI工具</h2>
+                <p>自动化工作流、AI视频制作</p>
             </div>
 
             <!-- 视频专区 -->
@@ -2533,54 +2612,73 @@
     </div>
 </div>
 
-<!-- 软路由弹窗 -->
-<div id="router-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('router')">&times;</span>
-        <h2><i class="fas fa-server" style="color: #ffd700; margin-right: 10px;"></i>软路由 / 硬件环境</h2>
+<!-- 软路由弹窗 - 已合并到站长服务 -->
+
+<!-- 搭建课程弹窗 - 已合并到站长服务 -->
+
+<!-- 站长陪跑弹窗 - 已合并到站长服务 -->
+
+<!-- 站长服务弹窗 (合并软路由+搭建+陪跑+网站) -->
+<div id="zhanzhang-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="modal-close" onclick="closeModal('zhanzhang')">&times;</span>
+        <h2><i class="fas fa-user-tie" style="color: #ff6b81; margin-right: 10px;"></i>站长服务</h2>
         <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card gold-card" style="padding: 25px;">
-                <i class="fas fa-server" style="font-size: 2rem;"></i>
+            <!-- 站长陪跑 -->
+            <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="link-card" style="padding: 20px; border-color: #ff4757; background: linear-gradient(145deg, rgba(255, 71, 87, 0.15), rgba(0, 0, 0, 0.6));">
+                <i class="fas fa-user-shield" style="font-size: 1.8rem; color: #ff6b81;"></i>
                 <div>
-                    <h3 style="font-size: 1.2rem;">软路由配置方案</h3>
-                    <p style="font-size: 0.95rem;">工作室首选，打造全屋无感跨境网络。一次配置，全家科学上网，无需每台设备单独设置。</p>
+                    <h3 style="font-size: 1.1rem; color: #ff6b81;">账号环境稳定陪跑 <span style="font-size:0.7em; border:1px solid #ff4757; padding:2px 6px; border-radius:3px; margin-left:8px;">HOT</span></h3>
+                    <p>1对1全程指导 | 你只管发视频，其余问题站长帮你搞定 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
+                </div>
+            </a>
+            <!-- 软路由 -->
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card" style="padding: 20px; border-color: #ffd700; background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-server" style="font-size: 1.8rem; color: #ffd700;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #ffd700;">软路由配置方案</h3>
+                    <p>工作室首选，打造全屋无感跨境网络 | 一次配置，全家科学上网，无需每台设备单独设置</p>
+                </div>
+            </a>
+            <!-- 搭建课程 -->
+            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card" style="padding: 20px; border-color: #00ff9d; background: linear-gradient(145deg, rgba(0, 255, 157, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #00ff9d;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #00ff9d;">独享节点搭建课程</h3>
+                    <p>授人以渔，彻底告别封号焦虑。从零开始搭建自己的专属节点，不再依赖第三方。</p>
+                </div>
+            </a>
+            <!-- 个人网站制作 -->
+            <a href="javascript:void(0)" onclick="openWebsiteModal()" class="link-card" style="padding: 20px; border-color: #00f3ff; background: linear-gradient(145deg, rgba(0, 243, 255, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-globe" style="font-size: 1.8rem; color: #00f3ff;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #00f3ff;">个人品牌网站制作 <span style="font-size:0.7em; border:1px solid #00f3ff; padding:2px 6px; border-radius:3px; margin-left:8px;">NEW</span></h3>
+                    <p>打造像站长一样的专属网站 | 品牌形象展示、作品集呈现、客户资源沉淀 | 摆脱平台依赖，私域流量永久掌控</p>
                 </div>
             </a>
         </div>
     </div>
 </div>
 
-<!-- 搭建课程弹窗 -->
-<div id="course-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('course')">&times;</span>
-        <h2><i class="fas fa-graduation-cap" style="color: #00ff9d; margin-right: 10px;"></i>独享节点搭建课程</h2>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card gold-card" style="padding: 25px;">
-                <i class="fas fa-graduation-cap" style="font-size: 2rem;"></i>
-                <div>
-                    <h3 style="font-size: 1.2rem;">节点搭建教学</h3>
-                    <p style="font-size: 0.95rem;">授人以渔，彻底告别封号焦虑。从零开始搭建自己的专属节点，不再依赖第三方。</p>
-                </div>
-            </a>
+<!-- 品牌网站美化弹窗 -->
+<div class="custom-modal-overlay" id="websiteModal">
+    <div class="custom-modal-box">
+        <span class="custom-modal-close" onclick="closeWebsiteModal()">&times;</span>
+        <div class="custom-modal-icon" style="background: linear-gradient(135deg, #00f3ff, #00a8cc);">
+            <i class="fas fa-globe"></i>
         </div>
-    </div>
-</div>
-
-<!-- 站长陪跑弹窗 -->
-<div id="peipao-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 600px;">
-        <span class="modal-close" onclick="closeModal('peipao')">&times;</span>
-        <h2><i class="fas fa-user-shield" style="color: #ff6b81; margin-right: 10px;"></i>站长陪跑项目</h2>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="link-card" style="padding: 25px; border-color: #ff4757; background: linear-gradient(145deg, rgba(255, 71, 87, 0.15), rgba(0, 0, 0, 0.6));">
-                <i class="fas fa-user-shield" style="font-size: 2rem; color: #ff6b81;"></i>
-                <div>
-                    <h3 style="font-size: 1.2rem; color: #ff6b81;">账号环境稳定陪跑 <span style="font-size:0.7em; border:1px solid #ff4757; padding:2px 6px; border-radius:3px; margin-left:8px;">NEW</span></h3>
-                    <p style="font-size: 0.95rem; color: #e0e0e0;">1对1全程指导 | 你只管发视频，其余问题站长帮你搞定 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
-                </div>
-            </a>
-        </div>
+        <h3 class="custom-modal-title">个人品牌网站制作</h3>
+        <p class="custom-modal-text">
+            打造像站长一样的 <strong>专属网站</strong><br><br>
+            ✨ 品牌形象展示<br>
+            ✨ 作品集呈现<br>
+            ✨ 客户资源沉淀<br>
+            ✨ 私域流量永久掌控<br><br>
+            如有需要请通过 <strong>加密信箱</strong> 联系站长咨询！
+        </p>
+        <button class="custom-modal-btn" style="background: linear-gradient(135deg, #00f3ff, #00a8cc);" onclick="closeWebsiteModal()">
+            我知道了
+        </button>
     </div>
 </div>
 
@@ -2645,63 +2743,43 @@
     </div>
 </div>
 
-    <div id="ai-video-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 900px;">
-            <span class="modal-close" onclick="closeModal('ai-video')">&times;</span>
+    <!-- AI工具弹窗 -->
+    <div id="ai-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
+            <h2><i class="fas fa-brain" style="color: var(--secondary); margin-right: 10px;"></i>AI 工具</h2>
             
-            <div class="ai-header">
-                <h2>N8N 视频创作母体</h2>
-                <p>AI 全自动化流水线 · 解放双手 · 矩阵运营必备</p>
-            </div>
-            
-            <!-- 价格卡片区 -->
-            <div class="pricing-container">
-                <!-- 卡片1：尊贵版 -->
-                <div class="pricing-card premium">
-                    <h3 style="color:#e0e0e0; letter-spacing:2px;">站长配置版</h3>
-                    <div class="price-tag">
-                        <span class="price-currency">¥</span>
-                        <span class="price-num">899</span>
+            <div class="modal-grid" style="grid-template-columns: 1fr;">
+                <!-- N8N工作流 -->
+                <a href="n8n/n8n.html" target="_blank" class="link-card" style="padding: 20px; border-color: #8b5cf6; background: linear-gradient(145deg, rgba(139, 92, 246, 0.15), rgba(0, 0, 0, 0.5)); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);">
+                    <i class="fas fa-cogs" style="font-size: 1.8rem; color: #8b5cf6;"></i>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: #a78bfa;">N8N 视频创作母体 <span style="font-size:0.7em; border:1px solid #8b5cf6; padding:2px 6px; border-radius:3px; margin-left:8px; color:#a78bfa;">HOT</span></h3>
+                        <p>AI全自动化流水线 | 视频切片、二创、混剪 | 矩阵运营神器 | 解放双手</p>
                     </div>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle check-icon"></i> <span>包含核心 N8N 工作流文件</span></li>
-                        <li><i class="fas fa-check-circle check-icon"></i> <span>一对一远程安装调试</span></li>
-                        <li><i class="fas fa-check-circle check-icon"></i> <span>永久授权 + 后续更新</span></li>
-                        <li><i class="fas fa-check-circle check-icon"></i> <span>赠送 50G 混剪素材库</span></li>
-                    </ul>
-                </div>
-
-                <!-- 卡片2：源码版 -->
-                <div class="pricing-card basic">
-                    <h3 style="color:#888;">源码自部署</h3>
-                    <div class="price-tag">
-                        <span class="price-currency">¥</span>
-                        <span class="price-num" style="color:#aaa; text-shadow:none;">499</span>
+                </a>
+                <!-- AI长视频制作 -->
+                <a href="https://videoinu.com?source=9be32bf2a0e3" target="_blank" class="link-card" style="padding: 20px; border-color: rgba(188, 19, 254, 0.4); background: linear-gradient(145deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.5));">
+                    <i class="fas fa-film" style="font-size: 1.8rem; color: var(--secondary);"></i>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: #e066ff;">VideoInu AI长视频制作 <span style="font-size:0.7em; border:1px solid #bc13fe; padding:2px 6px; border-radius:3px; margin-left:8px; color:#e066ff;">推荐</span></h3>
+                        <p>AI一键生成长视频 | 自动配音配字幕 | 批量生产神器</p>
                     </div>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>提供完整 JSON 源码</span></li>
-                        <li><i class="fas fa-check-circle check-icon" style="color:#888; text-shadow:none;"></i> <span>附带基础部署文档</span></li>
-                        <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含远程协助与配置</span></li>
-                        <li><i class="fas fa-times-circle cross-icon"></i> <span style="color:#666;">不含素材库赠送</span></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- 案例展示通栏 -->
-            <div style="margin-top: 10px;">
-                <div class="modal-section-title" style="margin: 0 0 15px 0; border:none; padding:0;">🔥 实战效果演示</div>
-                <a href="n8n/n8n.html" target="_blank" class="demo-banner">
-                    <div class="play-btn-circle"><i class="fas fa-play"></i></div>
-                    <div class="demo-info">
-                        <h3>WATCH DEMO: 视频自动切片与二创</h3>
-                        <p>点击观看完整工作流运行实录，见证最强AI自动化剪辑工具</p>
+                </a>
+                <!-- Heygen数字人 -->
+                <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card" style="padding: 20px;">
+                    <i class="fas fa-user-astronaut" style="font-size: 1.8rem; color: #00cec9;"></i>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: #00cec9;">Heygen 数字人</h3>
+                        <p>AI数字人口播 | 多语言声音克隆 | 真人形象复刻</p>
                     </div>
-                    <i class="fas fa-chevron-right demo-arrow"></i>
                 </a>
             </div>
 
         </div>
     </div>
+
+    <!-- 删除旧的 ai-video-modal，已合并到上方 -->
 
     <!-- 科学软件弹窗 -->
     <div id="proxy-tools-modal" class="modal-overlay">
@@ -2744,34 +2822,12 @@
                 <a href="https://www.primevideo.com/" target="_blank" class="link-card"><img src="icon/primevideo.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Prime Video</h3></a>
                 <a href="https://www.max.com/" target="_blank" class="link-card"><img src="icon/icons8-hbo.svg" onerror="this.src='';this.className='fas fa-tv'"/> <h3>HBO Max</h3></a>
                 <a href="https://www.spotify.com/" target="_blank" class="link-card"><img src="icon/icons8-spotify.svg" onerror="this.src='';this.className='fas fa-music'"/> <h3>Spotify</h3></a>
-                <a href="https://kalos.reelhunter.online/" target="_blank" class="link-card"><i class="fas fa-theater-masks"></i> <h3>Kalos TV</h3></a>
                 <a href="https://www.twitch.tv/" target="_blank" class="link-card"><img src="icon/twitch-svgrepo-com.svg" onerror="this.src='';this.className='fas fa-gamepad'"/> <h3>Twitch</h3></a>
             </div>
         </div>
     </div>
 
-    <!-- AI 工具弹窗 -->
-    <div id="ai-tools-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
-            <h2>AI 前沿工具库</h2>
-            <div class="modal-network-tip">
-                <i class="fas fa-info-circle"></i>
-                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('ai-tools');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('ai-tools');openModal('network');">糖果云</a>，里面也有教学视频。</span>
-            </div>
-            <div class="modal-grid">
-                <a href="https://nf.video/OXYNE" target="_blank" class="link-card card-highlight"><i class="fas fa-shopping-bag"></i> <h3>AI/影音合租</h3></a>
-                <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card"><img src="icon/heygen.svg" onerror="this.src='';this.className='fas fa-user-astronaut'"/> <h3>Heygen 数字人</h3></a>
-                <a href="https://aistudio.google.com/" target="_blank" class="link-card"><img src="icon/aistudio.svg" onerror="this.src='';this.className='fas fa-code'"/> <h3>Google AI Studio</h3></a>
-                <a href="https://www.google.com/gemini" target="_blank" class="link-card"><img src="icon/gemini.svg" onerror="this.src='';this.className='fas fa-brain'"/> <h3>Gemini</h3></a>
-                <a href="https://chat.openai.com/" target="_blank" class="link-card"><img src="icon/chatgpt.svg" onerror="this.src='';this.className='fas fa-robot'"/> <h3>ChatGPT</h3></a>
-                <a href="https://claude.ai/" target="_blank" class="link-card"><img src="icon/claude.svg" onerror="this.src='';this.className='fas fa-comments'"/> <h3>Claude 3</h3></a>
-                <a href="https://www.meta.ai/" target="_blank" class="link-card"><img src="icon/meta.svg" onerror="this.src='';this.className='fab fa-meta'"/> <h3>Meta AI</h3></a>
-                <a href="https://grok.com/" target="_blank" class="link-card"><img src="icon/grok.svg" onerror="this.src='';this.className='fas fa-rocket'"/> <h3>Grok</h3></a>
-                <a href="https://www.perplexity.ai/" target="_blank" class="link-card"><img src="icon/perplexity.svg" onerror="this.src='';this.className='fas fa-search'"/> <h3>Perplexity</h3></a>
-            </div>
-        </div>
-    </div>
+    <!-- 旧AI工具弹窗已合并到上方新的ai-tools-modal -->
 
     <!-- 社交媒体弹窗 -->
     <div id="social-modal" class="modal-overlay">
@@ -4519,6 +4575,20 @@
         function goToVip() {
             window.location.href = 'vip.html';
         }
+
+        // 品牌网站弹窗
+        function openWebsiteModal() {
+            document.getElementById('websiteModal').classList.add('show');
+            document.body.classList.add('modal-open');
+        }
+        function closeWebsiteModal() {
+            document.getElementById('websiteModal').classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+        // 点击遮罩关闭
+        document.getElementById('websiteModal').addEventListener('click', function(e) {
+            if (e.target === this) closeWebsiteModal();
+        });
 
         function openModal(id) {
             closeAllModals();
