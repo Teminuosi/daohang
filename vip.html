@@ -488,6 +488,22 @@
         .comment-item:hover {
             border-color: rgba(0, 243, 255, 0.2);
         }
+        .comment-item.pinned {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+        .comment-pinned-badge {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            color: #000;
+            font-size: 0.65em;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
         .comment-header {
             display: flex;
             align-items: center;
@@ -524,7 +540,19 @@
         .comment-content {
             font-size: 0.9em;
             color: #ccc;
-            line-height: 1.5;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .comment-content .comment-link {
+            color: var(--primary);
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.3s;
+        }
+        .comment-content .comment-link:hover {
+            color: #fff;
+            text-decoration: underline;
         }
         .comment-actions {
             display: flex;
@@ -547,6 +575,15 @@
         }
         .comment-actions button.delete:hover {
             color: #ff4757;
+        }
+        .comment-actions button.pin:hover {
+            color: var(--gold);
+        }
+        .comment-actions button.unpin {
+            color: var(--gold);
+        }
+        .comment-actions button.unpin:hover {
+            color: #ccc;
         }
         /* 楼中楼回复 */
         .comment-replies {
@@ -1284,6 +1321,13 @@
             var parentComments = commentsData.filter(function(c) { return !c.parent_id; });
             var replies = commentsData.filter(function(c) { return c.parent_id; });
             
+            // 置顶排序：置顶的在前，然后按时间升序
+            parentComments.sort(function(a, b) {
+                if (a.is_pinned && !b.is_pinned) return -1;
+                if (!a.is_pinned && b.is_pinned) return 1;
+                return new Date(a.created_at) - new Date(b.created_at);
+            });
+            
             // 按父评论分组回复
             var repliesMap = {};
             replies.forEach(function(r) {
@@ -1313,8 +1357,16 @@
                 : '👤';
             var isOwn = currentUser && currentUser.id === comment.user_id;
             var isAdminComment = comment.is_admin;
+            var isAdmin = currentUser && currentUser.id === ADMIN_UUID;
+            var isPinned = comment.is_pinned;
             
-            var html = '<div class="comment-item" data-id="' + comment.id + '">';
+            var html = '<div class="comment-item' + (isPinned ? ' pinned' : '') + '" data-id="' + comment.id + '">';
+            
+            // 置顶标记
+            if (isPinned) {
+                html += '<span class="comment-pinned-badge"><i class="fas fa-thumbtack"></i> 置顶</span>';
+            }
+            
             html += '<div class="comment-header">';
             html += '<div class="comment-avatar' + (isAdminComment ? ' admin' : '') + '">' + avatarHtml + '</div>';
             html += '<span class="comment-name' + (isAdminComment ? ' admin' : '') + '">' + escapeHtml(comment.user_name);
@@ -1322,12 +1374,22 @@
             html += '</span>';
             html += '<span class="comment-time">' + getTimeAgo(comment.created_at) + '</span>';
             html += '</div>';
-            html += '<div class="comment-content">' + escapeHtml(comment.content) + '</div>';
+            html += '<div class="comment-content">' + formatCommentContent(comment.content) + '</div>';
             
             // 操作按钮
             html += '<div class="comment-actions">';
             html += '<button onclick="replyTo(\'' + comment.id + '\', \'' + escapeHtml(comment.user_name) + '\')"><i class="fas fa-reply"></i> 回复</button>';
-            if (isOwn || (currentUser && currentUser.id === ADMIN_UUID)) {
+            
+            // 站长可以置顶/取消置顶
+            if (isAdmin) {
+                if (isPinned) {
+                    html += '<button class="unpin" onclick="togglePin(\'' + comment.id + '\', false)"><i class="fas fa-thumbtack"></i> 取消置顶</button>';
+                } else {
+                    html += '<button class="pin" onclick="togglePin(\'' + comment.id + '\', true)"><i class="fas fa-thumbtack"></i> 置顶</button>';
+                }
+            }
+            
+            if (isOwn || isAdmin) {
                 html += '<button class="delete" onclick="deleteComment(\'' + comment.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
             }
             html += '</div>';
@@ -1363,7 +1425,7 @@
             html += '</div>';
             html += '<div class="comment-content">';
             html += '<span class="reply-to-hint">回复 @' + escapeHtml(parentUserName) + '：</span>';
-            html += escapeHtml(reply.content);
+            html += formatCommentContent(reply.content);
             html += '</div>';
             
             // 回复的操作按钮
@@ -1418,6 +1480,30 @@
                     loadVideoComments(currentVideo.id);
                 } else {
                     showToast('删除失败', 'error');
+                }
+            });
+        }
+        
+        // 置顶/取消置顶评论
+        function togglePin(commentId, pin) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ is_pinned: pin })
+            })
+            .then(function(res) {
+                if (res.ok) {
+                    showToast(pin ? '已置顶' : '已取消置顶', 'success');
+                    loadVideoComments(currentVideo.id);
+                } else {
+                    showToast('操作失败', 'error');
                 }
             });
         }
@@ -1513,6 +1599,19 @@
         function escapeHtml(str) {
             if (!str) return '';
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        
+        // 格式化评论内容：转义HTML + 换行 + 链接可点击
+        function formatCommentContent(str) {
+            if (!str) return '';
+            // 先转义HTML
+            var escaped = escapeHtml(str);
+            // 将URL转为可点击链接
+            var urlRegex = /(https?:\/\/[^\s<]+)/g;
+            escaped = escaped.replace(urlRegex, '<a href="$1" target="_blank" class="comment-link">$1</a>');
+            // 换行符转为<br>
+            escaped = escaped.replace(/\n/g, '<br>');
+            return escaped;
         }
 
         function showToast(text, type) {
