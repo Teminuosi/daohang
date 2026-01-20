@@ -209,11 +209,44 @@
             50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
         }
         .vip-card {
-            border-color: rgba(255, 215, 0, 0.3) !important;
+            border-color: rgba(255, 215, 0, 0.5) !important;
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.4)) !important;
+            position: relative;
+            overflow: hidden;
+            animation: vip-glow 2s ease-in-out infinite;
+        }
+        .vip-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: vip-shine 3s ease-in-out infinite;
         }
         .vip-card:hover {
             border-color: var(--gold) !important;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3) !important;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4) !important;
+            transform: translateY(-8px) !important;
+        }
+        .vip-card .tag-vip {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #000;
+            animation: tag-pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes vip-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.35); }
+        }
+        @keyframes vip-shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            50%, 100% { transform: rotate(45deg) translateX(100%); }
+        }
+        @keyframes tag-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         /* 系统警告条 */
@@ -2241,9 +2274,9 @@
                 <p>N8N自动化，AI剪辑解说去重</p>
             </div>
 
-            <!-- 会员专区 -->
+            <!-- 视频专区 -->
             <div class="holo-card hero-card vip-card" onclick="goToVip()">
-                <span class="tag tag-vip">VIP</span>
+                <span class="tag tag-vip">NEW</span>
                 <i class="fas fa-play-circle main-icon" style="color: #ffd700;"></i>
                 <i class="fas fa-film bg-icon"></i>
                 <h2>视频专区</h2>
