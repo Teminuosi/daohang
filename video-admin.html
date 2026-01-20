@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频管理后台 | NEXUS ADMIN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --gold: #ffd700;
+            --success: #00ff9d;
+            --danger: #ff4757;
+            --bg: #0a0a0f;
+            --glass: rgba(16, 16, 20, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-btn {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        .back-btn:hover { color: #fff; }
+
+        .nav-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, var(--secondary), #ff6b6b);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        /* 主内容 */
+        .main-content {
+            margin-top: 60px;
+            padding: 30px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 操作栏 */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .action-bar h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.3em;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #000;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: #aaa;
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* 视频列表 */
+        .video-table {
+            width: 100%;
+            background: var(--glass);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .video-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .video-table th,
+        .video-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .video-table th {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .video-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .video-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 视频封面 */
+        .video-thumb {
+            width: 120px;
+            height: 68px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+
+        .video-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .video-title {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .video-meta {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        /* 标签 */
+        .tag {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .tag-free {
+            background: rgba(0, 255, 157, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .tag-premium {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .tag-draft {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+            border: 1px solid #555;
+        }
+
+        .tag-published {
+            background: rgba(0, 243, 255, 0.15);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* 开关 */
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #333;
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider {
+            background: var(--success);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* 操作按钮 */
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .action-btn.edit:hover { color: var(--primary); }
+        .action-btn.delete:hover { color: var(--danger); }
+        .action-btn.up:hover, .action-btn.down:hover { color: var(--gold); }
+
+        /* 模态框 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .modal-close:hover { color: #fff; }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-check label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            transform: translateX(120%);
+            transition: transform 0.3s;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-color: var(--success); }
+        .toast.success i { color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+        .toast.error i { color: var(--danger); }
+
+        /* 未授权页面 */
+        .unauthorized {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+
+        .unauthorized i {
+            font-size: 5em;
+            color: var(--danger);
+            margin-bottom: 20px;
+        }
+
+        .unauthorized h2 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .unauthorized p {
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .loading i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .video-table {
+                overflow-x: auto;
+            }
+            
+            .video-table table {
+                min-width: 800px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .top-nav {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>返回首页</span>
+            </a>
+            <div class="nav-title">
+                <i class="fas fa-cog"></i>
+                <span>视频管理</span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="main-content" id="mainContent">
+        <!-- 加载中 -->
+        <div class="loading" id="loadingState">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>加载中...</p>
+        </div>
+
+        <!-- 未授权 -->
+        <div class="unauthorized" id="unauthorizedState" style="display:none;">
+            <i class="fas fa-shield-alt"></i>
+            <h2>访问被拒绝</h2>
+            <p>此页面仅限站长访问</p>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+        </div>
+
+        <!-- 管理面板 -->
+        <div id="adminPanel" style="display:none;">
+            <div class="action-bar">
+                <h2><i class="fas fa-film"></i> 视频列表</h2>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> 添加视频
+                </button>
+            </div>
+
+            <div class="video-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>排序</th>
+                            <th>视频信息</th>
+                            <th>分类</th>
+                            <th>类型</th>
+                            <th>状态</th>
+                            <th>播放量</th>
+                            <th>免费</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="videoList">
+                        <!-- 视频列表 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- 添加/编辑模态框 -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"><i class="fas fa-plus"></i> 添加视频</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="videoId">
+                
+                <div class="form-group">
+                    <label>视频标题 *</label>
+                    <input type="text" id="videoTitle" placeholder="输入视频标题">
+                </div>
+
+                <div class="form-group">
+                    <label>视频描述</label>
+                    <textarea id="videoDescription" placeholder="输入视频描述"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>视频地址 (HLS m3u8) *</label>
+                    <input type="text" id="videoUrl" placeholder="https://example.com/video.m3u8">
+                </div>
+
+                <div class="form-group">
+                    <label>封面图片地址</label>
+                    <input type="text" id="videoCover" placeholder="https://example.com/cover.jpg">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>视频时长 (秒)</label>
+                        <input type="number" id="videoDuration" placeholder="120">
+                    </div>
+                    <div class="form-group">
+                        <label>预览时长 (秒)</label>
+                        <input type="number" id="videoPreviewDuration" value="30">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>分类</label>
+                        <input type="text" id="videoCategory" placeholder="教程">
+                    </div>
+                    <div class="form-group">
+                        <label>排序 (数字越小越靠前)</label>
+                        <input type="number" id="videoSortOrder" value="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="videoIsFree">
+                            <label for="videoIsFree">免费视频 (所有用户可看)</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="videoIsPublished" checked>
+                            <label for="videoIsPublished">发布视频</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="saveBtn" onclick="saveVideo()">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-info-circle"></i>
+        <span id="toastText">消息</span>
+    </div>
+
+    <script>
+        // Supabase 配置
+        const SUPABASE_URL = 'https://qzpvogxvlescfwpqahsn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6cHZvZ3h2bGVzY2Z3cHFhaHNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MzMyMzMsImV4cCI6MjA4MzUwOTIzM30.2uadJyp_KJNxRuFm1NIkuRPrTzq0-lBfuH3gb20LXGc';
+        const ADMIN_UUID = '71c4e4e1-a1b6-47f8-aaa8-c62ae020e1eb';
+
+        let currentUser = null;
+        let videos = [];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        // 检查权限
+        function checkAuth() {
+            const userData = localStorage.getItem('nexus_user');
+            const accessToken = localStorage.getItem('nexus_access_token');
+            
+            if (!userData || !accessToken) {
+                showUnauthorized();
+                return;
+            }
+
+            try {
+                currentUser = JSON.parse(userData);
+                
+                // 只有站长可以访问
+                if (currentUser.id !== ADMIN_UUID) {
+                    showUnauthorized();
+                    return;
+                }
+
+                // 验证 token
+                fetch(SUPABASE_URL + '/auth/v1/user', {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken
+                    }
+                })
+                .then(function(res) {
+                    if (res.status === 401) {
+                        // 尝试刷新 token
+                        return refreshToken();
+                    }
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (data && data.id === ADMIN_UUID) {
+                        showAdminPanel();
+                        loadVideos();
+                    } else {
+                        showUnauthorized();
+                    }
+                })
+                .catch(function() {
+                    showUnauthorized();
+                });
+
+            } catch (e) {
+                showUnauthorized();
+            }
+        }
+
+        // 刷新 Token
+        function refreshToken() {
+            var refreshToken = localStorage.getItem('nexus_refresh_token');
+            if (!refreshToken) return Promise.reject();
+
+            return fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ refresh_token: refreshToken })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.access_token) {
+                    localStorage.setItem('nexus_access_token', data.access_token);
+                    if (data.refresh_token) {
+                        localStorage.setItem('nexus_refresh_token', data.refresh_token);
+                    }
+                    return data.user;
+                }
+                throw new Error('Refresh failed');
+            });
+        }
+
+        function showUnauthorized() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('unauthorizedState').style.display = 'flex';
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+        }
+
+        // 加载视频列表
+        function loadVideos() {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/videos?order=sort_order.asc,created_at.desc', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                videos = data || [];
+                renderVideos();
+            })
+            .catch(function(err) {
+                console.error('加载视频失败:', err);
+                showToast('加载失败', 'error');
+            });
+        }
+
+        // 渲染视频列表
+        function renderVideos() {
+            var container = document.getElementById('videoList');
+            
+            if (videos.length === 0) {
+                container.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-film"></i><p>暂无视频，点击上方按钮添加</p></div></td></tr>';
+                return;
+            }
+
+            var html = '';
+            videos.forEach(function(video, index) {
+                var coverUrl = video.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 68"><rect fill="%231a1a1a" width="120" height="68"/><text x="50%" y="50%" fill="%23555" text-anchor="middle" dy=".3em" font-size="12">无封面</text></svg>';
+                
+                html += '<tr data-id="' + video.id + '">';
+                
+                // 排序
+                html += '<td>';
+                html += '<div class="action-btns" style="flex-direction:column;">';
+                if (index > 0) {
+                    html += '<button class="action-btn up" onclick="moveVideo(\'' + video.id + '\', -1)" title="上移"><i class="fas fa-chevron-up"></i></button>';
+                }
+                if (index < videos.length - 1) {
+                    html += '<button class="action-btn down" onclick="moveVideo(\'' + video.id + '\', 1)" title="下移"><i class="fas fa-chevron-down"></i></button>';
+                }
+                html += '</div>';
+                html += '</td>';
+                
+                // 视频信息
+                html += '<td>';
+                html += '<div class="video-info">';
+                html += '<img src="' + coverUrl + '" class="video-thumb" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 68%22><rect fill=%22%231a1a1a%22 width=%22120%22 height=%2268%22/></svg>\'">';
+                html += '<div>';
+                html += '<div class="video-title">' + escapeHtml(video.title) + '</div>';
+                html += '<div class="video-meta">' + formatDuration(video.duration) + '</div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</td>';
+                
+                // 分类
+                html += '<td>' + (video.category || '-') + '</td>';
+                
+                // 类型
+                html += '<td>';
+                if (video.is_free) {
+                    html += '<span class="tag tag-free">免费</span>';
+                } else {
+                    html += '<span class="tag tag-premium">会员</span>';
+                }
+                html += '</td>';
+                
+                // 状态
+                html += '<td>';
+                if (video.is_published) {
+                    html += '<span class="tag tag-published">已发布</span>';
+                } else {
+                    html += '<span class="tag tag-draft">草稿</span>';
+                }
+                html += '</td>';
+                
+                // 播放量
+                html += '<td>' + (video.view_count || 0) + '</td>';
+                
+                // 免费开关
+                html += '<td>';
+                html += '<label class="switch">';
+                html += '<input type="checkbox" ' + (video.is_free ? 'checked' : '') + ' onchange="toggleFree(\'' + video.id + '\', this.checked)">';
+                html += '<span class="slider"></span>';
+                html += '</label>';
+                html += '</td>';
+                
+                // 操作
+                html += '<td>';
+                html += '<div class="action-btns">';
+                html += '<button class="action-btn edit" onclick="editVideo(\'' + video.id + '\')" title="编辑"><i class="fas fa-edit"></i></button>';
+                html += '<button class="action-btn delete" onclick="deleteVideo(\'' + video.id + '\')" title="删除"><i class="fas fa-trash"></i></button>';
+                html += '</div>';
+                html += '</td>';
+                
+                html += '</tr>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 打开添加模态框
+        function openAddModal() {
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus"></i> 添加视频';
+            document.getElementById('videoId').value = '';
+            document.getElementById('videoTitle').value = '';
+            document.getElementById('videoDescription').value = '';
+            document.getElementById('videoUrl').value = '';
+            document.getElementById('videoCover').value = '';
+            document.getElementById('videoDuration').value = '';
+            document.getElementById('videoPreviewDuration').value = '30';
+            document.getElementById('videoCategory').value = '';
+            document.getElementById('videoSortOrder').value = '0';
+            document.getElementById('videoIsFree').checked = false;
+            document.getElementById('videoIsPublished').checked = true;
+            
+            document.getElementById('videoModal').classList.add('show');
+        }
+
+        // 编辑视频
+        function editVideo(id) {
+            var video = videos.find(function(v) { return v.id === id; });
+            if (!video) return;
+
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> 编辑视频';
+            document.getElementById('videoId').value = video.id;
+            document.getElementById('videoTitle').value = video.title || '';
+            document.getElementById('videoDescription').value = video.description || '';
+            document.getElementById('videoUrl').value = video.video_url || '';
+            document.getElementById('videoCover').value = video.cover_url || '';
+            document.getElementById('videoDuration').value = video.duration || '';
+            document.getElementById('videoPreviewDuration').value = video.preview_duration || 30;
+            document.getElementById('videoCategory').value = video.category || '';
+            document.getElementById('videoSortOrder').value = video.sort_order || 0;
+            document.getElementById('videoIsFree').checked = video.is_free || false;
+            document.getElementById('videoIsPublished').checked = video.is_published !== false;
+            
+            document.getElementById('videoModal').classList.add('show');
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('videoModal').classList.remove('show');
+        }
+
+        // 保存视频
+        function saveVideo() {
+            var id = document.getElementById('videoId').value;
+            var title = document.getElementById('videoTitle').value.trim();
+            var videoUrl = document.getElementById('videoUrl').value.trim();
+
+            if (!title) {
+                showToast('请输入视频标题', 'error');
+                return;
+            }
+            if (!videoUrl) {
+                showToast('请输入视频地址', 'error');
+                return;
+            }
+
+            var data = {
+                title: title,
+                description: document.getElementById('videoDescription').value.trim() || null,
+                video_url: videoUrl,
+                cover_url: document.getElementById('videoCover').value.trim() || null,
+                duration: parseInt(document.getElementById('videoDuration').value) || null,
+                preview_duration: parseInt(document.getElementById('videoPreviewDuration').value) || 30,
+                category: document.getElementById('videoCategory').value.trim() || null,
+                sort_order: parseInt(document.getElementById('videoSortOrder').value) || 0,
+                is_free: document.getElementById('videoIsFree').checked,
+                is_published: document.getElementById('videoIsPublished').checked
+            };
+
+            var accessToken = localStorage.getItem('nexus_access_token');
+            var btn = document.getElementById('saveBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 保存中...';
+
+            var url = SUPABASE_URL + '/rest/v1/videos';
+            var method = 'POST';
+            
+            if (id) {
+                url += '?id=eq.' + id;
+                method = 'PATCH';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('保存失败');
+                showToast(id ? '更新成功' : '添加成功', 'success');
+                closeModal();
+                loadVideos();
+            })
+            .catch(function(err) {
+                console.error('保存失败:', err);
+                showToast('保存失败', 'error');
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> 保存';
+            });
+        }
+
+        // 切换免费状态
+        function toggleFree(id, isFree) {
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + id, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ is_free: isFree })
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('更新失败');
+                showToast(isFree ? '已设为免费' : '已设为会员专享', 'success');
+                // 更新本地数据
+                var video = videos.find(function(v) { return v.id === id; });
+                if (video) video.is_free = isFree;
+                renderVideos();
+            })
+            .catch(function(err) {
+                showToast('更新失败', 'error');
+                loadVideos(); // 重新加载
+            });
+        }
+
+        // 删除视频
+        function deleteVideo(id) {
+            var video = videos.find(function(v) { return v.id === id; });
+            if (!video) return;
+
+            if (!confirm('确定要删除视频「' + video.title + '」吗？此操作不可恢复。')) {
+                return;
+            }
+
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + id, {
+                method: 'DELETE',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('删除失败');
+                showToast('删除成功', 'success');
+                loadVideos();
+            })
+            .catch(function(err) {
+                showToast('删除失败', 'error');
+            });
+        }
+
+        // 移动视频顺序
+        function moveVideo(id, direction) {
+            var index = videos.findIndex(function(v) { return v.id === id; });
+            if (index === -1) return;
+            
+            var newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= videos.length) return;
+
+            // 交换排序值
+            var currentVideo = videos[index];
+            var targetVideo = videos[newIndex];
+            
+            var accessToken = localStorage.getItem('nexus_access_token');
+            
+            // 更新两个视频的排序
+            Promise.all([
+                fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + currentVideo.id, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({ sort_order: newIndex })
+                }),
+                fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + targetVideo.id, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({ sort_order: index })
+                })
+            ])
+            .then(function() {
+                loadVideos();
+            })
+            .catch(function(err) {
+                showToast('移动失败', 'error');
+            });
+        }
+
+        // 工具函数
+        function formatDuration(seconds) {
+            if (!seconds) return '--:--';
+            var h = Math.floor(seconds / 3600);
+            var m = Math.floor((seconds % 3600) / 60);
+            var s = seconds % 60;
+            if (h > 0) {
+                return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+            }
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;');
+        }
+
+        function showToast(message, type) {
+            var toast = document.getElementById('toast');
+            var icon = toast.querySelector('i');
+            
+            toast.className = 'toast ' + (type || '');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle');
+            document.getElementById('toastText').textContent = message;
+            
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
