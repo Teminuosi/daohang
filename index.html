@@ -2281,9 +2281,6 @@
         <div class="tool-item" onclick="openModal('streaming')">
             <i class="fas fa-play-circle"></i> <span>流媒体大全</span>
         </div>
-        <div class="tool-item" onclick="openModal('ai-tools')">
-            <i class="fas fa-brain"></i> <span>AI 工具库</span>
-        </div>
         <div class="tool-item" onclick="openModal('social')">
             <i class="fas fa-hashtag"></i> <span>社交媒体</span>
         </div>
@@ -2555,12 +2552,12 @@
         
         <div class="modal-section-title">静态住宅IP</div>
         <div class="modal-grid">
-            <a href="https://www.miyaip.com/signup?invitecode=9143527" target="_blank" class="link-card"
+            <a href="https://www.miyaip.com/signup?invitecode=3yuejiuzhe" target="_blank" class="link-card"
                style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
                 <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></i>
                 <div>
                     <h3 style="color: #ffd700;">米亚IP (新手短视频推荐) <span style="font-size: 0.7rem; color: #ffd700; background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); padding: 2px 6px; border-radius: 4px;">扫码直连</span></h3>
-                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhhe</span></p>
+                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhe</span></p>
                 </div>
             </a>
             <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
@@ -2745,17 +2742,19 @@
 
     <!-- AI工具弹窗 -->
     <div id="ai-tools-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-content" style="max-width: 800px;">
             <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
-            <h2><i class="fas fa-brain" style="color: var(--secondary); margin-right: 10px;"></i>AI 工具</h2>
+            <h2><i class="fas fa-brain" style="color: var(--secondary); margin-right: 10px;"></i>AI 工具库</h2>
             
+            <!-- 站长推荐 -->
+            <div class="modal-section-title">站长推荐</div>
             <div class="modal-grid" style="grid-template-columns: 1fr;">
                 <!-- N8N工作流 -->
                 <a href="n8n/n8n.html" target="_blank" class="link-card" style="padding: 20px; border-color: #8b5cf6; background: linear-gradient(145deg, rgba(139, 92, 246, 0.15), rgba(0, 0, 0, 0.5)); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);">
                     <i class="fas fa-cogs" style="font-size: 1.8rem; color: #8b5cf6;"></i>
                     <div>
                         <h3 style="font-size: 1.1rem; color: #a78bfa;">N8N 视频创作母体 <span style="font-size:0.7em; border:1px solid #8b5cf6; padding:2px 6px; border-radius:3px; margin-left:8px; color:#a78bfa;">HOT</span></h3>
-                        <p>AI全自动化流水线 | 视频切片、二创、混剪 | 矩阵运营神器 | 解放双手</p>
+                        <p>AI全自动化流水线 | 视频切片、二创、混剪 | 矩阵运营神器</p>
                     </div>
                 </a>
                 <!-- AI长视频制作 -->
@@ -2766,16 +2765,24 @@
                         <p>AI一键生成长视频 | 自动配音配字幕 | 批量生产神器</p>
                     </div>
                 </a>
-                <!-- Heygen数字人 -->
-                <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card" style="padding: 20px;">
-                    <i class="fas fa-user-astronaut" style="font-size: 1.8rem; color: #00cec9;"></i>
-                    <div>
-                        <h3 style="font-size: 1.1rem; color: #00cec9;">Heygen 数字人</h3>
-                        <p>AI数字人口播 | 多语言声音克隆 | 真人形象复刻</p>
-                    </div>
-                </a>
             </div>
-
+            
+            <!-- AI前沿工具 -->
+            <div class="modal-section-title">AI 前沿工具</div>
+            <div class="modal-network-tip">
+                <i class="fas fa-info-circle"></i>
+                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('ai-tools');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('ai-tools');openModal('network');">糖果云</a></span>
+            </div>
+            <div class="modal-grid">
+                <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card"><img src="icon/heygen.svg" onerror="this.src='';this.className='fas fa-user-astronaut'"/> <h3>Heygen 数字人</h3></a>
+                <a href="https://aistudio.google.com/" target="_blank" class="link-card"><img src="icon/aistudio.svg" onerror="this.src='';this.className='fas fa-code'"/> <h3>Google AI Studio</h3></a>
+                <a href="https://www.google.com/gemini" target="_blank" class="link-card"><img src="icon/gemini.svg" onerror="this.src='';this.className='fas fa-brain'"/> <h3>Gemini</h3></a>
+                <a href="https://chat.openai.com/" target="_blank" class="link-card"><img src="icon/chatgpt.svg" onerror="this.src='';this.className='fas fa-robot'"/> <h3>ChatGPT</h3></a>
+                <a href="https://claude.ai/" target="_blank" class="link-card"><img src="icon/claude.svg" onerror="this.src='';this.className='fas fa-comments'"/> <h3>Claude</h3></a>
+                <a href="https://www.meta.ai/" target="_blank" class="link-card"><img src="icon/meta.svg" onerror="this.src='';this.className='fab fa-meta'"/> <h3>Meta AI</h3></a>
+                <a href="https://grok.com/" target="_blank" class="link-card"><img src="icon/grok.svg" onerror="this.src='';this.className='fas fa-rocket'"/> <h3>Grok</h3></a>
+                <a href="https://www.perplexity.ai/" target="_blank" class="link-card"><img src="icon/perplexity.svg" onerror="this.src='';this.className='fas fa-search'"/> <h3>Perplexity</h3></a>
+            </div>
         </div>
     </div>
 
@@ -5939,7 +5946,6 @@
         <div class="mobile-drawer-title">Links</div>
         <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-users"></i><span>站长社群</span></a>
         <a href="https://zmk.pw" target="_blank" class="tool-item"><i class="fas fa-play-circle"></i><span>流媒体大全</span></a>
-        <a href="https://www.toolify.ai/zh/" target="_blank" class="tool-item"><i class="fas fa-robot"></i><span>AI 工具库</span></a>
         <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-hashtag"></i><span>社交媒体</span></a>
     </div>
     
