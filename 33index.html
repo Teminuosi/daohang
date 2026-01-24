@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三月空间控制台 | NEXUS CONSOLE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+</head>
+<body>
+
+    <!-- 消息提示容器 -->
+    <div id="messageToast" class="message-toast"></div>
+
+    <!-- 登录/注册按钮区域 -->
+    <div class="auth-header-btn" id="authHeaderBtn">
+        <!-- 未登录状态 -->
+        <div id="authBtnsContainer">
+            <button class="auth-btn auth-btn-outline" onclick="openAuthModal('login')">
+                <i class="fas fa-sign-in-alt"></i> 登录
+            </button>
+            <button class="auth-btn auth-btn-filled" onclick="openAuthModal('register')">
+                <i class="fas fa-user-plus"></i> 注册
+            </button>
+        </div>
+        <!-- 已登录状态 -->
+        <div id="userInfoContainer" style="display: none;">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar" onclick="openSettingsModal()" style="cursor: pointer;" title="点击修改资料">U</div>
+                <span class="user-name" id="userName" onclick="openSettingsModal()" style="cursor: pointer;" title="点击修改资料">用户</span>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景特效 -->
+    <div class="scanlines"></div>
+    <canvas id="canvas"></canvas>
+    
+    <!-- 音乐播放器 -->
+    <audio id="audioPlayer" preload="auto"></audio>
+
+    <!-- 左侧常驻工具栏 (System) -->
+    <aside class="sidebar sidebar-left">
+        <div class="sidebar-title">Tools</div>
+        <div onclick="openModal('query-tools')" class="tool-item">
+            <i class="fas fa-globe"></i> <span>查询工具</span>
+        </div>
+        <div onclick="openModal('proxy-tools')" class="tool-item">
+            <i class="fas fa-microchip"></i> <span>科学软件</span>
+        </div>
+        <div onclick="openModal('speed-tools')" class="tool-item">
+            <i class="fas fa-tachometer-alt"></i> <span>测速工具</span>
+        </div>
+        <a href="javascript:alert('功能开发中')" class="tool-item">
+            <i class="fas fa-terminal"></i> <span>命令终端</span>
+        </a>
+    </aside>
+
+    <!-- 右侧常驻工具栏 (Links) -->
+    <aside class="sidebar sidebar-right">
+        <div class="sidebar-title">Links</div>
+        <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="tool-item">
+            <i class="fab fa-telegram-plane"></i> <span>站长社群</span>
+        </a>
+        <div class="tool-item" onclick="openModal('streaming')">
+            <i class="fas fa-play-circle"></i> <span>流媒体大全</span>
+        </div>
+        <div class="tool-item" onclick="openModal('social')">
+            <i class="fas fa-hashtag"></i> <span>社交媒体</span>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <header>
+            <div class="logo-text">NEXUS LINK</div>
+            <div class="sub-logo">三月空间控制台</div>
+            
+            <!-- 音乐播放器UI -->
+            <div class="music-player-bar">
+                <div class="music-visualizer music-paused" id="visualizer">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+                <div class="track-info" id="trackNameDisplay">System Ready</div>
+                <div class="player-controls">
+                    <button onclick="prevTrack()"><i class="fas fa-step-backward"></i></button>
+                    <button onclick="togglePlay()" id="playBtn"><i class="fas fa-play"></i></button>
+                    <button onclick="nextTrack()"><i class="fas fa-step-forward"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 核心业务区 -->
+        <div class="hero-grid">
+            <!-- 基础环境 -->
+            <div class="holo-card hero-card" onclick="openModal('basic-env')">
+                <i class="fas fa-layer-group main-icon"></i>
+                <i class="fas fa-cog bg-icon"></i>
+                <h2>基础环境</h2>
+                <p>新手导航、账号储备、海外云手机</p>
+            </div>
+
+            <!-- IP配置 -->
+            <div class="holo-card hero-card" onclick="openModal('ip-config')">
+                <i class="fas fa-network-wired main-icon" style="color: #bc13fe;"></i>
+                <i class="fas fa-globe bg-icon"></i>
+                <h2>IP配置</h2>
+                <p>专线机场、静态住宅IP、原生ISP</p>
+            </div>
+
+            <!-- 站长服务 (合并软路由+搭建+陪跑+网站) -->
+            <div class="holo-card hero-card" onclick="openModal('zhanzhang')">
+                <span class="tag tag-hot">HOT</span>
+                <i class="fas fa-user-tie main-icon" style="color: #ff6b81;"></i>
+                <i class="fas fa-hands-helping bg-icon"></i>
+                <h2>站长服务</h2>
+                <p>软路由、搭建课程、陪跑、品牌网站</p>
+            </div>
+
+            <!-- VPS服务器 -->
+            <div class="holo-card hero-card" onclick="openModal('vps')">
+                <i class="fas fa-cloud main-icon" style="color: #74b9ff;"></i>
+                <i class="fas fa-database bg-icon"></i>
+                <h2>VPS服务器</h2>
+                <p>自建节点服务器推荐</p>
+            </div>
+
+            <!-- AI工具 -->
+            <div class="holo-card hero-card" onclick="openModal('ai-tools')">
+                <span class="tag tag-new">AI</span>
+                <i class="fas fa-brain main-icon" style="color: var(--secondary);"></i>
+                <i class="fas fa-robot bg-icon"></i>
+                <h2>AI工具</h2>
+                <p>自动化工作流、AI视频制作</p>
+            </div>
+
+            <!-- 视频专区 -->
+            <div class="holo-card hero-card vip-card" onclick="goToVip()">
+                <span class="tag tag-vip">NEW</span>
+                <i class="fas fa-play-circle main-icon" style="color: #ffd700;"></i>
+                <i class="fas fa-film bg-icon"></i>
+                <h2>视频专区</h2>
+                <p>精华课程，国内独家内容</p>
+            </div>
+        </div>
+
+        <!-- ================= 通讯终端 ================= -->
+        <section class="comm-terminal" id="commTerminal">
+            <div class="comm-container">
+                <!-- 左侧频道切换 -->
+                <div class="comm-sidebar">
+                    <div class="comm-channel active" data-channel="public" onclick="switchChannel('public')">
+                        <i class="fas fa-globe"></i>
+                        <span>公共频段</span>
+                        <div class="channel-badge" id="publicBadge" style="display:none;">0</div>
+                    </div>
+                    <div class="comm-channel" data-channel="private" onclick="switchChannel('private')">
+                        <i class="fas fa-lock"></i>
+                        <span>加密信箱</span>
+                        <div class="channel-badge" id="privateBadge" style="display:none;">0</div>
+                    </div>
+                    <div class="comm-channel" data-channel="notice" onclick="switchChannel('notice')">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>站务公告</span>
+                    </div>
+                </div>
+
+            <!-- 右侧内容区 -->
+            <div class="comm-main">
+                <!-- 顶部状态栏 -->
+                <div class="comm-header">
+                    <div class="comm-title">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span id="channelTitle">公共频段 · PUBLIC CHANNEL</span>
+                    </div>
+                    <div class="comm-status">
+                        <span class="status-dot"></span>
+                        <span>连接稳定</span>
+                        <span class="status-divider">|</span>
+                        <span id="onlineCount">正在监听...</span>
+                    </div>
+                </div>
+
+                <!-- 频道说明 -->
+                <div class="comm-description" id="channelDesc">
+                    <i class="fas fa-info-circle"></i>
+                    因各平台限制严格、频繁封号，且私信无法留敏感内容。考虑到很多朋友没有TG/WhatsApp，站长特开放此留言区。有需求尽管留言，站长会通过注册手机联系你。
+                </div>
+
+                <!-- 发布区域 -->
+                <div class="comm-input-area" id="messageInputArea">
+                    <div class="input-wrapper">
+                        <textarea id="messageInput" placeholder="输入情报..." maxlength="500" rows="3"></textarea>
+                        
+                        <!-- 图片预览区 -->
+                        <div class="image-preview-area" id="imagePreviewArea" style="display:none;">
+                            <div class="image-preview-item" id="imagePreviewItem">
+                                <img id="imagePreview" src="" alt="预览">
+                                <button type="button" class="remove-image-btn" onclick="removeImage()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-footer">
+                            <div class="tag-selector" id="tagSelector">
+                                <span class="tag-label">标签:</span>
+                                <button type="button" class="tag-btn" data-tag="网络故障" onclick="selectTag(this)">网络故障</button>
+                                <button type="button" class="tag-btn" data-tag="资源求助" onclick="selectTag(this)">资源求助</button>
+                                <button type="button" class="tag-btn" data-tag="小白提问" onclick="selectTag(this)">小白提问</button>
+                                <button type="button" class="tag-btn" data-tag="经验分享" onclick="selectTag(this)">经验分享</button>
+                                <button type="button" class="tag-btn" data-tag="BUG反馈" onclick="selectTag(this)">BUG反馈</button>
+                            </div>
+                            <div class="input-actions">
+                                <!-- 图片上传按钮 -->
+                                <label class="image-upload-btn" for="messageImageInput" title="上传图片">
+                                    <i class="fas fa-image"></i>
+                                </label>
+                                <input type="file" id="messageImageInput" accept="image/*" style="display:none;" onchange="handleMessageImage(event)">
+                                
+                                <span class="char-count"><span id="charCount">0</span>/500</span>
+                                <button type="button" class="execute-btn" onclick="submitMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>执行 EXECUTE</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 拖拽提示遮罩 -->
+                    <div class="drag-overlay" id="dragOverlay">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>释放以上传图片</span>
+                    </div>
+                    
+                    <div class="login-hint" id="loginHint" style="display:none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        请先 <a href="javascript:void(0)" onclick="openAuthModal('login')">登录</a> 后发布留言
+                    </div>
+                </div>
+
+                <!-- 回复提示条 -->
+                <div class="reply-bar" id="replyBar" style="display:none;">
+                    <span><i class="fas fa-reply"></i> 回复 <strong id="replyToName"></strong>：</span>
+                    <button type="button" onclick="cancelReply()"><i class="fas fa-times"></i> 取消</button>
+                </div>
+
+                <!-- 消息列表 -->
+                <div class="comm-messages" id="messageList">
+                    <div class="loading-messages" id="loadingMessages">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>正在接收信号...</span>
+                    </div>
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more" id="loadMoreBtn" style="display:none;">
+                    <button type="button" onclick="loadMoreMessages()">
+                        <i class="fas fa-chevron-down"></i>
+                        加载更多情报
+                    </button>
+                </div>
+                <div class="pagination-info" id="paginationInfo"></div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- ================= 弹窗区域 ================= -->
+
+<!-- 网络服务弹窗 (高亮优化版) -->
+<!-- 基础环境弹窗 -->
+<div id="basic-env-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="modal-close" onclick="closeModal('basic-env')">&times;</span>
+        <h2><i class="fas fa-layer-group" style="color: var(--primary); margin-right: 10px;"></i>基础环境 & 账号 & 云手机</h2>
+        <div class="modal-grid">
+            <a href="rumen.html" target="_blank" class="link-card">
+                <i class="fas fa-compass" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>新手导航</h3>
+                    <p>小白第一步，防封避坑指南。</p>
+                </div>
+            </a>
+            <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
+               style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
+                <div>
+                    <h3 style="color: #8a2be2;">ADS 指纹浏览器</h3>
+                    <p>多账号防关联 | 模拟真实浏览器环境</p>
+                </div>
+            </a>
+            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card" 
+               style="border: 1px solid rgba(0, 255, 157, 0.5); background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-shopping-cart" style="color: #00ff9d;"></i>
+                <div>
+                    <h3>基础账号储备 <span style="font-size:0.6rem; background:rgba(0, 255, 157, 0.15); color:#00ff9d; border:1px solid #00ff9d; padding:0 4px; border-radius:3px;">自动发货</span></h3>
+                    <p style="color: #00ff9d;">苹果带🚀 | 谷歌号 | TK白号 | Facebook | ChatGPT | Netflix/Spotify等</p>
+                </div>
+            </a>
+            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
+               style="border: 1px solid rgba(32, 227, 178, 0.4); background: linear-gradient(145deg, rgba(32, 227, 178, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-mobile-alt" style="color: #20e3b2;"></i> 
+                <div>
+                    <h3 style="color: #20e3b2;">DuoPlus 海外云手机</h3>
+                    <p>无需买真机 | 独享原生环境 | <span style="color: #20e3b2; font-weight: bold;">养号/发视频都可以</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- IP配置弹窗 -->
+<div id="ip-config-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('ip-config')">&times;</span>
+        <h2><i class="fas fa-network-wired" style="color: #bc13fe; margin-right: 10px;"></i>IP配置 (机场 & 静态IP)</h2>
+        
+        <div class="modal-section-title">专线机场</div>
+        <div class="modal-grid">
+            <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
+                <i class="fas fa-plane-departure" style="color: #bc13fe;"></i>
+                <div>
+                    <h3>专线机场 SSR <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe;">推荐</span></h3>
+                    <p>使用海外顶级AI必备 | 住宅IP前置代理必备。</p>
+                </div>
+            </a>
+            <a href="https://candytally3.com/web/#/login?code=UXbg9gDv" target="_blank" class="link-card">
+                <i class="fas fa-cloud" style="color: #ff69b4;"></i>
+                <div>
+                    <h3>专线机场 (糖果云) <span class="code-badge" style="background: rgba(188, 19, 254, 0.15); border: 1px solid rgba(188, 19, 254, 0.3); color: #bc13fe;">推荐</span></h3>
+                    <p>稳定高速 | 住宅IP前置代理。</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="modal-section-title">静态住宅IP</div>
+        <div class="modal-grid">
+            <a href="https://www.miyaip.com/signup?invitecode=3yuejiuzhe" target="_blank" class="link-card"
+               style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
+                <i class="fas fa-fire" style="color:#ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></i>
+                <div>
+                    <h3 style="color: #ffd700;">米亚IP (新手短视频推荐) <span style="font-size: 0.7rem; color: #ffd700; background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); padding: 2px 6px; border-radius: 4px;">扫码直连</span></h3>
+                    <p><span style="color: #ffd700; font-weight: bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhe</span></p>
+                </div>
+            </a>
+            <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card" 
+               style="background: linear-gradient(145deg, rgba(255, 80, 0, 0.15), rgba(0, 0, 0, 0.6)); border: 1px solid rgba(255, 80, 0, 0.5);">
+                <i class="fas fa-meteor" style="color: #ff6600;"></i>
+                <div>
+                    <h3 style="color: #ff9933;">985 Proxy (最便宜原生IP，批量起号专用)</h3>
+                    <p><span style="color: #ffcc00; font-weight:bold;">批量找站长拿6-9折</span> | <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1);">需SSR中转</span></p>
+                </div>
+            </a>
+            <a href="https://www.proxylite.com/?invitation_code=8BTUZ2" target="_blank" class="link-card"
+               style="background: linear-gradient(145deg, rgba(0, 255, 136, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(0, 255, 136, 0.5);">
+                <i class="fas fa-rocket" style="color: #00ff88;"></i>
+                <div>
+                    <h3 style="color: #00ff88;">ProxyLite <span style="font-size: 0.65rem; background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid #00ff88; padding: 2px 6px; border-radius: 4px;">破万播放</span></h3>
+                    <p>美区新号首个视频破万播放 | <span class="code-badge" style="border: 1px solid #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.1);">需中转 建议VPS</span></p>
+                </div>
+            </a>
+            <a href="https://www.lumiproxy.com/?invite_code=15CGTE" target="_blank" class="link-card"
+               style="background: linear-gradient(145deg, rgba(138, 43, 226, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(138, 43, 226, 0.5);">
+                <i class="fas fa-bolt" style="color: #9966ff;"></i>
+                <div>
+                    <h3 style="color: #9966ff;">LumiProxy <span style="font-size: 0.65rem; background: rgba(138, 43, 226, 0.2); color: #9966ff; border: 1px solid #9966ff; padding: 2px 6px; border-radius: 4px;">破千播放</span></h3>
+                    <p>美区新号多个视频破千播放 | <span class="code-badge" style="border: 1px solid #9966ff; color: #9966ff; background: rgba(138, 43, 226, 0.1);">需中转 建议VPS</span></p>
+                </div>
+            </a>
+            <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
+                <i class="fas fa-globe" style="color: #00bcd4;"></i>
+                <div>
+                    <h3>Kookeey (短视频/直播推荐)</h3>
+                    <p>国家多 | <span class="text-highlight">需机场SSR中转</span></p>
+                </div>
+            </a>
+            <a href="https://www.vircs.com/welcome?vcd=1d1b3b78" target="_blank" class="link-card">
+                <i class="fas fa-home" style="color: #00bfff;"></i>
+                <div>
+                    <h3 style="color: #66ccff;">美国真实住宅家庭宽带ATT</h3>
+                    <p>稀缺家庭IP资源 | <span style="color: #00bfff; font-weight:bold;">原生独享</span></p>
+                </div>
+            </a>
+            <a href="https://www.proxystore.net/?ref=28502" target="_blank" class="link-card">
+                <i class="fab fa-paypal" style="color:#003087;"></i>
+                <div>
+                    <h3>ProxyStore</h3>
+                    <p>英美巨头住宅IP | <span class="text-highlight">不支持国内支付</span> | paypal/stripe</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 软路由弹窗 - 已合并到站长服务 -->
+
+<!-- 搭建课程弹窗 - 已合并到站长服务 -->
+
+<!-- 站长陪跑弹窗 - 已合并到站长服务 -->
+
+<!-- 站长服务弹窗 (合并软路由+搭建+陪跑+网站) -->
+<div id="zhanzhang-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="modal-close" onclick="closeModal('zhanzhang')">&times;</span>
+        <h2><i class="fas fa-user-tie" style="color: #ff6b81; margin-right: 10px;"></i>站长服务</h2>
+        <div class="modal-grid" style="grid-template-columns: 1fr;">
+            <!-- 站长陪跑 -->
+            <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="link-card" style="padding: 20px; border-color: #ff4757; background: linear-gradient(145deg, rgba(255, 71, 87, 0.15), rgba(0, 0, 0, 0.6));">
+                <i class="fas fa-user-shield" style="font-size: 1.8rem; color: #ff6b81;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #ff6b81;">账号环境稳定陪跑 <span style="font-size:0.7em; border:1px solid #ff4757; padding:2px 6px; border-radius:3px; margin-left:8px;">HOT</span></h3>
+                    <p>1对1全程指导 | 你只管发视频，其余问题站长帮你搞定 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
+                </div>
+            </a>
+            <!-- 软路由 -->
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card" style="padding: 20px; border-color: #ffd700; background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-server" style="font-size: 1.8rem; color: #ffd700;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #ffd700;">软路由配置方案</h3>
+                    <p>工作室首选，打造全屋无感跨境网络 | 一次配置，全家科学上网，无需每台设备单独设置</p>
+                </div>
+            </a>
+            <!-- 搭建课程 -->
+            <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card" style="padding: 20px; border-color: #00ff9d; background: linear-gradient(145deg, rgba(0, 255, 157, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #00ff9d;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #00ff9d;">独享节点搭建课程</h3>
+                    <p>授人以渔，彻底告别封号焦虑。从零开始搭建自己的专属节点，不再依赖第三方。</p>
+                </div>
+            </a>
+            <!-- 个人网站制作 -->
+            <a href="javascript:void(0)" onclick="openWebsiteModal()" class="link-card" style="padding: 20px; border-color: #00f3ff; background: linear-gradient(145deg, rgba(0, 243, 255, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-globe" style="font-size: 1.8rem; color: #00f3ff;"></i>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #00f3ff;">个人品牌网站制作 <span style="font-size:0.7em; border:1px solid #00f3ff; padding:2px 6px; border-radius:3px; margin-left:8px;">NEW</span></h3>
+                    <p>打造像站长一样的专属网站 | 品牌形象展示、作品集呈现、客户资源沉淀 | 摆脱平台依赖，私域流量永久掌控</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 品牌网站美化弹窗 -->
+<div class="custom-modal-overlay" id="websiteModal">
+    <div class="custom-modal-box">
+        <span class="custom-modal-close" onclick="closeWebsiteModal()">&times;</span>
+        <div class="custom-modal-icon" style="background: linear-gradient(135deg, #00f3ff, #00a8cc);">
+            <i class="fas fa-globe"></i>
+        </div>
+        <h3 class="custom-modal-title">个人品牌网站制作</h3>
+        <p class="custom-modal-text">
+            打造像站长一样的 <strong>专属网站</strong><br><br>
+            ✨ 品牌形象展示<br>
+            ✨ 作品集呈现<br>
+            ✨ 客户资源沉淀<br>
+            ✨ 私域流量永久掌控<br><br>
+            如有需要请通过 <strong>加密信箱</strong> 联系站长咨询！
+        </p>
+        <button class="custom-modal-btn" style="background: linear-gradient(135deg, #00f3ff, #00a8cc);" onclick="closeWebsiteModal()">
+            我知道了
+        </button>
+    </div>
+</div>
+
+<!-- VPS服务器弹窗 -->
+<div id="vps-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('vps')">&times;</span>
+        <h2><i class="fas fa-cloud" style="color: #74b9ff; margin-right: 10px;"></i>高阶 · 自建节点服务器 (VPS)</h2>
+        <div class="modal-grid">
+      
+            <a href="cn2/banwagong.html" target="_blank" class="link-card">
+                <i class="fas fa-crown" style="color: #ff9900;"></i>
+                <div>
+                    <h3>搬瓦工 CN2 GIA <span class="code-badge" style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.3); color: #ff9900;">速度之王</span></h3>
+                    <p>个人能用最好的线路，没有之一</p>
+                </div>
+            </a>
+            <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
+                <i class="fas fa-cloud" style="color: #9c88ff;"></i>
+                <div>
+                    <h3>66云 纯净住宅</h3>
+                    <p>适合多业务场景</p>
+                </div>
+            </a>
+            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>LisaHost 大带宽纯净住宅VPS</h3>
+                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
+                </div>
+            </a>
+            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
+                <i class="fas fa-lock" style="color: #00cec9;"></i>
+                <div>
+                    <h3>IPRaft 原生VPS</h3>
+                    <p>优质线路推荐</p>
+                </div>
+            </a>
+
+            <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
+                <i class="fas fa-bolt" style="color: #fdcb6e;"></i>
+                <div>
+                    <h3>ZoroCloud 优化</h3>
+                    <p>性价比之选</p>
+                </div>
+            </a>
+            <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
+                <i class="fas fa-globe-asia" style="color: #74b9ff;"></i>
+                <div>
+                    <h3>WEPC VPS</h3>
+                    <p>全球TKVPS</p>
+                </div>
+            </a>
+            <a href="https://gorelay.net/#register/YAXRFFIVEW" target="_blank" class="link-card">
+                <i class="fas fa-bolt" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>GoRelay 专线中转 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
+                    <p>多节点专线接入 | 低延迟/极速稳定</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <!-- AI工具弹窗 -->
+    <div id="ai-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
+            <h2><i class="fas fa-brain" style="color: var(--secondary); margin-right: 10px;"></i>AI 工具库</h2>
+            
+            <!-- 站长推荐 -->
+            <div class="modal-section-title">站长推荐</div>
+            <div class="modal-grid" style="grid-template-columns: 1fr;">
+                <!-- N8N工作流 -->
+                <a href="n8n/n8n.html" target="_blank" class="link-card" style="padding: 20px; border-color: #8b5cf6; background: linear-gradient(145deg, rgba(139, 92, 246, 0.15), rgba(0, 0, 0, 0.5)); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);">
+                    <i class="fas fa-cogs" style="font-size: 1.8rem; color: #8b5cf6;"></i>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: #a78bfa;">N8N 视频创作母体 <span style="font-size:0.7em; border:1px solid #8b5cf6; padding:2px 6px; border-radius:3px; margin-left:8px; color:#a78bfa;">HOT</span></h3>
+                        <p>AI全自动化流水线 | 视频切片、二创、混剪 | 矩阵运营神器</p>
+                    </div>
+                </a>
+                <!-- AI长视频制作 -->
+                <a href="https://videoinu.com?source=9be32bf2a0e3" target="_blank" class="link-card" style="padding: 20px; border-color: rgba(188, 19, 254, 0.4); background: linear-gradient(145deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.5));">
+                    <i class="fas fa-film" style="font-size: 1.8rem; color: var(--secondary);"></i>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: #e066ff;">VideoInu AI长视频制作 <span style="font-size:0.7em; border:1px solid #bc13fe; padding:2px 6px; border-radius:3px; margin-left:8px; color:#e066ff;">推荐</span></h3>
+                        <p>AI一键生成长视频 | 自动配音配字幕 | 批量生产神器</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- AI前沿工具 -->
+            <div class="modal-section-title">AI 前沿工具</div>
+            <div class="modal-network-tip">
+                <i class="fas fa-info-circle"></i>
+                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('ai-tools');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('ai-tools');openModal('network');">糖果云</a></span>
+            </div>
+            <div class="modal-grid">
+                <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="link-card"><img src="icon/heygen.svg" onerror="this.src='';this.className='fas fa-user-astronaut'"/> <h3>Heygen 数字人</h3></a>
+                <a href="https://aistudio.google.com/" target="_blank" class="link-card"><img src="icon/aistudio.svg" onerror="this.src='';this.className='fas fa-code'"/> <h3>Google AI Studio</h3></a>
+                <a href="https://www.google.com/gemini" target="_blank" class="link-card"><img src="icon/gemini.svg" onerror="this.src='';this.className='fas fa-brain'"/> <h3>Gemini</h3></a>
+                <a href="https://chat.openai.com/" target="_blank" class="link-card"><img src="icon/chatgpt.svg" onerror="this.src='';this.className='fas fa-robot'"/> <h3>ChatGPT</h3></a>
+                <a href="https://claude.ai/" target="_blank" class="link-card"><img src="icon/claude.svg" onerror="this.src='';this.className='fas fa-comments'"/> <h3>Claude</h3></a>
+                <a href="https://www.meta.ai/" target="_blank" class="link-card"><img src="icon/meta.svg" onerror="this.src='';this.className='fab fa-meta'"/> <h3>Meta AI</h3></a>
+                <a href="https://grok.com/" target="_blank" class="link-card"><img src="icon/grok.svg" onerror="this.src='';this.className='fas fa-rocket'"/> <h3>Grok</h3></a>
+                <a href="https://www.perplexity.ai/" target="_blank" class="link-card"><img src="icon/perplexity.svg" onerror="this.src='';this.className='fas fa-search'"/> <h3>Perplexity</h3></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除旧的 ai-video-modal，已合并到上方 -->
+
+    <!-- 科学软件弹窗 -->
+    <div id="proxy-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:600px;">
+            <span class="modal-close" onclick="closeModal('proxy-tools')">&times;</span>
+            <h2>科学客户端</h2>
+            <div class="modal-grid" style="grid-template-columns: 1fr;">
+                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="link-card"><i class="fab fa-windows"></i> V2RayN (Windows 推荐)</a>
+                <a href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases" target="_blank" class="link-card"><i class="fab fa-android"></i> NekoBox (安卓 推荐)</a>
+                <a href="http://www.hostbuf.com/" target="_blank" class="link-card"><i class="fas fa-terminal"></i> Finalshell SSH工具</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测速弹窗 -->
+    <div id="speed-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:600px;">
+            <span class="modal-close" onclick="closeModal('speed-tools')">&times;</span>
+            <h2>测速与环境</h2>
+            <div class="modal-grid" style="grid-template-columns: 1fr;">
+                <a href="https://www.speedtest.net/" target="_blank" class="link-card"><i class="fas fa-tachometer-alt"></i> SpeedTest 测速</a>
+                <a href="https://speed.cloudflare.com/" target="_blank" class="link-card"><i class="fas fa-cloud"></i> Cloudflare 测速</a>
+                <a href="https://fast.com/" target="_blank" class="link-card"><i class="fas fa-film"></i> Netflix Fast 测速</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 流媒体弹窗 -->
+    <div id="streaming-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('streaming')">&times;</span>
+            <h2>全球流媒体</h2>
+            <div class="modal-network-tip">
+                <i class="fas fa-info-circle"></i>
+                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('streaming');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('streaming');openModal('network');">糖果云</a>，里面也有教学视频。</span>
+            </div>
+            <div class="modal-grid">
+                <a href="https://www.netflix.com/" target="_blank" class="link-card"><img src="icon/netflix-1-logo-svgrepo-com.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Netflix</h3></a>
+                <a href="https://www.disneyplus.com/" target="_blank" class="link-card"><img src="icon/desney.svg" onerror="this.src='';this.className='fas fa-video'"/> <h3>Disney+</h3></a>
+                <a href="https://www.primevideo.com/" target="_blank" class="link-card"><img src="icon/primevideo.svg" onerror="this.src='';this.className='fas fa-play'"/> <h3>Prime Video</h3></a>
+                <a href="https://www.max.com/" target="_blank" class="link-card"><img src="icon/icons8-hbo.svg" onerror="this.src='';this.className='fas fa-tv'"/> <h3>HBO Max</h3></a>
+                <a href="https://www.spotify.com/" target="_blank" class="link-card"><img src="icon/icons8-spotify.svg" onerror="this.src='';this.className='fas fa-music'"/> <h3>Spotify</h3></a>
+                <a href="https://www.twitch.tv/" target="_blank" class="link-card"><img src="icon/twitch-svgrepo-com.svg" onerror="this.src='';this.className='fas fa-gamepad'"/> <h3>Twitch</h3></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 旧AI工具弹窗已合并到上方新的ai-tools-modal -->
+
+    <!-- 社交媒体弹窗 -->
+    <div id="social-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('social')">&times;</span>
+            <h2>热门社交媒体</h2>
+            <div class="modal-network-tip">
+                <i class="fas fa-info-circle"></i>
+                <span>使用以下内容需要科学上网。如果没有网络可以购买 <a href="#" onclick="closeModal('social');openModal('network');">SSR机场</a> 或 <a href="#" onclick="closeModal('social');openModal('network');">糖果云</a>，里面也有教学视频。</span>
+            </div>
+            <div class="modal-grid">
+                <a href="https://www.youtube.com/" target="_blank" class="link-card"><img src="icon/youtube-color-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-youtube'"/> <h3>YouTube</h3></a>
+                <a href="https://www.tiktok.com/" target="_blank" class="link-card"><img src="icon/tiktok.svg" onerror="this.src='';this.className='fab fa-tiktok'"/> <h3>TikTok</h3></a>
+                <a href="https://www.instagram.com/" target="_blank" class="link-card"><img src="icon/instagram-1-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-instagram'"/> <h3>Instagram</h3></a>
+                <a href="https://twitter.com/" target="_blank" class="link-card"><img src="icon/twitter-color-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-twitter'"/> <h3>X (Twitter)</h3></a>
+                <a href="https://www.threads.net/" target="_blank" class="link-card"><img src="icon/threads.svg" onerror="this.src='';this.className='fas fa-at'"/> <h3>Threads</h3></a>
+                <a href="https://www.facebook.com/" target="_blank" class="link-card"><img src="icon/facebook-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-facebook'"/> <h3>Facebook</h3></a>
+                <a href="https://discord.com/" target="_blank" class="link-card"><img src="icon/discord.svg" onerror="this.src='';this.className='fab fa-discord'"/> <h3>Discord</h3></a>
+                <a href="https://www.snapchat.com/" target="_blank" class="link-card"><img src="icon/snapchat-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-snapchat'"/> <h3>Snapchat</h3></a>
+                <a href="https://www.reddit.com/" target="_blank" class="link-card"><img src="icon/reddit-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-reddit'"/> <h3>Reddit</h3></a>
+                 <a href="https://www.pinterest.com/" target="_blank" class="link-card"><img src="icon/pinterest-color-svgrepo-com.svg" onerror="this.src='';this.className='fab fa-pinterest'"/> <h3>Pinterest</h3></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 登录弹窗 ================= -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('login')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-rocket"></i> 欢迎回来</h2>
+                <p>登录您的 NEXUS 账户</p>
+            </div>
+            
+            <div class="auth-form" id="loginForm">
+                <div class="form-group" id="loginEmailGroup">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="loginEmail" placeholder="请输入邮箱">
+                    <span class="error-text">请输入有效的邮箱地址</span>
+                </div>
+                
+                <div class="form-group" id="loginPasswordGroup">
+                    <label><i class="fas fa-lock"></i> 密码</label>
+                    <input type="password" id="loginPassword" placeholder="请输入密码" onkeypress="if(event.keyCode===13)handleLogin()">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+                    <span class="error-text">密码不能为空</span>
+                </div>
+                
+                <button type="button" class="submit-btn" id="loginSubmitBtn" onclick="handleLogin()">
+                    <span class="btn-text">登 录</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                还没有账户？<a href="javascript:void(0)" onclick="switchToRegister()">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 注册弹窗 ================= -->
+    <div id="register-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('register')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-user-astronaut"></i> 创建账户</h2>
+                <p>加入 NEXUS 空间站</p>
+            </div>
+            
+            <div class="auth-form" id="registerForm">
+                <!-- 头像上传 -->
+                <div class="form-group" id="registerAvatarGroup">
+                    <label><i class="fas fa-camera"></i> 头像 <span style="color:#666;font-weight:normal;font-size:0.85em;">(可选)</span></label>
+                    <div style="display:flex;align-items:center;gap:15px;">
+                        <div id="registerAvatarPreview" style="width:60px;height:60px;border-radius:50%;background:rgba(0,243,255,0.1);border:2px dashed rgba(0,243,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.5em;overflow:hidden;cursor:pointer;" onclick="document.getElementById('registerAvatarInput').click()">
+                            👤
+                        </div>
+                        <div style="flex:1;">
+                            <input type="file" id="registerAvatarInput" accept="image/*" style="display:none;" onchange="previewRegisterAvatar(this)">
+                            <button type="button" onclick="document.getElementById('registerAvatarInput').click()" style="padding:8px 15px;background:rgba(0,243,255,0.2);border:1px solid var(--primary);border-radius:8px;color:var(--primary);cursor:pointer;font-size:0.85em;">
+                                <i class="fas fa-upload"></i> 选择头像
+                            </button>
+                            <button type="button" id="removeRegisterAvatarBtn" onclick="removeRegisterAvatar()" style="display:none;margin-left:10px;padding:8px 15px;background:rgba(255,71,87,0.2);border:1px solid #ff4757;border-radius:8px;color:#ff4757;cursor:pointer;font-size:0.85em;">
+                                <i class="fas fa-times"></i> 移除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="registerNameGroup">
+                    <label><i class="fas fa-user"></i> 昵称 <span style="color:#666;font-weight:normal;font-size:0.85em;">(唯一标识)</span></label>
+                    <div style="display:flex;gap:10px;">
+                        <input type="text" id="registerName" placeholder="请输入昵称" minlength="2" maxlength="20" style="flex:1;">
+                        <button type="button" onclick="fillRandomNickname()" style="padding:10px 15px;background:rgba(0,243,255,0.2);border:1px solid var(--primary);border-radius:8px;color:var(--primary);cursor:pointer;white-space:nowrap;font-size:0.9em;" title="随机生成昵称">
+                            <i class="fas fa-dice"></i> 随机
+                        </button>
+                    </div>
+                    <span class="error-text">昵称长度应为2-20个字符</span>
+                </div>
+                
+                <div class="form-group" id="registerEmailGroup">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="registerEmail" placeholder="请输入邮箱">
+                    <span class="error-text">请输入有效的邮箱地址</span>
+                </div>
+                
+                <div class="form-group" id="registerPhoneGroup">
+                    <label><i class="fas fa-phone"></i> 手机号码 <span style="color:#ff4757;">*</span></label>
+                    <input type="tel" id="registerPhone" placeholder="请输入手机号码" required>
+                    <span class="error-text">请输入有效的11位手机号码</span>
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知，不会泄露给第三方
+                    </div>
+                </div>
+                
+                <div class="form-group" id="registerPasswordGroup">
+                    <label><i class="fas fa-lock"></i> 设置密码</label>
+                    <input type="password" id="registerPassword" placeholder="至少6位字符" minlength="6" oninput="checkPasswordStrength(this.value)">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('registerPassword', this)"></i>
+                    <span class="error-text">密码长度至少6位</span>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar1"></div>
+                        <div class="strength-bar" id="strengthBar2"></div>
+                        <div class="strength-bar" id="strengthBar3"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                </div>
+                
+                <div class="form-group" id="registerConfirmGroup">
+                    <label><i class="fas fa-lock"></i> 确认密码</label>
+                    <input type="password" id="registerConfirm" placeholder="再次输入密码" onkeypress="if(event.keyCode===13)handleRegister()">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('registerConfirm', this)"></i>
+                    <span class="error-text">两次密码输入不一致</span>
+                </div>
+                
+                <button type="button" class="submit-btn" id="registerSubmitBtn" onclick="handleRegister()">
+                    <span class="btn-text">注 册</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                已有账户？<a href="javascript:void(0)" onclick="switchToLogin()">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 用户设置弹窗 ================= -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="auth-modal-content">
+            <span class="modal-close" onclick="closeAuthModal('settings')">&times;</span>
+            
+            <div class="auth-title">
+                <h2><i class="fas fa-cog"></i> 账户设置</h2>
+                <p>管理您的个人信息</p>
+            </div>
+            
+            <div class="auth-form" id="settingsForm">
+                <!-- 头像选择 -->
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> 头像设置</label>
+                    <div class="avatar-upload-section">
+                        <!-- 头像预览 -->
+                        <div class="avatar-preview-container">
+                            <div class="avatar-preview" id="avatarPreview">👤</div>
+                            <label class="avatar-upload-btn" for="avatarFileInput">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                        </div>
+                        <div class="avatar-upload-hint">点击相机图标上传图片</div>
+                    </div>
+                    
+                    <!-- emoji头像选择 -->
+                    <div class="avatar-emoji-section">
+                        <div class="avatar-emoji-label">或选择表情头像：</div>
+                        <div class="avatar-selector" id="avatarSelector">
+                            <div class="avatar-option" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
+                            <div class="avatar-option" data-avatar="😀" onclick="selectAvatar(this)">😀</div>
+                            <div class="avatar-option" data-avatar="😎" onclick="selectAvatar(this)">😎</div>
+                            <div class="avatar-option" data-avatar="🚀" onclick="selectAvatar(this)">🚀</div>
+                            <div class="avatar-option" data-avatar="⭐" onclick="selectAvatar(this)">⭐</div>
+                            <div class="avatar-option" data-avatar="🎮" onclick="selectAvatar(this)">🎮</div>
+                            <div class="avatar-option" data-avatar="💻" onclick="selectAvatar(this)">💻</div>
+                            <div class="avatar-option" data-avatar="🎵" onclick="selectAvatar(this)">🎵</div>
+                            <div class="avatar-option" data-avatar="🌙" onclick="selectAvatar(this)">🌙</div>
+                            <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
+                            <div class="avatar-option" data-avatar="💎" onclick="selectAvatar(this)">💎</div>
+                            <div class="avatar-option" data-avatar="🎯" onclick="selectAvatar(this)">🎯</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="settingsNameGroup">
+                    <label><i class="fas fa-user"></i> 昵称</label>
+                    <input type="text" id="settingsName" placeholder="请输入昵称" minlength="2" maxlength="20">
+                    <span class="error-text">昵称长度应为2-20个字符</span>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> 邮箱地址</label>
+                    <input type="email" id="settingsEmail" disabled style="opacity: 0.6; cursor: not-allowed;">
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-lock"></i> 邮箱为登录账号，不可修改
+                    </div>
+                </div>
+                
+                <div class="form-group" id="settingsPhoneGroup">
+                    <label><i class="fas fa-phone"></i> 手机号码</label>
+                    <input type="tel" id="settingsPhone" placeholder="请输入手机号码">
+                    <span class="error-text">请输入有效的手机号码</span>
+                    <div style="font-size: 0.75em; color: #666; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> 仅用于站长回访或重要通知
+                    </div>
+                </div>
+                
+                <button type="button" class="submit-btn" id="settingsSubmitBtn" onclick="handleUpdateProfile()">
+                    <span class="btn-text">保存修改</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查询工具弹窗 -->
+    <div id="query-tools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:600px;">
+            <span class="modal-close" onclick="closeModal('query-tools')">&times;</span>
+            <h2>环境与 IP 检测</h2>
+            <div class="modal-grid" style="grid-template-columns: 1fr;">
+                <a href="https://zh.wikipedia.org/wiki/ISO_3166-1" target="_blank" class="link-card"><i class="fas fa-globe"></i> 国家代码查询</a>
+                <a href="https://fofa.info" target="_blank" class="link-card"><i class="fas fa-satellite-dish"></i> FOFA网络空间搜索</a>
+                <a href="https://ipinfo.io" target="_blank" class="link-card"><i class="fas fa-map-marker-alt"></i> IPInfo.io 详情</a>
+                <a href="https://ping0.cc/" target="_blank" class="link-card"><i class="fas fa-map"></i> Ping0.cc IP检测</a>
+                <a href="https://whoer.net/zh" target="_blank" class="link-card"><i class="fas fa-user-secret"></i> Whoer 匿名度评估</a>
+                <a href="https://scamalytics.com/ip/" target="_blank" class="link-card"><i class="fas fa-shield-alt"></i> Scamalytics 欺诈值</a>
+                <a href="https://ping.pe/" target="_blank" class="link-card"><i class="fas fa-network-wired"></i> Ping.pe 被墙检测</a>
+                <a href="https://tools.ipip.net/traceroute.php" target="_blank" class="link-card"><i class="fas fa-route"></i> 路由追踪</a>
+                <a href="https://ipleak.net/" target="_blank" class="link-card"><i class="fas fa-tint"></i> DNS泄漏查询</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
