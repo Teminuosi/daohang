@@ -3010,8 +3010,8 @@
                         <div class="avatar-upload-hint">点击相机图标上传图片</div>
                     </div>
                     
-                    <!-- emoji头像选择 - 修改资料时隐藏 -->
-                    <div class="avatar-emoji-section" style="display: none;">
+                    <!-- emoji头像选择 -->
+                    <div class="avatar-emoji-section">
                         <div class="avatar-emoji-label">或选择表情头像：</div>
                         <div class="avatar-selector" id="avatarSelector">
                             <div class="avatar-option" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
@@ -3228,26 +3228,6 @@
         // 检查昵称是否已存在
         function checkNicknameExists(nickname) {
             return fetch(SUPABASE_URL + '/rest/v1/profiles?full_name=eq.' + encodeURIComponent(nickname) + '&select=id', {
-                method: 'GET',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY
-                }
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                return data && data.length > 0; // true = 已存在
-            })
-            .catch(function() {
-                return false;
-            });
-        }
-        
-        // 检查手机号是否已存在
-        function checkPhoneExists(phone) {
-            return fetch(SUPABASE_URL + '/rest/v1/profiles?phone_number=eq.' + encodeURIComponent(phone) + '&select=id', {
                 method: 'GET',
                 headers: {
                     'apikey': SUPABASE_KEY,
@@ -3750,19 +3730,8 @@
                 body: file
             })
             .then(function(res) {
-                console.log('头像上传响应状态:', res.status, res.ok);
-                if (!res.ok) {
-                    return res.text().then(function(text) {
-                        console.error('头像上传失败响应:', text);
-                        throw new Error('上传失败: ' + res.status);
-                    });
-                }
-                return res.json();
-            })
-            .then(function(data) {
-                console.log('头像上传成功，返回数据:', data);
+                if (!res.ok) throw new Error('上传失败');
                 registerAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
-                console.log('registerAvatarUrl 已设置为:', registerAvatarUrl);
                 showMessage('头像上传成功', 'success');
             })
             .catch(function(err) {
@@ -3792,13 +3761,6 @@
             var phone = document.getElementById('registerPhone').value.trim();
             var password = document.getElementById('registerPassword').value;
             var confirmPassword = document.getElementById('registerConfirm').value;
-            
-            console.log('=== handleRegister 开始 ===');
-            console.log('name:', name);
-            console.log('email:', email);
-            console.log('phone:', phone);
-            console.log('phone length:', phone.length);
-            console.log('password length:', password.length);
             
             // 验证
             var hasError = false;
@@ -3845,8 +3807,21 @@
             
             setButtonLoading('registerSubmitBtn', true);
             
-            // 直接注册，不检查昵称和手机号是否重复
-            doRegister(name, email, phone, password);
+            // 先检查昵称是否已存在
+            checkNicknameExists(name).then(function(exists) {
+                if (exists) {
+                    showMessage('该昵称已被使用，请换一个或点击随机生成', 'warning');
+                    setFieldError('registerNameGroup', true);
+                    setButtonLoading('registerSubmitBtn', false);
+                    return;
+                }
+                
+                // 昵称可用，继续注册
+                doRegister(name, email, phone, password);
+            }).catch(function() {
+                // 检查失败，仍然尝试注册
+                doRegister(name, email, phone, password);
+            });
         }
         
         // 执行注册
@@ -3864,14 +3839,6 @@
         
         // 带头像URL的注册
         function doRegisterWithAvatar(name, email, phone, password, avatarUrl) {
-            console.log('=== doRegisterWithAvatar 开始 ===');
-            console.log('name:', name);
-            console.log('email:', email);
-            console.log('phone:', phone);
-            console.log('password length:', password.length);
-            console.log('avatarUrl:', avatarUrl);
-            console.log('registerAvatarUrl 全局变量:', registerAvatarUrl);
-            
             // 调用 Supabase Auth API 注册
             fetch(SUPABASE_URL + '/auth/v1/signup', {
                 method: 'POST',
@@ -3910,88 +3877,46 @@
                     return;
                 }
                 
-                // 注册成功，获取 access token
-                var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
-                
-                // 将用户信息写入 profiles 表（带头像和 token），并等待完成
+                // 注册成功，将用户信息写入 profiles 表（带头像）
                 var userId = result.data.user ? result.data.user.id : null;
+                if (userId) {
+                    saveUserProfile(userId, name, email, phone, avatarUrl);
+                }
                 
-                console.log('=== 准备调用 saveUserProfile ===');
-                console.log('userId:', userId);
-                console.log('name:', name);
-                console.log('email:', email);
-                console.log('phone:', phone);
-                console.log('avatarUrl:', avatarUrl);
-                console.log('accessToken:', accessToken ? '有' : '无');
+                // 检查是否需要邮箱验证
+                if (result.data.user && !result.data.session && !result.data.access_token) {
+                    showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
+                } else if (result.data.access_token || result.data.session) {
+                    // 直接登录成功
+                    var userData = result.data.user;
+                    var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
+                    var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
+                    
+                    currentUser = userData;
+                    localStorage.setItem('nexus_user', JSON.stringify(userData));
+                    localStorage.setItem('nexus_access_token', accessToken);
+                    localStorage.setItem('nexus_refresh_token', refreshToken);
+                    showMessage('注册成功！欢迎加入 NEXUS', 'success');
+                    updateAuthUI(true);
+                } else {
+                    showMessage('注册成功！请登录', 'success');
+                }
                 
-                var profilePromise = userId ? 
-                    saveUserProfile(userId, name, email, phone, avatarUrl, accessToken) : 
-                    Promise.resolve();
-                
-                // 等待profile保存完成后再更新UI
-                profilePromise.then(function() {
-                    console.log('Profile保存完成，开始更新UI');
-                    
-                    // 检查是否需要邮箱验证
-                    if (result.data.user && !result.data.session && !result.data.access_token) {
-                        showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
-                    } else if (result.data.access_token || result.data.session) {
-                        // 直接登录成功
-                        var userData = result.data.user;
-                        var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
-                        
-                        currentUser = userData;
-                        localStorage.setItem('nexus_user', JSON.stringify(userData));
-                        localStorage.setItem('nexus_access_token', accessToken);
-                        localStorage.setItem('nexus_refresh_token', refreshToken);
-                        showMessage('注册成功！欢迎加入 NEXUS', 'success');
-                        
-                        // 先更新UI，再延迟一下刷新profile（确保数据已完全写入）
-                        updateAuthUI(true);
-                        setTimeout(function() {
-                            fetchLatestProfile(userId);
-                        }, 500);
-                    } else {
-                        showMessage('注册成功！请登录', 'success');
-                    }
-                    
-                    setTimeout(function() {
-                        closeAuthModal('register');
-                        setButtonLoading('registerSubmitBtn', false);
-                        document.getElementById('registerName').value = '';
-                        document.getElementById('registerEmail').value = '';
-                        document.getElementById('registerPhone').value = '';
-                        document.getElementById('registerPassword').value = '';
-                        document.getElementById('registerConfirm').value = '';
-                        document.getElementById('strengthBar1').className = 'strength-bar';
-                        document.getElementById('strengthBar2').className = 'strength-bar';
-                        document.getElementById('strengthBar3').className = 'strength-bar';
-                        document.getElementById('strengthText').textContent = '';
-                        // 清理注册头像
-                        removeRegisterAvatar();
-                    }, 1500);
-                }).catch(function(profileError) {
-                    console.error('=== 保存profile失败详情 ===');
-                    console.error('错误对象:', profileError);
-                    console.error('错误消息:', profileError.message);
-                    console.error('错误堆栈:', profileError.stack);
-                    
-                    // 虽然profile保存失败，但用户账号已经创建成功了
-                    // 用户可以重新登录，登录后会再次尝试同步profile
-                    showMessage('注册成功，但资料保存失败。请重新登录后系统会自动同步', 'warning');
-                    
-                    setTimeout(function() {
-                        closeAuthModal('register');
-                        setButtonLoading('registerSubmitBtn', false);
-                        // 清理表单
-                        document.getElementById('registerName').value = '';
-                        document.getElementById('registerEmail').value = '';
-                        document.getElementById('registerPhone').value = '';
-                        document.getElementById('registerPassword').value = '';
-                        document.getElementById('registerConfirm').value = '';
-                        removeRegisterAvatar();
-                    }, 2000);
-                });
+                setTimeout(function() {
+                    closeAuthModal('register');
+                    setButtonLoading('registerSubmitBtn', false);
+                    document.getElementById('registerName').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPhone').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    document.getElementById('registerConfirm').value = '';
+                    document.getElementById('strengthBar1').className = 'strength-bar';
+                    document.getElementById('strengthBar2').className = 'strength-bar';
+                    document.getElementById('strengthBar3').className = 'strength-bar';
+                    document.getElementById('strengthText').textContent = '';
+                    // 清理注册头像
+                    removeRegisterAvatar();
+                }, 1500);
             })
             .catch(function(error) {
                 console.error('注册错误:', error);
@@ -4001,7 +3926,7 @@
         }
         
         // 保存用户资料到 profiles 表
-        function saveUserProfile(userId, fullName, email, phone, avatarUrl, accessToken) {
+        function saveUserProfile(userId, fullName, email, phone, avatarUrl) {
             var profileData = {
                 id: userId,
                 full_name: fullName,
@@ -4012,57 +3937,28 @@
             
             console.log('保存用户资料:', profileData);
             
-            // 使用用户的 access token（如果有的话）
-            var authHeader = accessToken ? 'Bearer ' + accessToken : 'Bearer ' + SUPABASE_KEY;
-            
-            // 返回Promise，以便等待保存完成
-            return fetch(SUPABASE_URL + '/rest/v1/profiles', {
+            // 使用 upsert：如果存在就更新，不存在就插入
+            fetch(SUPABASE_URL + '/rest/v1/profiles', {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': authHeader,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
                     'Content-Type': 'application/json',
                     'Prefer': 'resolution=merge-duplicates'
                 },
                 body: JSON.stringify(profileData)
             })
             .then(function(response) {
-                console.log('保存用户资料响应状态:', response.status, response.ok);
                 if (!response.ok) {
                     return response.text().then(function(text) {
-                        console.error('保存用户资料失败，响应内容:', text);
-                        var errorData;
-                        try {
-                            errorData = JSON.parse(text);
-                        } catch(e) {
-                            errorData = { message: text || '未知错误' };
-                        }
-                        
-                        console.error('保存资料错误:', errorData.message || '未知错误');
-                        throw new Error('保存资料失败: ' + (errorData.message || text || '未知错误'));
+                        console.error('保存用户资料失败:', text);
                     });
                 } else {
-                    // 成功的响应可能是空的（201 Created可能没有body）
-                    return response.text().then(function(text) {
-                        if (text && text.trim()) {
-                            try {
-                                var data = JSON.parse(text);
-                                console.log('用户资料保存成功，返回数据:', data);
-                                return data;
-                            } catch(e) {
-                                console.log('用户资料保存成功（无JSON响应）');
-                                return null;
-                            }
-                        } else {
-                            console.log('用户资料保存成功（空响应）');
-                            return null;
-                        }
-                    });
+                    console.log('用户资料保存成功');
                 }
             })
             .catch(function(error) {
                 console.error('保存用户资料错误:', error);
-                throw error;
             });
         }
         
@@ -4348,8 +4244,28 @@
             
             setButtonLoading('settingsSubmitBtn', true);
             
-            // 直接更新，不检查昵称是否重复
-            doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+            // 获取当前昵称
+            var currentName = '';
+            if (currentUser && currentUser.user_metadata && currentUser.user_metadata.full_name) {
+                currentName = currentUser.user_metadata.full_name;
+            }
+            
+            // 如果昵称改变了，检查唯一性
+            if (newName !== currentName) {
+                checkNicknameExists(newName).then(function(exists) {
+                    if (exists) {
+                        showMessage('该昵称已被使用，请换一个', 'warning');
+                        setFieldError('settingsNameGroup', true);
+                        setButtonLoading('settingsSubmitBtn', false);
+                        return;
+                    }
+                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+                }).catch(function() {
+                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+                });
+            } else {
+                doUpdateProfile(newName, newPhone, newAvatar, accessToken);
+            }
         }
         
         // 执行更新资料
