@@ -2262,7 +2262,7 @@
             <i class="fas fa-globe"></i> <span>查询工具</span>
         </div>
         <div onclick="openModal('proxy-tools')" class="tool-item">
-            <i class="fas fa-microchip"></i> <span>科学软件</span>
+            <i class="fas fa-download"></i> <span>软件下载</span>
         </div>
         <div onclick="openModal('speed-tools')" class="tool-item">
             <i class="fas fa-tachometer-alt"></i> <span>测速工具</span>
@@ -2313,7 +2313,7 @@
                 <i class="fas fa-layer-group main-icon"></i>
                 <i class="fas fa-cog bg-icon"></i>
                 <h2>基础环境</h2>
-                <p>新手导航、账号储备、海外云手机</p>
+                <p>新手导航、账号储备</p>
             </div>
 
             <!-- IP配置 -->
@@ -2321,24 +2321,16 @@
                 <i class="fas fa-network-wired main-icon" style="color: #bc13fe;"></i>
                 <i class="fas fa-globe bg-icon"></i>
                 <h2>IP配置</h2>
-                <p>专线机场、静态住宅IP、原生ISP</p>
+                <p>机场、静态IP、软路由、VPS、云手机</p>
             </div>
 
-            <!-- 站长服务 (合并软路由+搭建+陪跑+网站) -->
+            <!-- 站长服务 -->
             <div class="holo-card hero-card" onclick="openModal('zhanzhang')">
                 <span class="tag tag-hot">HOT</span>
                 <i class="fas fa-user-tie main-icon" style="color: #ff6b81;"></i>
                 <i class="fas fa-hands-helping bg-icon"></i>
                 <h2>站长服务</h2>
-                <p>软路由、搭建课程、陪跑、品牌网站</p>
-            </div>
-
-            <!-- VPS服务器 -->
-            <div class="holo-card hero-card" onclick="openModal('vps')">
-                <i class="fas fa-cloud main-icon" style="color: #74b9ff;"></i>
-                <i class="fas fa-database bg-icon"></i>
-                <h2>VPS服务器</h2>
-                <p>自建节点服务器推荐</p>
+                <p>搭建课程、陪跑服务、品牌网站</p>
             </div>
 
             <!-- AI工具 -->
@@ -2489,7 +2481,7 @@
 <div id="basic-env-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 700px;">
         <span class="modal-close" onclick="closeModal('basic-env')">&times;</span>
-        <h2><i class="fas fa-layer-group" style="color: var(--primary); margin-right: 10px;"></i>基础环境 & 账号 & 云手机</h2>
+        <h2><i class="fas fa-layer-group" style="color: var(--primary); margin-right: 10px;"></i>基础环境 & 账号储备</h2>
         <div class="modal-grid">
             <a href="rumen.html" target="_blank" class="link-card">
                 <i class="fas fa-compass" style="color: #00f3ff;"></i>
@@ -2498,28 +2490,12 @@
                     <p>小白第一步，防封避坑指南。</p>
                 </div>
             </a>
-            <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
-               style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
-                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
-                <div>
-                    <h3 style="color: #8a2be2;">ADS 指纹浏览器</h3>
-                    <p>多账号防关联 | 模拟真实浏览器环境</p>
-                </div>
-            </a>
             <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="link-card" 
                style="border: 1px solid rgba(0, 255, 157, 0.5); background: linear-gradient(145deg, rgba(0, 255, 157, 0.05), rgba(0, 0, 0, 0.4));">
                 <i class="fas fa-shopping-cart" style="color: #00ff9d;"></i>
                 <div>
                     <h3>基础账号储备 <span style="font-size:0.6rem; background:rgba(0, 255, 157, 0.15); color:#00ff9d; border:1px solid #00ff9d; padding:0 4px; border-radius:3px;">自动发货</span></h3>
                     <p style="color: #00ff9d;">苹果带🚀 | 谷歌号 | TK白号 | Facebook | ChatGPT | Netflix/Spotify等</p>
-                </div>
-            </a>
-            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
-               style="border: 1px solid rgba(32, 227, 178, 0.4); background: linear-gradient(145deg, rgba(32, 227, 178, 0.08), rgba(0, 0, 0, 0.4));">
-                <i class="fas fa-mobile-alt" style="color: #20e3b2;"></i> 
-                <div>
-                    <h3 style="color: #20e3b2;">DuoPlus 海外云手机</h3>
-                    <p>无需买真机 | 独享原生环境 | <span style="color: #20e3b2; font-weight: bold;">养号/发视频都可以</span></p>
                 </div>
             </a>
         </div>
@@ -2568,7 +2544,6 @@
                     <p><span style="color: #ffcc00; font-weight:bold;">批量找站长拿6-9折</span> | <span class="code-badge" style="border: 1px solid #ff6600; color: #ff9966; background: rgba(255, 80, 0, 0.1);">需SSR中转</span></p>
                 </div>
             </a>
-      
             <a href="https://www.kookeey.com/register.html?aff=33435631" target="_blank" class="link-card">
                 <i class="fas fa-globe" style="color: #00bcd4;"></i>
                 <div>
@@ -2590,34 +2565,107 @@
                     <p>英美巨头住宅IP | <span class="text-highlight">不支持国内支付</span> | paypal/stripe</p>
                 </div>
             </a>
-
-                  <a href="https://www.proxylite.com/?invitation_code=8BTUZ2" target="_blank" class="link-card"
-               style="background: linear-gradient(145deg, rgba(0, 255, 136, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(0, 255, 136, 0.5);">
-                <i class="fas fa-rocket" style="color: #00ff88;"></i>
+            <a href="https://www.proxylite.com/?invitation_code=8BTUZ2" target="_blank" class="link-card"
+            style="background: linear-gradient(145deg, rgba(0, 255, 136, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(0, 255, 136, 0.5);">
+             <i class="fas fa-rocket" style="color: #00ff88;"></i>
+             <div>
+                 <h3 style="color: #00ff88;">ProxyLite <span style="font-size: 0.65rem; background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid #00ff88; padding: 2px 6px; border-radius: 4px;">破万播放</span></h3>
+                 <p>美区新号首个视频破万播放 | <span class="code-badge" style="border: 1px solid #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.1);">需中转 建议VPS</span></p>
+             </div>
+         </a>
+         <a href="https://www.lumiproxy.com/?invite_code=15CGTE" target="_blank" class="link-card"
+            style="background: linear-gradient(145deg, rgba(138, 43, 226, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(138, 43, 226, 0.5);">
+             <i class="fas fa-bolt" style="color: #9966ff;"></i>
+             <div>
+                 <h3 style="color: #9966ff;">LumiProxy <span style="font-size: 0.65rem; background: rgba(138, 43, 226, 0.2); color: #9966ff; border: 1px solid #9966ff; padding: 2px 6px; border-radius: 4px;">破千播放</span></h3>
+                 <p>美区新号多个视频破万播放 | <span class="code-badge" style="border: 1px solid #9966ff; color: #9966ff; background: rgba(138, 43, 226, 0.1);">需中转 建议VPS</span></p>
+             </div>
+         </a>
+        </div>
+        
+        <div class="modal-section-title">软路由配置</div>
+        <div class="modal-grid" style="grid-template-columns: 1fr;">
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card" style="padding: 20px; border-color: #ffd700; background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.5));">
+                <i class="fas fa-server" style="font-size: 1.8rem; color: #ffd700;"></i>
                 <div>
-                    <h3 style="color: #00ff88;">ProxyLite <span style="font-size: 0.65rem; background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid #00ff88; padding: 2px 6px; border-radius: 4px;">破万播放</span></h3>
-                    <p>美区新号首个视频破万播放 | <span class="code-badge" style="border: 1px solid #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.1);">需中转 建议VPS</span></p>
-                </div>
-            </a>
-            <a href="https://www.lumiproxy.com/?invite_code=15CGTE" target="_blank" class="link-card"
-               style="background: linear-gradient(145deg, rgba(138, 43, 226, 0.12), rgba(0, 0, 0, 0.5)); border: 1px solid rgba(138, 43, 226, 0.5);">
-                <i class="fas fa-bolt" style="color: #9966ff;"></i>
-                <div>
-                    <h3 style="color: #9966ff;">LumiProxy <span style="font-size: 0.65rem; background: rgba(138, 43, 226, 0.2); color: #9966ff; border: 1px solid #9966ff; padding: 2px 6px; border-radius: 4px;">破千播放</span></h3>
-                    <p>美区新号多个视频破万播放 | <span class="code-badge" style="border: 1px solid #9966ff; color: #9966ff; background: rgba(138, 43, 226, 0.1);">需中转 建议VPS</span></p>
+                    <h3 style="font-size: 1.1rem; color: #ffd700;">软路由配置方案</h3>
+                    <p>工作室首选，打造全屋无感跨境网络 | 一次配置，全家科学上网，无需每台设备单独设置</p>
                 </div>
             </a>
         </div>
-
-        <div class="modal-section-title">高伪装软路由系列</div>
-        <!-- 软路由 -->
-        <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card" style="padding: 20px; border-color: #ffd700; background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.5));">
-            <i class="fas fa-server" style="font-size: 1.8rem; color: #ffd700;"></i>
-            <div>
-                <h3 style="font-size: 1.1rem; color: #ffd700;">软路由配置方案</h3>
-                <p>工作室首选，打造全屋无感跨境网络 | 一次配置，全家科学上网，无需每台设备单独设置</p>
-            </div>
-        </a>
+        
+        <div class="modal-section-title">防关联工具 & 云手机</div>
+        <div class="modal-grid">
+            <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
+               style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
+                <div>
+                    <h3 style="color: #8a2be2;">ADS 指纹浏览器</h3>
+                    <p>多账号防关联 | 模拟真实浏览器环境</p>
+                </div>
+            </a>
+            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
+               style="border: 1px solid rgba(32, 227, 178, 0.4); background: linear-gradient(145deg, rgba(32, 227, 178, 0.08), rgba(0, 0, 0, 0.4));">
+                <i class="fas fa-mobile-alt" style="color: #20e3b2;"></i> 
+                <div>
+                    <h3 style="color: #20e3b2;">DuoPlus 海外云手机</h3>
+                    <p>无需买真机 | 独享原生环境 | <span style="color: #20e3b2; font-weight: bold;">养号/发视频都可以</span></p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="modal-section-title">VPS服务器 (自建节点)</div>
+        <div class="modal-grid">
+            <a href="cn2/banwagong.html" target="_blank" class="link-card">
+                <i class="fas fa-crown" style="color: #ff9900;"></i>
+                <div>
+                    <h3>搬瓦工 CN2 GIA <span class="code-badge" style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.3); color: #ff9900;">速度之王</span></h3>
+                    <p>个人能用最好的线路，没有之一</p>
+                </div>
+            </a>
+            <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
+                <i class="fas fa-cloud" style="color: #9c88ff;"></i>
+                <div>
+                    <h3>66云 纯净住宅</h3>
+                    <p>适合多业务场景</p>
+                </div>
+            </a>
+            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
+                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>LisaHost 大带宽纯净住宅VPS</h3>
+                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
+                </div>
+            </a>
+            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
+                <i class="fas fa-lock" style="color: #00cec9;"></i>
+                <div>
+                    <h3>IPRaft 原生VPS</h3>
+                    <p>优质线路推荐</p>
+                </div>
+            </a>
+            <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
+                <i class="fas fa-bolt" style="color: #fdcb6e;"></i>
+                <div>
+                    <h3>ZoroCloud 优化</h3>
+                    <p>性价比之选</p>
+                </div>
+            </a>
+            <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
+                <i class="fas fa-globe-asia" style="color: #74b9ff;"></i>
+                <div>
+                    <h3>WEPC VPS</h3>
+                    <p>全球TKVPS</p>
+                </div>
+            </a>
+            <a href="https://gorelay.net/#register/YAXRFFIVEW" target="_blank" class="link-card">
+                <i class="fas fa-bolt" style="color: #00f3ff;"></i>
+                <div>
+                    <h3>GoRelay 专线中转 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
+                    <p>多节点专线接入 | 低延迟/极速稳定</p>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 
@@ -2627,7 +2675,7 @@
 
 <!-- 站长陪跑弹窗 - 已合并到站长服务 -->
 
-<!-- 站长服务弹窗 (合并软路由+搭建+陪跑+网站) -->
+<!-- 站长服务弹窗 (合并搭建+陪跑+网站) -->
 <div id="zhanzhang-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 700px;">
         <span class="modal-close" onclick="closeModal('zhanzhang')">&times;</span>
@@ -2641,7 +2689,6 @@
                     <p>1对1全程指导 | 你只管发视频，其余问题站长帮你搞定 | <span style="color:#fff; font-weight:bold;">小白首选</span></p>
                 </div>
             </a>
-
             <!-- 搭建课程 -->
             <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="link-card" style="padding: 20px; border-color: #00ff9d; background: linear-gradient(145deg, rgba(0, 255, 157, 0.08), rgba(0, 0, 0, 0.5));">
                 <i class="fas fa-graduation-cap" style="font-size: 1.8rem; color: #00ff9d;"></i>
@@ -2684,68 +2731,7 @@
     </div>
 </div>
 
-<!-- VPS服务器弹窗 -->
-<div id="vps-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 800px;">
-        <span class="modal-close" onclick="closeModal('vps')">&times;</span>
-        <h2><i class="fas fa-cloud" style="color: #74b9ff; margin-right: 10px;"></i>高阶 · 自建节点服务器 (VPS)</h2>
-        <div class="modal-grid">
-      
-            <a href="cn2/banwagong.html" target="_blank" class="link-card">
-                <i class="fas fa-crown" style="color: #ff9900;"></i>
-                <div>
-                    <h3>搬瓦工 CN2 GIA <span class="code-badge" style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.3); color: #ff9900;">速度之王</span></h3>
-                    <p>个人能用最好的线路，没有之一</p>
-                </div>
-            </a>
-            <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="link-card">
-                <i class="fas fa-cloud" style="color: #9c88ff;"></i>
-                <div>
-                    <h3>66云 纯净住宅</h3>
-                    <p>适合多业务场景</p>
-                </div>
-            </a>
-            <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="link-card">
-                <i class="fas fa-network-wired" style="color: #00f3ff;"></i>
-                <div>
-                    <h3>LisaHost 大带宽纯净住宅VPS</h3>
-                    <p>大量用户反馈，配置影响流量 | 双ISP/解锁强</p>
-                </div>
-            </a>
-            <a href="https://ipraft.com/?i950472" target="_blank" class="link-card">
-                <i class="fas fa-lock" style="color: #00cec9;"></i>
-                <div>
-                    <h3>IPRaft 原生VPS</h3>
-                    <p>优质线路推荐</p>
-                </div>
-            </a>
-
-            <a href="https://my.zorocloud.com/aff.php?aff=639" target="_blank" class="link-card">
-                <i class="fas fa-bolt" style="color: #fdcb6e;"></i>
-                <div>
-                    <h3>ZoroCloud 优化</h3>
-                    <p>性价比之选</p>
-                </div>
-            </a>
-            <a href="https://wepc.au/aff.php?aff=1603" target="_blank" class="link-card">
-                <i class="fas fa-globe-asia" style="color: #74b9ff;"></i>
-                <div>
-                    <h3>WEPC VPS</h3>
-                    <p>全球TKVPS</p>
-                </div>
-            </a>
-            <a href="https://gorelay.net/#register/YAXRFFIVEW" target="_blank" class="link-card">
-                <i class="fas fa-bolt" style="color: #00f3ff;"></i>
-                <div>
-                    <h3>GoRelay 专线中转 <span class="code-badge" style="background: rgba(0, 243, 255, 0.15); border: 1px solid rgba(0, 243, 255, 0.3); color: #00f3ff;">TK推荐</span></h3>
-                    <p>多节点专线接入 | 低延迟/极速稳定</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-    <!-- AI工具弹窗 -->
+<!-- AI工具弹窗 -->
     <div id="ai-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 800px;">
             <span class="modal-close" onclick="closeModal('ai-tools')">&times;</span>
@@ -2793,11 +2779,11 @@
 
     <!-- 删除旧的 ai-video-modal，已合并到上方 -->
 
-    <!-- 科学软件弹窗 -->
+    <!-- 软件下载弹窗 -->
     <div id="proxy-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:600px;">
             <span class="modal-close" onclick="closeModal('proxy-tools')">&times;</span>
-            <h2>科学客户端</h2>
+            <h2>软件下载</h2>
             <div class="modal-grid" style="grid-template-columns: 1fr;">
                 <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="link-card"><i class="fab fa-windows"></i> V2RayN (Windows 推荐)</a>
                 <a href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases" target="_blank" class="link-card"><i class="fab fa-android"></i> NekoBox (安卓 推荐)</a>
@@ -3015,8 +3001,8 @@
                         <div class="avatar-upload-hint">点击相机图标上传图片</div>
                     </div>
                     
-                    <!-- emoji头像选择 -->
-                    <div class="avatar-emoji-section">
+                    <!-- emoji头像选择 - 修改资料时隐藏 -->
+                    <div class="avatar-emoji-section" style="display: none;">
                         <div class="avatar-emoji-label">或选择表情头像：</div>
                         <div class="avatar-selector" id="avatarSelector">
                             <div class="avatar-option" data-avatar="👤" onclick="selectAvatar(this)">👤</div>
@@ -3233,6 +3219,26 @@
         // 检查昵称是否已存在
         function checkNicknameExists(nickname) {
             return fetch(SUPABASE_URL + '/rest/v1/profiles?full_name=eq.' + encodeURIComponent(nickname) + '&select=id', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                return data && data.length > 0; // true = 已存在
+            })
+            .catch(function() {
+                return false;
+            });
+        }
+        
+        // 检查手机号是否已存在
+        function checkPhoneExists(phone) {
+            return fetch(SUPABASE_URL + '/rest/v1/profiles?phone_number=eq.' + encodeURIComponent(phone) + '&select=id', {
                 method: 'GET',
                 headers: {
                     'apikey': SUPABASE_KEY,
@@ -3735,8 +3741,19 @@
                 body: file
             })
             .then(function(res) {
-                if (!res.ok) throw new Error('上传失败');
+                console.log('头像上传响应状态:', res.status, res.ok);
+                if (!res.ok) {
+                    return res.text().then(function(text) {
+                        console.error('头像上传失败响应:', text);
+                        throw new Error('上传失败: ' + res.status);
+                    });
+                }
+                return res.json();
+            })
+            .then(function(data) {
+                console.log('头像上传成功，返回数据:', data);
                 registerAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
+                console.log('registerAvatarUrl 已设置为:', registerAvatarUrl);
                 showMessage('头像上传成功', 'success');
             })
             .catch(function(err) {
@@ -3766,6 +3783,13 @@
             var phone = document.getElementById('registerPhone').value.trim();
             var password = document.getElementById('registerPassword').value;
             var confirmPassword = document.getElementById('registerConfirm').value;
+            
+            console.log('=== handleRegister 开始 ===');
+            console.log('name:', name);
+            console.log('email:', email);
+            console.log('phone:', phone);
+            console.log('phone length:', phone.length);
+            console.log('password length:', password.length);
             
             // 验证
             var hasError = false;
@@ -3812,21 +3836,8 @@
             
             setButtonLoading('registerSubmitBtn', true);
             
-            // 先检查昵称是否已存在
-            checkNicknameExists(name).then(function(exists) {
-                if (exists) {
-                    showMessage('该昵称已被使用，请换一个或点击随机生成', 'warning');
-                    setFieldError('registerNameGroup', true);
-                    setButtonLoading('registerSubmitBtn', false);
-                    return;
-                }
-                
-                // 昵称可用，继续注册
-                doRegister(name, email, phone, password);
-            }).catch(function() {
-                // 检查失败，仍然尝试注册
-                doRegister(name, email, phone, password);
-            });
+            // 直接注册，不检查昵称和手机号是否重复
+            doRegister(name, email, phone, password);
         }
         
         // 执行注册
@@ -3844,6 +3855,14 @@
         
         // 带头像URL的注册
         function doRegisterWithAvatar(name, email, phone, password, avatarUrl) {
+            console.log('=== doRegisterWithAvatar 开始 ===');
+            console.log('name:', name);
+            console.log('email:', email);
+            console.log('phone:', phone);
+            console.log('password length:', password.length);
+            console.log('avatarUrl:', avatarUrl);
+            console.log('registerAvatarUrl 全局变量:', registerAvatarUrl);
+            
             // 调用 Supabase Auth API 注册
             fetch(SUPABASE_URL + '/auth/v1/signup', {
                 method: 'POST',
@@ -3882,46 +3901,88 @@
                     return;
                 }
                 
-                // 注册成功，将用户信息写入 profiles 表（带头像）
+                // 注册成功，获取 access token
+                var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
+                
+                // 将用户信息写入 profiles 表（带头像和 token），并等待完成
                 var userId = result.data.user ? result.data.user.id : null;
-                if (userId) {
-                    saveUserProfile(userId, name, email, phone, avatarUrl);
-                }
                 
-                // 检查是否需要邮箱验证
-                if (result.data.user && !result.data.session && !result.data.access_token) {
-                    showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
-                } else if (result.data.access_token || result.data.session) {
-                    // 直接登录成功
-                    var userData = result.data.user;
-                    var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
-                    var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
+                console.log('=== 准备调用 saveUserProfile ===');
+                console.log('userId:', userId);
+                console.log('name:', name);
+                console.log('email:', email);
+                console.log('phone:', phone);
+                console.log('avatarUrl:', avatarUrl);
+                console.log('accessToken:', accessToken ? '有' : '无');
+                
+                var profilePromise = userId ? 
+                    saveUserProfile(userId, name, email, phone, avatarUrl, accessToken) : 
+                    Promise.resolve();
+                
+                // 等待profile保存完成后再更新UI
+                profilePromise.then(function() {
+                    console.log('Profile保存完成，开始更新UI');
                     
-                    currentUser = userData;
-                    localStorage.setItem('nexus_user', JSON.stringify(userData));
-                    localStorage.setItem('nexus_access_token', accessToken);
-                    localStorage.setItem('nexus_refresh_token', refreshToken);
-                    showMessage('注册成功！欢迎加入 NEXUS', 'success');
-                    updateAuthUI(true);
-                } else {
-                    showMessage('注册成功！请登录', 'success');
-                }
-                
-                setTimeout(function() {
-                    closeAuthModal('register');
-                    setButtonLoading('registerSubmitBtn', false);
-                    document.getElementById('registerName').value = '';
-                    document.getElementById('registerEmail').value = '';
-                    document.getElementById('registerPhone').value = '';
-                    document.getElementById('registerPassword').value = '';
-                    document.getElementById('registerConfirm').value = '';
-                    document.getElementById('strengthBar1').className = 'strength-bar';
-                    document.getElementById('strengthBar2').className = 'strength-bar';
-                    document.getElementById('strengthBar3').className = 'strength-bar';
-                    document.getElementById('strengthText').textContent = '';
-                    // 清理注册头像
-                    removeRegisterAvatar();
-                }, 1500);
+                    // 检查是否需要邮箱验证
+                    if (result.data.user && !result.data.session && !result.data.access_token) {
+                        showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
+                    } else if (result.data.access_token || result.data.session) {
+                        // 直接登录成功
+                        var userData = result.data.user;
+                        var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
+                        
+                        currentUser = userData;
+                        localStorage.setItem('nexus_user', JSON.stringify(userData));
+                        localStorage.setItem('nexus_access_token', accessToken);
+                        localStorage.setItem('nexus_refresh_token', refreshToken);
+                        showMessage('注册成功！欢迎加入 NEXUS', 'success');
+                        
+                        // 先更新UI，再延迟一下刷新profile（确保数据已完全写入）
+                        updateAuthUI(true);
+                        setTimeout(function() {
+                            fetchLatestProfile(userId);
+                        }, 500);
+                    } else {
+                        showMessage('注册成功！请登录', 'success');
+                    }
+                    
+                    setTimeout(function() {
+                        closeAuthModal('register');
+                        setButtonLoading('registerSubmitBtn', false);
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPhone').value = '';
+                        document.getElementById('registerPassword').value = '';
+                        document.getElementById('registerConfirm').value = '';
+                        document.getElementById('strengthBar1').className = 'strength-bar';
+                        document.getElementById('strengthBar2').className = 'strength-bar';
+                        document.getElementById('strengthBar3').className = 'strength-bar';
+                        document.getElementById('strengthText').textContent = '';
+                        // 清理注册头像
+                        removeRegisterAvatar();
+                    }, 1500);
+                }).catch(function(profileError) {
+                    console.error('=== 保存profile失败详情 ===');
+                    console.error('错误对象:', profileError);
+                    console.error('错误消息:', profileError.message);
+                    console.error('错误堆栈:', profileError.stack);
+                    
+                    // 虽然profile保存失败，但用户账号已经创建成功了
+                    // 用户可以重新登录，登录后会再次尝试同步profile
+                    showMessage('注册成功，但资料保存失败。请重新登录后系统会自动同步', 'warning');
+                    
+                    setTimeout(function() {
+                        closeAuthModal('register');
+                        setButtonLoading('registerSubmitBtn', false);
+                        // 清理表单
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPhone').value = '';
+                        document.getElementById('registerPassword').value = '';
+                        document.getElementById('registerConfirm').value = '';
+                        removeRegisterAvatar();
+                    }, 2000);
+                });
             })
             .catch(function(error) {
                 console.error('注册错误:', error);
@@ -3931,7 +3992,7 @@
         }
         
         // 保存用户资料到 profiles 表
-        function saveUserProfile(userId, fullName, email, phone, avatarUrl) {
+        function saveUserProfile(userId, fullName, email, phone, avatarUrl, accessToken) {
             var profileData = {
                 id: userId,
                 full_name: fullName,
@@ -3942,28 +4003,57 @@
             
             console.log('保存用户资料:', profileData);
             
-            // 使用 upsert：如果存在就更新，不存在就插入
-            fetch(SUPABASE_URL + '/rest/v1/profiles', {
+            // 使用用户的 access token（如果有的话）
+            var authHeader = accessToken ? 'Bearer ' + accessToken : 'Bearer ' + SUPABASE_KEY;
+            
+            // 返回Promise，以便等待保存完成
+            return fetch(SUPABASE_URL + '/rest/v1/profiles', {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Authorization': authHeader,
                     'Content-Type': 'application/json',
                     'Prefer': 'resolution=merge-duplicates'
                 },
                 body: JSON.stringify(profileData)
             })
             .then(function(response) {
+                console.log('保存用户资料响应状态:', response.status, response.ok);
                 if (!response.ok) {
                     return response.text().then(function(text) {
-                        console.error('保存用户资料失败:', text);
+                        console.error('保存用户资料失败，响应内容:', text);
+                        var errorData;
+                        try {
+                            errorData = JSON.parse(text);
+                        } catch(e) {
+                            errorData = { message: text || '未知错误' };
+                        }
+                        
+                        console.error('保存资料错误:', errorData.message || '未知错误');
+                        throw new Error('保存资料失败: ' + (errorData.message || text || '未知错误'));
                     });
                 } else {
-                    console.log('用户资料保存成功');
+                    // 成功的响应可能是空的（201 Created可能没有body）
+                    return response.text().then(function(text) {
+                        if (text && text.trim()) {
+                            try {
+                                var data = JSON.parse(text);
+                                console.log('用户资料保存成功，返回数据:', data);
+                                return data;
+                            } catch(e) {
+                                console.log('用户资料保存成功（无JSON响应）');
+                                return null;
+                            }
+                        } else {
+                            console.log('用户资料保存成功（空响应）');
+                            return null;
+                        }
+                    });
                 }
             })
             .catch(function(error) {
                 console.error('保存用户资料错误:', error);
+                throw error;
             });
         }
         
@@ -4249,28 +4339,8 @@
             
             setButtonLoading('settingsSubmitBtn', true);
             
-            // 获取当前昵称
-            var currentName = '';
-            if (currentUser && currentUser.user_metadata && currentUser.user_metadata.full_name) {
-                currentName = currentUser.user_metadata.full_name;
-            }
-            
-            // 如果昵称改变了，检查唯一性
-            if (newName !== currentName) {
-                checkNicknameExists(newName).then(function(exists) {
-                    if (exists) {
-                        showMessage('该昵称已被使用，请换一个', 'warning');
-                        setFieldError('settingsNameGroup', true);
-                        setButtonLoading('settingsSubmitBtn', false);
-                        return;
-                    }
-                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-                }).catch(function() {
-                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-                });
-            } else {
-                doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-            }
+            // 直接更新，不检查昵称是否重复
+            doUpdateProfile(newName, newPhone, newAvatar, accessToken);
         }
         
         // 执行更新资料
@@ -5940,7 +6010,7 @@
         <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
         <div class="mobile-drawer-title">Tools</div>
         <a href="https://ipcheck.ing" target="_blank" class="tool-item"><i class="fas fa-search"></i><span>查询工具</span></a>
-        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-flask"></i><span>科学软件</span></a>
+        <a href="#" class="tool-item" onclick="openModal('proxy-tools'); closeMobileDrawer();"><i class="fas fa-download"></i><span>软件下载</span></a>
         <a href="https://www.speedtest.net/zh-Hans" target="_blank" class="tool-item"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></a>
         <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo" target="_blank" class="tool-item"><i class="fas fa-terminal"></i><span>命令终端</span></a>
     </div>
