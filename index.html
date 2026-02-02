@@ -520,7 +520,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
+            z-index: 10000;
             gap: 15px;
         }
         .mobile-nav-btn {
@@ -538,10 +538,11 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s;
             box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            pointer-events: auto;
         }
-        .mobile-nav-btn:hover, .mobile-nav-btn.active {
+        .mobile-nav-btn:active {
             background: rgba(0, 243, 255, 0.3);
-            transform: scale(1.1);
+            transform: scale(0.95);
         }
         
         /* 移动端抽屉菜单 */
@@ -553,7 +554,7 @@
             width: 280px;
             background: rgba(10, 10, 15, 0.98);
             backdrop-filter: blur(20px);
-            z-index: 1001;
+            z-index: 10001;
             padding: 60px 20px 20px;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -623,7 +624,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.7);
-            z-index: 1000;
+            z-index: 10000;
         }
         .mobile-overlay.open {
             display: block;
@@ -4695,7 +4696,10 @@
 
         // 跳转会员专区
         function goToVip() {
-            window.location.href = 'vip.html';
+            // 显示提示信息
+            if (confirm('即将进入视频专区\n\n💡 温馨提示：若视频无法加载，请尝试更换节点')) {
+                window.location.href = 'vip.html';
+            }
         }
 
         // 品牌网站弹窗
@@ -6066,19 +6070,34 @@
     
     <script>
         function openMobileDrawer(side) {
-            document.getElementById('mobileOverlay').classList.add('open');
-            if (side === 'left') {
-                document.getElementById('mobileDrawerLeft').classList.add('open');
-            } else {
-                document.getElementById('mobileDrawerRight').classList.add('open');
+            console.log('Opening drawer:', side);
+            var overlay = document.getElementById('mobileOverlay');
+            var leftDrawer = document.getElementById('mobileDrawerLeft');
+            var rightDrawer = document.getElementById('mobileDrawerRight');
+            
+            if (overlay) overlay.classList.add('open');
+            
+            if (side === 'left' && leftDrawer) {
+                leftDrawer.classList.add('open');
+                console.log('Left drawer opened');
+            } else if (side === 'right' && rightDrawer) {
+                rightDrawer.classList.add('open');
+                console.log('Right drawer opened');
             }
+            
             document.body.style.overflow = 'hidden';
         }
         
         function closeMobileDrawer() {
-            document.getElementById('mobileOverlay').classList.remove('open');
-            document.getElementById('mobileDrawerLeft').classList.remove('open');
-            document.getElementById('mobileDrawerRight').classList.remove('open');
+            console.log('Closing drawer');
+            var overlay = document.getElementById('mobileOverlay');
+            var leftDrawer = document.getElementById('mobileDrawerLeft');
+            var rightDrawer = document.getElementById('mobileDrawerRight');
+            
+            if (overlay) overlay.classList.remove('open');
+            if (leftDrawer) leftDrawer.classList.remove('open');
+            if (rightDrawer) rightDrawer.classList.remove('open');
+            
             document.body.style.overflow = '';
         }
     </script>
