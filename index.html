@@ -2308,29 +2308,70 @@
 
         <!-- 核心业务区 -->
         <div class="hero-grid">
-            <!-- 基础环境 -->
-            <div class="holo-card hero-card" onclick="openModal('basic-env')">
-                <i class="fas fa-layer-group main-icon"></i>
-                <i class="fas fa-cog bg-icon"></i>
-                <h2>基础环境</h2>
-                <p>新手导航、账号储备</p>
-            </div>
-
-            <!-- IP配置 -->
-            <div class="holo-card hero-card" onclick="openModal('ip-config')">
-                <i class="fas fa-network-wired main-icon" style="color: #bc13fe;"></i>
-                <i class="fas fa-globe bg-icon"></i>
-                <h2>IP配置</h2>
-                <p>机场、静态IP、软路由、VPS、云手机</p>
+            <!-- 视频专区 -->
+            <div class="holo-card hero-card vip-card" onclick="goToVip()">
+                <span class="tag tag-vip">NEW</span>
+                <i class="fas fa-play-circle main-icon" style="color: #ffd700;"></i>
+                <i class="fas fa-film bg-icon"></i>
+                <h2>视频专区</h2>
+                <p>精华课程，国内独家内容</p>
             </div>
 
             <!-- 站长服务 -->
-            <div class="holo-card hero-card" onclick="openModal('zhanzhang')">
+            <div class="holo-card hero-card vip-card" onclick="openModal('zhanzhang')">
                 <span class="tag tag-hot">HOT</span>
                 <i class="fas fa-user-tie main-icon" style="color: #ff6b81;"></i>
                 <i class="fas fa-hands-helping bg-icon"></i>
                 <h2>站长服务</h2>
                 <p>搭建课程、陪跑服务、品牌网站</p>
+            </div>
+
+            <!-- 账号购买 -->
+            <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="holo-card hero-card" style="text-decoration: none; color: inherit; display: flex;">
+                <i class="fas fa-shopping-cart main-icon" style="color: #00ff9d;"></i>
+                <i class="fas fa-credit-card bg-icon"></i>
+                <h2>账号购买</h2>
+                <p>苹果带🚀 | 谷歌号 | TK白号 | ChatGPT等</p>
+            </a>
+
+            <!-- 专线机场 -->
+            <div class="holo-card hero-card" onclick="openModal('airport')">
+                <i class="fas fa-plane-departure main-icon" style="color: #bc13fe;"></i>
+                <i class="fas fa-globe bg-icon"></i>
+                <h2>专线机场</h2>
+                <p>稳定高速 | 住宅IP前置代理</p>
+            </div>
+
+            <!-- 静态住宅IP -->
+            <div class="holo-card hero-card" onclick="openModal('residential')">
+                <i class="fas fa-home main-icon" style="color: #ffd700;"></i>
+                <i class="fas fa-map-marker-alt bg-icon"></i>
+                <h2>静态住宅IP</h2>
+                <p>原生住宅代理 | 短视频必备</p>
+            </div>
+
+            <!-- 软路由配置 -->
+            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="holo-card hero-card vip-card" style="text-decoration: none; color: inherit; display: flex;">
+                <i class="fas fa-server main-icon" style="color: #ffd700;"></i>
+                <i class="fas fa-network-wired bg-icon"></i>
+                <h2>软路由配置</h2>
+                <p>全屋网络 | 工作室首选</p>
+            </a>
+
+            <!-- 防关联工具 -->
+            <div class="holo-card hero-card" onclick="openModal('tools')">
+                <i class="fas fa-fingerprint main-icon" style="color: #8a2be2;"></i>
+                <i class="fas fa-shield-alt bg-icon"></i>
+                <h2>防关联工具</h2>
+                <p>多账号管理 | 云手机</p>
+            </div>
+
+            <!-- VPS服务器 -->
+            <div class="holo-card hero-card" onclick="openModal('vps')">
+                <i class="fas fa-cloud main-icon" style="color: #00f3ff;"></i>
+                <i class="fas fa-database bg-icon"></i>
+                <h2>VPS服务器</h2>
+                <p>自建节点 | 纯净住宅VPS</p>
             </div>
 
             <!-- AI工具 -->
@@ -2340,15 +2381,6 @@
                 <i class="fas fa-robot bg-icon"></i>
                 <h2>AI工具</h2>
                 <p>自动化工作流、AI视频制作</p>
-            </div>
-
-            <!-- 视频专区 -->
-            <div class="holo-card hero-card vip-card" onclick="goToVip()">
-                <span class="tag tag-vip">NEW</span>
-                <i class="fas fa-play-circle main-icon" style="color: #ffd700;"></i>
-                <i class="fas fa-film bg-icon"></i>
-                <h2>视频专区</h2>
-                <p>精华课程，国内独家内容</p>
             </div>
         </div>
 
@@ -2502,13 +2534,11 @@
     </div>
 </div>
 
-<!-- IP配置弹窗 -->
-<div id="ip-config-modal" class="modal-overlay">
+<!-- 专线机场详细内容 -->
+<div id="airport-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 800px;">
-        <span class="modal-close" onclick="closeModal('ip-config')">&times;</span>
-        <h2><i class="fas fa-network-wired" style="color: #bc13fe; margin-right: 10px;"></i>IP配置 (机场 & 静态IP)</h2>
-        
-        <div class="modal-section-title">专线机场</div>
+        <span class="modal-close" onclick="closeModal('airport')">&times;</span>
+        <h2><i class="fas fa-plane-departure" style="color: #bc13fe; margin-right: 10px;"></i>专线机场</h2>
         <div class="modal-grid">
             <a href="https://st1.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="link-card">
                 <i class="fas fa-plane-departure" style="color: #bc13fe;"></i>
@@ -2525,8 +2555,14 @@
                 </div>
             </a>
         </div>
-        
-        <div class="modal-section-title">静态住宅IP</div>
+    </div>
+</div>
+
+<!-- 静态住宅IP详细内容 -->
+<div id="residential-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('residential')">&times;</span>
+        <h2><i class="fas fa-home" style="color: #bc13fe; margin-right: 10px;"></i>静态住宅IP</h2>
         <div class="modal-grid">
             <a href="https://www.miyaip.com/signup?invitecode=9143527" target="_blank" class="link-card"
                style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
@@ -2582,19 +2618,14 @@
              </div>
          </a>
         </div>
-        
-        <div class="modal-section-title">软路由配置</div>
-        <div class="modal-grid" style="grid-template-columns: 1fr;">
-            <a href="https://dajian.cyou/lesson/ly" target="_blank" class="link-card" style="padding: 20px; border-color: #ffd700; background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.5));">
-                <i class="fas fa-server" style="font-size: 1.8rem; color: #ffd700;"></i>
-                <div>
-                    <h3 style="font-size: 1.1rem; color: #ffd700;">软路由配置方案</h3>
-                    <p>工作室首选，打造全屋无感跨境网络 | 一次配置，全家科学上网，无需每台设备单独设置</p>
-                </div>
-            </a>
-        </div>
-        
-        <div class="modal-section-title">防关联工具 & 云手机</div>
+    </div>
+</div>
+
+<!-- 防关联工具详细内容 -->
+<div id="tools-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('tools')">&times;</span>
+        <h2><i class="fas fa-fingerprint" style="color: #bc13fe; margin-right: 10px;"></i>防关联工具 & 云手机</h2>
         <div class="modal-grid">
             <a href="https://www.adspower.net/share/ZaYRHd" target="_blank" class="link-card"
                style="border: 1px solid rgba(138, 43, 226, 0.4); background: linear-gradient(145deg, rgba(138, 43, 226, 0.08), rgba(0, 0, 0, 0.4));">
@@ -2613,8 +2644,14 @@
                 </div>
             </a>
         </div>
-        
-        <div class="modal-section-title">VPS服务器 (自建节点)</div>
+    </div>
+</div>
+
+<!-- VPS服务器详细内容 -->
+<div id="vps-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('vps')">&times;</span>
+        <h2><i class="fas fa-cloud" style="color: #bc13fe; margin-right: 10px;"></i>VPS服务器 (自建节点)</h2>
         <div class="modal-grid">
             <a href="cn2/banwagong.html" target="_blank" class="link-card">
                 <i class="fas fa-crown" style="color: #ff9900;"></i>
