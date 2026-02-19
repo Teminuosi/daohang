@@ -2271,9 +2271,8 @@
         <div onclick="openModal('speed-tools')" class="tool-item">
             <i class="fas fa-tachometer-alt"></i> <span>测速工具</span>
         </div>
-        <!-- 修改为 -->
-        <div onclick="openModal('terminal')" class="tool-item">
-            <i class="fas fa-terminal"></i> <span>搭建命令</span>
+        <div onclick="openModal('terminal-cmd')" class="tool-item">
+            <i class="fas fa-terminal"></i> <span>命令终端</span>
         </div>
     </aside>
 
@@ -2873,6 +2872,58 @@
     </div>
 
     <!-- 测速弹窗 -->
+    <!-- 命令终端 Modal -->
+    <div id="terminal-cmd-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:720px;">
+            <span class="modal-close" onclick="closeModal('terminal-cmd')">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-terminal" style="color:var(--primary);margin-right:10px;"></i>命令终端 · 搭建脚本</h2>
+            <p style="color:#888;font-size:0.85rem;margin-bottom:20px;">选择脚本一键复制，在 SSH 终端中粘贴即可执行。</p>
+
+            <div style="display:flex;flex-direction:column;gap:16px;">
+
+                <!-- 3X-UI -->
+                <div style="background:rgba(0,243,255,0.05);border:1px solid rgba(0,243,255,0.2);border-radius:12px;padding:20px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                        <div>
+                            <div style="font-family:Orbitron;color:var(--primary);font-size:1rem;font-weight:700;">3X-UI 面板</div>
+                            <div style="color:#888;font-size:0.8rem;margin-top:4px;">Xray 可视化管理面板，支持多种协议</div>
+                        </div>
+                        <span style="background:rgba(0,243,255,0.15);color:var(--primary);font-size:0.7rem;padding:3px 10px;border-radius:20px;font-family:Rajdhani;font-weight:700;">Xray · Panel</span>
+                    </div>
+                    <div style="position:relative;">
+                        <code id="cmd-3xui" style="display:block;background:#0a0a0f;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 50px 14px 16px;font-family:Courier New,monospace;font-size:0.82rem;color:#a0f0a0;word-break:break-all;line-height:1.6;">bash &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)</code>
+                        <button onclick="copyCmd('cmd-3xui', this)" title="复制命令" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(0,243,255,0.1);border:1px solid rgba(0,243,255,0.3);color:var(--primary);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:0.85rem;transition:0.2s;" onmouseover="this.style.background='rgba(0,243,255,0.25)'" onmouseout="this.style.background='rgba(0,243,255,0.1)'">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sing-box -->
+                <div style="background:rgba(188,19,254,0.05);border:1px solid rgba(188,19,254,0.2);border-radius:12px;padding:20px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                        <div>
+                            <div style="font-family:Orbitron;color:var(--secondary);font-size:1rem;font-weight:700;">Sing-box</div>
+                            <div style="color:#888;font-size:0.8rem;margin-top:4px;">新一代通用代理平台，支持多种入站/出站</div>
+                        </div>
+                        <span style="background:rgba(188,19,254,0.15);color:var(--secondary);font-size:0.7rem;padding:3px 10px;border-radius:20px;font-family:Rajdhani;font-weight:700;">sing-box · Proxy</span>
+                    </div>
+                    <div style="position:relative;">
+                        <code id="cmd-singbox" style="display:block;background:#0a0a0f;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 50px 14px 16px;font-family:Courier New,monospace;font-size:0.82rem;color:#c0a0f0;word-break:break-all;line-height:1.6;">bash &lt;(wget -qO- https://raw.githubusercontent.com/fscarmen/sing-box/main/sing-box.sh)</code>
+                        <button onclick="copyCmd('cmd-singbox', this)" title="复制命令" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(188,19,254,0.1);border:1px solid rgba(188,19,254,0.3);color:var(--secondary);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:0.85rem;transition:0.2s;" onmouseover="this.style.background='rgba(188,19,254,0.25)'" onmouseout="this.style.background='rgba(188,19,254,0.1)'">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top:18px;padding:12px 16px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:8px;display:flex;gap:10px;align-items:flex-start;">
+                <i class="fas fa-exclamation-triangle" style="color:var(--gold);margin-top:2px;flex-shrink:0;"></i>
+                <p style="color:#bbb;font-size:0.8rem;line-height:1.6;">以上命令需在 <strong style="color:#fff;">Linux VPS</strong> 上以 <strong style="color:#fff;">root</strong> 身份执行，建议使用 SSH 工具连接后粘贴运行。</p>
+            </div>
+        </div>
+    </div>
+
     <div id="speed-tools-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:600px;">
             <span class="modal-close" onclick="closeModal('speed-tools')">&times;</span>
@@ -4766,6 +4817,25 @@
             }, 10);
         }
 
+        function copyCmd(id, btn) {
+            var code = document.getElementById(id);
+            var text = code.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                var orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.color = '#00ff88';
+                btn.style.borderColor = '#00ff88';
+                setTimeout(function(){ btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 1800);
+            }).catch(function() {
+                var range = document.createRange();
+                range.selectNode(code);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+            });
+        }
+
         function closeModal(id) {
             const m = document.getElementById(id + '-modal');
             if(m) { 
@@ -6095,7 +6165,7 @@
         <a href="https://ipcheck.ing" target="_blank" class="tool-item"><i class="fas fa-search"></i><span>查询工具</span></a>
         <a href="#" class="tool-item" onclick="openModal('proxy-tools'); closeMobileDrawer();"><i class="fas fa-download"></i><span>软件下载</span></a>
         <a href="https://www.speedtest.net/zh-Hans" target="_blank" class="tool-item"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></a>
-        <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo" target="_blank" class="tool-item"><i class="fas fa-terminal"></i><span>搭建命令</span></a>
+        <a href="#" class="tool-item" onclick="openModal('terminal-cmd'); closeMobileDrawer();"><i class="fas fa-terminal"></i><span>命令终端</span></a>
     </div>
     
     <!-- 右侧抽屉 - Links -->
