@@ -1117,7 +1117,7 @@
                 html += '<div class="video-title">' + escapeHtml(video.title) + '</div>';
                 html += '<div class="video-meta">';
                 html += '<span class="video-category">' + escapeHtml(video.category || '出海干货') + '</span>';
-                html += '<span><i class="fas fa-eye"></i> ' + (video.view_count || 0) + '</span>';
+                // html += '<span><i class="fas fa-eye"></i> ' + (video.view_count || 0) + '</span>';
                 html += '</div></div></div>';
             });
             
@@ -1467,12 +1467,26 @@
         }
 
         // 工具函数
-        function formatDuration(seconds) {
-            if (!seconds) return '00:00';
+       // 升级版时间格式化函数：兼容秒数和直接填写的文本
+       function formatDuration(duration) {
+            if (!duration) return '00:00';
+            
+            // 如果你在后台直接填写了带有冒号的格式（比如 "12:34" 或 "01:20:00"），直接显示
+            if (typeof duration === 'string' && duration.includes(':')) {
+                return duration;
+            }
+            
+            // 否则假设后台填的是秒数（比如 120），进行转换
+            var seconds = parseInt(duration, 10);
+            if (isNaN(seconds)) return '00:00';
+            
             var h = Math.floor(seconds / 3600);
             var m = Math.floor((seconds % 3600) / 60);
             var s = seconds % 60;
-            if (h > 0) return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+            
+            if (h > 0) {
+                return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+            }
             return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
         }
 
