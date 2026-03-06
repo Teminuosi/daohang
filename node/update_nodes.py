@@ -1,37 +1,46 @@
 import requests
 import base64
-import os
+import yaml  # 运行 pip3 install PyYAML
 
-# 1. 自动从本地读取最新的订阅源地址
-source_file = "/www/wwwroot/zhanzhangsanyue.com/url_source.txt"
-save_path = "/www/wwwroot/zhanzhangsanyue.com/node.txt"
+source_url = "https://freev2ray.top/V2rayg32452.txt"
+save_path = "/www/wwwroot/www.zhanzhangsanyue.com/node/node.txt"
 
-try:
-    with open(source_file, "r") as f:
-        source_url = f.read().strip()
-    
-    # 下载数据
-    response = requests.get(source_url)
-    if response.status_code == 200:
-        raw_data = response.text
-        
-        # 尝试 Base64 解码，如果失败则说明是明文，直接读取
+# 1. 下载原始数据
+response = requests.get(source_url)
+raw_data = response.text.strip()
+
+# 2. 解码并转为 Clash 格式 (YAML)
+# 这里我们假设原数据是 Base64
+decoded = base64.b64decode(raw_data).decode('utf-8')
+
+# 注意：这里我们简化处理，如果不方便转 YAML，我们可以暴力重命名
+# 针对 vmess，我们需要找到 ps 字段并替换
+import json
+
+lines = decoded.splitlines()
+new_lines = []
+
+for line in lines:
+    if line.startswith("vmess://"):
+        # 对 vmess 链接进行解码修改
+        b64_part = line.replace("vmess://", "")
+        # 有时候结尾有杂字符，需要处理
         try:
-            decoded_data = base64.b64decode(raw_data).decode('utf-8')
+            json_str = base64.b64decode(b64_part).decode('utf-8')
+            data = json.loads(json_str)
+            data['ps'] = "三月空间-专属" # 强行修改节点名
+            new_encoded = base64.b64encode(json.dumps(data).encode('utf-8')).decode('utf-8')
+            new_lines.append("vmess://" + new_encoded)
         except:
-            decoded_data = raw_data
-            
-        # 批量替换名字
-        final_data = decoded_data.replace("YouTube频道: 工具大师", "三月空间-专属")
-        
-        # 重新 Base64 编码 (V2rayN 订阅通常要求是 Base64)
-        encoded_data = base64.b64encode(final_data.encode('utf-8')).decode('utf-8')
-        
-        # 保存
-        with open(save_path, "w") as f:
-            f.write(encoded_data)
-        print("更新成功！")
+            new_lines.append(line)
+    elif '#' in line:
+        # 处理 ss/vless 等
+        link_part = line.split('#')[0]
+        new_lines.append(link_part + "#三月空间-专属")
     else:
-        print(f"源站下载失败，状态码: {response.status_code}")
-except Exception as e:
-    print(f"发生错误: {e}")
+        new_lines.append(line)
+
+final_data = base64.b64encode("\n".join(new_lines).encode('utf-8')).decode('utf-8')
+with open(save_path, "w") as f:
+    f.write(final_data)
+print("所有节点（含vmess）已重命名！")
