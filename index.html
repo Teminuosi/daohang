@@ -2274,12 +2274,16 @@
         <div onclick="openModal('terminal-cmd')" class="tool-item">
             <i class="fas fa-terminal"></i> <span>命令终端</span>
         </div>
+
+        <div onclick="showFreeNode()" class="tool-item warning-item">
+            <i class="fas fa-bolt"></i> <span>免费网络</span>
+        </div>
     </aside>
 
     <!-- 右侧常驻工具栏 (Links) -->
     <aside class="sidebar sidebar-right">
         <div class="sidebar-title">Links</div>
-        <a href="https://3yuedaohang.com/contact-modal" target="_blank" class="tool-item">
+        <a href="./contact-modal.html" target="_blank" class="tool-item">
             <i class="fab fa-telegram-plane"></i> <span>联系站长</span>
         </a>
         <div class="tool-item" onclick="openModal('streaming')">
@@ -2917,6 +2921,25 @@
 
 
     <!-- 测速弹窗 -->
+    <!-- 免费节点订阅弹窗 -->
+    <div id="free-node-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 500px; padding: 30px;">
+            <span class="modal-close" onclick="closeModal('free-node')" style="right: 20px; top: 20px;">&times;</span>
+            <h2 style="margin-bottom: 20px;"><i class="fas fa-bolt" style="color:var(--gold);margin-right:10px;"></i>免费节点订阅</h2>
+            <p style="color:#888;margin-bottom:20px; font-size: 0.9rem;">点击下方按钮一键复制订阅链接：</p>
+            
+            <!-- 这里加了 max-width 和 overflow 保护 -->
+            <div style="position:relative; margin-bottom:20px; background:#1a1a1a; border:1px solid #ffd700; border-radius:8px; padding:15px;">
+                <div id="free-node-url" style="word-break: break-all; color:#ffd700; font-family:monospace; margin-bottom: 10px; padding-right: 50px;">https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v202603062</div>
+                
+                <button onclick="copyRawText('free-node-url', this)" style="position:absolute; top:10px; right:10px; background:rgba(255,215,0,0.2); border:1px solid #ffd700; color:#ffd700; padding:4px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">复制</button>
+            </div>
+    
+            <a href="https://raw.githubusercontent.com/free-nodes/v2rayfree/main/v202603062" target="_blank" style="display:block; text-align:center; background:#ffd700; color:#000; padding:15px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:1rem;">在浏览器直接打开</a>
+        </div>
+    </div>
+
+
     <!-- 命令终端 Modal -->
     <div id="terminal-cmd-modal" class="modal-overlay">
         <div class="modal-content" style="max-width:720px;">
@@ -6255,6 +6278,27 @@
             if (rightDrawer) rightDrawer.classList.remove('open');
             
             document.body.style.overflow = '';
+        }
+
+        // 添加这个函数到你的 <script> 标签中
+        function showFreeNode() {
+            openModal('free-node');
+        }
+
+        function copyRawText(id, btn) {
+            var text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                btn.textContent = '已复制';
+                btn.style.background = '#00ff88';
+                btn.style.borderColor = '#00ff88';
+                btn.style.color = '#000';
+                setTimeout(function(){ 
+                    btn.textContent = '复制';
+                    btn.style.background = 'rgba(255,215,0,0.2)';
+                    btn.style.borderColor = '#ffd700';
+                    btn.style.color = '#ffd700';
+                }, 1500);
+            });
         }
     </script>
 </body>
