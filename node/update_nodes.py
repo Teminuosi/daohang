@@ -3,8 +3,8 @@ import base64
 import os
 
 # 1. 自动从本地读取最新的订阅源地址
-source_file = "/www/wwwroot/sub.zhanzhangsanyue.com/url_source.txt"
-save_path = "/www/wwwroot/sub.zhanzhangsanyue.com/node.txt"
+source_file = "/www/wwwroot/zhanzhangsanyue.com/url_source.txt"
+save_path = "/www/wwwroot/zhanzhangsanyue.com/node.txt"
 
 try:
     with open(source_file, "r") as f:
