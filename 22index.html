@@ -509,7 +509,8 @@
             /* 移动端导航按钮 */
             .mobile-nav-btns { display: flex !important; }
             
-            /* 移动端抽屉菜单始终保持 display:flex（由 visibility 控制显示） */
+            /* 移动端抽屉菜单显示 */
+            .mobile-drawer { display: block; }
         }
         
         /* 移动端导航按钮 */
@@ -546,20 +547,18 @@
         
         /* 移动端抽屉菜单 */
         .mobile-drawer {
-            display: flex;
-            flex-direction: column;
+            display: none;
             position: fixed;
             top: 0;
             bottom: 0;
             width: 280px;
             background: rgba(10, 10, 15, 0.98);
             backdrop-filter: blur(20px);
-            z-index: 10002;
+            z-index: 10001;
             padding: 60px 20px 20px;
             overflow-y: auto;
             transition: transform 0.3s ease;
             border: 1px solid var(--glass-border);
-            visibility: hidden;
         }
         .mobile-drawer.left {
             left: 0;
@@ -573,7 +572,6 @@
         }
         .mobile-drawer.open {
             transform: translateX(0);
-            visibility: visible;
         }
         .mobile-drawer-close {
             position: absolute;
@@ -626,7 +624,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.7);
-            z-index: 10001;
+            z-index: 10000;
         }
         .mobile-overlay.open {
             display: block;
