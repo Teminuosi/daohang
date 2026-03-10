@@ -6240,19 +6240,19 @@
     <div class="mobile-drawer left" id="mobileDrawerLeft">
         <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
         <div class="mobile-drawer-title">Tools</div>
-        <a href="https://ipcheck.ing" target="_blank" class="tool-item"><i class="fas fa-search"></i><span>查询工具</span></a>
-        <a href="#" class="tool-item" onclick="openModal('proxy-tools'); closeMobileDrawer();"><i class="fas fa-download"></i><span>软件下载</span></a>
-        <a href="https://www.speedtest.net/zh-Hans" target="_blank" class="tool-item"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></a>
-        <a href="#" class="tool-item" onclick="openModal('terminal-cmd'); closeMobileDrawer();"><i class="fas fa-terminal"></i><span>命令终端</span></a>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('query-tools');"><i class="fas fa-search"></i><span>查询工具</span></div>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('proxy-tools');"><i class="fas fa-download"></i><span>软件下载</span></div>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('speed-tools');"><i class="fas fa-tachometer-alt"></i><span>测速工具</span></div>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('terminal-cmd');"><i class="fas fa-terminal"></i><span>命令终端</span></div>
     </div>
     
     <!-- 右侧抽屉 - Links -->
     <div class="mobile-drawer right" id="mobileDrawerRight">
         <button class="mobile-drawer-close" onclick="closeMobileDrawer()"><i class="fas fa-times"></i></button>
         <div class="mobile-drawer-title">Links</div>
-        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-users"></i><span>联系站长</span></a>
-        <a href="https://zmk.pw" target="_blank" class="tool-item"><i class="fas fa-play-circle"></i><span>流媒体大全</span></a>
-        <a href="#" class="tool-item" onclick="showComingSoon(event)"><i class="fas fa-hashtag"></i><span>社交媒体</span></a>
+        <a href="./contact-modal.html" target="_blank" class="tool-item"><i class="fab fa-telegram-plane"></i><span>联系站长</span></a>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('streaming');"><i class="fas fa-play-circle"></i><span>流媒体大全</span></div>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('social');"><i class="fas fa-hashtag"></i><span>社交媒体</span></div>
     </div>
     
     <script>
