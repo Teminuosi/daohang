@@ -2294,6 +2294,9 @@
         <div class="tool-item" onclick="openModal('social')">
             <i class="fas fa-hashtag"></i> <span>社交媒体</span>
         </div>
+        <div class="tool-item" onclick="openModal('ai-tools')">
+            <i class="fas fa-brain" style="color: var(--secondary);"></i> <span>常用AI工具</span>
+        </div>
     </aside>
 
     <!-- 主内容区 -->
@@ -2383,30 +2386,22 @@
                 <p>自建节点 | 纯净住宅VPS</p>
             </div>
 
-            <!-- 海外手机号 -->
-            <a href="https://xesim.cc/?DIST=RkFPHVw%3D" target="_blank" class="holo-card hero-card" style="text-decoration: none; color: inherit; display: flex;">
+            <!-- 海外手机号 & 防关联工具 (合并) -->
+            <div class="holo-card hero-card" onclick="openModal('phone-tools')">
                 <i class="fas fa-sim-card main-icon" style="color: #00d2ff;"></i>
-                <i class="fas fa-globe bg-icon"></i>
-                <h2>海外手机号</h2>
-                <p>海外多国号码 | 接收验证码 | 专属折扣码：sanyue</p>
-            </a>
-
-                 <!-- 防关联工具 -->
-                 <div class="holo-card hero-card" onclick="openModal('tools')">
-                    <i class="fas fa-fingerprint main-icon" style="color: #8a2be2;"></i>
-                    <i class="fas fa-shield-alt bg-icon"></i>
-                    <h2>防关联工具</h2>
-                    <p>多账号管理 | 云手机</p>
-                </div>
-
-                   <!-- AI工具 -->
-            <div class="holo-card hero-card" onclick="openModal('ai-tools')">
-                <span class="tag tag-new">AI</span>
-                <i class="fas fa-brain main-icon" style="color: var(--secondary);"></i>
-                <i class="fas fa-robot bg-icon"></i>
-                <h2>AI工具</h2>
-                <p>自动化工作流、AI视频制作</p>
+                <i class="fas fa-shield-alt bg-icon"></i>
+                <h2>手机号 & 防关联</h2>
+                <p>海外号码接码 | 多账号防关联 | 云手机</p>
             </div>
+
+            <!-- N8N工作流 -->
+            <a href="n8n/n8n.html" target="_blank" class="holo-card hero-card" style="text-decoration: none; color: inherit;">
+                <span class="tag tag-hot">HOT</span>
+                <i class="fas fa-cogs main-icon" style="color: #8b5cf6;"></i>
+                <i class="fas fa-robot bg-icon"></i>
+                <h2>N8N 视频创作母体</h2>
+                <p>AI全自动化流水线 | 视频切片、二创、混剪</p>
+            </a>
     
           
 
@@ -2680,6 +2675,38 @@
     </div>
 </div>
 
+<!-- 海外手机号 & 防关联工具 合并弹窗 -->
+<div id="phone-tools-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close" onclick="closeModal('phone-tools')">&times;</span>
+        <h2><i class="fas fa-sim-card" style="color: #00d2ff; margin-right: 10px;"></i>海外手机号 & 防关联工具</h2>
+
+        <!-- 海外手机号 -->
+        <div class="modal-section-title">海外手机号</div>
+        <div class="modal-grid">
+            <a href="https://xesim.cc/?DIST=RkFPHVw%3D" target="_blank" class="link-card">
+                <i class="fas fa-sim-card" style="color: #00d2ff;"></i>
+                <div>
+                    <h3 style="color: #00d2ff;">XeSIM 海外手机号</h3>
+                    <p>海外多国号码 | 接收验证码 | 专属折扣码：sanyue</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- 防关联工具 -->
+        <div class="modal-section-title">防关联工具 & 云手机</div>
+        <div class="modal-grid">
+            <a href="https://www.bitbrowser.cn/?code=9jxo3o" target="_blank" class="link-card">
+                <i class="fas fa-fingerprint" style="color: #8a2be2;"></i>
+                <div>
+                    <h3 style="color: #8a2be2;">比特指纹浏览器</h3>
+                    <p>多账号防关联 | 模拟真实浏览器环境</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- 防关联工具详细内容 -->
 <div id="tools-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 800px;">
@@ -2703,14 +2730,14 @@
                     <p>多账号防关联 | 模拟真实浏览器环境</p>
                 </div>
             </a> -->
-            <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
+            <!-- <a href="https://www.duoplus.cn/share/tNVaXc" target="_blank" class="link-card"
                style="border: 1px solid rgba(32, 227, 178, 0.4); background: linear-gradient(145deg, rgba(32, 227, 178, 0.08), rgba(0, 0, 0, 0.4));">
                 <i class="fas fa-mobile-alt" style="color: #20e3b2;"></i> 
                 <div>
                     <h3 style="color: #20e3b2;">DuoPlus 海外云手机</h3>
                     <p>无需买真机 | 独享原生环境 | <span style="color: #20e3b2; font-weight: bold;">养号/发视频都可以</span></p>
                 </div>
-            </a>
+            </a> -->
         </div>
     </div>
 </div>
@@ -2853,17 +2880,9 @@
             <h2><i class="fas fa-brain" style="color: var(--secondary); margin-right: 10px;"></i>AI 工具库</h2>
             
             <!-- 站长推荐 -->
-            <div class="modal-section-title">站长推荐</div>
+            <!-- <div class="modal-section-title">站长推荐</div>
             <div class="modal-grid" style="grid-template-columns: 1fr;">
-                <!-- N8N工作流 -->
-                <a href="n8n/n8n.html" target="_blank" class="link-card" style="padding: 20px; border-color: #8b5cf6; background: linear-gradient(145deg, rgba(139, 92, 246, 0.15), rgba(0, 0, 0, 0.5)); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);">
-                    <i class="fas fa-cogs" style="font-size: 1.8rem; color: #8b5cf6;"></i>
-                    <div>
-                        <h3 style="font-size: 1.1rem; color: #a78bfa;">N8N 视频创作母体 <span style="font-size:0.7em; border:1px solid #8b5cf6; padding:2px 6px; border-radius:3px; margin-left:8px; color:#a78bfa;">HOT</span></h3>
-                        <p>AI全自动化流水线 | 视频切片、二创、混剪 | 矩阵运营神器</p>
-                    </div>
-                </a>
-                <!-- AI长视频制作 -->
+              
                 <a href="https://videoinu.com?source=9be32bf2a0e3" target="_blank" class="link-card" style="padding: 20px; border-color: rgba(188, 19, 254, 0.4); background: linear-gradient(145deg, rgba(188, 19, 254, 0.1), rgba(0, 0, 0, 0.5));">
                     <i class="fas fa-film" style="font-size: 1.8rem; color: var(--secondary);"></i>
                     <div>
@@ -2871,7 +2890,7 @@
                         <p>AI一键生成长视频 | 自动配音配字幕 | 批量生产神器</p>
                     </div>
                 </a>
-            </div>
+            </div> -->
             
             <!-- AI前沿工具 -->
             <div class="modal-section-title">AI 前沿工具</div>
@@ -6269,6 +6288,7 @@
         <a href="./contact-modal.html" target="_blank" class="tool-item"><i class="fab fa-telegram-plane"></i><span>联系站长</span></a>
         <div class="tool-item" onclick="closeMobileDrawer(); openModal('streaming');"><i class="fas fa-play-circle"></i><span>流媒体大全</span></div>
         <div class="tool-item" onclick="closeMobileDrawer(); openModal('social');"><i class="fas fa-hashtag"></i><span>社交媒体</span></div>
+        <div class="tool-item" onclick="closeMobileDrawer(); openModal('ai-tools');"><i class="fas fa-brain" style="color: var(--secondary);"></i><span>常用AI工具</span></div>
     </div>
     
     <script>
