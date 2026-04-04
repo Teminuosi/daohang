@@ -220,204 +220,218 @@
         }
         .banner-premium h3 { color: var(--primary); }
 
-        /* 视频网格 */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2em;
-            color: var(--primary);
-            margin-bottom: 20px;
+        /* ===== 合集布局 ===== */
+        .playlist-layout {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .video-card {
-            background: var(--glass);
+            flex-direction: row;
+            gap: 0;
+            height: calc(100vh - 240px);
+            min-height: 500px;
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .video-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+            background: rgba(10,10,14,0.9);
         }
 
-        .video-thumbnail {
-            position: relative;
-            aspect-ratio: 16/9;
-            background: #111;
-            overflow: hidden;
-        }
-        .video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .video-thumbnail .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--primary);
-            border-radius: 50%;
+        /* 左侧目录 */
+        .playlist-sidebar {
+            width: 300px;
+            flex-shrink: 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.5em;
-            transition: all 0.3s;
-        }
-        .video-card:hover .play-icon {
-            background: var(--primary);
-            color: #000;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .video-duration {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            color: #fff;
-        }
-
-        .video-lock {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 215, 0, 0.9);
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .video-free {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(76, 175, 80, 0.9);
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .video-info {
-            padding: 15px;
-        }
-        .video-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #fff;
-            font-size: 1em;
-        }
-        .video-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8em;
-            color: #666;
-        }
-        .video-category {
-            color: var(--secondary);
-        }
-
-        /* 视频播放器模态框 */
-        .player-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            display: none;
             flex-direction: column;
+            border-right: 1px solid var(--glass-border);
+            background: rgba(8,8,12,0.95);
         }
-        .player-modal.show { display: flex; }
 
-        .player-header {
-            height: 60px;
-            background: rgba(20, 20, 20, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
+        .playlist-header {
+            padding: 16px 18px;
             border-bottom: 1px solid var(--glass-border);
+            flex-shrink: 0;
+        }
+        .playlist-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .playlist-header .count {
+            font-size: 0.78em;
+            color: #555;
         }
 
-        .player-title {
-            color: #fff;
-            font-weight: 600;
+        .playlist-search {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0;
         }
-
-        .player-close {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: color 0.3s;
+        .playlist-search input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            padding: 7px 12px;
+            color: #ccc;
+            font-size: 0.82em;
+            outline: none;
+            transition: border-color 0.2s;
         }
-        .player-close:hover { color: #fff; }
+        .playlist-search input:focus { border-color: var(--primary); }
+        .playlist-search input::placeholder { color: #444; }
 
-        .player-body {
+        .playlist-list {
             flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+        .playlist-list::-webkit-scrollbar { width: 4px; }
+        .playlist-list::-webkit-scrollbar-track { background: transparent; }
+        .playlist-list::-webkit-scrollbar-thumb { background: rgba(0,243,255,0.2); border-radius: 2px; }
+
+        .playlist-item {
             display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .playlist-item:hover { background: rgba(0,243,255,0.05); }
+        .playlist-item.active {
+            background: rgba(0,243,255,0.08);
+            border-left-color: var(--primary);
+        }
+
+        .playlist-item-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7em;
+            color: #444;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .playlist-item.active .playlist-item-num { color: var(--primary); }
+
+        .playlist-item-thumb {
+            width: 68px;
+            height: 42px;
+            border-radius: 5px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #111;
+            position: relative;
+        }
+        .playlist-item-thumb img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .playlist-item-thumb .thumb-placeholder {
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .playlist-item-thumb .thumb-placeholder i { font-size: 0.9em; color: #333; }
+        .playlist-item-thumb .thumb-playing {
+            position: absolute; inset: 0;
+            background: rgba(0,243,255,0.15);
+            display: none; align-items: center; justify-content: center;
+        }
+        .playlist-item.active .thumb-playing { display: flex; }
+        .thumb-playing i { color: var(--primary); font-size: 1em; animation: pulse-play 1s infinite; }
+        @keyframes pulse-play { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+
+        .playlist-item-info { flex: 1; min-width: 0; }
+        .playlist-item-title {
+            font-size: 0.82em;
+            color: #ccc;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        .playlist-item.active .playlist-item-title { color: #fff; }
+        .playlist-item-meta {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+            align-items: center;
+        }
+        .playlist-item-dur { font-size: 0.72em; color: #555; }
+        .playlist-item-badge {
+            font-size: 0.65em;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .badge-free { background: rgba(76,175,80,0.2); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+        .badge-vip { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
 
-        .player-main {
+        /* 右侧播放区 */
+        .playlist-player {
             flex: 1;
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
-        .video-container {
+        /* 空状态 - 未选择视频时 */
+        .player-empty {
             flex: 1;
-            background: #000;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
+            color: #444;
+            gap: 16px;
+        }
+        .player-empty i { font-size: 4em; opacity: 0.3; }
+        .player-empty p { font-size: 0.95em; }
+
+        /* 播放器主体（嵌入布局，不再是全屏modal） */
+        .player-active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+        .player-top-bar {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: rgba(12,12,18,0.9);
+        }
+        .player-top-bar .player-title-text {
+            font-size: 0.95em;
+            color: #fff;
+            font-weight: 600;
+            flex: 1;
+            margin-right: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .player-top-bar .player-category {
+            font-size: 0.75em;
+            color: var(--secondary);
+            margin-right: 15px;
+            white-space: nowrap;
         }
 
-        .video-container video {
-            max-width: 100%;
-            max-height: 100%;
+        .video-wrapper {
+            position: relative;
+            background: #000;
+            flex-shrink: 0;
+        }
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            max-height: 55vh;
         }
 
         /* 预览限制遮罩 */
         .preview-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(5px);
             display: none;
@@ -429,73 +443,61 @@
         }
         .preview-overlay.show { display: flex; animation: fadeIn 0.5s; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .preview-overlay i.fa-lock {
-            font-size: 4em;
-            color: var(--gold);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-        }
-        .preview-overlay h3 {
-            color: #fff;
-            font-size: 1.8em;
-            font-family: 'Noto Sans SC', sans-serif;
-        }
-        .preview-overlay p {
-            color: #ccc;
-            max-width: 500px;
-            text-align: center;
-            line-height: 1.8;
-            font-size: 1.05em;
-        }
-        .preview-overlay p strong {
-            color: var(--gold);
-            font-size: 1.2em;
-        }
-        .preview-overlay .unlock-btn {
-            background: linear-gradient(135deg, var(--gold), #ff8c00);
-            color: #000;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-        }
-        .preview-overlay .unlock-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
-        }
-
-        /* 评论侧边栏等省略保持不变... */
-        .comments-sidebar {
-            width: 380px;
-            background: rgba(15, 15, 15, 0.95);
-            border-left: 1px solid var(--glass-border);
+        /* 视频下方：描述 + 评论区（可滚动） */
+        .player-below {
+            flex: 1;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
+        .player-below::-webkit-scrollbar { width: 4px; }
+        .player-below::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
+        .video-desc-area {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .video-desc-area p {
+            font-size: 0.85em;
+            color: #888;
+            line-height: 1.7;
+        }
+
+        /* 评论区嵌入式（原侧边栏变底部区域） */
+        .comments-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+        }
         .comments-header {
-            padding: 15px 20px;
+            padding: 12px 18px;
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
-        .comments-header h4 {
-            color: var(--primary);
-            font-family: 'Rajdhani', sans-serif;
-        }
-
+        .comments-header h4 { color: var(--primary); font-family: 'Rajdhani', sans-serif; }
         .comments-list {
             flex: 1;
             overflow-y: auto;
-            padding: 15px;
+            padding: 12px 18px;
         }
+        .comment-input-area { padding: 12px 18px; border-top: 1px solid var(--glass-border); flex-shrink: 0; }
+        .comment-input-area textarea {
+            width: 100%; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border); border-radius: 8px;
+            padding: 10px; color: #fff; resize: none; height: 70px; font-family: inherit; font-size: 0.88em;
+        }
+        .comment-input-area textarea:focus { outline: none; border-color: var(--primary); }
+        .comment-input-area textarea::placeholder { color: #555; }
 
+        /* 视频列表旧样式（保留兼容，但不再主用） */
+        .video-grid { display: none; }
+        .section-title { display: none; }
+
+        /* 评论 & 交互元素样式 */
         .comment-item {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 8px;
@@ -503,99 +505,51 @@
             margin-bottom: 10px;
             border: 1px solid transparent;
         }
-        .comment-item:hover {
-            border-color: rgba(0, 243, 255, 0.2);
-        }
+        .comment-item:hover { border-color: rgba(0, 243, 255, 0.2); }
         .comment-item.pinned {
             background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(0, 0, 0, 0.3));
             border: 1px solid rgba(255, 215, 0, 0.3);
             position: relative;
         }
         .comment-pinned-badge {
-            position: absolute;
-            top: 8px;
-            right: 10px;
+            position: absolute; top: 8px; right: 10px;
             background: linear-gradient(135deg, #ffd700, #ff9500);
-            color: #000;
-            font-size: 0.65em;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 10px;
+            color: #000; font-size: 0.65em; font-weight: bold;
+            padding: 2px 8px; border-radius: 10px;
         }
-        .comment-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
+        .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .comment-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(0, 243, 255, 0.1);
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9em;
-            overflow: hidden;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9em; overflow: hidden;
         }
         .comment-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .comment-avatar.admin {
-            border-color: var(--gold);
-            background: rgba(255, 215, 0, 0.1);
-        }
+        .comment-avatar.admin { border-color: var(--gold); background: rgba(255, 215, 0, 0.1); }
         .comment-name { font-size: 0.85em; color: #fff; }
         .comment-name.admin { color: var(--gold); }
         .comment-time { font-size: 0.75em; color: #666; margin-left: auto; }
-        .comment-content {
-            font-size: 0.9em; color: #ccc; line-height: 1.6;
-            white-space: pre-wrap; word-break: break-word;
-        }
-        .comment-content .comment-link {
-            color: var(--primary); text-decoration: none; word-break: break-all; transition: color 0.3s;
-        }
+        .comment-content { font-size: 0.9em; color: #ccc; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+        .comment-content .comment-link { color: var(--primary); text-decoration: none; word-break: break-all; transition: color 0.3s; }
         .comment-content .comment-link:hover { color: #fff; text-decoration: underline; }
         .comment-actions { display: flex; gap: 15px; margin-top: 8px; }
-        .comment-actions button {
-            background: none; border: none; color: #666; font-size: 0.8em;
-            cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color 0.3s;
-        }
+        .comment-actions button { background: none; border: none; color: #666; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color 0.3s; }
         .comment-actions button:hover { color: var(--primary); }
         .comment-actions button.delete:hover { color: #ff4757; }
         .comment-actions button.pin:hover { color: var(--gold); }
         .comment-actions button.unpin { color: var(--gold); }
         .comment-actions button.unpin:hover { color: #ccc; }
-        
-        .comment-replies {
-            margin-top: 10px; margin-left: 40px;
-            border-left: 2px solid rgba(0, 243, 255, 0.2); padding-left: 12px;
-        }
-        .reply-item {
-            background: rgba(0, 243, 255, 0.03); border-radius: 6px; padding: 10px; margin-bottom: 8px;
-        }
+        .comment-replies { margin-top: 10px; margin-left: 40px; border-left: 2px solid rgba(0, 243, 255, 0.2); padding-left: 12px; }
+        .reply-item { background: rgba(0, 243, 255, 0.03); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
         .reply-item .comment-avatar { width: 24px; height: 24px; font-size: 0.75em; }
         .reply-item .comment-name { font-size: 0.8em; }
         .reply-item .comment-content { font-size: 0.85em; }
         .reply-to-hint { color: var(--primary); font-size: 0.85em; margin-right: 5px; }
-        
-        .reply-hint {
-            display: none; align-items: center; gap: 10px; padding: 8px 12px;
-            background: rgba(0, 243, 255, 0.1); border-radius: 6px; margin-bottom: 10px; font-size: 0.85em;
-        }
+        .reply-hint { display: none; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(0, 243, 255, 0.1); border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; }
         .reply-hint.show { display: flex; }
         .reply-hint span { flex: 1; color: var(--primary); }
         .reply-hint button { background: none; border: none; color: #888; cursor: pointer; }
         .reply-hint button:hover { color: #fff; }
-
-        .comment-input-area { padding: 15px; border-top: 1px solid var(--glass-border); }
-        .comment-input-area textarea {
-            width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
-            border-radius: 8px; padding: 12px; color: #fff; resize: none; height: 80px; font-family: inherit;
-        }
-        .comment-input-area textarea:focus { outline: none; border-color: var(--primary); }
-        .comment-input-area textarea::placeholder { color: #555; }
-
         .comment-submit {
             margin-top: 10px; width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none; padding: 10px; border-radius: 8px; color: #fff; font-weight: bold;
@@ -605,8 +559,8 @@
         .comment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* 空状态 */
-        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
-        .empty-state i { font-size: 4em; margin-bottom: 20px; opacity: 0.3; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #666; }
+        .empty-state i { font-size: 3em; margin-bottom: 15px; opacity: 0.3; display: block; }
 
         /* 登录提示 */
         .login-prompt { text-align: center; padding: 20px; color: #888; }
@@ -710,24 +664,43 @@
         .supreme .tier-btn { background: linear-gradient(135deg, var(--secondary), #ff00ff); color: #fff; border: none; }
         .supreme .tier-btn:hover { box-shadow: 0 5px 20px rgba(188, 19, 254, 0.4); transform: translateY(-2px); }
 
+        /* Toast 消息 */
+        .toast {
+            position: fixed; top: 80px; right: 20px; background: var(--glass);
+            border: 1px solid var(--glass-border); border-radius: 8px; padding: 15px 20px;
+            display: flex; align-items: center; gap: 10px; z-index: 4000;
+            transform: translateX(120%); transition: transform 0.3s;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-color: #4caf50; }
+        .toast.error { border-color: #f44336; }
+        .toast.warning { border-color: #ff9800; }
+        .toast i { font-size: 1.2em; }
+        .toast.success i { color: #4caf50; }
+        .toast.error i { color: #f44336; }
+        .toast.warning i { color: #ff9800; }
+
+        @keyframes pulse-border-cyan {
+            0%, 100% { border-color: rgba(0, 243, 255, 0.2); }
+            50% { border-color: rgba(0, 243, 255, 0.45); }
+        }
+
         /* 响应式 */
-        @media (max-width: 900px) {
-            .comments-sidebar { display: none; }
-            .main-content { padding: 20px; }
-            .video-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
-            
+        @media (max-width: 600px) {
+            .main-content { padding: 10px; }
+            .playlist-layout { flex-direction: column; height: auto; min-height: unset; }
+            .playlist-sidebar { width: 100%; max-height: 220px; border-right: none; border-bottom: 1px solid var(--glass-border); }
+            .playlist-list { max-height: 150px; }
+            .video-wrapper video { max-height: 30vh; }
+            .playlist-item-thumb { display: none; }
+            .top-nav { padding: 0 15px; }
+            .nav-title span { display: none; }
+            .membership-banner { flex-direction: column; gap: 15px; text-align: center; }
             .pricing-grid { grid-template-columns: 1fr; gap: 30px; }
             .pricing-tier.popular { transform: none; }
             .pricing-tier.popular:hover { transform: translateY(-5px); }
             .upgrade-card-wide { padding: 30px 20px; }
             .upgrade-title { font-size: 1.5em; }
-        }
-
-        @media (max-width: 600px) {
-            .top-nav { padding: 0 15px; }
-            .nav-title span { display: none; }
-            .membership-banner { flex-direction: column; gap: 15px; text-align: center; }
-            .video-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -769,87 +742,120 @@
     <!-- 主内容 -->
     <div class="main-content">
         <!-- 未开通会员的横幅引流 -->
-        <div class="membership-banner" id="freeBanner" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(255, 215, 0, 0.3);">
+        <div class="membership-banner" id="freeBanner" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(255, 215, 0, 0.3); margin-bottom: 18px;">
             <div class="banner-content">
                 <h3 style="color: var(--gold);"><i class="fas fa-rocket"></i> 出海先锋集结号</h3>
                 <p>平台专注跨境业务实战！涵盖 <strong>AI建站、海外支付破局、引流变现</strong> 等硬核干货。<br>拒绝割韭菜，只需一顿火锅钱起，帮大家省时省力，直达出海变现。</p>
             </div>
             <button class="banner-btn" onclick="showUpgradeModal()"><i class="fas fa-crown"></i> 了解三大实战套餐</button>
         </div>
-
-        <!-- 尊贵会员显示的横幅 -->
-        <div class="membership-banner banner-premium" id="premiumBanner" style="display:none;">
+        <div class="membership-banner banner-premium" id="premiumBanner" style="display:none; margin-bottom: 18px;">
             <div class="banner-content">
                 <h3><i class="fas fa-check-circle"></i> 尊贵的永久出海VIP</h3>
                 <p>感谢您的支持！您可以无限制观看所有干货课程。如有需求可在评论区提出，站长将持续更新。</p>
             </div>
         </div>
 
-        <!-- 视频列表 -->
-        <div class="section-title">
-            <i class="fas fa-play-circle"></i>
-            精华干货课程
-            <span style="color:#666;font-size:0.8em;font-family:'Noto Sans SC';" id="videoCount">(0)</span>
-        </div>
-
-        <div class="video-grid" id="videoGrid">
-            <div class="empty-state">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>加载中...</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 视频播放器模态框 -->
-    <div class="player-modal" id="playerModal">
-        <div class="player-header">
-            <span class="player-title" id="playerTitle">视频标题</span>
-            <button class="player-close" onclick="closePlayer()">
+        <!-- 合集布局：左侧目录 + 右侧播放器 -->
+        <!-- 网络提示条 -->
+        <div id="networkNotice" style="
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 8px; padding: 10px 16px;
+            margin-bottom: 14px; font-size: 0.85em; color: #aaa;
+            animation: pulse-border-cyan 4s infinite;
+        ">
+            <i class="fas fa-globe" style="color: var(--primary); font-size: 1em; flex-shrink:0;"></i>
+            <span>本站视频服务器位于海外，如遇加载缓慢或无法播放，请<strong style="color: var(--primary);">自备国际网络环境</strong>后重试。</span>
+            <button onclick="document.getElementById('networkNotice').style.display='none'" style="
+                margin-left: auto; background: none; border: none;
+                color: #555; cursor: pointer; font-size: 1.1em; flex-shrink:0;
+                transition: color 0.2s; padding: 0 4px;
+            " title="关闭" onmouseover="this.style.color='#aaa'" onmouseout="this.style.color='#555'">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <div class="player-body">
-            <div class="player-main">
-                <div class="video-container">
-                    <video id="videoPlayer" controls>
-                        <source src="" type="application/x-mpegURL">
-                    </video>
-                    <!-- 预览限制遮罩 -->
-                    <div class="preview-overlay" id="previewOverlay">
-                        <i class="fas fa-lock"></i>
-                        <h3>预览已结束</h3>
-                        <p>您已观看30秒预览。<br>告别动辄上千元的割韭菜课程，解锁永久出海VIP，现在仅需 <strong>¥599起</strong>。</p>
-                        <button class="unlock-btn" onclick="showUpgradeModal()">
-                            <i class="fas fa-crown"></i> 了解开通方案，解锁全部精华
-                        </button>
-                        <button class="replay-btn" onclick="replayPreview()" style="margin-top:10px;background:transparent;border:1px solid #666;color:#888;padding:10px 20px;border-radius:5px;cursor:pointer;">
-                            <i class="fas fa-redo"></i> 重新观看预览
-                        </button>
+
+        <div class="playlist-layout">
+
+            <!-- 左侧目录 -->
+            <div class="playlist-sidebar">
+                <div class="playlist-header">
+                    <h3><i class="fas fa-list"></i> 课程目录</h3>
+                    <div class="count" id="videoCount">加载中...</div>
+                </div>
+                <div class="playlist-search">
+                    <input type="text" id="searchInput" placeholder="🔍 搜索课程..." oninput="filterPlaylist(this.value)">
+                </div>
+                <div class="playlist-list" id="playlistList">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>加载中...</p></div>
+                </div>
+            </div>
+
+            <!-- 右侧播放区 -->
+            <div class="playlist-player" id="playlistPlayer">
+                <!-- 未选中状态 -->
+                <div class="player-empty" id="playerEmpty">
+                    <i class="fas fa-play-circle"></i>
+                    <p>从左侧目录中选择一节课开始观看</p>
+                </div>
+
+                <!-- 播放中状态（初始隐藏） -->
+                <div class="player-active" id="playerActive" style="display:none;">
+                    <div class="player-top-bar">
+                        <span class="player-title-text" id="playerTitleText">视频标题</span>
+                        <span class="player-category" id="playerCategory"></span>
+                    </div>
+
+                    <div class="video-wrapper">
+                        <video id="videoPlayer" controls></video>
+                        <!-- 预览限制遮罩 -->
+                        <div class="preview-overlay" id="previewOverlay">
+                            <i class="fas fa-lock"></i>
+                            <h3>预览已结束</h3>
+                            <p>您已观看30秒预览。<br>告别动辄上千元的割韭菜课程，解锁永久出海VIP，现在仅需 <strong>¥599起</strong>。</p>
+                            <button class="unlock-btn" onclick="showUpgradeModal()">
+                                <i class="fas fa-crown"></i> 了解开通方案，解锁全部精华
+                            </button>
+                            <button onclick="replayPreview()" style="background:transparent;border:1px solid #666;color:#888;padding:10px 20px;border-radius:5px;cursor:pointer;">
+                                <i class="fas fa-redo"></i> 重新观看预览
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 视频下方滚动区：描述 + 评论 -->
+                    <div class="player-below">
+                        <div class="video-desc-area" id="videoDescArea" style="display:none;">
+                            <p id="videoDescText"></p>
+                        </div>
+
+                        <div class="comments-section">
+                            <div class="comments-header">
+                                <h4><i class="fas fa-comments"></i> 课程讨论</h4>
+                                <span id="commentCount" style="color:#666;font-size:0.85em;">0条评论</span>
+                            </div>
+                            <div class="comments-list" id="commentsList"></div>
+                            <div class="comment-input-area" id="commentInputArea">
+                                <div class="reply-hint" id="replyHint">
+                                    <i class="fas fa-reply"></i>
+                                    <span>回复 <strong id="replyToName"></strong></span>
+                                    <button onclick="cancelReply()"><i class="fas fa-times"></i></button>
+                                </div>
+                                <textarea id="commentInput" placeholder="发表你的看法..." maxlength="300"></textarea>
+                                <button class="comment-submit" id="commentSubmitBtn" onclick="submitComment()">
+                                    <i class="fas fa-paper-plane"></i> 发送评论
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- 评论侧边栏 -->
-            <div class="comments-sidebar">
-                <div class="comments-header">
-                    <h4><i class="fas fa-comments"></i> 课程讨论</h4>
-                    <span id="commentCount" style="color:#666;font-size:0.85em;">0条评论</span>
-                </div>
-                <div class="comments-list" id="commentsList">
-                    <!-- 评论列表 -->
-                </div>
-                <div class="comment-input-area" id="commentInputArea">
-                    <div class="reply-hint" id="replyHint">
-                        <i class="fas fa-reply"></i>
-                        <span>回复 <strong id="replyToName"></strong></span>
-                        <button onclick="cancelReply()"><i class="fas fa-times"></i></button>
-                    </div>
-                    <textarea id="commentInput" placeholder="发表你的看法..." maxlength="300"></textarea>
-                    <button class="comment-submit" id="commentSubmitBtn" onclick="submitComment()">
-                        <i class="fas fa-paper-plane"></i> 发送评论
-                    </button>
-                </div>
-            </div>
-        </div>
+
+        </div><!-- end playlist-layout -->
+
+        <!-- 保留旧的videoGrid供JS兼容 -->
+        <div class="video-grid" id="videoGrid" style="display:none;"></div>
     </div>
 
     <!-- 全新三大档位 VIP 升级精美弹窗 -->
@@ -1081,56 +1087,64 @@
             });
         }
 
-        // 渲染视频列表
+        // 全部视频缓存（供搜索用）
+        let allVideos = [];
+
+        // 渲染左侧目录
         function renderVideos(videos) {
-            var grid = document.getElementById('videoGrid');
-            document.getElementById('videoCount').textContent = '(' + videos.length + ')';
-            
-            if (videos.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><i class="fas fa-video-slash"></i><p>暂无课程，敬请期待</p></div>';
-                return;
-            }
-            
-            var html = '';
-            videos.forEach(function(video) {
-                var duration = formatDuration(video.duration);
-                var isFreeVideo = video.is_free === true;
-                
-                html += '<div class="video-card" onclick="openVideo(\'' + video.id + '\')">';
-                html += '<div class="video-thumbnail">';
-                if (video.cover_url) {
-                    html += '<img src="' + video.cover_url + '" alt="' + escapeHtml(video.title) + '">';
-                } else {
-                    html += '<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;"><i class="fas fa-play" style="font-size:2em;color:#333;"></i></div>';
-                }
-                html += '<div class="play-icon"><i class="fas fa-play"></i></div>';
-                html += '<span class="video-duration">' + duration + '</span>';
-                
-                if (isFreeVideo) {
-                    html += '<span class="video-free"><i class="fas fa-gift"></i> 免费</span>';
-                } else if (!isPremium) {
-                    html += '<span class="video-lock"><i class="fas fa-lock"></i> VIP专属</span>';
-                }
-                
-                html += '</div>';
-                html += '<div class="video-info">';
-                html += '<div class="video-title">' + escapeHtml(video.title) + '</div>';
-                html += '<div class="video-meta">';
-                html += '<span class="video-category">' + escapeHtml(video.category || '出海干货') + '</span>';
-                // html += '<span><i class="fas fa-eye"></i> ' + (video.view_count || 0) + '</span>';
-                html += '</div></div></div>';
-            });
-            
-            grid.innerHTML = html;
+            allVideos = videos;
+            document.getElementById('videoCount').textContent = '共 ' + videos.length + ' 节课';
+            renderPlaylist(videos);
         }
 
-        // 打开视频
-        function openVideo(videoId) {
-            if (!currentUser) {
-                showToast('请先登录后观看', 'warning');
+        function renderPlaylist(videos) {
+            var list = document.getElementById('playlistList');
+            if (videos.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-video-slash"></i><p>暂无课程</p></div>';
                 return;
             }
-            
+            var html = '';
+            videos.forEach(function(video, index) {
+                var duration = formatDuration(video.duration);
+                var isFree = video.is_free === true;
+                var isActive = currentVideo && currentVideo.id === video.id;
+
+                html += '<div class="playlist-item' + (isActive ? ' active' : '') + '" onclick="openVideo(\'' + video.id + '\')" data-id="' + video.id + '">';
+                html += '<span class="playlist-item-num">' + (index + 1) + '</span>';
+                html += '<div class="playlist-item-thumb">';
+                if (video.cover_url) {
+                    html += '<img src="' + video.cover_url + '" alt="">';
+                } else {
+                    html += '<div class="thumb-placeholder"><i class="fas fa-play"></i></div>';
+                }
+                html += '<div class="thumb-playing"><i class="fas fa-volume-up"></i></div>';
+                html += '</div>';
+                html += '<div class="playlist-item-info">';
+                html += '<div class="playlist-item-title">' + escapeHtml(video.title) + '</div>';
+                html += '<div class="playlist-item-meta">';
+                html += '<span class="playlist-item-dur">' + duration + '</span>';
+                if (isFree) {
+                    html += '<span class="playlist-item-badge badge-free">免费</span>';
+                } else if (!isPremium) {
+                    html += '<span class="playlist-item-badge badge-vip"><i class="fas fa-lock" style="font-size:0.8em;"></i> VIP</span>';
+                }
+                html += '</div></div></div>';
+            });
+            list.innerHTML = html;
+        }
+
+        function filterPlaylist(keyword) {
+            if (!keyword.trim()) { renderPlaylist(allVideos); return; }
+            var filtered = allVideos.filter(function(v) {
+                return v.title.toLowerCase().includes(keyword.toLowerCase()) ||
+                       (v.category || '').toLowerCase().includes(keyword.toLowerCase());
+            });
+            renderPlaylist(filtered);
+        }
+
+        // 打开视频（点击目录条目）
+        function openVideo(videoId) {
+            if (!currentUser) { showToast('请先登录后观看', 'warning'); return; }
             fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + videoId, {
                 method: 'GET', headers: { 'apikey': SUPABASE_KEY }
             })
@@ -1142,17 +1156,49 @@
                     showPlayer();
                     loadVideoComments(videoId);
                     incrementViewCount(videoId);
+                    // 更新目录高亮
+                    renderPlaylist(allVideos);
+                    // 滚动到激活项
+                    var activeEl = document.querySelector('.playlist-item.active');
+                    if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
             });
         }
 
-        // 显示播放器
+        // 显示播放器（内嵌式，无modal）
         function showPlayer() {
-            document.getElementById('playerTitle').textContent = currentVideo.title;
-            document.getElementById('playerModal').classList.add('show');
-            document.body.classList.add('modal-open');
+            document.getElementById('playerEmpty').style.display = 'none';
+            document.getElementById('playerActive').style.display = 'flex';
+            document.getElementById('playerTitleText').textContent = currentVideo.title;
+            document.getElementById('playerCategory').textContent = currentVideo.category || '出海干货';
+
+            // 描述
+            if (currentVideo.description) {
+                document.getElementById('videoDescArea').style.display = 'block';
+                document.getElementById('videoDescText').textContent = currentVideo.description;
+            } else {
+                document.getElementById('videoDescArea').style.display = 'none';
+            }
+
             document.getElementById('previewOverlay').classList.remove('show');
+
+            // 滚动播放区到顶部
+            var below = document.querySelector('.player-below');
+            if (below) below.scrollTop = 0;
+
             initPlayer(currentVideo.video_url);
+        }
+
+        // 关闭 / 切换视频时清理播放器（供升级弹窗调用）
+        function closePlayer() {
+            if (videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.removeEventListener('timeupdate', checkPreviewLimit);
+                videoPlayer.removeEventListener('seeking', preventSeekBeyondPreview);
+                videoPlayer.removeEventListener('ratechange', preventSpeedChange);
+                videoPlayer.removeEventListener('play', blockPlayAfterPreview);
+            }
+            if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
         }
 
         // 初始化播放器
@@ -1238,25 +1284,7 @@
             }
         }
 
-        // 关闭播放器
-        function closePlayer() {
-            document.getElementById('playerModal').classList.remove('show');
-            document.body.classList.remove('modal-open');
-            document.getElementById('previewOverlay').classList.remove('show');
-            
-            if (videoPlayer) {
-                videoPlayer.pause();
-                videoPlayer.removeEventListener('timeupdate', checkPreviewLimit);
-                videoPlayer.removeEventListener('seeking', preventSeekBeyondPreview);
-                videoPlayer.removeEventListener('ratechange', preventSpeedChange);
-                videoPlayer.removeEventListener('play', blockPlayAfterPreview);
-            }
-            if (hlsPlayer) {
-                hlsPlayer.destroy();
-                hlsPlayer = null;
-            }
-            currentVideo = null;
-        }
+
 
         // 增加观看次数
         function incrementViewCount(videoId) {
@@ -1269,9 +1297,7 @@
 
         /* ======= 升级 VIP 相关函数 ======= */
         function showUpgradeModal() {
-            if(document.getElementById('playerModal').classList.contains('show')) {
-                closePlayer();
-            }
+            closePlayer();
             document.getElementById('upgradeModalOverlay').classList.add('show');
             document.body.classList.add('modal-open');
         }

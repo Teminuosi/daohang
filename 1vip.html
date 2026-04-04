@@ -183,28 +183,35 @@
 
         .banner-content h3 {
             color: var(--gold);
-            font-family: 'Rajdhani', sans-serif;
-            margin-bottom: 5px;
+            font-family: 'Noto Sans SC', sans-serif;
+            margin-bottom: 8px;
+            font-size: 1.2em;
         }
         .banner-content p {
-            color: #aaa;
-            font-size: 0.9em;
+            color: #ddd;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .banner-content strong {
+            color: var(--primary);
         }
 
         .banner-btn {
             background: linear-gradient(135deg, var(--gold), #ff8c00);
             color: #000;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.95em;
+            font-size: 1em;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
         }
         .banner-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
         }
 
         .banner-premium {
@@ -411,7 +418,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(5px);
             display: none;
             flex-direction: column;
             align-items: center;
@@ -419,21 +427,30 @@
             gap: 20px;
             z-index: 10;
         }
-        .preview-overlay.show { display: flex; }
+        .preview-overlay.show { display: flex; animation: fadeIn 0.5s; }
 
-        .preview-overlay i {
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .preview-overlay i.fa-lock {
             font-size: 4em;
             color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
         .preview-overlay h3 {
             color: #fff;
-            font-size: 1.5em;
+            font-size: 1.8em;
+            font-family: 'Noto Sans SC', sans-serif;
         }
         .preview-overlay p {
-            color: #aaa;
-            max-width: 400px;
+            color: #ccc;
+            max-width: 500px;
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        .preview-overlay p strong {
+            color: var(--gold);
+            font-size: 1.2em;
         }
         .preview-overlay .unlock-btn {
             background: linear-gradient(135deg, var(--gold), #ff8c00);
@@ -443,15 +460,16 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
             transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
         }
         .preview-overlay .unlock-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
         }
 
-        /* 评论侧边栏 */
+        /* 评论侧边栏等省略保持不变... */
         .comments-sidebar {
             width: 380px;
             background: rgba(15, 15, 15, 0.95);
@@ -527,191 +545,79 @@
             border-color: var(--gold);
             background: rgba(255, 215, 0, 0.1);
         }
-        .comment-name {
-            font-size: 0.85em;
-            color: #fff;
-        }
+        .comment-name { font-size: 0.85em; color: #fff; }
         .comment-name.admin { color: var(--gold); }
-        .comment-time {
-            font-size: 0.75em;
-            color: #666;
-            margin-left: auto;
-        }
+        .comment-time { font-size: 0.75em; color: #666; margin-left: auto; }
         .comment-content {
-            font-size: 0.9em;
-            color: #ccc;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-break: break-word;
+            font-size: 0.9em; color: #ccc; line-height: 1.6;
+            white-space: pre-wrap; word-break: break-word;
         }
         .comment-content .comment-link {
-            color: var(--primary);
-            text-decoration: none;
-            word-break: break-all;
-            transition: color 0.3s;
+            color: var(--primary); text-decoration: none; word-break: break-all; transition: color 0.3s;
         }
-        .comment-content .comment-link:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-        .comment-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 8px;
-        }
+        .comment-content .comment-link:hover { color: #fff; text-decoration: underline; }
+        .comment-actions { display: flex; gap: 15px; margin-top: 8px; }
         .comment-actions button {
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 0.8em;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: color 0.3s;
+            background: none; border: none; color: #666; font-size: 0.8em;
+            cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color 0.3s;
         }
-        .comment-actions button:hover {
-            color: var(--primary);
-        }
-        .comment-actions button.delete:hover {
-            color: #ff4757;
-        }
-        .comment-actions button.pin:hover {
-            color: var(--gold);
-        }
-        .comment-actions button.unpin {
-            color: var(--gold);
-        }
-        .comment-actions button.unpin:hover {
-            color: #ccc;
-        }
-        /* 楼中楼回复 */
+        .comment-actions button:hover { color: var(--primary); }
+        .comment-actions button.delete:hover { color: #ff4757; }
+        .comment-actions button.pin:hover { color: var(--gold); }
+        .comment-actions button.unpin { color: var(--gold); }
+        .comment-actions button.unpin:hover { color: #ccc; }
+        
         .comment-replies {
-            margin-top: 10px;
-            margin-left: 40px;
-            border-left: 2px solid rgba(0, 243, 255, 0.2);
-            padding-left: 12px;
+            margin-top: 10px; margin-left: 40px;
+            border-left: 2px solid rgba(0, 243, 255, 0.2); padding-left: 12px;
         }
         .reply-item {
-            background: rgba(0, 243, 255, 0.03);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
+            background: rgba(0, 243, 255, 0.03); border-radius: 6px; padding: 10px; margin-bottom: 8px;
         }
-        .reply-item .comment-avatar {
-            width: 24px;
-            height: 24px;
-            font-size: 0.75em;
-        }
-        .reply-item .comment-name {
-            font-size: 0.8em;
-        }
-        .reply-item .comment-content {
-            font-size: 0.85em;
-        }
-        .reply-to-hint {
-            color: var(--primary);
-            font-size: 0.85em;
-            margin-right: 5px;
-        }
-        /* 回复提示条 */
+        .reply-item .comment-avatar { width: 24px; height: 24px; font-size: 0.75em; }
+        .reply-item .comment-name { font-size: 0.8em; }
+        .reply-item .comment-content { font-size: 0.85em; }
+        .reply-to-hint { color: var(--primary); font-size: 0.85em; margin-right: 5px; }
+        
         .reply-hint {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            background: rgba(0, 243, 255, 0.1);
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.85em;
+            display: none; align-items: center; gap: 10px; padding: 8px 12px;
+            background: rgba(0, 243, 255, 0.1); border-radius: 6px; margin-bottom: 10px; font-size: 0.85em;
         }
         .reply-hint.show { display: flex; }
         .reply-hint span { flex: 1; color: var(--primary); }
-        .reply-hint button {
-            background: none;
-            border: none;
-            color: #888;
-            cursor: pointer;
-        }
+        .reply-hint button { background: none; border: none; color: #888; cursor: pointer; }
         .reply-hint button:hover { color: #fff; }
 
-        .comment-input-area {
-            padding: 15px;
-            border-top: 1px solid var(--glass-border);
-        }
+        .comment-input-area { padding: 15px; border-top: 1px solid var(--glass-border); }
         .comment-input-area textarea {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            resize: none;
-            height: 80px;
-            font-family: inherit;
+            width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            border-radius: 8px; padding: 12px; color: #fff; resize: none; height: 80px; font-family: inherit;
         }
-        .comment-input-area textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
+        .comment-input-area textarea:focus { outline: none; border-color: var(--primary); }
         .comment-input-area textarea::placeholder { color: #555; }
 
         .comment-submit {
-            margin-top: 10px;
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin-top: 10px; width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none; padding: 10px; border-radius: 8px; color: #fff; font-weight: bold;
+            cursor: pointer; transition: all 0.3s;
         }
         .comment-submit:hover { opacity: 0.9; }
-        .comment-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .comment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        .empty-state i {
-            font-size: 4em;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+        .empty-state i { font-size: 4em; margin-bottom: 20px; opacity: 0.3; }
 
         /* 登录提示 */
-        .login-prompt {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-        }
-        .login-prompt a {
-            color: var(--primary);
-            cursor: pointer;
-        }
+        .login-prompt { text-align: center; padding: 20px; color: #888; }
+        .login-prompt a { color: var(--primary); cursor: pointer; }
 
         /* Toast 消息 */
         .toast {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 3000;
-            transform: translateX(120%);
-            transition: transform 0.3s;
+            position: fixed; top: 80px; right: 20px; background: var(--glass);
+            border: 1px solid var(--glass-border); border-radius: 8px; padding: 15px 20px;
+            display: flex; align-items: center; gap: 10px; z-index: 4000;
+            transform: translateX(120%); transition: transform 0.3s;
         }
         .toast.show { transform: translateX(0); }
         .toast.success { border-color: #4caf50; }
@@ -722,11 +628,99 @@
         .toast.error i { color: #f44336; }
         .toast.warning i { color: #ff9800; }
 
+        /* === 全新三大档位 VIP 升级特权专属弹窗样式 === */
+        .upgrade-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            z-index: 3000; display: none; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .upgrade-modal-overlay.show { display: flex; animation: fadeIn 0.3s; }
+        
+        .upgrade-card-wide {
+            background: linear-gradient(145deg, rgba(20, 20, 25, 0.95), rgba(10, 10, 15, 0.98));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px; width: 100%; max-width: 1000px; padding: 40px;
+            position: relative; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            text-align: center; max-height: 95vh; overflow-y: auto;
+        }
+        
+        .upgrade-close {
+            position: absolute; top: 15px; right: 20px;
+            background: none; border: none; color: #888; font-size: 1.5em; cursor: pointer;
+            transition: color 0.3s; z-index: 10;
+        }
+        .upgrade-close:hover { color: #fff; }
+        
+        .upgrade-title { 
+            color: var(--gold); font-family: 'Noto Sans SC', sans-serif; 
+            font-size: 2em; margin-bottom: 10px; font-weight: 700; 
+        }
+        .upgrade-desc { color: #bbb; font-size: 1.05em; margin-bottom: 30px; line-height: 1.6; }
+
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;
+        }
+
+        .pricing-tier {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 35px 25px; display: flex; flex-direction: column;
+            position: relative; transition: all 0.3s; text-align: left;
+        }
+        .pricing-tier:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0, 243, 255, 0.1); }
+        
+        /* 中间推荐位（999档位） */
+        .pricing-tier.popular {
+            border-color: var(--gold); background: linear-gradient(180deg, rgba(255, 215, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+            transform: scale(1.05); z-index: 2; box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+        }
+        .pricing-tier.popular:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3); }
+        
+        .popular-badge {
+            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold), #ff8c00); color: #000;
+            padding: 4px 18px; border-radius: 20px; font-weight: bold; font-size: 0.9em; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 顶级至尊版（1999档位） */
+        .pricing-tier.supreme { border-color: rgba(188, 19, 254, 0.3); }
+        .pricing-tier.supreme:hover { border-color: var(--secondary); box-shadow: 0 10px 30px rgba(188, 19, 254, 0.15); }
+
+        .tier-name { font-size: 1.2em; color: #ccc; margin-bottom: 10px; font-weight: bold; }
+        .tier-price { font-family: 'Orbitron', sans-serif; font-size: 2.8em; color: #fff; margin-bottom: 25px; font-weight: bold; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        .tier-price span { font-size: 0.35em; color: #888; text-decoration: line-through; margin-left: 5px; font-family: 'Noto Sans SC', sans-serif; font-weight: normal; }
+
+        .tier-features { list-style: none; margin-bottom: 30px; flex: 1; }
+        .tier-features li { margin-bottom: 15px; color: #ddd; font-size: 0.95em; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+        .tier-features i { color: var(--primary); margin-top: 3px; font-size: 1.1em; width: 20px; text-align: center; }
+        .popular .tier-features i { color: var(--gold); }
+        .supreme .tier-features i { color: var(--secondary); }
+        .tier-features b { color: #fff; font-weight: 600; }
+
+        .tier-btn {
+            background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s;
+            margin-top: auto; font-size: 1em; text-align: center; display: block; width: 100%;
+        }
+        .tier-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        
+        .popular .tier-btn { background: linear-gradient(135deg, var(--gold), #ff8c00); color: #000; border: none; }
+        .popular .tier-btn:hover { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4); transform: translateY(-2px); }
+        
+        .supreme .tier-btn { background: linear-gradient(135deg, var(--secondary), #ff00ff); color: #fff; border: none; }
+        .supreme .tier-btn:hover { box-shadow: 0 5px 20px rgba(188, 19, 254, 0.4); transform: translateY(-2px); }
+
         /* 响应式 */
         @media (max-width: 900px) {
             .comments-sidebar { display: none; }
             .main-content { padding: 20px; }
             .video-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+            
+            .pricing-grid { grid-template-columns: 1fr; gap: 30px; }
+            .pricing-tier.popular { transform: none; }
+            .pricing-tier.popular:hover { transform: translateY(-5px); }
+            .upgrade-card-wide { padding: 30px 20px; }
+            .upgrade-title { font-size: 1.5em; }
         }
 
         @media (max-width: 600px) {
@@ -774,31 +768,31 @@
 
     <!-- 主内容 -->
     <div class="main-content">
-        <!-- 公告横幅 -->
-        <div class="membership-banner" id="freeBanner" style="background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(0, 243, 255, 0.3);">
+        <!-- 未开通会员的横幅引流 -->
+        <div class="membership-banner" id="freeBanner" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(255, 215, 0, 0.3);">
             <div class="banner-content">
-                <h3 style="color: var(--primary);"><i class="fas fa-bullhorn"></i> 平台公告</h3>
-                <p>因国内视频无法过审查，所以做此平台。今后各类技术视频会持续更新，大家有需求也可以在评论区提出！</p>
+                <h3 style="color: var(--gold);"><i class="fas fa-rocket"></i> 出海先锋集结号</h3>
+                <p>平台专注跨境业务实战！涵盖 <strong>AI建站、海外支付破局、引流变现</strong> 等硬核干货。<br>拒绝割韭菜，只需一顿火锅钱起，帮大家省时省力，直达出海变现。</p>
             </div>
+            <button class="banner-btn" onclick="showUpgradeModal()"><i class="fas fa-crown"></i> 了解三大实战套餐</button>
         </div>
 
-        <!-- 会员横幅 - 会员显示 -->
+        <!-- 尊贵会员显示的横幅 -->
         <div class="membership-banner banner-premium" id="premiumBanner" style="display:none;">
             <div class="banner-content">
-                <h3><i class="fas fa-check-circle"></i> 尊贵的永久会员</h3>
-                <p>感谢您的支持！您可以无限制观看所有精华课程。</p>
+                <h3><i class="fas fa-check-circle"></i> 尊贵的永久出海VIP</h3>
+                <p>感谢您的支持！您可以无限制观看所有干货课程。如有需求可在评论区提出，站长将持续更新。</p>
             </div>
         </div>
 
         <!-- 视频列表 -->
         <div class="section-title">
             <i class="fas fa-play-circle"></i>
-            精华课程
+            精华干货课程
             <span style="color:#666;font-size:0.8em;font-family:'Noto Sans SC';" id="videoCount">(0)</span>
         </div>
 
         <div class="video-grid" id="videoGrid">
-            <!-- 视频卡片通过JS渲染 -->
             <div class="empty-state">
                 <i class="fas fa-spinner fa-spin"></i>
                 <p>加载中...</p>
@@ -824,9 +818,9 @@
                     <div class="preview-overlay" id="previewOverlay">
                         <i class="fas fa-lock"></i>
                         <h3>预览已结束</h3>
-                        <p>您已观看30秒预览。开通永久会员即可解锁全部内容，价格仅需 ¥699。</p>
+                        <p>您已观看30秒预览。<br>告别动辄上千元的割韭菜课程，解锁永久出海VIP，现在仅需 <strong>¥599起</strong>。</p>
                         <button class="unlock-btn" onclick="showUpgradeModal()">
-                            <i class="fas fa-crown"></i> 立即开通会员
+                            <i class="fas fa-crown"></i> 了解开通方案，解锁全部精华
                         </button>
                         <button class="replay-btn" onclick="replayPreview()" style="margin-top:10px;background:transparent;border:1px solid #666;color:#888;padding:10px 20px;border-radius:5px;cursor:pointer;">
                             <i class="fas fa-redo"></i> 重新观看预览
@@ -854,6 +848,59 @@
                         <i class="fas fa-paper-plane"></i> 发送评论
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全新三大档位 VIP 升级精美弹窗 -->
+    <div class="upgrade-modal-overlay" id="upgradeModalOverlay">
+        <div class="upgrade-card-wide">
+            <button class="upgrade-close" onclick="closeUpgradeModal()"><i class="fas fa-times"></i></button>
+            <h2 class="upgrade-title"><i class="fas fa-crown"></i> 选择适合您的出海进阶计划</h2>
+            <p class="upgrade-desc">抛弃纯理论，解决真痛点。提供实战经验，帮您省时省力，直达出海变现。</p>
+            
+            <div class="pricing-grid">
+                
+                <!-- 档位 1: 599 -->
+                <div class="pricing-tier">
+                    <h3 class="tier-name">基础视频版</h3>
+                    <div class="tier-price">¥599<span>原价 ¥1299</span></div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-play-circle"></i> 全站出海干货视频永久免费看</li>
+                        <li><i class="fas fa-sync-alt"></i> 后期持续更新硬核干货（如AI独立站、海外支付解决等）</li>
+                        <li><i class="fas fa-shield-alt"></i> 避免上千元割韭菜课程，仅需一顿火锅钱</li>
+                    </ul>
+                    <button class="tier-btn" onclick="goToBuy('599')"><i class="fas fa-paper-plane"></i> 联系开通此套餐</button>
+                </div>
+                
+                <!-- 档位 2: 999 (推荐) -->
+                <div class="pricing-tier popular">
+                    <div class="popular-badge">站长重点推荐</div>
+                    <h3 class="tier-name" style="color:var(--gold);">实操辅助版</h3>
+                    <div class="tier-price" style="color:var(--gold);">¥999<span>原价 ¥2999</span></div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-check-circle"></i> <b>包含 599 视频版所有权益</b></li>
+                        <li><i class="fas fa-headset"></i> <b>站长远程辅助搭建全流程（一次）</b></li>
+                        <li><i class="fas fa-question-circle"></i> 提供1对1实战疑难解惑</li>
+                        <li><i class="fas fa-bolt"></i> 避免新手期踩坑，大幅缩短摸索时间</li>
+                    </ul>
+                    <button class="tier-btn" onclick="goToBuy('999')"><i class="fas fa-crown"></i> 联系开通此套餐</button>
+                </div>
+
+                <!-- 档位 3: 1999 (至尊) -->
+                <div class="pricing-tier supreme">
+                    <h3 class="tier-name" style="color:var(--secondary);">全能至尊版</h3>
+                    <div class="tier-price" style="color:var(--secondary);">¥1999<span>原价 ¥5999</span></div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-check-double"></i> <b>包含前两项套餐所有服务</b></li>
+                        <li><i class="fas fa-wifi"></i> <b>独家赠送实物：定制出海软路由</b></li>
+                        <li><i class="fas fa-robot"></i> 赠送高效高产出的 AI 工作流</li>
+                        <li><i class="fas fa-book-reader"></i> 倾囊相授站长个人私密出海经验</li>
+                        <li><i class="fas fa-box-open"></i> 后期新出的所有工具均可免费领取</li>
+                    </ul>
+                    <button class="tier-btn" onclick="goToBuy('1999')"><i class="fas fa-gem"></i> 联系开通此套餐</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -913,31 +960,23 @@
             });
         }
         
-        // 带认证的请求（自动刷新token）
+        // 带认证的请求
         function fetchWithAuth(url, options) {
             var accessToken = localStorage.getItem('nexus_access_token');
-            
             if (!options) options = {};
             if (!options.headers) options.headers = {};
-            
             options.headers['apikey'] = SUPABASE_KEY;
             options.headers['Authorization'] = 'Bearer ' + (accessToken || SUPABASE_KEY);
             
-            return fetch(url, options)
-                .then(function(response) {
-                    if (response.status === 401 && accessToken) {
-                        // Token 过期，尝试刷新
-                        return refreshAccessToken()
-                            .then(function(newToken) {
-                                options.headers['Authorization'] = 'Bearer ' + newToken;
-                                return fetch(url, options);
-                            })
-                            .catch(function() {
-                                return response;
-                            });
-                    }
-                    return response;
-                });
+            return fetch(url, options).then(function(response) {
+                if (response.status === 401 && accessToken) {
+                    return refreshAccessToken().then(function(newToken) {
+                        options.headers['Authorization'] = 'Bearer ' + newToken;
+                        return fetch(url, options);
+                    }).catch(function() { return response; });
+                }
+                return response;
+            });
         }
 
         // 初始化
@@ -978,9 +1017,7 @@
             var avatarHtml = '👤';
             
             if (currentUser.user_metadata) {
-                if (currentUser.user_metadata.full_name) {
-                    displayName = currentUser.user_metadata.full_name;
-                }
+                if (currentUser.user_metadata.full_name) displayName = currentUser.user_metadata.full_name;
                 if (currentUser.user_metadata.avatar_url) {
                     avatarHtml = '<img src="' + currentUser.user_metadata.avatar_url + '" alt="头像">';
                 } else if (currentUser.user_metadata.avatar) {
@@ -1000,7 +1037,6 @@
         // 检查会员状态
         function checkMembership() {
             if (!currentUser) return;
-            
             var accessToken = localStorage.getItem('nexus_access_token');
             
             // 站长自动拥有会员权限
@@ -1015,49 +1051,28 @@
             
             fetch(SUPABASE_URL + '/rest/v1/user_memberships?user_id=eq.' + currentUser.id + '&select=*', {
                 method: 'GET',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + accessToken
-                }
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken }
             })
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 if (data && data.length > 0 && data[0].membership_type === 'premium') {
                     isPremium = true;
-                    document.getElementById('membershipBadge').textContent = '永久会员';
+                    document.getElementById('membershipBadge').textContent = '永久VIP';
                     document.getElementById('membershipBadge').className = 'membership-status premium';
                     document.getElementById('freeBanner').style.display = 'none';
                     document.getElementById('premiumBanner').style.display = 'flex';
                 }
-            })
-            .catch(function(err) {
-                console.error('检查会员状态失败:', err);
-            });
+            }).catch(function(err) { console.error('检查会员状态失败:', err); });
         }
 
         // 加载视频列表
         function loadVideos() {
             fetch(SUPABASE_URL + '/rest/v1/videos?is_published=eq.true&order=sort_order.asc,created_at.desc', {
-                method: 'GET',
-                headers: {
-                    'apikey': SUPABASE_KEY
-                }
+                method: 'GET', headers: { 'apikey': SUPABASE_KEY }
             })
-            .then(function(res) { 
-                console.log('视频API响应状态:', res.status);
-                return res.json(); 
-            })
+            .then(function(res) { return res.json(); })
             .then(function(videos) {
-                console.log('视频API返回数据:', videos);
-                // 检查是否是数组
-                if (!Array.isArray(videos)) {
-                    console.error('API返回的不是数组:', videos);
-                    // 可能是RLS权限问题
-                    if (videos.message) {
-                        throw new Error(videos.message);
-                    }
-                    videos = [];
-                }
+                if (!Array.isArray(videos)) videos = [];
                 renderVideos(videos);
             })
             .catch(function(err) {
@@ -1091,19 +1106,18 @@
                 html += '<div class="play-icon"><i class="fas fa-play"></i></div>';
                 html += '<span class="video-duration">' + duration + '</span>';
                 
-                // 显示免费或会员标签
                 if (isFreeVideo) {
                     html += '<span class="video-free"><i class="fas fa-gift"></i> 免费</span>';
                 } else if (!isPremium) {
-                    html += '<span class="video-lock"><i class="fas fa-lock"></i> 会员</span>';
+                    html += '<span class="video-lock"><i class="fas fa-lock"></i> VIP专属</span>';
                 }
                 
                 html += '</div>';
                 html += '<div class="video-info">';
                 html += '<div class="video-title">' + escapeHtml(video.title) + '</div>';
                 html += '<div class="video-meta">';
-                html += '<span class="video-category">' + escapeHtml(video.category || '精华课程') + '</span>';
-                html += '<span><i class="fas fa-eye"></i> ' + (video.view_count || 0) + '</span>';
+                html += '<span class="video-category">' + escapeHtml(video.category || '出海干货') + '</span>';
+                // html += '<span><i class="fas fa-eye"></i> ' + (video.view_count || 0) + '</span>';
                 html += '</div></div></div>';
             });
             
@@ -1117,10 +1131,8 @@
                 return;
             }
             
-            // 获取视频信息
             fetch(SUPABASE_URL + '/rest/v1/videos?id=eq.' + videoId, {
-                method: 'GET',
-                headers: { 'apikey': SUPABASE_KEY }
+                method: 'GET', headers: { 'apikey': SUPABASE_KEY }
             })
             .then(function(res) { return res.json(); })
             .then(function(data) {
@@ -1139,105 +1151,73 @@
             document.getElementById('playerTitle').textContent = currentVideo.title;
             document.getElementById('playerModal').classList.add('show');
             document.body.classList.add('modal-open');
-            
-            // 重置预览遮罩
             document.getElementById('previewOverlay').classList.remove('show');
-            
-            // 初始化播放器
             initPlayer(currentVideo.video_url);
         }
 
-        // 初始化 HLS 播放器
+        // 初始化播放器
         function initPlayer(videoUrl) {
             videoPlayer = document.getElementById('videoPlayer');
-            
-            // 销毁旧的 HLS 实例
-            if (hlsPlayer) {
-                hlsPlayer.destroy();
-            }
+            if (hlsPlayer) { hlsPlayer.destroy(); }
             
             if (videoUrl.includes('.m3u8') && Hls.isSupported()) {
                 hlsPlayer = new Hls();
                 hlsPlayer.loadSource(videoUrl);
                 hlsPlayer.attachMedia(videoPlayer);
-                hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoPlayer.play();
-                });
+                hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() { videoPlayer.play(); });
             } else {
                 videoPlayer.src = videoUrl;
                 videoPlayer.play();
             }
             
-            // 判断是否需要限制：非会员 且 非免费视频
             var needLimit = !isPremium && !currentVideo.is_free;
-            
             if (needLimit) {
-                // 监听时间更新
                 videoPlayer.addEventListener('timeupdate', checkPreviewLimit);
-                // 监听拖动进度条（seeking）
                 videoPlayer.addEventListener('seeking', preventSeekBeyondPreview);
-                // 监听播放速度变化，禁止加速
                 videoPlayer.addEventListener('ratechange', preventSpeedChange);
             }
         }
 
-        // 检查预览时间限制
+        // 检查预览时长
         function checkPreviewLimit() {
-            // 会员或免费视频不限制
             if (isPremium || (currentVideo && currentVideo.is_free)) return;
-            
             if (videoPlayer.currentTime >= previewDuration) {
                 videoPlayer.pause();
-                videoPlayer.currentTime = previewDuration; // 强制停在预览时长
+                videoPlayer.currentTime = previewDuration;
                 showPreviewOverlay();
             }
         }
         
-        // 阻止拖动超过预览时长
         function preventSeekBeyondPreview() {
-            // 会员或免费视频不限制
             if (isPremium || (currentVideo && currentVideo.is_free)) return;
-            
             if (videoPlayer.currentTime >= previewDuration) {
-                videoPlayer.currentTime = previewDuration - 1; // 拉回到预览时长前1秒
+                videoPlayer.currentTime = previewDuration - 1;
                 videoPlayer.pause();
                 showPreviewOverlay();
             }
         }
         
-        // 禁止倍速播放
         function preventSpeedChange() {
-            // 会员或免费视频不限制
             if (isPremium || (currentVideo && currentVideo.is_free)) return;
-            
             if (videoPlayer.playbackRate !== 1) {
                 videoPlayer.playbackRate = 1;
-                showToast('非会员不支持倍速播放', 'warning');
+                showToast('非VIP不支持倍速播放', 'warning');
             }
         }
         
-        // 显示预览结束遮罩
         function showPreviewOverlay() {
-            // 立即暂停视频！
             videoPlayer.pause();
             videoPlayer.currentTime = previewDuration;
-            
             document.getElementById('previewOverlay').classList.add('show');
             
-            // 移除所有事件监听
             videoPlayer.removeEventListener('timeupdate', checkPreviewLimit);
             videoPlayer.removeEventListener('seeking', preventSeekBeyondPreview);
             videoPlayer.removeEventListener('ratechange', preventSpeedChange);
-            
-            // 添加播放事件监听，防止用户点击播放按钮继续播放
             videoPlayer.addEventListener('play', blockPlayAfterPreview);
         }
         
-        // 阻止预览结束后继续播放
         function blockPlayAfterPreview() {
-            // 会员或免费视频不限制
             if (isPremium || (currentVideo && currentVideo.is_free)) return;
-            
             var overlay = document.getElementById('previewOverlay');
             if (overlay.classList.contains('show')) {
                 videoPlayer.pause();
@@ -1245,16 +1225,12 @@
             }
         }
         
-        // 重新观看预览
         function replayPreview() {
-            // 移除阻止播放的监听
             videoPlayer.removeEventListener('play', blockPlayAfterPreview);
-            
             document.getElementById('previewOverlay').classList.remove('show');
             videoPlayer.currentTime = 0;
             videoPlayer.play();
             
-            // 重新添加限制监听
             if (!isPremium) {
                 videoPlayer.addEventListener('timeupdate', checkPreviewLimit);
                 videoPlayer.addEventListener('seeking', preventSeekBeyondPreview);
@@ -1279,7 +1255,6 @@
                 hlsPlayer.destroy();
                 hlsPlayer = null;
             }
-            
             currentVideo = null;
         }
 
@@ -1287,24 +1262,41 @@
         function incrementViewCount(videoId) {
             fetch(SUPABASE_URL + '/rest/v1/rpc/increment_view_count', {
                 method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ video_id: videoId })
             }).catch(function() {});
         }
 
-        // 加载评论（包含回复）
+        /* ======= 升级 VIP 相关函数 ======= */
+        function showUpgradeModal() {
+            if(document.getElementById('playerModal').classList.contains('show')) {
+                closePlayer();
+            }
+            document.getElementById('upgradeModalOverlay').classList.add('show');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeUpgradeModal() {
+            document.getElementById('upgradeModalOverlay').classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        function goToBuy(priceStr) {
+            showToast('即将前往首页联系站长开通 ' + priceStr + ' 档位', 'success');
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+        /* ================================ */
+
+        // 评论系统加载及渲染
         var replyToId = null;
         var replyToName = null;
         var commentsData = [];
         
         function loadVideoComments(videoId) {
-            // 加载所有评论（父评论和回复）
             fetch(SUPABASE_URL + '/rest/v1/video_comments_with_profile?video_id=eq.' + videoId + '&order=created_at.asc', {
-                method: 'GET',
-                headers: { 'apikey': SUPABASE_KEY }
+                method: 'GET', headers: { 'apikey': SUPABASE_KEY }
             })
             .then(function(res) { return res.json(); })
             .then(function(comments) {
@@ -1313,22 +1305,17 @@
             });
         }
 
-        // 渲染评论（支持楼中楼）
         function renderComments() {
             var container = document.getElementById('commentsList');
-            
-            // 分离父评论和回复
             var parentComments = commentsData.filter(function(c) { return !c.parent_id; });
             var replies = commentsData.filter(function(c) { return c.parent_id; });
             
-            // 置顶排序：置顶的在前，然后按时间升序
             parentComments.sort(function(a, b) {
                 if (a.is_pinned && !b.is_pinned) return -1;
                 if (!a.is_pinned && b.is_pinned) return 1;
                 return new Date(a.created_at) - new Date(b.created_at);
             });
             
-            // 按父评论分组回复
             var repliesMap = {};
             replies.forEach(function(r) {
                 if (!repliesMap[r.parent_id]) repliesMap[r.parent_id] = [];
@@ -1346,26 +1333,18 @@
             parentComments.forEach(function(c) {
                 html += createCommentHTML(c, repliesMap[c.id] || []);
             });
-            
             container.innerHTML = html;
         }
         
-        // 创建单条评论HTML
         function createCommentHTML(comment, replies) {
-            var avatarHtml = comment.avatar_url 
-                ? '<img src="' + comment.avatar_url + '" alt="">' 
-                : '👤';
+            var avatarHtml = comment.avatar_url ? '<img src="' + comment.avatar_url + '" alt="">' : '👤';
             var isOwn = currentUser && currentUser.id === comment.user_id;
             var isAdminComment = comment.is_admin;
             var isAdmin = currentUser && currentUser.id === ADMIN_UUID;
             var isPinned = comment.is_pinned;
             
             var html = '<div class="comment-item' + (isPinned ? ' pinned' : '') + '" data-id="' + comment.id + '">';
-            
-            // 置顶标记
-            if (isPinned) {
-                html += '<span class="comment-pinned-badge"><i class="fas fa-thumbtack"></i> 置顶</span>';
-            }
+            if (isPinned) html += '<span class="comment-pinned-badge"><i class="fas fa-thumbtack"></i> 置顶</span>';
             
             html += '<div class="comment-header">';
             html += '<div class="comment-avatar' + (isAdminComment ? ' admin' : '') + '">' + avatarHtml + '</div>';
@@ -1376,42 +1355,26 @@
             html += '</div>';
             html += '<div class="comment-content">' + formatCommentContent(comment.content) + '</div>';
             
-            // 操作按钮
             html += '<div class="comment-actions">';
             html += '<button onclick="replyTo(\'' + comment.id + '\', \'' + escapeHtml(comment.user_name) + '\')"><i class="fas fa-reply"></i> 回复</button>';
-            
-            // 站长可以置顶/取消置顶
             if (isAdmin) {
-                if (isPinned) {
-                    html += '<button class="unpin" onclick="togglePin(\'' + comment.id + '\', false)"><i class="fas fa-thumbtack"></i> 取消置顶</button>';
-                } else {
-                    html += '<button class="pin" onclick="togglePin(\'' + comment.id + '\', true)"><i class="fas fa-thumbtack"></i> 置顶</button>';
-                }
+                if (isPinned) html += '<button class="unpin" onclick="togglePin(\'' + comment.id + '\', false)"><i class="fas fa-thumbtack"></i> 取消置顶</button>';
+                else html += '<button class="pin" onclick="togglePin(\'' + comment.id + '\', true)"><i class="fas fa-thumbtack"></i> 置顶</button>';
             }
-            
-            if (isOwn || isAdmin) {
-                html += '<button class="delete" onclick="deleteComment(\'' + comment.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
-            }
+            if (isOwn || isAdmin) html += '<button class="delete" onclick="deleteComment(\'' + comment.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
             html += '</div>';
             
-            // 渲染回复（楼中楼）
             if (replies.length > 0) {
                 html += '<div class="comment-replies">';
-                replies.forEach(function(r) {
-                    html += createReplyHTML(r, comment.user_name);
-                });
+                replies.forEach(function(r) { html += createReplyHTML(r, comment.user_name); });
                 html += '</div>';
             }
-            
             html += '</div>';
             return html;
         }
         
-        // 创建回复HTML
         function createReplyHTML(reply, parentUserName) {
-            var avatarHtml = reply.avatar_url 
-                ? '<img src="' + reply.avatar_url + '" alt="">' 
-                : '👤';
+            var avatarHtml = reply.avatar_url ? '<img src="' + reply.avatar_url + '" alt="">' : '👤';
             var isOwn = currentUser && currentUser.id === reply.user_id;
             var isAdminReply = reply.is_admin;
             
@@ -1423,28 +1386,18 @@
             html += '</span>';
             html += '<span class="comment-time">' + getTimeAgo(reply.created_at) + '</span>';
             html += '</div>';
-            html += '<div class="comment-content">';
-            html += '<span class="reply-to-hint">回复 @' + escapeHtml(parentUserName) + '：</span>';
-            html += formatCommentContent(reply.content);
-            html += '</div>';
+            html += '<div class="comment-content"><span class="reply-to-hint">回复 @' + escapeHtml(parentUserName) + '：</span>' + formatCommentContent(reply.content) + '</div>';
             
-            // 回复的操作按钮
             html += '<div class="comment-actions">';
             if (isOwn || (currentUser && currentUser.id === ADMIN_UUID)) {
                 html += '<button class="delete" onclick="deleteComment(\'' + reply.id + '\')"><i class="fas fa-trash"></i> 删除</button>';
             }
-            html += '</div>';
-            
-            html += '</div>';
+            html += '</div></div>';
             return html;
         }
         
-        // 回复某条评论
         function replyTo(commentId, userName) {
-            if (!currentUser) {
-                showToast('请先登录', 'warning');
-                return;
-            }
+            if (!currentUser) { showToast('请先登录', 'warning'); return; }
             replyToId = commentId;
             replyToName = userName;
             document.getElementById('replyToName').textContent = userName;
@@ -1453,7 +1406,6 @@
             document.getElementById('commentInput').placeholder = '回复 ' + userName + '...';
         }
         
-        // 取消回复
         function cancelReply() {
             replyToId = null;
             replyToName = null;
@@ -1461,124 +1413,77 @@
             document.getElementById('commentInput').placeholder = '发表你的看法...';
         }
         
-        // 删除评论
         function deleteComment(commentId) {
             if (!confirm('确定要删除这条评论吗？')) return;
-            
             var accessToken = localStorage.getItem('nexus_access_token');
-            
             fetch(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
-                method: 'DELETE',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            })
-            .then(function(res) {
-                if (res.ok) {
-                    showToast('删除成功', 'success');
-                    loadVideoComments(currentVideo.id);
-                } else {
-                    showToast('删除失败', 'error');
-                }
+                method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken }
+            }).then(function(res) {
+                if (res.ok) { showToast('删除成功', 'success'); loadVideoComments(currentVideo.id); } 
+                else { showToast('删除失败', 'error'); }
             });
         }
         
-        // 置顶/取消置顶评论
         function togglePin(commentId, pin) {
             var accessToken = localStorage.getItem('nexus_access_token');
-            
             fetch(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
                 method: 'PATCH',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + accessToken,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
-                },
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
                 body: JSON.stringify({ is_pinned: pin })
-            })
-            .then(function(res) {
-                if (res.ok) {
-                    showToast(pin ? '已置顶' : '已取消置顶', 'success');
-                    loadVideoComments(currentVideo.id);
-                } else {
-                    showToast('操作失败', 'error');
-                }
+            }).then(function(res) {
+                if (res.ok) { showToast(pin ? '已置顶' : '已取消置顶', 'success'); loadVideoComments(currentVideo.id); } 
+                else { showToast('操作失败', 'error'); }
             });
         }
 
-        // 发表评论
         function submitComment() {
-            if (!currentUser) {
-                showToast('请先登录', 'warning');
-                return;
-            }
-            
+            if (!currentUser) { showToast('请先登录', 'warning'); return; }
             var content = document.getElementById('commentInput').value.trim();
-            if (!content) {
-                showToast('请输入评论内容', 'warning');
-                return;
-            }
+            if (!content) { showToast('请输入评论内容', 'warning'); return; }
             
             var userName = currentUser.user_metadata?.full_name || '用户';
             var isAdminUser = currentUser.id === ADMIN_UUID;
-            
             var commentData = {
-                video_id: currentVideo.id,
-                user_id: currentUser.id,
-                user_name: userName,
-                content: content,
-                parent_id: replyToId || null,
-                is_admin: isAdminUser
+                video_id: currentVideo.id, user_id: currentUser.id, user_name: userName,
+                content: content, parent_id: replyToId || null, is_admin: isAdminUser
             };
             
             document.getElementById('commentSubmitBtn').disabled = true;
-            
             fetchWithAuth(SUPABASE_URL + '/rest/v1/video_comments', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
-                },
+                headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
                 body: JSON.stringify(commentData)
-            })
-            .then(function(res) {
-                if (!res.ok) {
-                    return res.text().then(function(text) {
-                        console.error('评论失败:', text);
-                        throw new Error('发送失败');
-                    });
-                }
+            }).then(function(res) {
+                if (!res.ok) throw new Error('发送失败');
                 document.getElementById('commentInput').value = '';
                 cancelReply();
                 showToast('评论成功', 'success');
                 loadVideoComments(currentVideo.id);
-            })
-            .catch(function(err) {
-                console.error('评论错误:', err);
+            }).catch(function(err) {
                 showToast('评论失败，请重试', 'error');
-            })
-            .finally(function() {
+            }).finally(function() {
                 document.getElementById('commentSubmitBtn').disabled = false;
             });
         }
 
-        // 显示开通会员弹窗
-        function showUpgradeModal() {
-            closePlayer();
-            showToast('请前往首页 → 加密信箱，联系站长开通会员', 'info');
-            setTimeout(function() {
-                window.location.href = 'index.html';
-            }, 2000);
-        }
-
         // 工具函数
-        function formatDuration(seconds) {
-            if (!seconds) return '00:00';
+       // 升级版时间格式化函数：兼容秒数和直接填写的文本
+       function formatDuration(duration) {
+            if (!duration) return '00:00';
+            
+            // 如果你在后台直接填写了带有冒号的格式（比如 "12:34" 或 "01:20:00"），直接显示
+            if (typeof duration === 'string' && duration.includes(':')) {
+                return duration;
+            }
+            
+            // 否则假设后台填的是秒数（比如 120），进行转换
+            var seconds = parseInt(duration, 10);
+            if (isNaN(seconds)) return '00:00';
+            
             var h = Math.floor(seconds / 3600);
             var m = Math.floor((seconds % 3600) / 60);
             var s = seconds % 60;
+            
             if (h > 0) {
                 return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
             }
@@ -1586,8 +1491,7 @@
         }
 
         function getTimeAgo(dateStr) {
-            var date = new Date(dateStr);
-            var now = new Date();
+            var date = new Date(dateStr); var now = new Date();
             var diff = Math.floor((now - date) / 1000);
             if (diff < 60) return '刚刚';
             if (diff < 3600) return Math.floor(diff / 60) + '分钟前';
@@ -1601,15 +1505,11 @@
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
         
-        // 格式化评论内容：转义HTML + 换行 + 链接可点击
         function formatCommentContent(str) {
             if (!str) return '';
-            // 先转义HTML
             var escaped = escapeHtml(str);
-            // 将URL转为可点击链接
             var urlRegex = /(https?:\/\/[^\s<]+)/g;
             escaped = escaped.replace(urlRegex, '<a href="$1" target="_blank" class="comment-link">$1</a>');
-            // 换行符转为<br>
             escaped = escaped.replace(/\n/g, '<br>');
             return escaped;
         }
@@ -1618,10 +1518,8 @@
             var toast = document.getElementById('toast');
             var icon = toast.querySelector('i');
             document.getElementById('toastText').textContent = text;
-            
             toast.className = 'toast ' + (type || 'info');
             icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle');
-            
             toast.classList.add('show');
             setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
@@ -1632,7 +1530,6 @@
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
             let particles = [];
             
             class Particle {
@@ -1644,8 +1541,7 @@
                     this.speedY = (Math.random() * 1 - 0.5);
                 }
                 update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
+                    this.x += this.speedX; this.y += this.speedY;
                     if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
                     if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
                 }
@@ -1656,10 +1552,7 @@
                     ctx.fill();
                 }
             }
-            
-            for (let i = 0; i < 50; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
             
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1669,8 +1562,7 @@
             animate();
             
             window.addEventListener('resize', function() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             });
         }
     </script>

@@ -2322,13 +2322,13 @@
         <!-- 核心业务区 -->
         <div class="hero-grid">
             <!-- 视频专区 -->
-            <!-- <div class="holo-card hero-card vip-card" onclick="goToVip()">
+            <div class="holo-card hero-card vip-card" onclick="goToVip()">
                 <span class="tag tag-vip">NEW</span>
                 <i class="fas fa-play-circle main-icon" style="color: #ffd700;"></i>
                 <i class="fas fa-film bg-icon"></i>
                 <h2>视频专区</h2>
-                <p>精华课程，国内独家内容</p>
-            </div> -->
+                <p>精华课程，国内独家内容，从入门到精通</p>
+            </div>
 
             <!-- 站长服务 -->
             <!-- <div class="holo-card hero-card vip-card" onclick="openModal('zhanzhang')">
@@ -4899,10 +4899,11 @@
 
         // 跳转会员专区
         function goToVip() {
+            window.location.href = 'vip.html';
             // 显示提示信息
-            if (confirm('即将进入视频专区\n\n💡 温馨提示：若视频无法加载，请尝试更换节点')) {
-                window.location.href = 'vip.html';
-            }
+            // if (confirm('即将进入视频专区\n\n💡 温馨提示：若视频无法加载，请尝试更换节点')) {
+                
+            // }
         }
 
         // 品牌网站弹窗
