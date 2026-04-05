@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>代理技术全攻略 · 隐匿网络指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00f5ff;
+  --magenta: #ff00aa;
+  --yellow: #ffe600;
+  --green: #00ff88;
+  --bg: #030811;
+  --panel: rgba(0,20,40,0.85);
+  --border: rgba(0,245,255,0.2);
+  --text: #c8e8f8;
+  --dim: rgba(200,232,248,0.55);
+  --sidebar-w: 220px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== BG EFFECTS ===== */
+#matrix-canvas {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; opacity: 0.15;
+  pointer-events: none;
+}
+.grid-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.scanline {
+  position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(transparent, rgba(0,245,255,0.35), transparent);
+  z-index: 2; animation: scan 5s linear infinite; pointer-events: none;
+}
+@keyframes scan { from{top:-2px} to{top:100vh} }
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: relative; z-index: 20;
+  display: flex; align-items: center;
+  padding: 0 28px;
+  height: 62px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(3,8,17,0.96);
+  backdrop-filter: blur(20px);
+  flex-shrink: 0;
+  gap: 0;
+}
+.topbar-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 900;
+  background: linear-gradient(90deg, var(--cyan), #fff 55%, var(--magenta));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: 1px; white-space: nowrap;
+}
+.topbar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 18px; flex-shrink: 0; }
+.topbar-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: rgba(0,245,255,0.35); white-space: nowrap;
+}
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.topbar-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 1.8s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;box-shadow:0 0 8px var(--green)} 50%{opacity:0.25;box-shadow:none} }
+.topbar-status { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 2px; }
+
+/* ===== LAYOUT ===== */
+.layout { display: flex; flex: 1; overflow: hidden; position: relative; z-index: 10; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: rgba(2,6,14,0.97);
+  backdrop-filter: blur(20px);
+  display: flex; flex-direction: column;
+  overflow-y: auto; padding: 20px 0 40px;
+}
+.sidebar::-webkit-scrollbar { width: 2px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.15); }
+
+.sidebar-group-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; color: rgba(0,245,255,0.28);
+  text-transform: uppercase; padding: 0 18px 8px;
+  margin-top: 22px; border-top: 1px solid rgba(0,245,255,0.06); padding-top: 14px;
+}
+.sidebar-group-label:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+.tab-btn {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 18px; cursor: pointer;
+  border: none; background: transparent;
+  color: var(--dim); font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px; text-align: left; width: 100%;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+.tab-btn .t-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+.tab-btn .t-name { flex: 1; }
+.tab-btn .t-tag {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  padding: 1px 5px; border-radius: 2px; letter-spacing: 1px;
+  border: 1px solid rgba(0,245,255,0.2); color: rgba(0,245,255,0.3);
+  flex-shrink: 0;
+}
+.tab-btn:hover { background: rgba(0,245,255,0.04); color: var(--text); }
+.tab-btn.active {
+  color: var(--cyan); background: rgba(0,245,255,0.07);
+  border-left-color: var(--cyan);
+}
+.tab-btn.active .t-tag { border-color: rgba(0,245,255,0.5); color: var(--cyan); }
+
+/* ===== CONTENT ===== */
+.content-wrap {
+  flex: 1; overflow-y: auto; padding: 36px 48px 60px;
+  scroll-behavior: smooth;
+}
+.content-wrap::-webkit-scrollbar { width: 4px; }
+.content-wrap::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.18); border-radius: 2px; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeIn 0.28s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:translateX(0)} }
+
+/* ===== PAGE TITLE ===== */
+.page-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(22px, 3vw, 32px); font-weight: 900;
+  background: linear-gradient(135deg, var(--cyan) 0%, #fff 45%, var(--magenta) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 6px; letter-spacing: -0.5px;
+}
+.page-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 4px; color: rgba(0,245,255,0.35);
+  margin-bottom: 30px; display: flex; align-items: center; gap: 14px;
+}
+.page-sub::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, rgba(0,245,255,0.15), transparent); }
+
+/* ===== SEC TITLE ===== */
+.sec-title {
+  font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--cyan); margin: 28px 0 14px;
+  display: flex; align-items: center; gap: 10px; letter-spacing: 1px;
+}
+.sec-title::before { content:''; width:3px; height:16px; background: linear-gradient(var(--cyan), var(--magenta)); border-radius:2px; flex-shrink:0; }
+
+/* ===== CARDS ===== */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+.card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 4px; padding: 22px;
+  position: relative; overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  backdrop-filter: blur(12px);
+}
+.card::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:var(--accent, var(--cyan)); opacity:0.85; }
+.card::after { content:''; position:absolute; top:-50px; right:-50px; width:130px; height:130px; border-radius:50%; background:radial-gradient(circle, var(--accent,var(--cyan)), transparent 70%); opacity:0.05; transition:opacity 0.25s; }
+.card:hover { transform:translateY(-3px); border-color:var(--accent,var(--cyan)); box-shadow:0 6px 28px rgba(0,0,0,0.4), 0 0 14px rgba(0,245,255,0.07); }
+.card:hover::after { opacity:0.1; }
+.card-icon { font-size:22px; margin-bottom:9px; display:block; }
+.card-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:3px; color:var(--accent,var(--cyan)); text-transform:uppercase; margin-bottom:5px; }
+.card-title { font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700; color:#fff; margin-bottom:8px; }
+.card-desc { font-size:12.5px; line-height:1.75; color:var(--dim); }
+.badge { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:9px; padding:2px 7px; border-radius:2px; margin:10px 3px 0 0; letter-spacing:1px; border:1px solid; }
+.badge-green { color:var(--green); border-color:var(--green); background:rgba(0,255,136,0.06); }
+.badge-red { color:#ff5566; border-color:#ff5566; background:rgba(255,85,102,0.06); }
+.badge-yellow { color:var(--yellow); border-color:var(--yellow); background:rgba(255,230,0,0.06); }
+.badge-cyan { color:var(--cyan); border-color:var(--cyan); background:rgba(0,245,255,0.06); }
+.badge-magenta { color:var(--magenta); border-color:var(--magenta); background:rgba(255,0,170,0.06); }
+
+/* ===== TABLE ===== */
+.compare-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.compare-table th { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--cyan); text-align:left; padding:10px 14px; border-bottom:1px solid rgba(0,245,255,0.18); background:rgba(0,245,255,0.05); }
+.compare-table td { padding:11px 14px; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--dim); vertical-align:top; line-height:1.65; }
+.compare-table tr:hover td { background:rgba(0,245,255,0.025); }
+.protocol-name { font-family:'Orbitron',sans-serif; font-size:11px; color:#fff; font-weight:700; }
+
+/* ===== TIER CARDS ===== */
+.tier-card {
+  background:var(--panel); border:1px solid var(--border);
+  border-left:3px solid var(--accent,var(--cyan));
+  border-radius:4px; padding:20px 24px; margin-bottom:10px;
+  display:flex; align-items:flex-start; gap:18px;
+  backdrop-filter:blur(12px);
+  transition:transform 0.25s, border-color 0.25s;
+}
+.tier-card:hover { transform:translateX(3px); border-color:var(--accent,var(--cyan)); }
+.tier-num { font-family:'Orbitron',sans-serif; font-size:38px; font-weight:900; color:var(--accent,var(--cyan)); opacity:0.18; line-height:1; flex-shrink:0; width:46px; }
+.tier-content h3 { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; color:#fff; margin-bottom:6px; }
+.tier-content p { font-size:12.5px; color:var(--dim); line-height:1.8; }
+
+/* ===== RECOMMEND ===== */
+.recommend {
+  background:linear-gradient(135deg, rgba(0,245,255,0.05), rgba(255,0,170,0.05));
+  border:1px solid rgba(0,245,255,0.22); border-radius:4px;
+  padding:24px; text-align:center; margin:20px 0;
+}
+.recommend::before { content:'★  RECOMMENDED COMBO  ★'; font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:4px; color:var(--yellow); display:block; margin-bottom:14px; }
+.combo { font-family:'Orbitron',sans-serif; font-size:clamp(13px,2vw,18px); font-weight:700; color:#fff; display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+.combo-part { background:rgba(0,245,255,0.1); border:1px solid var(--cyan); padding:5px 15px; border-radius:3px; color:var(--cyan); font-size:13px; }
+.combo-sep { color:var(--magenta); font-size:16px; }
+
+/* ===== INFO BLOCKS ===== */
+.info-block { background:rgba(0,245,255,0.04); border:1px solid rgba(0,245,255,0.13); border-left:3px solid var(--cyan); border-radius:0 4px 4px 0; padding:14px 18px; margin:12px 0; font-size:12.5px; line-height:1.8; color:var(--dim); }
+.info-block.warn { background:rgba(255,230,0,0.04); border-color:rgba(255,230,0,0.18); border-left-color:var(--yellow); }
+.info-block.danger { background:rgba(255,85,102,0.04); border-color:rgba(255,85,102,0.18); border-left-color:#ff5566; }
+.info-block.success { background:rgba(0,255,136,0.04); border-color:rgba(0,255,136,0.13); border-left-color:var(--green); }
+.info-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; color:var(--cyan); display:block; }
+.info-block.warn .info-label { color:var(--yellow); }
+.info-block.danger .info-label { color:#ff5566; }
+.info-block.success .info-label { color:var(--green); }
+
+/* ===== LEAK GRID ===== */
+.leak-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:12px; margin-top:8px; }
+.leak-item { background:rgba(255,0,0,0.04); border:1px solid rgba(255,85,102,0.16); border-top:2px solid #ff5566; border-radius:4px; padding:16px; transition:transform 0.25s, border-color 0.25s; }
+.leak-item:hover { transform:translateY(-2px); border-color:#ff5566; }
+.leak-item .icon { font-size:20px; margin-bottom:7px; }
+.leak-item h4 { font-size:12.5px; font-weight:700; color:#ff8888; margin-bottom:6px; }
+.leak-item p { font-size:11.5px; color:var(--dim); line-height:1.7; }
+
+/* ===== STEPS ===== */
+.steps { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:12px; margin-top:8px; }
+.step { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:16px; backdrop-filter:blur(10px); }
+.step-num { font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700; color:var(--cyan); letter-spacing:2px; margin-bottom:7px; }
+.step h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:6px; }
+.step p { font-size:11.5px; color:var(--dim); line-height:1.7; }
+.dns-box { background:#050f1a; border:1px solid rgba(0,245,255,0.16); border-radius:3px; padding:10px 14px; font-family:'Share Tech Mono',monospace; font-size:12px; color:var(--green); margin-top:9px; letter-spacing:1px; }
+.dns-box span { color:var(--dim); font-size:9px; display:block; margin-bottom:4px; }
+
+/* ===== TOPOLOGY ===== */
+.topology { background:rgba(0,5,15,0.92); border:1px solid var(--border); border-radius:4px; padding:28px 16px; text-align:center; font-family:'Share Tech Mono',monospace; margin:12px 0; position:relative; }
+.topology::before { content:'NETWORK TOPOLOGY'; position:absolute; top:10px; left:50%; transform:translateX(-50%); font-size:8px; letter-spacing:4px; color:rgba(0,245,255,0.22); }
+.topo-row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+.topo-node { background:rgba(0,20,40,0.9); border:1px solid var(--border); border-radius:3px; padding:8px 13px; font-size:11px; color:var(--cyan); white-space:nowrap; }
+.topo-node.danger { color:#ff5566; border-color:rgba(255,85,102,0.3); }
+.topo-node.success { color:var(--green); border-color:rgba(0,255,136,0.3); }
+.topo-arrow { font-size:11px; color:var(--dim); padding:0 5px; animation:pulse-arrow 2s ease-in-out infinite; }
+@keyframes pulse-arrow { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+/* ===== CHECKLIST ===== */
+.checklist { list-style:none; display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:9px; margin-top:10px; }
+.checklist li { display:flex; align-items:flex-start; gap:9px; background:rgba(0,255,136,0.04); border:1px solid rgba(0,255,136,0.09); border-radius:4px; padding:11px 14px; font-size:12px; color:var(--dim); line-height:1.6; transition:border-color 0.25s; }
+.checklist li:hover { border-color:rgba(0,255,136,0.3); }
+.checklist li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; font-family:'Share Tech Mono',monospace; font-size:12px; margin-top:1px; }
+
+/* ===== TOOL LINKS ===== */
+a.tool-link, .tool-link {
+  display:inline-flex; align-items:center; gap:4px;
+  color:var(--cyan); text-decoration:none;
+  font-family:'Share Tech Mono',monospace; font-size:10px; font-weight:700;
+  border:1px solid rgba(0,245,255,0.3); padding:3px 9px; border-radius:3px;
+  background:rgba(0,245,255,0.06); letter-spacing:1px; white-space:nowrap;
+  transition:background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+a.tool-link:hover, .tool-link:hover { background:rgba(0,245,255,0.14); border-color:var(--cyan); box-shadow:0 0 9px rgba(0,245,255,0.2); }
+a.tool-link::before, .tool-link::before { content:'↗ '; font-size:9px; }
+
+/* ===== MOBILE ===== */
+.mobile-tabbar { display:none; overflow-x:auto; border-bottom:1px solid var(--border); background:rgba(2,6,14,0.97); flex-shrink:0; position:relative; z-index:20; scrollbar-width:none; }
+.mobile-tabbar::-webkit-scrollbar { display:none; }
+.mobile-tabbar-inner { display:flex; padding:0 6px; }
+.m-tab-btn { display:flex; align-items:center; gap:5px; padding:9px 12px; border:none; background:transparent; color:var(--dim); font-family:'Noto Sans SC',sans-serif; font-size:12px; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; flex-shrink:0; transition:color 0.2s, border-color 0.2s; }
+.m-tab-btn.active { color:var(--cyan); border-bottom-color:var(--cyan); }
+
+@media (max-width: 680px) {
+  .sidebar { display:none; }
+  .mobile-tabbar { display:block; }
+  .content-wrap { padding:20px 16px 40px; }
+  .topbar-sep, .topbar-sub { display:none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="scanline"></div>
+
+<div class="topbar">
+  <div class="topbar-logo">代理技术全攻略</div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-sub">NETWORK PROXY GUIDE v2.0</div>
+  <div class="topbar-right">
+    <div class="topbar-dot"></div>
+    <div class="topbar-status">SYSTEM ONLINE</div>
+  </div>
+</div>
+
+<div class="mobile-tabbar"><div class="mobile-tabbar-inner" id="m-bar"></div></div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content-wrap" id="content"></div>
+</div>
+
+<script>
+const TABS = [
+  {
+    id:'protocols', icon:'🛡️', name:'代理协议', tag:'PROTOCOL', group:'核心配置',
+    html:`
+      <div class="page-title">代理协议类型</div>
+      <div class="page-sub">PROXY PROTOCOL · 选择合适的代理类型</div>
+      <div class="cards-grid">
+        <div class="card" style="--accent:var(--cyan)">
+          <span class="card-icon">🛡️</span>
+          <div class="card-label">TIER 1 · RECOMMENDED</div>
+          <div class="card-title">VLESS</div>
+          <div class="card-desc">轻量化新晋协议。去除冗余加密验证流程，搭配 Reality 防封能力为业界天花板。跑得快、藏得深，是目前最佳选择。</div>
+          <span class="badge badge-green">防封天花板</span><span class="badge badge-cyan">强烈推荐</span>
+        </div>
+        <div class="card" style="--accent:#a0c4ff">
+          <span class="card-icon">🏛️</span>
+          <div class="card-label">STABLE · CLASSIC</div>
+          <div class="card-title">Trojan</div>
+          <div class="card-desc">老牌协议，模仿 HTTPS 网页流量。兼容性极好，几乎所有网络环境通行无阻，但逻辑较旧，易被高级防火墙识别特征。</div>
+          <span class="badge badge-yellow">兼容性佳</span><span class="badge badge-yellow">易被识别</span>
+        </div>
+        <div class="card" style="--accent:var(--magenta)">
+          <span class="card-icon">💥</span>
+          <div class="card-label">SPEED FIRST</div>
+          <div class="card-title">Hysteria2</div>
+          <div class="card-desc">暴力空投模式。不顾一切喷射数据包，高丢包率网络下唯一可流畅播放 4K 的方案。速度优先，稳定性次之。</div>
+          <span class="badge badge-magenta">极速模式</span><span class="badge badge-yellow">高丢包首选</span>
+        </div>
+        <div class="card" style="--accent:var(--green)">
+          <span class="card-icon">🚁</span>
+          <div class="card-label">PRECISION</div>
+          <div class="card-title">TUIC</div>
+          <div class="card-desc">精密运输直升机。基于 UDP 高速协议，比 Hysteria2 更追求数据完整性，不仅快而且处理数据包更智能，不容易乱套。</div>
+          <span class="badge badge-green">数据完整</span><span class="badge badge-cyan">高速稳定</span>
+        </div>
+        <div class="card" style="--accent:#ff9944">
+          <span class="card-icon">📦</span>
+          <div class="card-label">MIDDLEWARE</div>
+          <div class="card-title">AnyTLS</div>
+          <div class="card-desc">万能包装盒。强行将任何流量包上 TLS 封条，但过于刻意——防火墙可能因"包装过于完美"而产生怀疑，实施暴力拆解。</div>
+          <span class="badge badge-yellow">强制加密</span><span class="badge badge-red">风险较高</span>
+        </div>
+        <div class="card" style="--accent:#555">
+          <span class="card-icon">🚂</span>
+          <div class="card-label">LEGACY · AVOID</div>
+          <div class="card-title">VMess</div>
+          <div class="card-desc">远古绿皮火车。逻辑复杂，特征明显，极易被防火墙指纹识别抓住，已高度脆弱。除非兼容老设备，否则彻底弃用。</div>
+          <span class="badge badge-red">极易被封</span><span class="badge badge-red">不建议使用</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    id:'transport', icon:'🚄', name:'传输协议', tag:'TRANSPORT', group:'核心配置',
+    html:`
+      <div class="page-title">传输协议</div>
+      <div class="page-sub">TRANSPORT LAYER · 数据的"运输方式"</div>
+      <table class="compare-table">
+        <thead><tr><th>协议</th><th>比喻</th><th>核心特点</th><th>适用场景</th></tr></thead>
+        <tbody>
+          <tr><td><span class="protocol-name">TCP</span></td><td>🛣️ 公路地基</td><td>所有流量的底层基础，开销最小，延迟最低，兼容性完美，是其他所有协议的运行基础</td><td>通用首选，配合 Reality 最佳</td></tr>
+          <tr><td><span class="protocol-name">WebSocket</span></td><td>🍔 外卖包装盒</td><td>将数据伪装成正常网页浏览流量，但有额外装拆包开销，速度偏慢</td><td>CDN 中转、内容分发场景</td></tr>
+          <tr><td><span class="protocol-name">h2</span></td><td>🚄 并发快车</td><td>同时发多个包裹，充分利用带宽，4K 视频首选。但开发者频繁改底层代码导致兼容性问题频发</td><td>带宽拥堵、多路复用环境</td></tr>
+          <tr><td><span class="protocol-name">gRPC</span></td><td>🤖 机器暗语</td><td>二进制流传输，防火墙无法解密内容，抗干扰最强。配置最复杂，但隐蔽性最高</td><td>暴力阻断型网络环境</td></tr>
+        </tbody>
+      </table>
+      <div class="info-block" style="margin-top:18px">
+        <span class="info-label">💡 TIPS</span>
+        日常首选 <strong style="color:#fff">TCP</strong>，配合 Reality 伪装效果最自然。gRPC 隐蔽性最强但配置复杂，网络被强力阻断时可尝试。WebSocket / h2 通常用于过 CDN 的特殊场景。
+      </div>
+    `
+  },
+  {
+    id:'disguise', icon:'🪄', name:'流量伪装', tag:'DISGUISE', group:'核心配置',
+    html:`
+      <div class="page-title">流量伪装技术</div>
+      <div class="page-sub">TRAFFIC DISGUISE · 让代理流量"看起来合法"</div>
+      <div class="cards-grid">
+        <div class="card" style="--accent:#a0c4ff">
+          <span class="card-icon">🔖</span>
+          <div class="card-label">ENCRYPTION LAYER</div>
+          <div class="card-title">TLS</div>
+          <div class="card-desc">高级防伪标贴。证明包裹发给正规大公司。防火墙看到真实封条就放行——是所有 HTTPS 流量的标准加密层，基础且必要。</div>
+          <span class="badge badge-cyan">基础加密</span><span class="badge badge-green">兼容性好</span>
+        </div>
+        <div class="card" style="--accent:#ffdd44">
+          <span class="card-icon">🪄</span>
+          <div class="card-label">ULTIMATE DISGUISE</div>
+          <div class="card-title">Reality</div>
+          <div class="card-desc">克隆防伪技术。完整复制微软、苹果等顶级网站的 TLS 握手指纹。防火墙看到"微软"的戳，不敢乱动，直接放行。</div>
+          <span class="badge badge-yellow">防封天花板</span><span class="badge badge-green">极难识别</span>
+        </div>
+      </div>
+      <div class="recommend">
+        <div class="combo">
+          <span class="combo-part">VLESS</span><span class="combo-sep">+</span>
+          <span class="combo-part">TCP</span><span class="combo-sep">+</span>
+          <span class="combo-part">Reality</span>
+        </div>
+        <p style="margin-top:13px;font-size:11.5px;color:var(--dim)">第一梯队推荐组合 · 防封 + 稳定 + 低延迟 · 当前业界最优解</p>
+      </div>
+      <div class="sec-title">选择优先级</div>
+      <div class="tier-card" style="--accent:var(--cyan)">
+        <div class="tier-num">01</div>
+        <div class="tier-content">
+          <h3>🥇 防封且稳 → VLESS + Reality</h3>
+          <p>这是目前所有协议的"大哥大"。TCP 兼容性完美、开销最小；Reality 克隆顶级域名指纹，伪装最自然。适合 90% 的使用场景，优先选择。</p>
+        </div>
+      </div>
+      <div class="tier-card" style="--accent:var(--magenta)">
+        <div class="tier-num">02</div>
+        <div class="tier-content">
+          <h3>🥈 网络极差时 → Hysteria2</h3>
+          <p>丢包严重、网络极不稳定的情况下的救命稻草。放弃部分稳定性换取极致速度，是高丢包环境下流畅看视频的唯一解。</p>
+        </div>
+      </div>
+    `
+  },
+  {
+    id:'leaks', icon:'⚠️', name:'环境泄露', tag:'OPSEC', group:'安全防护',
+    html:`
+      <div class="page-title">环境泄露防护</div>
+      <div class="page-sub">ENVIRONMENT LEAKS · TikTok 多维度身份核验</div>
+      <div class="info-block danger">
+        <span class="info-label">⚠ CRITICAL WARNING</span>
+        TikTok 不仅看 IP 地址，还会通过手机传感器、系统设置多维度核对你的"真实身份"。以下任意一项泄露均可导致封号或 0 播放。
+      </div>
+      <div class="leak-grid">
+        <div class="leak-item"><div class="icon">📡</div><h4>GPS 定位泄露 · 最致命</h4><p>IP 显示美国，GPS 显示北京。算法直接判定作弊封号。必须彻底关闭定位服务，甚至拔掉 SIM 卡。</p></div>
+        <div class="leak-item"><div class="icon">📱</div><h4>SIM 卡运营商泄露</h4><p>中国移动 SIM 卡的 MCC 代码 460 直接暴露国内身份。必须拔掉国内 SIM 卡，或使用无信号废卡。</p></div>
+        <div class="leak-item"><div class="icon">🕐</div><h4>时区与语言不匹配</h4><p>IP 在美国东部，手机却显示中文 + 北京时区，逻辑极度异常。确保语言与 IP 地区一致，时区设为自动。</p></div>
+        <div class="leak-item"><div class="icon">🔍</div><h4>DNS 查询泄露</h4><p>流量走美国代理，但 DNS 查询仍经过国内运营商——等于向国内警察问路。小白最容易忽视的隐藏泄露。</p></div>
+        <div class="leak-item"><div class="icon">🌐</div><h4>WebRTC 泄露</h4><p>浏览器直接向操作系统索取真实 IP，完全绕过代理通道。即使用最强代理，也会把真实物理 IP 暴露给网页。</p></div>
+      </div>
+    `
+  },
+  {
+    id:'dns', icon:'🔧', name:'DNS 修复', tag:'DNS', group:'安全防护',
+    html:`
+      <div class="page-title">DNS 泄露修复</div>
+      <div class="page-sub">DNS LEAK FIX · 修复最隐蔽的泄露</div>
+      <div class="info-block warn">
+        <span class="info-label">⚠ 什么是 DNS 泄露</span>
+        用代理访问 TikTok，但"查询网站在哪"这个动作（DNS 查询）依然经过国内运营商完成。等于走秘密通道时，问路却问了国内警察——直接暴露你的真实位置。
+      </div>
+      <div class="topology">
+        <div class="topo-row">
+          <div class="topo-node danger">你的请求</div><div class="topo-arrow">→</div>
+          <div class="topo-node danger">国内运营商 DNS</div><div class="topo-arrow">→</div>
+          <div class="topo-node danger">暴露位置 ✗</div>
+        </div>
+        <div style="margin:8px 0;font-size:8px;color:rgba(255,255,255,0.18);font-family:'Share Tech Mono',monospace;letter-spacing:3px">VS · AFTER FIX</div>
+        <div class="topo-row">
+          <div class="topo-node success">你的请求</div><div class="topo-arrow">→</div>
+          <div class="topo-node success">代理节点</div><div class="topo-arrow">→</div>
+          <div class="topo-node success">境外 DNS</div><div class="topo-arrow">→</div>
+          <div class="topo-node success">安全 ✓</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">STEP 01</div><h4>启用全局模式</h4><p>在代理软件中切换为全局模式（Global），强制所有流量（含 DNS 查询）经过代理。最简单直接的防泄露方法。</p></div>
+        <div class="step"><div class="step-num">STEP 02</div><h4>替换 DNS 服务器</h4><p>不要用运营商默认 DNS，换成境外公共 DNS，查询请求直达境外服务器。</p><div class="dns-box"><span>// 推荐境外 DNS</span>8.8.8.8 &nbsp;→ Google DNS<br>1.1.1.1 &nbsp;→ Cloudflare DNS</div></div>
+        <div class="step"><div class="step-num">STEP 03</div><h4>关闭 WebRTC</h4><p>PC 端使用指纹浏览器（如比特浏览器）；手机端确保全局代理模式，使用 TikTok 官方 APP 而非浏览器访问。</p></div>
+      </div>
+    `
+  },
+  {
+    id:'webrtc', icon:'🌐', name:'WebRTC', tag:'WEBRTC', group:'安全防护',
+    html:`
+      <div class="page-title">WebRTC 泄露</div>
+      <div class="page-sub">WEBRTC LEAK · 绕过代理的隐形泄露</div>
+      <div class="info-block danger">
+        <span class="info-label">⚠ 原理</span>
+        浏览器为实现视频通话等功能，会直接向操作系统索取你的<strong style="color:#fff">真实本地 IP</strong>，完全绕过代理通道。即使挂了最强的 VLESS+Reality，网页代码也能拿到你的真实物理 IP。
+      </div>
+      <div class="sec-title">哪些场景会泄露</div>
+      <div class="leak-grid">
+        <div class="leak-item"><div class="icon">💻</div><h4>浏览器登录 TikTok</h4><p>Chrome、Edge 等浏览器登录 TikTok 网页版时，WebRTC 极易泄露真实 IP，风险最高。</p></div>
+        <div class="leak-item"><div class="icon">📲</div><h4>模拟器 / WebView</h4><p>安卓模拟器或封装 APP 加载视频流时会调用系统 WebKit 内核，该内核默认开启 WebRTC。</p></div>
+        <div class="leak-item"><div class="icon">🎙️</div><h4>直播连麦 / 互动</h4><p>开启连麦功能时，浏览器必须通过 WebRTC 建立 P2P 连接，此时泄露几乎不可避免。</p></div>
+      </div>
+      <div class="sec-title">检测与修复</div>
+      <div class="info-block success">
+        <span class="info-label">🔗 测试工具</span>
+        访问以下网站检测：若 Public IP 显示代理服务器 IP 或无显示则安全；显示真实宽带 IP 则已泄露。
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+          <a href="https://browserleaks.com/webrtc" target="_blank" rel="noopener" class="tool-link">BrowserLeaks · WebRTC 检测</a>
+          <a href="https://whoer.net" target="_blank" rel="noopener" class="tool-link">Whoer.net · 综合检测</a>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">PC 端</div><h4>使用指纹浏览器</h4><p>推荐比特浏览器等指纹浏览器，内置 WebRTC 防护，从根源上阻止真实 IP 被网页代码读取。</p></div>
+        <div class="step"><div class="step-num">手机端</div><h4>全局模式 + 官方 APP</h4><p>代理切换为全局模式，WebRTC 请求会经过代理拿到代理 IP。同时避免在浏览器登录 TikTok。</p></div>
+      </div>
+    `
+  },
+  {
+    id:'checklist', icon:'✅', name:'自检清单', tag:'CHECK', group:'出发前必做',
+    html:`
+      <div class="page-title">终极自检清单</div>
+      <div class="page-sub">PRE-LAUNCH CHECKLIST · 每次运营前必做</div>
+      <div class="info-block success">
+        <span class="info-label">✓ 测试工具</span>
+        出发前先用以下工具验证环境，确认全部安全再操作。
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+          <a href="https://whoer.net" target="_blank" rel="noopener" class="tool-link">Whoer.net · 综合匿名度</a>
+          <a href="https://browserleaks.com/webrtc" target="_blank" rel="noopener" class="tool-link">BrowserLeaks · WebRTC</a>
+          <a href="https://browserleaks.com/ip" target="_blank" rel="noopener" class="tool-link">BrowserLeaks · IP 检测</a>
+        </div>
+      </div>
+      <ul class="checklist">
+        <li>代理软件已启动，已切换为全局模式（Global）</li>
+        <li><a href="https://whoer.net" target="_blank" rel="noopener" class="tool-link" style="margin-right:5px">Whoer.net</a>匿名度评分 ≥ 90%，IP 显示目标地区</li>
+        <li><a href="https://browserleaks.com/webrtc" target="_blank" rel="noopener" class="tool-link" style="margin-right:5px">BrowserLeaks WebRTC</a>无真实 IP 泄露</li>
+        <li>手机 GPS 定位服务已彻底关闭</li>
+        <li>国内 SIM 卡已拔出或使用无信号废卡</li>
+        <li>手机系统语言与目标地区保持一致</li>
+        <li>系统时区设为自动获取并跳至目标时区</li>
+        <li>DNS 已配置为 8.8.8.8 或 1.1.1.1</li>
+        <li>使用 TikTok 官方 APP，不在浏览器登录</li>
+        <li>PC 操作已使用指纹浏览器（如比特浏览器）</li>
+      </ul>
+    `
+  }
+];
+
+// ===== RENDER =====
+let cur = TABS[0].id;
+
+function render() {
+  // sidebar
+  let sHTML = '', lastG = '', mHTML = '';
+  TABS.forEach(t => {
+    if (t.group !== lastG) {
+      sHTML += `<div class="sidebar-group-label">${t.group}</div>`;
+      lastG = t.group;
+    }
+    const a = t.id === cur ? 'active' : '';
+    sHTML += `<button class="tab-btn ${a}" onclick="go('${t.id}')"><span class="t-icon">${t.icon}</span><span class="t-name">${t.name}</span><span class="t-tag">${t.tag}</span></button>`;
+    mHTML += `<button class="m-tab-btn ${a}" onclick="go('${t.id}')">${t.icon} ${t.name}</button>`;
+  });
+  document.getElementById('sidebar').innerHTML = sHTML;
+  document.getElementById('m-bar').innerHTML = mHTML;
+
+  // content
+  const tab = TABS.find(t => t.id === cur);
+  document.getElementById('content').innerHTML = `<div class="tab-panel active">${tab.html}</div>`;
+  document.getElementById('content').scrollTop = 0;
+
+  // scroll active mobile btn into view
+  setTimeout(() => {
+    const activeM = document.querySelector('.m-tab-btn.active');
+    if (activeM) activeM.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }, 50);
+}
+
+function go(id) { cur = id; render(); }
+render();
+
+// ===== MATRIX =====
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+let cols, drops;
+function initMx() {
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  cols = Math.floor(canvas.width / 14); drops = new Array(cols).fill(1);
+}
+function drawMx() {
+  ctx.fillStyle = 'rgba(3,8,17,0.055)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  const ch = '01VLESSTLSREALITYHYSTERIA><{}|#$%&*DNS';
+  for (let i=0;i<drops.length;i++) {
+    const c = ch[Math.floor(Math.random()*ch.length)];
+    ctx.fillStyle = `hsl(${185+Math.random()*30},100%,${32+Math.random()*28}%)`;
+    ctx.font = '12px Share Tech Mono,monospace';
+    ctx.fillText(c, i*14, drops[i]*14);
+    if (drops[i]*14 > canvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+initMx(); setInterval(drawMx,55);
+window.addEventListener('resize', initMx);
+</script>
+</body>
+</html>
