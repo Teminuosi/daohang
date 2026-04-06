@@ -2,8 +2,8 @@ import requests
 import base64
 import yaml  # 运行 pip3 install PyYAML
 
-source_url = "https://freev2ray.top/V2rayg32452.txt"
-save_path = "/www/wwwroot/www.zhanzhangsanyue.com/node/node.txt"
+source_url = "https://hh.yudou226.top/202604/20260405bf3ase.txt"
+save_path = "/www/wwwroot/www.sanyue.help/node/node.txt"
 
 # 1. 下载原始数据
 response = requests.get(source_url)
