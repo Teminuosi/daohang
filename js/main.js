@@ -1,4 +1,4 @@
-        /* ================= Supabase 认证系统 (REST API 版本) ================= */
+/* ================= Supabase 认证系统 (REST API 版本) ================= */
         const SUPABASE_URL = 'https://qzpvogxvlescfwpqahsn.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6cHZvZ3h2bGVzY2Z3cHFhaHNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MzMyMzMsImV4cCI6MjA4MzUwOTIzM30.2uadJyp_KJNxRuFm1NIkuRPrTzq0-lBfuH3gb20LXGc';
         
@@ -57,7 +57,6 @@
                         localStorage.setItem('nexus_refresh_token', data.refresh_token);
                         localStorage.setItem('nexus_user', JSON.stringify(data.user));
                         currentUser = data.user;
-                        console.log('Token 刷新成功');
                         resolve(data.access_token);
                     } else {
                         throw new Error('No access token in response');
@@ -142,9 +141,31 @@
             return adj + noun + num;
         }
         
-        // 检查昵称是否已存在
+        // 检查昵称是否已存在（注册前调用，此时无用户 token，必须用 anon key）
+        // 安全由 RLS 保障：anon 角色仅可 SELECT id 列，不暴露其他字段
         function checkNicknameExists(nickname) {
             return fetch(SUPABASE_URL + '/rest/v1/profiles?full_name=eq.' + encodeURIComponent(nickname) + '&select=id', {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                return data && data.length > 0; // true = 已存在
+            })
+            .catch(function() {
+                return false;
+            });
+        }
+        
+        // 检查手机号是否已存在（同上，anon key 仅用于注册前校验）
+        // 安全由 RLS 保障：anon 角色仅可 SELECT id 列
+        function checkPhoneExists(phone) {
+            return fetch(SUPABASE_URL + '/rest/v1/profiles?phone_number=eq.' + encodeURIComponent(phone) + '&select=id', {
                 method: 'GET',
                 headers: {
                     'apikey': SUPABASE_KEY,
@@ -312,7 +333,6 @@
             .then(function(data) {
                 if (data && data.length > 0) {
                     var profile = data[0];
-                    console.log('从profiles获取的资料:', profile);
                     
                     // 更新 currentUser 的 user_metadata
                     if (!currentUser.user_metadata) {
@@ -596,15 +616,14 @@
         }
         
         // 注册头像相关变量
-        var registerAvatarUrl = null;  // 存储已上传的头像URL
-        var isUploadingAvatar = false; // 是否正在上传
-        
-        // 预览并上传注册头像
+        var registerAvatarUrl = null;  // 注册成功后上传的头像 URL
+        var pendingAvatarFile = null;  // 待上传的头像文件对象（注册成功后才上传）
+
+        // 预览注册头像（仅预览，不上传——等注册拿到 access_token 后再上传）
         function previewRegisterAvatar(input) {
             if (input.files && input.files[0]) {
                 var file = input.files[0];
-                
-                // 验证文件
+
                 if (!file.type.startsWith('image/')) {
                     showMessage('请选择图片文件', 'error');
                     return;
@@ -613,59 +632,44 @@
                     showMessage('图片大小不能超过2MB', 'error');
                     return;
                 }
-                
-                // 先显示预览
+
+                // 本地预览
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('registerAvatarPreview').innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
                     document.getElementById('removeRegisterAvatarBtn').style.display = 'inline-block';
                 };
                 reader.readAsDataURL(file);
-                
-                // 立即上传头像
-                uploadRegisterAvatarNow(file);
+
+                // 保存文件引用，等注册成功后再上传
+                pendingAvatarFile = file;
             }
         }
-        
-        // 立即上传头像
-        function uploadRegisterAvatarNow(file) {
-            isUploadingAvatar = true;
-            var btn = document.getElementById('registerSubmitBtn');
-            btn.disabled = true;
-            btn.querySelector('.btn-text').textContent = '头像上传中...';
-            
+
+        // 用 access_token 上传头像（注册成功后调用，返回 Promise<url>）
+        function uploadAvatarWithToken(file, accessToken) {
             var ext = file.name.split('.').pop();
-            var filename = 'reg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) + '.' + ext;
-            
-            fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + filename, {
+            var filename = 'avatar_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) + '.' + ext;
+
+            return fetch(SUPABASE_URL + '/storage/v1/object/avatars/' + filename, {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + accessToken,
                     'Content-Type': file.type
                 },
                 body: file
             })
             .then(function(res) {
-                if (!res.ok) throw new Error('上传失败');
-                registerAvatarUrl = SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
-                showMessage('头像上传成功', 'success');
-            })
-            .catch(function(err) {
-                console.error('头像上传失败:', err);
-                showMessage('头像上传失败，请重试', 'error');
-                registerAvatarUrl = null;
-            })
-            .finally(function() {
-                isUploadingAvatar = false;
-                btn.disabled = false;
-                btn.querySelector('.btn-text').textContent = '注 册';
+                if (!res.ok) throw new Error('头像上传失败: ' + res.status);
+                return SUPABASE_URL + '/storage/v1/object/public/avatars/' + filename;
             });
         }
-        
+
         // 移除注册头像
         function removeRegisterAvatar() {
             registerAvatarUrl = null;
+            pendingAvatarFile = null;
             document.getElementById('registerAvatarPreview').innerHTML = '👤';
             document.getElementById('registerAvatarInput').value = '';
             document.getElementById('removeRegisterAvatarBtn').style.display = 'none';
@@ -678,6 +682,7 @@
             var phone = document.getElementById('registerPhone').value.trim();
             var password = document.getElementById('registerPassword').value;
             var confirmPassword = document.getElementById('registerConfirm').value;
+            
             
             // 验证
             var hasError = false;
@@ -724,21 +729,8 @@
             
             setButtonLoading('registerSubmitBtn', true);
             
-            // 先检查昵称是否已存在
-            checkNicknameExists(name).then(function(exists) {
-                if (exists) {
-                    showMessage('该昵称已被使用，请换一个或点击随机生成', 'warning');
-                    setFieldError('registerNameGroup', true);
-                    setButtonLoading('registerSubmitBtn', false);
-                    return;
-                }
-                
-                // 昵称可用，继续注册
-                doRegister(name, email, phone, password);
-            }).catch(function() {
-                // 检查失败，仍然尝试注册
-                doRegister(name, email, phone, password);
-            });
+            // 直接注册，不检查昵称和手机号是否重复
+            doRegister(name, email, phone, password);
         }
         
         // 执行注册
@@ -756,6 +748,7 @@
         
         // 带头像URL的注册
         function doRegisterWithAvatar(name, email, phone, password, avatarUrl) {
+            
             // 调用 Supabase Auth API 注册
             fetch(SUPABASE_URL + '/auth/v1/signup', {
                 method: 'POST',
@@ -794,46 +787,91 @@
                     return;
                 }
                 
-                // 注册成功，将用户信息写入 profiles 表（带头像）
+                // 注册成功，获取 access token
+                var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
                 var userId = result.data.user ? result.data.user.id : null;
-                if (userId) {
-                    saveUserProfile(userId, name, email, phone, avatarUrl);
-                }
+
+                // 如果有待上传的头像文件，现在用 access_token 上传
+                var avatarUploadPromise = (pendingAvatarFile && accessToken)
+                    ? uploadAvatarWithToken(pendingAvatarFile, accessToken)
+                        .then(function(url) {
+                            registerAvatarUrl = url;
+                            pendingAvatarFile = null;
+                            return url;
+                        })
+                        .catch(function() {
+                            showMessage('头像上传失败，可登录后在设置中重新上传', 'warning');
+                            return null;
+                        })
+                    : Promise.resolve(avatarUrl);
+
+                var profilePromise = avatarUploadPromise.then(function(finalAvatarUrl) {
+                    return userId ? saveUserProfile(userId, name, email, phone, finalAvatarUrl, accessToken) : Promise.resolve();
+                });
                 
-                // 检查是否需要邮箱验证
-                if (result.data.user && !result.data.session && !result.data.access_token) {
-                    showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
-                } else if (result.data.access_token || result.data.session) {
-                    // 直接登录成功
-                    var userData = result.data.user;
-                    var accessToken = result.data.access_token || (result.data.session && result.data.session.access_token);
-                    var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
+                // 等待profile保存完成后再更新UI
+                profilePromise.then(function() {
                     
-                    currentUser = userData;
-                    localStorage.setItem('nexus_user', JSON.stringify(userData));
-                    localStorage.setItem('nexus_access_token', accessToken);
-                    localStorage.setItem('nexus_refresh_token', refreshToken);
-                    showMessage('注册成功！欢迎加入 NEXUS', 'success');
-                    updateAuthUI(true);
-                } else {
-                    showMessage('注册成功！请登录', 'success');
-                }
-                
-                setTimeout(function() {
-                    closeAuthModal('register');
-                    setButtonLoading('registerSubmitBtn', false);
-                    document.getElementById('registerName').value = '';
-                    document.getElementById('registerEmail').value = '';
-                    document.getElementById('registerPhone').value = '';
-                    document.getElementById('registerPassword').value = '';
-                    document.getElementById('registerConfirm').value = '';
-                    document.getElementById('strengthBar1').className = 'strength-bar';
-                    document.getElementById('strengthBar2').className = 'strength-bar';
-                    document.getElementById('strengthBar3').className = 'strength-bar';
-                    document.getElementById('strengthText').textContent = '';
-                    // 清理注册头像
-                    removeRegisterAvatar();
-                }, 1500);
+                    // 检查是否需要邮箱验证
+                    if (result.data.user && !result.data.session && !result.data.access_token) {
+                        showMessage('注册成功！请检查邮箱完成验证后登录', 'success');
+                    } else if (result.data.access_token || result.data.session) {
+                        // 直接登录成功
+                        var userData = result.data.user;
+                        var refreshToken = result.data.refresh_token || (result.data.session && result.data.session.refresh_token);
+                        
+                        currentUser = userData;
+                        localStorage.setItem('nexus_user', JSON.stringify(userData));
+                        localStorage.setItem('nexus_access_token', accessToken);
+                        localStorage.setItem('nexus_refresh_token', refreshToken);
+                        showMessage('注册成功！欢迎加入 NEXUS', 'success');
+                        
+                        // 先更新UI，再延迟一下刷新profile（确保数据已完全写入）
+                        updateAuthUI(true);
+                        setTimeout(function() {
+                            fetchLatestProfile(userId);
+                        }, 500);
+                    } else {
+                        showMessage('注册成功！请登录', 'success');
+                    }
+                    
+                    setTimeout(function() {
+                        closeAuthModal('register');
+                        setButtonLoading('registerSubmitBtn', false);
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPhone').value = '';
+                        document.getElementById('registerPassword').value = '';
+                        document.getElementById('registerConfirm').value = '';
+                        document.getElementById('strengthBar1').className = 'strength-bar';
+                        document.getElementById('strengthBar2').className = 'strength-bar';
+                        document.getElementById('strengthBar3').className = 'strength-bar';
+                        document.getElementById('strengthText').textContent = '';
+                        // 清理注册头像
+                        removeRegisterAvatar();
+                    }, 1500);
+                }).catch(function(profileError) {
+                    console.error('=== 保存profile失败详情 ===');
+                    console.error('错误对象:', profileError);
+                    console.error('错误消息:', profileError.message);
+                    console.error('错误堆栈:', profileError.stack);
+                    
+                    // 虽然profile保存失败，但用户账号已经创建成功了
+                    // 用户可以重新登录，登录后会再次尝试同步profile
+                    showMessage('注册成功，但资料保存失败。请重新登录后系统会自动同步', 'warning');
+                    
+                    setTimeout(function() {
+                        closeAuthModal('register');
+                        setButtonLoading('registerSubmitBtn', false);
+                        // 清理表单
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                        document.getElementById('registerPhone').value = '';
+                        document.getElementById('registerPassword').value = '';
+                        document.getElementById('registerConfirm').value = '';
+                        removeRegisterAvatar();
+                    }, 2000);
+                });
             })
             .catch(function(error) {
                 console.error('注册错误:', error);
@@ -843,7 +881,7 @@
         }
         
         // 保存用户资料到 profiles 表
-        function saveUserProfile(userId, fullName, email, phone, avatarUrl) {
+        function saveUserProfile(userId, fullName, email, phone, avatarUrl, accessToken) {
             var profileData = {
                 id: userId,
                 full_name: fullName,
@@ -852,14 +890,18 @@
                 avatar_url: avatarUrl || null
             };
             
-            console.log('保存用户资料:', profileData);
             
-            // 使用 upsert：如果存在就更新，不存在就插入
-            fetch(SUPABASE_URL + '/rest/v1/profiles', {
+            if (!accessToken) {
+                return Promise.reject(new Error('保存用户资料需要登录状态'));
+            }
+            var authHeader = 'Bearer ' + accessToken;
+            
+            // 返回Promise，以便等待保存完成
+            return fetch(SUPABASE_URL + '/rest/v1/profiles', {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Authorization': authHeader,
                     'Content-Type': 'application/json',
                     'Prefer': 'resolution=merge-duplicates'
                 },
@@ -868,14 +910,36 @@
             .then(function(response) {
                 if (!response.ok) {
                     return response.text().then(function(text) {
-                        console.error('保存用户资料失败:', text);
+                        console.error('保存用户资料失败，响应内容:', text);
+                        var errorData;
+                        try {
+                            errorData = JSON.parse(text);
+                        } catch(e) {
+                            errorData = { message: text || '未知错误' };
+                        }
+                        
+                        console.error('保存资料错误:', errorData.message || '未知错误');
+                        throw new Error('保存资料失败: ' + (errorData.message || text || '未知错误'));
                     });
                 } else {
-                    console.log('用户资料保存成功');
+                    // 成功的响应可能是空的（201 Created可能没有body）
+                    return response.text().then(function(text) {
+                        if (text && text.trim()) {
+                            try {
+                                var data = JSON.parse(text);
+                                return data;
+                            } catch(e) {
+                                return null;
+                            }
+                        } else {
+                            return null;
+                        }
+                    });
                 }
             })
             .catch(function(error) {
                 console.error('保存用户资料错误:', error);
+                throw error;
             });
         }
         
@@ -1161,28 +1225,8 @@
             
             setButtonLoading('settingsSubmitBtn', true);
             
-            // 获取当前昵称
-            var currentName = '';
-            if (currentUser && currentUser.user_metadata && currentUser.user_metadata.full_name) {
-                currentName = currentUser.user_metadata.full_name;
-            }
-            
-            // 如果昵称改变了，检查唯一性
-            if (newName !== currentName) {
-                checkNicknameExists(newName).then(function(exists) {
-                    if (exists) {
-                        showMessage('该昵称已被使用，请换一个', 'warning');
-                        setFieldError('settingsNameGroup', true);
-                        setButtonLoading('settingsSubmitBtn', false);
-                        return;
-                    }
-                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-                }).catch(function() {
-                    doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-                });
-            } else {
-                doUpdateProfile(newName, newPhone, newAvatar, accessToken);
-            }
+            // 直接更新，不检查昵称是否重复
+            doUpdateProfile(newName, newPhone, newAvatar, accessToken);
         }
         
         // 执行更新资料
@@ -1268,7 +1312,6 @@
                 avatar_url: avatarUrl || null  // 始终更新头像字段
             };
             
-            console.log('更新用户资料:', updateData);
             
             // 更新 profiles 表
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
@@ -1282,7 +1325,6 @@
                 body: JSON.stringify(updateData)
             }).then(function(response) {
                 if (response.ok) {
-                    console.log('profiles表更新成功');
                 } else {
                     response.text().then(function(text) {
                         console.error('更新profiles表失败:', text);
@@ -1498,6 +1540,10 @@
         // 跳转会员专区
         function goToVip() {
             window.location.href = 'vip.html';
+            // 显示提示信息
+            // if (confirm('即将进入视频专区\n\n💡 温馨提示：若视频无法加载，请尝试更换节点')) {
+                
+            // }
         }
 
         // 品牌网站弹窗
@@ -1518,11 +1564,31 @@
             closeAllModals();
             setTimeout(() => {
                 const m = document.getElementById(id + '-modal');
-                if(m) { 
-                    m.classList.add('visible'); 
-                    document.body.classList.add('modal-open'); 
+                if(m) {
+                    m.classList.add('visible');
+                    document.body.classList.add('modal-open');
+                    if (id === 'reality-domains') rdInit();
                 }
             }, 10);
+        }
+
+        function copyCmd(id, btn) {
+            var code = document.getElementById(id);
+            var text = code.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                var orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.color = '#00ff88';
+                btn.style.borderColor = '#00ff88';
+                setTimeout(function(){ btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 1800);
+            }).catch(function() {
+                var range = document.createRange();
+                range.selectNode(code);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                window.getSelection().removeAllRanges();
+            });
         }
 
         function closeModal(id) {
@@ -1990,8 +2056,6 @@
             };
             
             // 调试日志
-            console.log('发送消息 - pendingMessageImage:', pendingMessageImage);
-            console.log('发送消息 - messageData:', messageData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -2532,8 +2596,6 @@
             };
             
             // 调试日志
-            console.log('发送私信 - pendingMessageImage:', pendingMessageImage);
-            console.log('发送私信 - dmData:', dmData);
             
             var btn = document.querySelector('.execute-btn');
             btn.disabled = true;
@@ -2755,7 +2817,6 @@
             })
             .then(function(data) {
                 pendingMessageImage = SUPABASE_URL + '/storage/v1/object/public/message-images/' + fileName;
-                console.log('图片上传成功 - pendingMessageImage 已设置:', pendingMessageImage);
                 showMessage('图片已准备好，点击发送', 'success');
             })
             .catch(function(error) {
@@ -2832,21 +2893,97 @@
             document.getElementById('imageLightbox').classList.remove('show');
         }
 
+        // ── 域名优选 ──────────────────────────────────────────
+        var rdCurrentBatch = 0;
+        var rdShuffled = [];
+        var rdInited = false;
 
-// === 移动端导航脚本 ===
-        function openMobileDrawer(side) {
-            document.getElementById('mobileOverlay').classList.add('open');
-            if (side === 'left') {
-                document.getElementById('mobileDrawerLeft').classList.add('open');
-            } else {
-                document.getElementById('mobileDrawerRight').classList.add('open');
+        var rdDomainBatches = [
+            ["d.oracleinfinity.io","aws.amazon.com","d0.m.awsstatic.com","r.bing.com","c.marsflag.com","d1.awsstatic.com","www.bing.com","www.aws.com"],
+            ["apps.mzstatic.com","www.xbox.com","developer.apple.com","s0.awsstatic.com","icloud.com","itunes.apple.com","www.microsoft.com","cdn.apple-cloudkit.com"],
+            ["gateway.icloud.com","www.apple.com","swdist.apple.com","swcdn.apple.com","updates.cdn-apple.com","mensura.cdn-apple.com","osxapps.itunes.apple.com","aod.itunes.apple.com"],
+            ["www.cloudflare.com","ajax.googleapis.com","www.gstatic.com","dl.google.com","storage.googleapis.com","maps.gstatic.com","www.google.com","fonts.gstatic.com"],
+            ["cdn.jsdelivr.net","cdnjs.cloudflare.com","unpkg.com","raw.githubusercontent.com","objects.githubusercontent.com","codeload.github.com","github.githubassets.com","avatars.githubusercontent.com"],
+            ["s3.amazonaws.com","s3-us-west-2.amazonaws.com","cloudfront.net","d1.awsstatic.com","d7uri8nf7uskq.cloudfront.net","d2908q01vomqb2.cloudfront.net","d3ko8w4ej5s9kd.cloudfront.net","d16r8lzcronp14.cloudfront.net"],
+            ["update.googleapis.com","lh3.googleusercontent.com","yt3.ggpht.com","i.ytimg.com","www.youtube.com","googlevideo.com","ytimg.com","play.google.com"],
+            ["login.microsoftonline.com","outlook.office365.com","graph.microsoft.com","teams.microsoft.com","onedrive.live.com","sharepoint.com","azure.microsoft.com","aka.ms"],
+        ];
+
+        function rdShuffle(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
             }
-            document.body.style.overflow = 'hidden';
+            return a;
         }
-        
-        function closeMobileDrawer() {
-            document.getElementById('mobileOverlay').classList.remove('open');
-            document.getElementById('mobileDrawerLeft').classList.remove('open');
-            document.getElementById('mobileDrawerRight').classList.remove('open');
-            document.body.style.overflow = '';
+
+        function rdBuildCommand(domains) {
+            var joined = domains.join(' ');
+            return 'for d in ' + joined + '; do t1=$(date +%s%N)\n  xray x25519 -i $d 2>/dev/null\n  t2=$(date +%s%N)\n  echo "$d $((($t2-$t1)/1000000))ms"\ndone | sort -t\' \' -k2 -n | head -3';
+        }
+
+        function rdHighlight(cmd) {
+            return cmd
+                .replace(/\b(for|in|do|done|if|fi|then|else)\b/g, '<span class="rd-kw">$1</span>')
+                .replace(/\|/g, '<span class="rd-op">|</span>')
+                .replace(/\b(sort|head|echo|date|xray)\b/g, '<span class="rd-op">$1</span>')
+                .replace(/([\w-]+\.[\w.-]+\.[a-z]{2,})/g, '<span class="rd-dm">$1</span>');
+        }
+
+        function rdRenderBatch(idx) {
+            var batch = rdShuffled[idx];
+            var cmd = rdBuildCommand(batch);
+            document.getElementById('rdCodeContent').innerHTML = rdHighlight(cmd);
+            document.getElementById('rdBatchNum').textContent = idx + 1;
+            document.getElementById('rdTotalBatch').textContent = rdShuffled.length;
+        }
+
+        function rdInit() {
+            if (rdInited) return;
+            rdShuffled = rdShuffle(rdDomainBatches);
+            rdCurrentBatch = 0;
+            rdRenderBatch(0);
+            rdInited = true;
+        }
+
+        function rdRefresh() {
+            var icon = document.getElementById('rdRefreshIcon');
+            var content = document.getElementById('rdCodeContent');
+            icon.style.animation = 'spin 0.45s ease';
+            setTimeout(function() { icon.style.animation = ''; }, 450);
+            content.classList.remove('fade-in');
+            content.classList.add('fade-out');
+            setTimeout(function() {
+                rdCurrentBatch = (rdCurrentBatch + 1) % rdShuffled.length;
+                rdRenderBatch(rdCurrentBatch);
+                content.classList.remove('fade-out');
+                content.classList.add('fade-in');
+            }, 200);
+        }
+
+        function rdCopyText() {
+            var btn = document.getElementById('rdBtnCopy');
+            var label = document.getElementById('rdCopyLabel');
+            var text = rdBuildCommand(rdShuffled[rdCurrentBatch]);
+            var finish = function() {
+                btn.classList.add('copied');
+                label.textContent = '已复制 ✓';
+                setTimeout(function() { btn.classList.remove('copied'); label.textContent = '复制'; }, 2000);
+            };
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(finish).catch(function() { rdFallbackCopy(text, finish); });
+            } else {
+                rdFallbackCopy(text, finish);
+            }
+        }
+
+        function rdFallbackCopy(text, cb) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            cb();
         }

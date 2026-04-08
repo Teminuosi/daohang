@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代理软件下载 | 三月空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --gold: #ffd700;
+            --bg: #050505;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px 60px;
+        }
+
+        .scanline-moving {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 243, 255, 0.02) 51%, transparent 51%);
+            background-size: 100% 4px;
+            animation: scan-move 10s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
+        .scan-beam {
+            position: fixed; top: -10%; left: 0; width: 100%; height: 20px;
+            background: rgba(0, 243, 255, 0.15);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            filter: blur(5px);
+            animation: beam-drop 8s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
+        .cyber-grid {
+            position: fixed; bottom: -20%; left: -50%; width: 200%; height: 60%;
+            background:
+                linear-gradient(transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px),
+                linear-gradient(90deg, transparent 0%, rgba(0, 243, 255, 0.1) 1px, transparent 2px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: grid-move 20s linear infinite;
+            z-index: -2;
+            mask-image: linear-gradient(to bottom, transparent, black 40%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%);
+        }
+        @keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
+        @keyframes beam-drop { 0% { top: -10%; opacity: 0; } 20% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+        @keyframes grid-move { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 1; }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .page-header .logo-icon {
+            font-size: 2.8rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary);
+            margin-bottom: 12px;
+        }
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+            letter-spacing: 3px;
+        }
+        .page-header p {
+            color: #555;
+            margin-top: 8px;
+            font-size: 0.88rem;
+        }
+
+        /* 平台分区 */
+        .platform-section {
+            background: rgba(16, 16, 20, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.15);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(10px);
+        }
+        .platform-section.android-section {
+            border-color: rgba(100, 220, 100, 0.2);
+        }
+        .platform-section.mac-section {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .platform-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .platform-title i { font-size: 1.2rem; }
+
+        /* 下载按钮 */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .download-btn:last-child { margin-bottom: 0; }
+        .download-btn-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .download-btn-left i { font-size: 1rem; }
+        .btn-label { font-size: 0.92rem; font-weight: 600; }
+        .btn-sub { font-size: 0.76rem; color: #666; margin-top: 2px; }
+        .download-btn .arrow { font-size: 0.8rem; opacity: 0.4; }
+
+        /* 主下载 */
+        .btn-primary {
+            background: rgba(0, 243, 255, 0.07);
+            border-color: rgba(0, 243, 255, 0.3);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: rgba(0, 243, 255, 0.16);
+            border-color: var(--primary);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.15);
+        }
+        .btn-primary .btn-label { color: var(--primary); }
+
+        /* 备用 */
+        .btn-backup {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #888;
+        }
+        .btn-backup:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #bbb;
+        }
+        .btn-backup .btn-label { color: #888; }
+        .tag-backup {
+            font-size: 0.68rem;
+            background: rgba(255,255,255,0.08);
+            color: #777;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 7px;
+            vertical-align: middle;
+        }
+
+        /* Mac */
+        .btn-mac {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #ddd;
+        }
+        .btn-mac:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.28);
+        }
+        .btn-mac .btn-label { color: #ddd; }
+
+        /* 安卓 */
+        .btn-android {
+            background: rgba(100, 220, 100, 0.05);
+            border-color: rgba(100, 220, 100, 0.2);
+            color: #ccc;
+        }
+        .btn-android:hover {
+            background: rgba(100, 220, 100, 0.12);
+            border-color: rgba(100, 220, 100, 0.4);
+        }
+        .btn-android .btn-label { color: #7ddf7d; }
+
+        /* 官网链接（次要） */
+        .btn-official {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.06);
+            color: #666;
+        }
+        .btn-official:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #999;
+        }
+        .btn-official .btn-label { color: #666; }
+
+        /* 分割线 */
+        .section-divider {
+            border: none;
+            border-top: 1px dashed rgba(255,255,255,0.07);
+            margin: 12px 0;
+        }
+
+        /* 提示块 */
+        .tip-box {
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.18);
+            border-radius: 8px;
+            padding: 13px 16px;
+            font-size: 0.83rem;
+            color: #888;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+        .tip-box i { color: var(--gold); margin-right: 6px; }
+
+        .mac-tip {
+            margin-top: 14px;
+            background: rgba(188,19,254,0.05);
+            border: 1px solid rgba(188,19,254,0.22);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.82rem;
+            color: #aaa;
+            line-height: 1.8;
+        }
+        .mac-tip i { color: #bc13fe; margin-right: 6px; }
+        .mac-tip code {
+            display: block;
+            margin-top: 8px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--primary);
+            user-select: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline-moving"></div>
+    <div class="scan-beam"></div>
+    <div class="cyber-grid"></div>
+
+    <div class="container">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回主页</a>
+
+        <div class="page-header">
+            <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+            <h1>代理软件下载</h1>
+            <p>选择适合你设备的版本，推荐优先使用站长通道</p>
+        </div>
+
+        <!-- Windows -->
+        <div class="platform-section">
+            <div class="platform-title">
+                <i class="fab fa-windows" style="color: var(--primary);"></i>
+                <span>Windows</span>
+            </div>
+
+            <a href="https://wwbsb.lanzouw.com/iRl5z3ms8maj" target="_blank" class="download-btn btn-primary">
+                <div class="download-btn-left">
+                    <i class="fas fa-download" style="color: var(--primary);"></i>
+                    <div>
+                        <div class="btn-label">V2rayN（Windows 64位）</div>
+                        <div class="btn-sub">站长通道 · 推荐下载</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://dl.dajian.cyou/V2ray/v2rayN-windows-64.zip" target="_blank" class="download-btn btn-backup">
+                <div class="download-btn-left">
+                    <i class="fas fa-download"></i>
+                    <div>
+                        <div class="btn-label">V2rayN（Windows 64位）<span class="tag-backup">备用</span></div>
+                        <div class="btn-sub">备用通道</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <hr class="section-divider">
+
+            <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="download-btn btn-official">
+                <div class="download-btn-left">
+                    <i class="fab fa-github"></i>
+                    <div>
+                        <div class="btn-label">V2rayN 官网（GitHub）</div>
+                        <div class="btn-sub">最新版本，需要科学上网访问</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <div class="tip-box">
+                <i class="fas fa-info-circle"></i>
+                优先使用站长通道下载，下载后解压即可使用，无需安装。
+            </div>
+        </div>
+
+        <!-- macOS -->
+        <div class="platform-section mac-section">
+            <div class="platform-title">
+                <i class="fab fa-apple" style="color: #ccc;"></i>
+                <span>macOS</span>
+            </div>
+
+            <a href="https://dl.dajian.cyou/V2ray/v2rayN-macos-arm64.dmg" target="_blank" class="download-btn btn-mac">
+                <div class="download-btn-left">
+                    <i class="fas fa-download"></i>
+                    <div>
+                        <div class="btn-label">v2rayN（Mac M芯片）</div>
+                        <div class="btn-sub">适用于 M1 / M2 / M3 等 Apple 芯片</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://dl.dajian.cyou/V2ray/v2rayN-macos-64.dmg" target="_blank" class="download-btn btn-mac">
+                <div class="download-btn-left">
+                    <i class="fas fa-download"></i>
+                    <div>
+                        <div class="btn-label">v2rayN（Mac Intel 芯片）</div>
+                        <div class="btn-sub">适用于老款 Intel 芯片的 Mac</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <div class="mac-tip">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong style="color:#ccc;">安装报错无法打开？</strong> 打开「终端」输入以下命令并回车：
+                <code>xattr -cr /Applications/v2rayN.app</code>
+            </div>
+        </div>
+
+        <!-- Android -->
+        <div class="platform-section android-section">
+            <div class="platform-title">
+                <i class="fab fa-android" style="color: #7ddf7d;"></i>
+                <span>Android（安卓）</span>
+            </div>
+
+            <a href="https://dl.dajian.cyou/V2ray/v2rayNG_2.0.0_arm64-v8a.apk" target="_blank" class="download-btn btn-android">
+                <div class="download-btn-left">
+                    <i class="fas fa-download" style="color: #7ddf7d;"></i>
+                    <div>
+                        <div class="btn-label">v2rayNG（ARM64）</div>
+                        <div class="btn-sub">站长通道 · 适合绝大多数安卓手机</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <hr class="section-divider">
+
+            <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="download-btn btn-official">
+                <div class="download-btn-left">
+                    <i class="fab fa-github"></i>
+                    <div>
+                        <div class="btn-label">v2rayNG 官网（GitHub）</div>
+                        <div class="btn-sub">最新版本，需要科学上网访问</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases" target="_blank" class="download-btn btn-official">
+                <div class="download-btn-left">
+                    <i class="fab fa-github"></i>
+                    <div>
+                        <div class="btn-label">NekoBox for Android（GitHub）</div>
+                        <div class="btn-sub">另一款安卓代理客户端，支持多协议</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

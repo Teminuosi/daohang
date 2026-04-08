@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
         :root {
             --primary: #00f3ff;
@@ -390,7 +388,7 @@
         .modal-content {
             background: #0f0f13; border: 1px solid var(--primary);
             box-shadow: 0 0 50px rgba(0, 243, 255, 0.15); border-radius: 16px;
-            padding: 40px; width: 90%; max-width: 1000px; max-height: 85vh;
+            padding: 40px; width: 95%; max-width: 1280px; max-height: 85vh;
             overflow-y: auto; position: relative;
             transform: scale(0.95); transition: transform 0.3s ease;
         }
@@ -435,23 +433,24 @@
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
         }
 
-        .modal-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-            gap: 15px; 
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
             margin-bottom: 25px;
         }
-        
+
         .link-card {
-            background: rgba(255,255,255,0.04); padding: 15px; border-radius: 10px;
+            background: rgba(255,255,255,0.04); padding: 20px; border-radius: 10px;
             text-align: left; text-decoration: none; color: #ccc; border: 1px solid transparent;
-            transition: 0.3s; display: flex; align-items: center; gap: 15px;
-            min-height: 80px; /* 保证高度一致 */
+            transition: 0.3s; display: flex; align-items: center; gap: 18px;
+            min-height: 100px;
         }
         .link-card:hover { background: rgba(0, 243, 255, 0.1); color: #fff; border-color: var(--primary); transform: translateX(5px); }
-        .link-card i, .link-card img { width: 30px; height: 30px; object-fit: contain; text-align: center; font-size: 24px; color: var(--primary); flex-shrink: 0; }
-        .link-card h3 { font-size: 1rem; margin: 0 0 4px 0; font-weight: 500; font-family: 'Rajdhani'; }
-        .link-card p { font-size: 0.8rem; color: #777; margin: 0; line-height: 1.3; }
+        .link-card i, .link-card img { flex-shrink: 0; width: 40px; font-size: 28px; object-fit: contain; text-align: center; color: var(--primary); }
+        .link-card div { flex: 1; min-width: 0; }
+        .link-card h3 { font-size: 1.05rem; margin: 0 0 6px 0; font-weight: 500; font-family: 'Rajdhani'; }
+        .link-card p { font-size: 0.85rem; color: #ccc; line-height: 1.6; margin: 4px 0 0 0; font-weight: 400; }
         
         .card-highlight { border: 1px solid var(--secondary); background: rgba(188, 19, 254, 0.05); }
 
@@ -494,7 +493,7 @@
             .hero-grid { grid-template-columns: 1fr; }
             .resource-grid { grid-template-columns: 1fr 1fr; }
             .logo-text { font-size: 2.2rem; }
-            .modal-content { padding: 25px 15px; }
+            .modal-content { padding: 20px; }
             .system-warning-bar { font-size: 0.85rem; padding: 10px; text-align: left; }
             
             /* 移动端强制单列，防止挤压 */
@@ -502,6 +501,8 @@
             
             /* 移动端导航按钮 */
             .mobile-nav-btns { display: flex !important; }
+            
+            /* 移动端抽屉菜单始终保持 display:flex（由 visibility 控制显示） */
         }
         
         /* 移动端导航按钮 */
@@ -511,7 +512,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
+            z-index: 10000;
             gap: 15px;
         }
         .mobile-nav-btn {
@@ -529,26 +530,29 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s;
             box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            pointer-events: auto;
         }
-        .mobile-nav-btn:hover, .mobile-nav-btn.active {
+        .mobile-nav-btn:active {
             background: rgba(0, 243, 255, 0.3);
-            transform: scale(1.1);
+            transform: scale(0.95);
         }
         
         /* 移动端抽屉菜单 */
         .mobile-drawer {
-            display: none;
+            display: flex;
+            flex-direction: column;
             position: fixed;
             top: 0;
             bottom: 0;
             width: 280px;
             background: rgba(10, 10, 15, 0.98);
             backdrop-filter: blur(20px);
-            z-index: 1001;
+            z-index: 10002;
             padding: 60px 20px 20px;
             overflow-y: auto;
             transition: transform 0.3s ease;
             border: 1px solid var(--glass-border);
+            visibility: hidden;
         }
         .mobile-drawer.left {
             left: 0;
@@ -562,6 +566,7 @@
         }
         .mobile-drawer.open {
             transform: translateX(0);
+            visibility: visible;
         }
         .mobile-drawer-close {
             position: absolute;
@@ -614,7 +619,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.7);
-            z-index: 1000;
+            z-index: 10001;
         }
         .mobile-overlay.open {
             display: block;
@@ -679,84 +684,7 @@
         .demo-banner:hover .demo-arrow { transform: translateX(5px); color: #fff; }
 
 
-        /* === 针对文字变长后的优化样式 === */
-
-/* 1. 让弹窗变宽 */
-.modal-content {
-    /* 增加宽度到 1280px，让横向能容纳更多内容 */
-    max-width: 1280px; 
-    width: 95%; /* 移动端保持95% */
-}
-
-/* 2. 让卡片变宽，适应长文字 */
-.modal-grid {
-    display: grid;
-    /* minmax改到320px，保证卡片足够宽，文字不至于挤成一团 */
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-/* 3. 卡片内部排版微调 */
-.link-card {
-    display: flex;
-    align-items: center; /* 垂直居中 */
-    gap: 18px; /* 图标和文字的间距 */
-    padding: 20px; /* 增加内边距 */
-    min-height: 100px; /* 保证最小高度，视觉更整齐 */
-}
-
-/* 图标固定宽度，防止被文字挤压 */
-.link-card i, .link-card img {
-    flex-shrink: 0; 
-    width: 40px; 
-    font-size: 28px;
-}
-
-/* 文字区域 */
-.link-card div {
-    flex: 1; /* 占满剩余空间 */
-    min-width: 0; /* 防止文字溢出容器 */
-}
-
-/* 标题 */
-.link-card h3 {
-    font-size: 1.05rem;
-    margin: 0 0 6px 0; /* 标题和描述之间增加间距 */
-    font-weight: 500; 
-    font-family: 'Rajdhani';
-    /* white-space: nowrap; /* 标题尽量不换行 - 这个可能会导致长标题溢出 */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-}
-
-/* 描述文字 (您加字的地方) */
-.link-card p {
-    font-size: 0.85rem;
-    color: #888;
-    line-height: 1.5; /* 增加行间距，多行文字更好看 */
-    opacity: 0.8;
-}
-
-/* 手机端适配：一行一个 */
-@media (max-width: 768px) {
-    .modal-grid { grid-template-columns: 1fr; }
-    .modal-content { padding: 20px; }
-}
-
-
-/* === 优化后的卡片文字样式 === */
-
-/* 1. 描述文字整体加亮 */
-.link-card p {
-    font-size: 0.85rem;
-    color: #ccc; /* 从 #888 改为 #ccc，更亮更清晰 */
-    line-height: 1.6; /* 增加行高，让长文字阅读更舒服 */
-    margin: 4px 0 0 0;
-    font-weight: 400; /*稍微加粗一点点*/
-}
-
-/* 2. 优惠码专属样式 (金色背景块) */
+        /* 优惠码专属样式 */
 .code-badge {
     background: rgba(255, 215, 0, 0.15);
     color: #ffd700;
@@ -2211,4 +2139,107 @@
     .input-actions {
         justify-content: space-between;
     }
+}
+
+/* === 域名优选弹窗 === */
+.rd-modal-content { max-width: 660px; padding: 0; overflow: hidden; }
+
+.rd-header {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.rd-title {
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.rd-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: rd-pulse 2s infinite;
+}
+@keyframes rd-pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.rd-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+.rd-btn-group { display: flex; gap: 8px; }
+.rd-btn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    background: transparent;
+}
+.rd-btn-refresh { color: var(--primary); border-color: rgba(0,243,255,0.25); background: rgba(0,243,255,0.06); }
+.rd-btn-refresh:hover { background: rgba(0,243,255,0.15); border-color: rgba(0,243,255,0.5); transform: translateY(-1px); }
+.rd-btn-copy { color: #a78bfa; border-color: rgba(124,92,252,0.25); background: rgba(124,92,252,0.06); }
+.rd-btn-copy:hover { background: rgba(124,92,252,0.15); border-color: rgba(124,92,252,0.5); transform: translateY(-1px); }
+.rd-btn-copy.copied { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.06); }
+
+.rd-code-area { padding: 18px 24px; }
+.rd-code-box {
+    background: #0a0a0f;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: #94a3b8;
+    min-height: 110px;
+    transition: border-color 0.3s;
+}
+.rd-code-box:hover { border-color: rgba(0,243,255,0.15); }
+.rd-code-content { word-break: break-all; white-space: pre-wrap; transition: opacity 0.2s, transform 0.2s; }
+.rd-code-content.fade-out { opacity: 0; transform: translateY(-6px); }
+.rd-code-content.fade-in  { opacity: 1; transform: translateY(0); }
+
+/* syntax highlight */
+.rd-kw { color: #7dd3fc; }
+.rd-dm { color: #34d399; }
+.rd-op { color: #f9a8d4; }
+
+.rd-meta-bar {
+    padding: 8px 24px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.rd-counter { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; }
+.rd-counter span { color: var(--primary); font-weight: 700; }
+.rd-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.rd-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+    color: #555;
+    border: 1px solid rgba(255,255,255,0.07);
+    font-family: 'JetBrains Mono', monospace;
 }

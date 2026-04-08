@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reality 目标域名</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --border: #2a2d3a;
+    --accent: #00d4ff;
+    --accent2: #7c5cfc;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #141720;
+    --success: #22c55e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(124,92,252,0.05) 0%, transparent 60%);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 700px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,212,255,0.05), 0 24px 64px rgba(0,0,0,0.5);
+  }
+
+  .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .title-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .btn-refresh {
+    background: rgba(0,212,255,0.08);
+    color: var(--accent);
+    border-color: rgba(0,212,255,0.2);
+  }
+  .btn-refresh:hover {
+    background: rgba(0,212,255,0.15);
+    border-color: rgba(0,212,255,0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,212,255,0.15);
+  }
+  .btn-refresh:active { transform: translateY(0); }
+  .btn-refresh.spinning svg { animation: spin 0.5s ease; }
+
+  .btn-copy {
+    background: rgba(124,92,252,0.08);
+    color: #a78bfa;
+    border-color: rgba(124,92,252,0.2);
+  }
+  .btn-copy:hover {
+    background: rgba(124,92,252,0.15);
+    border-color: rgba(124,92,252,0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(124,92,252,0.15);
+  }
+  .btn-copy:active { transform: translateY(0); }
+  .btn-copy.copied {
+    color: var(--success);
+    border-color: rgba(34,197,94,0.3);
+    background: rgba(34,197,94,0.08);
+  }
+
+  .code-area {
+    padding: 20px 24px;
+    position: relative;
+  }
+
+  .code-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #94a3b8;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .code-box:hover { border-color: rgba(0,212,255,0.15); }
+
+  .code-content {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+  .code-content.fade-out {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  .code-content.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* syntax coloring */
+  .kw { color: #7dd3fc; }   /* for/in/do/done */
+  .dm { color: #34d399; }   /* domain names */
+  .op { color: #f9a8d4; }   /* operators */
+  .cm { color: var(--muted); font-style: italic; } /* comments */
+
+  .meta-bar {
+    padding: 10px 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .counter span {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <div class="title">
+      <div class="dot"></div>
+      Reality 目标域名
+      <span class="title-badge">XRAY</span>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-refresh" id="btnRefresh" onclick="refresh()">
+        <svg id="refreshIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+          <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+        </svg>
+        换一批
+      </button>
+      <button class="btn btn-copy" id="btnCopy" onclick="copyText()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span id="copyLabel">复制</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="code-area">
+    <div class="code-box">
+      <div class="code-content fade-in" id="codeContent"></div>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="counter">当前第 <span id="batchNum">1</span> 批 · 共 <span id="totalBatch">?</span> 批</div>
+    <div class="tags">
+      <span class="tag">TLS 1.3</span>
+      <span class="tag">H2 / H3</span>
+      <span class="tag">CDN friendly</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 域名数据库 ──────────────────────────────────────────────
+// 每组 8 个域名，生成 for 循环命令
+const domainBatches = [
+  ["d.oracleinfinity.io","aws.amazon.com","d0.m.awsstatic.com","r.bing.com","c.marsflag.com","d1.awsstatic.com","www.bing.com","www.aws.com"],
+  ["apps.mzstatic.com","www.xbox.com","developer.apple.com","s0.awsstatic.com","icloud.com","itunes.apple.com","www.microsoft.com","cdn.apple-cloudkit.com"],
+  ["gateway.icloud.com","www.apple.com","swdist.apple.com","swcdn.apple.com","updates.cdn-apple.com","mensura.cdn-apple.com","osxapps.itunes.apple.com","aod.itunes.apple.com"],
+  ["www.cloudflare.com","ajax.googleapis.com","www.gstatic.com","dl.google.com","storage.googleapis.com","maps.gstatic.com","www.google.com","fonts.gstatic.com"],
+  ["cdn.jsdelivr.net","cdnjs.cloudflare.com","unpkg.com","raw.githubusercontent.com","objects.githubusercontent.com","codeload.github.com","github.githubassets.com","avatars.githubusercontent.com"],
+  ["s3.amazonaws.com","s3-us-west-2.amazonaws.com","cloudfront.net","d1.awsstatic.com","d7uri8nf7uskq.cloudfront.net","d2908q01vomqb2.cloudfront.net","d3ko8w4ej5s9kd.cloudfront.net","d16r8lzcronp14.cloudfront.net"],
+  ["update.googleapis.com","lh3.googleusercontent.com","yt3.ggpht.com","i.ytimg.com","www.youtube.com","googlevideo.com","ytimg.com","play.google.com"],
+  ["login.microsoftonline.com","outlook.office365.com","graph.microsoft.com","teams.microsoft.com","onedrive.live.com","sharepoint.com","azure.microsoft.com","aka.ms"],
+];
+
+const DOMAINS_PER_BATCH = 8;
+let currentBatch = 0;
+let shuffled = [];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildCommand(domains) {
+  const joined = domains.join(' ');
+  return `for d in ${joined}; do t1=$(date +%s%N)\n  xray x25519 -i $d 2>/dev/null\n  t2=$(date +%s%N)\n  echo "$d $((($t2-$t1)/1000000))ms"\ndone | sort -t' ' -k2 -n | head -3`;
+}
+
+function highlight(cmd) {
+  return cmd
+    .replace(/\b(for|in|do|done|if|fi|then|else)\b/g, '<span class="kw">$1</span>')
+    .replace(/\|/g, '<span class="op">|</span>')
+    .replace(/sort|head|echo|date|xray/g, '<span class="op">$&</span>')
+    .replace(/([\w-]+\.[\w.-]+\.[a-z]{2,})/g, '<span class="dm">$1</span>');
+}
+
+function renderBatch(idx) {
+  const batch = shuffled[idx];
+  const cmd = buildCommand(batch);
+  document.getElementById('codeContent').innerHTML = highlight(cmd);
+  document.getElementById('batchNum').textContent = idx + 1;
+  document.getElementById('totalBatch').textContent = shuffled.length;
+}
+
+function refresh() {
+  const btn = document.getElementById('btnRefresh');
+  const icon = document.getElementById('refreshIcon');
+  const content = document.getElementById('codeContent');
+
+  // spin icon
+  btn.classList.add('spinning');
+  icon.style.animation = 'spin 0.45s ease';
+  setTimeout(() => { icon.style.animation = ''; }, 450);
+
+  // fade out
+  content.classList.remove('fade-in');
+  content.classList.add('fade-out');
+
+  setTimeout(() => {
+    currentBatch = (currentBatch + 1) % shuffled.length;
+    renderBatch(currentBatch);
+    content.classList.remove('fade-out');
+    content.classList.add('fade-in');
+  }, 200);
+}
+
+function copyText() {
+  const btn = document.getElementById('btnCopy');
+  const label = document.getElementById('copyLabel');
+  const batch = shuffled[currentBatch];
+  const text = buildCommand(batch);
+
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    label.textContent = '已复制 ✓';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      label.textContent = '复制';
+    }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    label.textContent = '已复制 ✓';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      label.textContent = '复制';
+    }, 2000);
+  });
+}
+
+// init
+shuffled = shuffle(domainBatches);
+renderBatch(0);
+</script>
+</body>
+</html>
