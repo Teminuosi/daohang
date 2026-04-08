@@ -1325,6 +1325,87 @@
     color: #888;
 }
 
+/* 管理员专属频道 tab */
+.comm-channel-admin {
+    margin-top: auto;
+    border-top: 1px solid rgba(0, 243, 255, 0.1);
+    padding-top: 10px;
+    color: rgba(0, 243, 255, 0.7) !important;
+}
+.comm-channel-admin:hover { color: var(--primary) !important; }
+.comm-channel-admin.active { color: var(--primary) !important; }
+
+/* 全员通知发送面板 */
+.broadcast-compose {
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.bc-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 7px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.bc-input {
+    width: 100%;
+    background: rgba(0, 243, 255, 0.03);
+    border: 1px solid rgba(0, 243, 255, 0.18);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.bc-input:focus { border-color: rgba(0, 243, 255, 0.45); }
+.bc-textarea {
+    width: 100%;
+    background: rgba(0, 243, 255, 0.03);
+    border: 1px solid rgba(0, 243, 255, 0.18);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+}
+.bc-textarea:focus { border-color: rgba(0, 243, 255, 0.45); }
+.bc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.bc-status {
+    font-size: 0.82rem;
+    color: #64748b;
+    flex: 1;
+}
+.bc-send-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.bc-send-btn:hover { opacity: 0.85; box-shadow: 0 0 14px rgba(0, 243, 255, 0.35); }
+.bc-send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
 .status-dot {
     width: 8px;
     height: 8px;

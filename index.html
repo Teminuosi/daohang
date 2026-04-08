@@ -217,6 +217,10 @@
                         <i class="fas fa-bullhorn"></i>
                         <span>站务公告</span>
                     </div>
+                    <div class="comm-channel comm-channel-admin" id="broadcastTab" data-channel="broadcast" onclick="switchChannel('broadcast')" style="display:none;">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>全员通知</span>
+                    </div>
                 </div>
 
             <!-- 右侧内容区 -->
@@ -315,6 +319,26 @@
                     </button>
                 </div>
                 <div class="pagination-info" id="paginationInfo"></div>
+
+                <!-- 全员通知发送面板（仅管理员） -->
+                <div id="broadcastPanel" style="display:none;">
+                    <div class="broadcast-compose">
+                        <div class="bc-field">
+                            <label class="bc-label">邮件主题</label>
+                            <input id="broadcastSubject" type="text" class="bc-input" placeholder="例：三月空间 #04 更新通知" maxlength="100">
+                        </div>
+                        <div class="bc-field">
+                            <label class="bc-label">邮件正文</label>
+                            <textarea id="broadcastContent" class="bc-textarea" placeholder="写下要通知所有用户的内容，会通过邮件发送给每一位留过邮箱的用户..." rows="7" maxlength="2000"></textarea>
+                        </div>
+                        <div class="bc-footer">
+                            <span id="broadcastStatus" class="bc-status"></span>
+                            <button id="broadcastSendBtn" class="bc-send-btn" onclick="sendBroadcastEmail()">
+                                <i class="fas fa-paper-plane"></i> 发送全员邮件
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

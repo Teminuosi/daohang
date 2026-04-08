@@ -289,6 +289,8 @@
             if (isLoggedIn && currentUser) {
                 authBtns.style.display = 'none';
                 userInfo.style.display = 'block';
+                var broadcastTab = document.getElementById('broadcastTab');
+                if (broadcastTab) broadcastTab.style.display = (currentUser.id === ADMIN_UUID || currentUser.email === ADMIN_EMAIL) ? 'flex' : 'none';
                 
                 // 从 profiles 表获取最新的用户资料（包括头像）
                 fetchLatestProfile(currentUser.id);
@@ -318,9 +320,11 @@
             } else {
                 authBtns.style.display = 'flex';
                 userInfo.style.display = 'none';
+                var broadcastTab = document.getElementById('broadcastTab');
+                if (broadcastTab) broadcastTab.style.display = 'none';
             }
         }
-        
+
         // 从 profiles 表获取最新用户资料
         function fetchLatestProfile(userId) {
             fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId + '&select=full_name,avatar_url', {
@@ -1677,6 +1681,9 @@
                 inputArea.style.display = 'block';
                 tagSelector.style.display = 'flex';
                 document.getElementById('loginHint').style.display = 'none';
+                document.getElementById('messageList').style.display = 'block';
+                document.getElementById('paginationInfo').style.display = '';
+                document.getElementById('broadcastPanel').style.display = 'none';
                 
                 // 延迟加载，确保UI更新完成
                 setTimeout(function() {
@@ -1692,6 +1699,9 @@
                     descEl.innerHTML = '<i class="fas fa-lock"></i> 私密通信频道，只有你和站长可见。适合咨询敏感业务或私密问题。';
                 }
                 tagSelector.style.display = 'none';
+                document.getElementById('messageList').style.display = 'block';
+                document.getElementById('paginationInfo').style.display = '';
+                document.getElementById('broadcastPanel').style.display = 'none';
                 
                 if (!currentUser) {
                     inputArea.style.display = 'none';
@@ -1713,8 +1723,25 @@
                 inputArea.style.display = isAdmin() ? 'block' : 'none';
                 tagSelector.style.display = 'none';
                 document.getElementById('loginHint').style.display = 'none';
+                document.getElementById('messageList').style.display = 'block';
+                document.getElementById('paginationInfo').style.display = '';
+                document.getElementById('broadcastPanel').style.display = 'none';
                 showMessage('公告功能开发中，敬请期待', 'info');
                 document.getElementById('messageList').innerHTML = '<div class="empty-messages"><i class="fas fa-bullhorn"></i><p>暂无公告</p></div>';
+                isLoadingChannel = false;
+
+            } else if (channel === 'broadcast') {
+                if (!isAdmin()) { isLoadingChannel = false; return; }
+                titleEl.textContent = '全员通知 · BROADCAST';
+                descEl.innerHTML = '<i class="fas fa-paper-plane"></i> 向所有留过邮箱的用户发送邮件通知。';
+                inputArea.style.display = 'none';
+                tagSelector.style.display = 'none';
+                document.getElementById('loginHint').style.display = 'none';
+                document.getElementById('messageList').style.display = 'none';
+                document.getElementById('loadMoreBtn').style.display = 'none';
+                document.getElementById('paginationInfo').style.display = 'none';
+                document.getElementById('broadcastPanel').style.display = 'block';
+                document.getElementById('broadcastStatus').textContent = '';
                 isLoadingChannel = false;
             }
         }
@@ -2986,4 +3013,46 @@
             document.execCommand('copy');
             document.body.removeChild(ta);
             cb();
+        }
+
+        // ── 全员邮件广播 ──────────────────────────────────────────
+        async function sendBroadcastEmail() {
+            if (!isAdmin()) return;
+            var subject = document.getElementById('broadcastSubject').value.trim();
+            var content = document.getElementById('broadcastContent').value.trim();
+            var statusEl = document.getElementById('broadcastStatus');
+            var sendBtn = document.getElementById('broadcastSendBtn');
+
+            if (!subject) { statusEl.style.color = '#f87171'; statusEl.textContent = '请填写邮件主题'; return; }
+            if (!content) { statusEl.style.color = '#f87171'; statusEl.textContent = '请填写邮件正文'; return; }
+
+            sendBtn.disabled = true;
+            statusEl.style.color = '#888';
+            statusEl.textContent = '正在发送，请稍候...';
+
+            var token = localStorage.getItem('nexus_access_token');
+            try {
+                var res = await fetch(SUPABASE_URL + '/functions/v1/broadcast-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ subject: subject, content: content })
+                });
+                var data = await res.json();
+                if (res.ok) {
+                    statusEl.style.color = '#4ade80';
+                    statusEl.textContent = '发送成功！共发送 ' + (data.sent || 0) + ' 封邮件。';
+                    document.getElementById('broadcastSubject').value = '';
+                    document.getElementById('broadcastContent').value = '';
+                } else {
+                    statusEl.style.color = '#f87171';
+                    statusEl.textContent = '发送失败：' + (data.error || res.status);
+                }
+            } catch(e) {
+                statusEl.style.color = '#f87171';
+                statusEl.textContent = '请求异常：' + e.message;
+            }
+            sendBtn.disabled = false;
         }
