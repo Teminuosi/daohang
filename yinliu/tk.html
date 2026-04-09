@@ -384,75 +384,112 @@
             background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255,45,85,0.08), transparent);
             pointer-events: none;
         }
-        .price-card {
-            max-width: 420px;
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 960px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,45,85,0.25);
-            border-radius: 16px;
-            padding: 40px 36px;
-            position: relative;
         }
-        .price-card::before {
-            content: '';
-            position: absolute; inset: -1px;
+        .price-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,45,85,0.2), transparent, rgba(0,243,255,0.1));
-            z-index: -1;
+            padding: 32px 24px;
+            position: relative;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-card.featured {
+            border-color: rgba(255,45,85,0.45);
+            background: rgba(255,45,85,0.05);
+        }
+        .price-card.elite {
+            border-color: rgba(255,214,0,0.35);
+            background: rgba(255,214,0,0.03);
         }
         .price-badge {
             display: inline-block;
-            background: linear-gradient(135deg, var(--pink), #c9184a);
-            color: #fff;
-            font-size: 0.75em;
+            font-size: 0.72em;
             font-weight: 800;
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             letter-spacing: 0.05em;
+            align-self: flex-start;
         }
+        .price-card .price-badge { background: rgba(255,255,255,0.08); color: #888; }
+        .price-card.featured .price-badge { background: linear-gradient(135deg, var(--pink), #c9184a); color: #fff; }
+        .price-card.elite .price-badge { background: linear-gradient(135deg, #f5a623, #c9184a); color: #fff; }
         .price-title {
-            font-size: 1.3em;
+            font-size: 1.1em;
             font-weight: 900;
             color: #fff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .price-desc {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 28px;
-            line-height: 1.7;
+            font-size: 0.8em;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
         .price-num {
-            margin-bottom: 28px;
+            margin-bottom: 22px;
         }
-        .price-num .currency { font-size: 1.2em; color: #888; vertical-align: top; margin-top: 8px; display: inline-block; }
+        .price-num .currency { font-size: 1em; color: #888; vertical-align: top; margin-top: 6px; display: inline-block; }
         .price-num .amount {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.8em;
+            font-size: 3em;
             font-weight: 900;
             color: #fff;
             line-height: 1;
         }
-        .price-num .unit { font-size: 0.9em; color: #555; margin-left: 4px; }
+        .price-card.featured .price-num .amount { color: var(--pink); }
+        .price-card.elite .price-num .amount { color: #f5a623; }
+        .price-num .unit { font-size: 0.8em; color: #555; margin-left: 4px; }
         .price-includes {
             list-style: none;
-            text-align: left;
-            margin-bottom: 32px;
-            display: flex; flex-direction: column; gap: 10px;
+            margin-bottom: 24px;
+            display: flex; flex-direction: column; gap: 9px;
+            flex: 1;
         }
         .price-includes li {
-            font-size: 0.88em;
-            color: #aaa;
-            display: flex; align-items: center; gap: 10px;
+            font-size: 0.83em;
+            color: #888;
+            display: flex; align-items: flex-start; gap: 9px;
+            line-height: 1.5;
         }
-        .price-includes li i { color: #4ade80; flex-shrink: 0; }
+        .price-includes li i { color: #4ade80; flex-shrink: 0; margin-top: 2px; }
+        .price-card.elite .price-includes li i { color: #f5a623; }
         .price-includes li strong { color: #ddd; }
         .price-note {
             font-size: 0.75em;
             color: #444;
             margin-top: 16px;
         }
+        .price-rec-tag {
+            position: absolute;
+            top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--pink);
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 800;
+            padding: 3px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+        .n8n-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 0.78em;
+            margin-top: 4px;
+        }
+        .n8n-link:hover { text-decoration: underline; }
 
         /* ── Footer ── */
         .footer {
@@ -481,8 +518,9 @@
             .roadmap-item::after { left: 22px; }
             .roadmap-left { width: 46px; }
             .roadmap-num { width: 38px; height: 38px; font-size: 0.75em; }
-            .price-card { padding: 30px 22px; }
-            .price-num .amount { font-size: 3em; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
+            .price-card { padding: 26px 20px; }
+            .price-num .amount { font-size: 2.4em; }
         }
     </style>
 </head>
@@ -501,13 +539,13 @@
         <button onclick="closePayModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#555;font-size:1.2em;cursor:pointer;">✕</button>
 
         <div style="font-size:0.72em;letter-spacing:0.1em;color:#666;margin-bottom:10px;">PAYMENT · 报名付款</div>
-        <div style="font-size:1.15em;font-weight:800;color:#fff;margin-bottom:4px;">TikTok 从零入门完整课</div>
-        <div style="font-family:'Orbitron',sans-serif;font-size:2.4em;font-weight:900;color:var(--pink);margin:14px 0 20px;">¥100</div>
+        <div id="modalPlanName" style="font-size:1.15em;font-weight:800;color:#fff;margin-bottom:4px;">TikTok 入门课</div>
+        <div id="modalPrice" style="font-family:'Orbitron',sans-serif;font-size:2.4em;font-weight:900;color:var(--pink);margin:14px 0 20px;">¥99</div>
 
         <img src="pay.png" alt="付款码" style="width:200px;height:200px;border-radius:10px;object-fit:cover;border:3px solid rgba(255,255,255,0.08);margin-bottom:18px;">
 
         <div style="font-size:0.85em;color:#aaa;line-height:2;margin-bottom:8px;">
-            <div>① 微信 / 支付宝扫码付款 <strong style="color:#fff;">¥100</strong></div>
+            <div>① 微信 / 支付宝扫码付款 <strong id="modalPriceInline" style="color:#fff;">¥99</strong></div>
             <div>② 截图付款成功页面</div>
             <div>③ 将截图发给我</div>
             <div>④ 收到后立即发送课程链接</div>
@@ -531,8 +569,8 @@
         一套课程，覆盖你踩过的每一个坑
     </p>
     <div class="hero-btns">
-        <button onclick="openPayModal()" class="btn-primary" style="border:none;cursor:pointer;">
-            <i class="fas fa-qrcode"></i> 立即报名 ¥100
+        <button onclick="openPayModal('entry')" class="btn-primary" style="border:none;cursor:pointer;">
+            <i class="fas fa-qrcode"></i> 立即报名 · 扫码付款
         </button>
         <a href="#roadmap" class="btn-secondary">
             <i class="fas fa-map"></i> 查看学习路线
@@ -785,28 +823,74 @@
 
 <!-- 定价 CTA -->
 <section class="pricing-section">
-    <div class="section-label" style="margin-bottom:10px;">Pricing · 报名</div>
-    <h2 class="section-title" style="margin-bottom:36px;">一次搞定所有问题</h2>
-    <div class="price-card">
-        <span class="price-badge">TikTok 从零入门完整课</span>
-        <div class="price-title">永久学习 · 持续更新</div>
-        <p class="price-desc">包含 9 大章节 + 后续新增内容，一次付费，不重复收钱</p>
-        <div class="price-num">
-            <span class="currency">¥</span>
-            <span class="amount">100</span>
+    <div class="section-label" style="margin-bottom:10px;">Pricing · 选择套餐</div>
+    <h2 class="section-title" style="margin-bottom:12px;">找到适合你的起点</h2>
+    <p style="color:#555;font-size:0.88em;margin-bottom:40px;">📌 课程录制中，已上线部分可立即观看，后续陆续更新。</p>
+
+    <div class="pricing-grid">
+
+        <!-- 入门 -->
+        <div class="price-card">
+            <span class="price-badge">入门</span>
+            <div class="price-title">TikTok 入门课</div>
+            <p class="price-desc">从零开始，学会网络配置、账号注册到基础运营</p>
+            <div class="price-num">
+                <span class="currency">¥</span>
+                <span class="amount">99</span>
+            </div>
+            <ul class="price-includes">
+                <li><i class="fas fa-check"></i> 初级全部课程（01-05）</li>
+                <li><i class="fas fa-check"></i> 实战演示，照着做就能跑通</li>
+                <li><i class="fas fa-check"></i> 永久有效，已上线内容立即解锁</li>
+                <li><i class="fas fa-users"></i> 加入学员社群，共同成长</li>
+            </ul>
+            <button onclick="openPayModal('entry')" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95em;padding:14px;border:none;cursor:pointer;margin-top:auto;">
+                <i class="fas fa-qrcode"></i> 立即报名 · 扫码付款
+            </button>
         </div>
-        <ul class="price-includes">
-            <li><i class="fas fa-check"></i> 14 章节完整课程（持续录制更新中）</li>
-            <li><i class="fas fa-check"></i> <strong>永久有效</strong>，新章节上线自动解锁</li>
-            <li><i class="fas fa-check"></i> 实战演示，照着做就能跑通</li>
-            <li><i class="fas fa-users"></i> 加入学员社群，一起解决问题、共同成长</li>
-        </ul>
-        <div style="font-size:0.75em;color:#555;background:rgba(255,255,255,0.03);border-radius:6px;padding:10px 12px;margin-bottom:16px;line-height:1.7;">
-            📌 课程录制中，已上线部分可立即观看，后续陆续更新。
+
+        <!-- 中级（推荐） -->
+        <div class="price-card featured" style="position:relative;">
+            <div class="price-rec-tag">⚡ 推荐</div>
+            <span class="price-badge">中级</span>
+            <div class="price-title">所有课程无限看</div>
+            <p class="price-desc">初级 + 中级全部内容，一次付费覆盖完整路线</p>
+            <div class="price-num">
+                <span class="currency">¥</span>
+                <span class="amount">599</span>
+            </div>
+            <ul class="price-includes">
+                <li><i class="fas fa-check"></i> <strong>所有课程</strong>（01-14，持续更新）</li>
+                <li><i class="fas fa-check"></i> 新章节上线自动解锁</li>
+                <li><i class="fas fa-check"></i> 实战演示，从配置到运营全覆盖</li>
+                <li><i class="fas fa-users"></i> 加入学员社群，一起解决问题</li>
+            </ul>
+            <button onclick="openPayModal('mid')" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95em;padding:14px;border:none;cursor:pointer;margin-top:auto;">
+                <i class="fas fa-qrcode"></i> 立即报名 · 扫码付款
+            </button>
         </div>
-        <button onclick="openPayModal()" class="btn-primary" style="width:100%;justify-content:center;font-size:1.05em;padding:16px;border:none;cursor:pointer;">
-            <i class="fas fa-qrcode"></i> 立即报名 · 扫码付款
-        </button>
+
+        <!-- 高级 -->
+        <div class="price-card elite">
+            <span class="price-badge">高级</span>
+            <div class="price-title">旗舰 · 工具全给你</div>
+            <p class="price-desc">课程 + 高级软件 + N8N 自动化视频剪辑，直接起飞</p>
+            <div class="price-num">
+                <span class="currency">¥</span>
+                <span class="amount">1999</span>
+            </div>
+            <ul class="price-includes">
+                <li><i class="fas fa-check"></i> 所有课程（同中级套餐）</li>
+                <li><i class="fas fa-check"></i> <strong>送高级剪辑软件</strong>（专业版授权）</li>
+                <li><i class="fas fa-check"></i> <strong>N8N 自动化流水线</strong> — AI 视频切片、二创、混剪</li>
+                <li><i class="fas fa-users"></i> 专属答疑 + 学员社群</li>
+            </ul>
+            <a href="../n8n/n8n.html" target="_blank" class="n8n-link"><i class="fas fa-cogs"></i> 查看 N8N 工具演示</a>
+            <button onclick="openPayModal('elite')" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95em;padding:14px;border:none;cursor:pointer;margin-top:16px;background:linear-gradient(135deg,#f5a623,#c9184a);">
+                <i class="fas fa-qrcode"></i> 立即报名 · 扫码付款
+            </button>
+        </div>
+
     </div>
 </section>
 
@@ -816,7 +900,16 @@
 </footer>
 
 <script>
-    function openPayModal() {
+    var plans = {
+        entry: { name: 'TikTok 入门课', price: '¥99' },
+        mid:   { name: '所有课程无限看', price: '¥599' },
+        elite: { name: '旗舰 · 工具全给你', price: '¥1999' }
+    };
+    function openPayModal(tier) {
+        var plan = plans[tier] || plans.entry;
+        document.getElementById('modalPlanName').textContent = plan.name;
+        document.getElementById('modalPrice').textContent = plan.price;
+        document.getElementById('modalPriceInline').textContent = plan.price;
         var m = document.getElementById('payModal');
         m.style.display = 'flex';
         document.body.style.overflow = 'hidden';
