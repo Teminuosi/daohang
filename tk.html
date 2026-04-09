@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok 从零入门完整教程 | 三月空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+        :root {
+            --pink: #ff2d55;
+            --cyan: #00f3ff;
+            --gold: #ffd700;
+            --purple: #bc13fe;
+            --bg: #080808;
+            --card: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── 导航 ── */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            height: 56px;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px;
+        }
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            color: var(--cyan);
+            text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-cta {
+            background: var(--pink);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 100px 24px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,45,85,0.12), transparent),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(0,243,255,0.08), transparent);
+            pointer-events: none;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,45,85,0.1);
+            border: 1px solid rgba(255,45,85,0.3);
+            color: #ff6b8a;
+            font-size: 0.8em;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            letter-spacing: 0.05em;
+        }
+        .hero-title {
+            font-size: clamp(2em, 6vw, 3.8em);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .hero-title .hl-pink { color: var(--pink); }
+        .hero-title .hl-cyan { color: var(--cyan); }
+        .hero-sub {
+            font-size: clamp(0.95em, 2.5vw, 1.15em);
+            color: #888;
+            max-width: 520px;
+            margin: 0 auto 36px;
+            line-height: 1.8;
+        }
+        .hero-sub strong { color: #ccc; }
+        .hero-btns {
+            display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pink), #c9184a);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 20px rgba(255,45,85,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,45,85,0.45); }
+        .btn-secondary {
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid rgba(0,243,255,0.35);
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-secondary:hover { background: rgba(0,243,255,0.08); border-color: var(--cyan); }
+
+        .hero-stats {
+            display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+            margin-top: 52px;
+            padding-top: 36px;
+            border-top: 1px solid var(--border);
+            width: 100%; max-width: 560px;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6em;
+            font-weight: 900;
+            color: #fff;
+            display: block;
+        }
+        .stat-label { font-size: 0.78em; color: #555; margin-top: 2px; }
+
+        /* ── 痛点 ── */
+        .section { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.75em;
+            letter-spacing: 0.12em;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: clamp(1.5em, 4vw, 2.2em);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .section-sub {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .pain-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            display: flex; align-items: flex-start; gap: 14px;
+            transition: border-color 0.2s;
+        }
+        .pain-item:hover { border-color: rgba(255,45,85,0.25); }
+        .pain-icon {
+            font-size: 1.4em;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .pain-text {
+            font-size: 0.9em;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .pain-text strong { color: #ddd; display: block; margin-bottom: 3px; }
+
+        /* ── 路线图 ── */
+        .roadmap-wrap { max-width: 780px; margin: 0 auto; }
+        .roadmap-item {
+            display: flex;
+            gap: 0;
+            position: relative;
+        }
+        .roadmap-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 64px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+        }
+        .roadmap-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+            width: 58px;
+        }
+        .roadmap-num {
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            font-weight: 900;
+            flex-shrink: 0;
+            border: 2px solid;
+            margin-bottom: 8px;
+        }
+        .step-1 .roadmap-num { border-color: var(--pink); color: var(--pink); background: rgba(255,45,85,0.08); }
+        .step-2 .roadmap-num { border-color: #ff9f43; color: #ff9f43; background: rgba(255,159,67,0.08); }
+        .step-3 .roadmap-num { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
+        .step-4 .roadmap-num { border-color: #a29bfe; color: #a29bfe; background: rgba(162,155,254,0.08); }
+        .step-5 .roadmap-num { border-color: var(--cyan); color: var(--cyan); background: rgba(0,243,255,0.08); }
+
+        .roadmap-body {
+            flex: 1;
+            padding: 0 0 40px 20px;
+        }
+        .roadmap-tag {
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 2px 10px;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        .step-1 .roadmap-tag { background: rgba(255,45,85,0.15); color: var(--pink); }
+        .step-2 .roadmap-tag { background: rgba(255,159,67,0.15); color: #ff9f43; }
+        .step-3 .roadmap-tag { background: rgba(255,215,0,0.15); color: var(--gold); }
+        .step-4 .roadmap-tag { background: rgba(162,155,254,0.15); color: #a29bfe; }
+        .step-5 .roadmap-tag { background: rgba(0,243,255,0.1); color: var(--cyan); }
+
+        .roadmap-title {
+            font-size: 1.15em;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .roadmap-desc {
+            font-size: 0.88em;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .roadmap-points {
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .roadmap-point {
+            font-size: 0.78em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: #888;
+        }
+
+        /* ── 课程大纲 ── */
+        .syllabus-bg {
+            background: rgba(255,255,255,0.015);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .syl-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.02);
+        }
+        .syl-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            font-weight: 900;
+            color: #2a2a3a;
+            flex-shrink: 0;
+            width: 30px;
+        }
+        .syl-info {}
+        .syl-title { font-size: 0.88em; color: #555; font-weight: 600; }
+        .syl-lock {
+            font-size: 0.68em;
+            color: #333;
+            margin-top: 2px;
+        }
+        .syl-item.live { border-color: rgba(0,243,255,0.15); background: rgba(0,243,255,0.03); }
+        .syl-item.live .syl-num { color: var(--cyan); }
+        .syl-item.live .syl-title { color: #ccc; }
+        .syl-item.live .syl-lock { color: #4ade80; }
+        .syl-item.updating { border-color: rgba(255,215,0,0.15); background: rgba(255,215,0,0.02); }
+        .syl-item.updating .syl-num { color: var(--gold); }
+        .syl-item.updating .syl-title { color: var(--gold); }
+
+        /* ── FAQ ── */
+        .faq-list { max-width: 680px; margin: 0 auto; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+        .faq-q {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #ddd;
+            cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 12px;
+            user-select: none;
+        }
+        .faq-q i { color: #555; flex-shrink: 0; transition: transform 0.2s; }
+        .faq-item.open .faq-q i { transform: rotate(180deg); color: var(--pink); }
+        .faq-a {
+            font-size: 0.88em;
+            color: #666;
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.2s;
+        }
+        .faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
+
+        /* ── 定价 CTA ── */
+        .pricing-section {
+            padding: 80px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255,45,85,0.08), transparent);
+            pointer-events: none;
+        }
+        .price-card {
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,45,85,0.25);
+            border-radius: 16px;
+            padding: 40px 36px;
+            position: relative;
+        }
+        .price-card::before {
+            content: '';
+            position: absolute; inset: -1px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,45,85,0.2), transparent, rgba(0,243,255,0.1));
+            z-index: -1;
+        }
+        .price-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--pink), #c9184a);
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+        .price-title {
+            font-size: 1.3em;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .price-desc {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+        .price-num {
+            margin-bottom: 28px;
+        }
+        .price-num .currency { font-size: 1.2em; color: #888; vertical-align: top; margin-top: 8px; display: inline-block; }
+        .price-num .amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.8em;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+        .price-num .unit { font-size: 0.9em; color: #555; margin-left: 4px; }
+        .price-includes {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .price-includes li {
+            font-size: 0.88em;
+            color: #aaa;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .price-includes li i { color: #4ade80; flex-shrink: 0; }
+        .price-includes li strong { color: #ddd; }
+        .price-note {
+            font-size: 0.75em;
+            color: #444;
+            margin-top: 16px;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8em;
+            color: #333;
+        }
+        .footer a { color: var(--cyan); text-decoration: none; }
+
+        /* ── 分割线 ── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0;
+        }
+
+        /* ── 响应式 ── */
+        @media (max-width: 600px) {
+            .hero { padding: 90px 20px 50px; }
+            .hero-stats { gap: 20px; }
+            .section { padding: 56px 20px; }
+            .pain-grid { grid-template-columns: 1fr; }
+            .syllabus-grid { grid-template-columns: 1fr; }
+            .roadmap-item::after { left: 22px; }
+            .roadmap-left { width: 46px; }
+            .roadmap-num { width: 38px; height: 38px; font-size: 0.75em; }
+            .price-card { padding: 30px 22px; }
+            .price-num .amount { font-size: 3em; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="nav">
+    <a href="index.html" class="nav-logo">
+        <i class="fas fa-satellite-dish"></i> 三月空间
+    </a>
+    <a href="vip.html" class="nav-cta">立即报名 ¥100</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-eyebrow">
+        <i class="fab fa-tiktok"></i> TikTok 完整入门路线
+    </div>
+    <h1 class="hero-title">
+        想做 TikTok<br>
+        但不知道<span class="hl-pink">从哪开始</span>？
+    </h1>
+    <p class="hero-sub">
+        从 <strong>网络配置、APP下载</strong> 到 <strong>账号运营、独立站建设</strong><br>
+        一套课程，覆盖你踩过的每一个坑
+    </p>
+    <div class="hero-btns">
+        <a href="vip.html" class="btn-primary">
+            <i class="fas fa-play-circle"></i> 免费看入门视频
+        </a>
+        <a href="#roadmap" class="btn-secondary">
+            <i class="fas fa-map"></i> 查看学习路线
+        </a>
+    </div>
+    <div class="hero-stats">
+        <div class="stat-item">
+            <span class="stat-num">5</span>
+            <span class="stat-label">核心学习阶段</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">9+</span>
+            <span class="stat-label">系统课程章节</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">∞</span>
+            <span class="stat-label">持续更新内容</span>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- 痛点 -->
+<section class="section">
+    <div class="section-label">Pain Points · 你是不是也遇到了</div>
+    <h2 class="section-title">这些问题卡住了多少人</h2>
+    <p class="section-sub">做 TK 的门槛不是内容，是这些你不知道答案的技术问题</p>
+    <div class="pain-grid">
+        <div class="pain-item">
+            <div class="pain-icon">📵</div>
+            <div class="pain-text">
+                <strong>TikTok 根本打不开</strong>
+                普通 VPN 连了也不能用，搞不清楚节点怎么配
+            </div>
+        </div>
+        <div class="pain-item">
+            <div class="pain-icon">🚫</div>
+            <div class="pain-text">
+                <strong>账号频繁被封</strong>
+                刚注册就没了，或者发了几个视频就进小黑屋
+            </div>
+        </div>
+        <div class="pain-item">
+            <div class="pain-icon">📱</div>
+            <div class="pain-text">
+                <strong>不知道用什么手机</strong>
+                国内手机能注册吗？需要外国号码吗？
+            </div>
+        </div>
+        <div class="pain-item">
+            <div class="pain-icon">🌐</div>
+            <div class="pain-text">
+                <strong>软路由听都没听过</strong>
+                别人说要一号一 IP，软路由是什么，贵不贵
+            </div>
+        </div>
+        <div class="pain-item">
+            <div class="pain-icon">📊</div>
+            <div class="pain-text">
+                <strong>发了视频没有流量</strong>
+                不知道算法逻辑，不知道发什么能起号
+            </div>
+        </div>
+        <div class="pain-item">
+            <div class="pain-icon">🏪</div>
+            <div class="pain-text">
+                <strong>流量来了接不住</strong>
+                没有独立站，不知道怎么做跨境支付
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- 路线图 -->
+<section class="section" id="roadmap">
+    <div class="section-label">Roadmap · 学习路线</div>
+    <h2 class="section-title">5 个阶段，从 0 到跑通</h2>
+    <p class="section-sub">按顺序来，每一步都有对应视频，不用自己摸索</p>
+
+    <div class="roadmap-wrap">
+
+        <div class="roadmap-item step-1">
+            <div class="roadmap-left">
+                <div class="roadmap-num">01</div>
+            </div>
+            <div class="roadmap-body">
+                <span class="roadmap-tag">首先解决</span>
+                <div class="roadmap-title">网络配置 · 让 TikTok 跑起来</div>
+                <div class="roadmap-desc">
+                    做 TK 的第一步不是拍视频，是先能打开 TikTok。这一步教你搭建自己的节点，彻底告别用别人的 VPN提心吊胆的日子。
+                </div>
+                <div class="roadmap-points">
+                    <span class="roadmap-point">节点搭建</span>
+                    <span class="roadmap-point">VPS 选购</span>
+                    <span class="roadmap-point">代理客户端配置</span>
+                    <span class="roadmap-point">TikTok 专线验证</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="roadmap-item step-2">
+            <div class="roadmap-left">
+                <div class="roadmap-num">02</div>
+            </div>
+            <div class="roadmap-body">
+                <span class="roadmap-tag">然后</span>
+                <div class="roadmap-title">环境搭建 · 注册不被封的账号</div>
+                <div class="roadmap-desc">
+                    账号被封 90% 是环境问题。这一步教你绑定干净域名、配置安全的 TLS 节点，让平台检测不到你在国内。
+                </div>
+                <div class="roadmap-points">
+                    <span class="roadmap-point">域名购买与绑定</span>
+                    <span class="roadmap-point">TLS 加密配置</span>
+                    <span class="roadmap-point">IP 纯洁度检测</span>
+                    <span class="roadmap-point">注册安全姿势</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="roadmap-item step-3">
+            <div class="roadmap-left">
+                <div class="roadmap-num">03</div>
+            </div>
+            <div class="roadmap-body">
+                <span class="roadmap-tag">核心</span>
+                <div class="roadmap-title">账号运营 · 发对内容起号</div>
+                <div class="roadmap-desc">
+                    TikTok 算法怎么推流、什么内容容易爆、如何养号、直播带货注意什么——这些是真正能帮你赚到钱的部分。
+                </div>
+                <div class="roadmap-points">
+                    <span class="roadmap-point">算法逻辑</span>
+                    <span class="roadmap-point">内容方向选择</span>
+                    <span class="roadmap-point">涨粉方法论</span>
+                    <span class="roadmap-point">直播专线搭建</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="roadmap-item step-4">
+            <div class="roadmap-left">
+                <div class="roadmap-num">04</div>
+            </div>
+            <div class="roadmap-body">
+                <span class="roadmap-tag">进阶</span>
+                <div class="roadmap-title">矩阵扩展 · 软路由 · 一号一 IP</div>
+                <div class="roadmap-desc">
+                    单账号做到一定量级后，自然想复制到多个账号。软路由让每个 WIFI 出口 IP 不同，账号之间完全隔离，平台查不出关联。
+                </div>
+                <div class="roadmap-points">
+                    <span class="roadmap-point">软路由是什么</span>
+                    <span class="roadmap-point">多 WIFI 配置</span>
+                    <span class="roadmap-point">TK 矩阵运营</span>
+                    <span class="roadmap-point">泄露检测修复</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="roadmap-item step-5">
+            <div class="roadmap-left">
+                <div class="roadmap-num">05</div>
+            </div>
+            <div class="roadmap-body">
+                <span class="roadmap-tag">变现闭环</span>
+                <div class="roadmap-title">独立站 · 跨境支付 · 流量承接</div>
+                <div class="roadmap-desc">
+                    TK 只是引流入口，真正的变现在独立站。这一步从建站、收款到物流，帮你把整条链路打通。
+                </div>
+                <div class="roadmap-points">
+                    <span class="roadmap-point">建站工具选择</span>
+                    <span class="roadmap-point">域名 & 部署</span>
+                    <span class="roadmap-point">Stripe / PayPal 接入</span>
+                    <span class="roadmap-point">收款风控注意事项</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- 课程大纲 -->
+<div class="syllabus-bg">
+    <section class="section">
+        <div class="section-label">Syllabus · 课程目录</div>
+        <h2 class="section-title">完整章节一览</h2>
+        <p class="section-sub">一次购买，以下内容全部解锁，后续更新永久同步</p>
+        <div class="syllabus-grid">
+            <div class="syl-item live">
+                <div class="syl-num">01</div>
+                <div class="syl-info">
+                    <div class="syl-title">免费网络入门 · 基础节点搭建</div>
+                    <div class="syl-lock">✓ 免费预览</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">02</div>
+                <div class="syl-info">
+                    <div class="syl-title">域名解析与绑定，增强节点安全</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">03</div>
+                <div class="syl-info">
+                    <div class="syl-title">VPS 常用功能演示与优化</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">04</div>
+                <div class="syl-info">
+                    <div class="syl-title">搭建任意地区的 TK 运营节点</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">05</div>
+                <div class="syl-info">
+                    <div class="syl-title">直播专线搭建与提速</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">06</div>
+                <div class="syl-info">
+                    <div class="syl-title">软路由配置多 WIFI · 一号一 IP</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">07</div>
+                <div class="syl-info">
+                    <div class="syl-title">泄露检测与完美环境伪装</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">08</div>
+                <div class="syl-info">
+                    <div class="syl-title">基础网站建设</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item">
+                <div class="syl-num">09</div>
+                <div class="syl-info">
+                    <div class="syl-title">跨境支付功能对接与注意事项</div>
+                    <div class="syl-lock">🔒 即将上线</div>
+                </div>
+            </div>
+            <div class="syl-item updating">
+                <div class="syl-num">∞</div>
+                <div class="syl-info">
+                    <div class="syl-title">持续更新中...</div>
+                    <div class="syl-lock">✦ 永久同步</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<section class="section">
+    <div class="section-label">FAQ · 常见问题</div>
+    <h2 class="section-title">你可能想问的</h2>
+    <div class="faq-list">
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                完全不懂技术，能学会吗？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                可以。课程从零开始，每一步都有视频演示，按照步骤操作即可。不需要有编程基础，只要会用电脑就行。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                普通 VPN 不行吗，为什么要自己搭节点？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                普通 VPN 的 IP 被大量用户共用，TikTok 会识别并封禁这类 IP。自己搭的节点 IP 是独享的，干净度和稳定性完全不同，账号存活率也会高很多。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                搭节点需要什么成本？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                一台海外 VPS 每月约 $5–15 美元不等，课程里会推荐性价比最高的方案。比买机场便宜，还完全自主可控。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                软路由必须买吗，很贵吧？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                软路由是矩阵阶段才需要的，单账号运营完全不需要。刚开始可以跳过，等账号跑通了再考虑。课程里也有低成本方案推荐，几百元内可以搞定。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                课程买了之后能一直看吗？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                一次购买，永久有效。后续新增章节同步解锁，不需要额外付费。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+                不会英语能做 TikTok 吗？
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">
+                可以。TikTok 的核心是视觉内容，很多类目（无人机、手工艺、美食、风景）完全不需要说话。课程里会介绍适合国内创作者的方向选择。
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- 定价 CTA -->
+<section class="pricing-section">
+    <div class="section-label" style="margin-bottom:10px;">Pricing · 报名</div>
+    <h2 class="section-title" style="margin-bottom:36px;">一次搞定所有问题</h2>
+    <div class="price-card">
+        <span class="price-badge">TikTok 从零入门完整课</span>
+        <div class="price-title">永久学习 · 持续更新</div>
+        <p class="price-desc">包含 9 大章节 + 后续新增内容，一次付费，不重复收钱</p>
+        <div class="price-num">
+            <span class="currency">¥</span>
+            <span class="amount">100</span>
+        </div>
+        <ul class="price-includes">
+            <li><i class="fas fa-check"></i> 完整 9 章节课程视频</li>
+            <li><i class="fas fa-check"></i> <strong>永久有效</strong>，后续更新同步解锁</li>
+            <li><i class="fas fa-check"></i> 免费入门视频，先看再决定</li>
+            <li><i class="fas fa-check"></i> 实战演示，照着做就能跑通</li>
+        </ul>
+        <a href="vip.html" class="btn-primary" style="width:100%;justify-content:center;font-size:1.05em;padding:16px;">
+            <i class="fas fa-play-circle"></i> 先免费看入门视频
+        </a>
+        <p class="price-note">看完入门视频再决定要不要报名，没有任何压力</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>© 2025 三月空间 · <a href="index.html">返回首页</a></p>
+</footer>
+
+<script>
+    function toggleFaq(el) {
+        var item = el.parentElement;
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+        if (!isOpen) item.classList.add('open');
+    }
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
