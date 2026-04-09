@@ -288,6 +288,22 @@
         }
 
         /* ── 课程大纲 ── */
+        .syl-tier {
+            grid-column: 1 / -1;
+            display: flex; align-items: center; gap: 12px;
+            padding: 6px 0 2px;
+            margin-top: 8px;
+        }
+        .syl-tier:first-child { margin-top: 0; }
+        .syl-tier-label {
+            font-size: 0.72em; font-weight: 800; letter-spacing: 0.1em;
+            padding: 3px 12px; border-radius: 3px; white-space: nowrap;
+        }
+        .tier-basic .syl-tier-label { background: rgba(255,45,85,0.12); color: var(--pink); }
+        .tier-mid .syl-tier-label { background: rgba(162,155,254,0.12); color: #a29bfe; }
+        .tier-adv .syl-tier-label { background: rgba(0,243,255,0.1); color: var(--cyan); }
+        .syl-tier-line { flex: 1; height: 1px; background: var(--border); }
+
         .syllabus-bg {
             background: rgba(255,255,255,0.015);
             border-top: 1px solid var(--border);
@@ -603,95 +619,59 @@
 
         <div class="roadmap-item step-1">
             <div class="roadmap-left">
-                <div class="roadmap-num">01</div>
+                <div class="roadmap-num" style="font-size:0.65em;width:46px;height:46px;">初级</div>
             </div>
             <div class="roadmap-body">
-                <span class="roadmap-tag">首先解决</span>
-                <div class="roadmap-title">网络配置 · 让 TikTok 跑起来</div>
+                <span class="roadmap-tag">01 → 05 · 零基础入门</span>
+                <div class="roadmap-title">下载 · 配网 · 注册 · 运营 · 指纹浏览器</div>
                 <div class="roadmap-desc">
-                    做 TK 的第一步不是拍视频，是先能打开 TikTok。这一步教你搭建自己的节点，彻底告别用别人的 VPN提心吊胆的日子。
+                    从下载 TikTok APP 开始，手把手配好网络、注册账号，学会运营规范，再到用指纹浏览器跑业务——搞定新手最密集的 5 个问题。
                 </div>
                 <div class="roadmap-points">
-                    <span class="roadmap-point">节点搭建</span>
-                    <span class="roadmap-point">VPS 选购</span>
-                    <span class="roadmap-point">代理客户端配置</span>
-                    <span class="roadmap-point">TikTok 专线验证</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="roadmap-item step-2">
-            <div class="roadmap-left">
-                <div class="roadmap-num">02</div>
-            </div>
-            <div class="roadmap-body">
-                <span class="roadmap-tag">然后</span>
-                <div class="roadmap-title">环境搭建 · 注册不被封的账号</div>
-                <div class="roadmap-desc">
-                    账号被封 90% 是环境问题。这一步教你绑定干净域名、配置安全的 TLS 节点，让平台检测不到你在国内。
-                </div>
-                <div class="roadmap-points">
-                    <span class="roadmap-point">域名购买与绑定</span>
-                    <span class="roadmap-point">TLS 加密配置</span>
-                    <span class="roadmap-point">IP 纯洁度检测</span>
-                    <span class="roadmap-point">注册安全姿势</span>
+                    <span class="roadmap-point">TikTok 下载安装</span>
+                    <span class="roadmap-point">网络配置</span>
+                    <span class="roadmap-point">账号注册</span>
+                    <span class="roadmap-point">运营规范</span>
+                    <span class="roadmap-point">指纹浏览器</span>
                 </div>
             </div>
         </div>
 
         <div class="roadmap-item step-3">
             <div class="roadmap-left">
-                <div class="roadmap-num">03</div>
+                <div class="roadmap-num" style="font-size:0.65em;width:46px;height:46px;">中级</div>
             </div>
             <div class="roadmap-body">
-                <span class="roadmap-tag">核心</span>
-                <div class="roadmap-title">账号运营 · 发对内容起号</div>
+                <span class="roadmap-tag">06 → 09 · 技术进阶</span>
+                <div class="roadmap-title">自建网络 · 域名加密 · 直播环境 · 任意地区节点</div>
                 <div class="roadmap-desc">
-                    TikTok 算法怎么推流、什么内容容易爆、如何养号、直播带货注意什么——这些是真正能帮你赚到钱的部分。
+                    不再依赖别人的工具，自己用技术手段建网络、用域名加密流量，搭直播专线，还能把 TK 节点落地到任意国家和地区。
                 </div>
                 <div class="roadmap-points">
-                    <span class="roadmap-point">算法逻辑</span>
-                    <span class="roadmap-point">内容方向选择</span>
-                    <span class="roadmap-point">涨粉方法论</span>
-                    <span class="roadmap-point">直播专线搭建</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="roadmap-item step-4">
-            <div class="roadmap-left">
-                <div class="roadmap-num">04</div>
-            </div>
-            <div class="roadmap-body">
-                <span class="roadmap-tag">进阶</span>
-                <div class="roadmap-title">矩阵扩展 · 软路由 · 一号一 IP</div>
-                <div class="roadmap-desc">
-                    单账号做到一定量级后，自然想复制到多个账号。软路由让每个 WIFI 出口 IP 不同，账号之间完全隔离，平台查不出关联。
-                </div>
-                <div class="roadmap-points">
-                    <span class="roadmap-point">软路由是什么</span>
-                    <span class="roadmap-point">多 WIFI 配置</span>
-                    <span class="roadmap-point">TK 矩阵运营</span>
-                    <span class="roadmap-point">泄露检测修复</span>
+                    <span class="roadmap-point">技术建网</span>
+                    <span class="roadmap-point">域名加密</span>
+                    <span class="roadmap-point">直播环境</span>
+                    <span class="roadmap-point">任意地区 TK 节点</span>
                 </div>
             </div>
         </div>
 
         <div class="roadmap-item step-5">
             <div class="roadmap-left">
-                <div class="roadmap-num">05</div>
+                <div class="roadmap-num" style="font-size:0.65em;width:46px;height:46px;">高级</div>
             </div>
             <div class="roadmap-body">
-                <span class="roadmap-tag">变现闭环</span>
-                <div class="roadmap-title">独立站 · 跨境支付 · 流量承接</div>
+                <span class="roadmap-tag">10 → 14 · 矩阵 & 变现</span>
+                <div class="roadmap-title">软路由 · 防泄露 · AI 建站 · 跨境收款</div>
                 <div class="roadmap-desc">
-                    TK 只是引流入口，真正的变现在独立站。这一步从建站、收款到物流，帮你把整条链路打通。
+                    软路由刷机、多 WIFI 一号一 IP、环境泄露排查，再到 AI 快速建独立站、对接跨境支付——把整条出海链路打通。
                 </div>
                 <div class="roadmap-points">
-                    <span class="roadmap-point">建站工具选择</span>
-                    <span class="roadmap-point">域名 & 部署</span>
-                    <span class="roadmap-point">Stripe / PayPal 接入</span>
-                    <span class="roadmap-point">收款风控注意事项</span>
+                    <span class="roadmap-point">软路由刷机</span>
+                    <span class="roadmap-point">多 WIFI 配置</span>
+                    <span class="roadmap-point">泄露防护</span>
+                    <span class="roadmap-point">AI 建站</span>
+                    <span class="roadmap-point">跨境支付</span>
                 </div>
             </div>
         </div>
@@ -708,76 +688,27 @@
         <h2 class="section-title">完整章节一览</h2>
         <p class="section-sub">一次购买，以下内容全部解锁，后续更新永久同步</p>
         <div class="syllabus-grid">
-            <div class="syl-item live">
-                <div class="syl-num">01</div>
-                <div class="syl-info">
-                    <div class="syl-title">免费网络入门 · 基础节点搭建</div>
-                    <div class="syl-lock">✓ 免费预览</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">02</div>
-                <div class="syl-info">
-                    <div class="syl-title">域名解析与绑定，增强节点安全</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">03</div>
-                <div class="syl-info">
-                    <div class="syl-title">VPS 常用功能演示与优化</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">04</div>
-                <div class="syl-info">
-                    <div class="syl-title">搭建任意地区的 TK 运营节点</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">05</div>
-                <div class="syl-info">
-                    <div class="syl-title">直播专线搭建与提速</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">06</div>
-                <div class="syl-info">
-                    <div class="syl-title">软路由配置多 WIFI · 一号一 IP</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">07</div>
-                <div class="syl-info">
-                    <div class="syl-title">泄露检测与完美环境伪装</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">08</div>
-                <div class="syl-info">
-                    <div class="syl-title">基础网站建设</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item">
-                <div class="syl-num">09</div>
-                <div class="syl-info">
-                    <div class="syl-title">跨境支付功能对接与注意事项</div>
-                    <div class="syl-lock">🔒 即将上线</div>
-                </div>
-            </div>
-            <div class="syl-item updating">
-                <div class="syl-num">∞</div>
-                <div class="syl-info">
-                    <div class="syl-title">持续更新中...</div>
-                    <div class="syl-lock">✦ 永久同步</div>
-                </div>
-            </div>
+            <!-- 初级 -->
+            <div class="syl-tier tier-basic"><span class="syl-tier-label">初级课程</span><div class="syl-tier-line"></div></div>
+            <div class="syl-item"><div class="syl-num">01</div><div class="syl-info"><div class="syl-title">如何下载 TikTok</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">02</div><div class="syl-info"><div class="syl-title">如何配置网络</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">03</div><div class="syl-info"><div class="syl-title">账号注册</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">04</div><div class="syl-info"><div class="syl-title">账号运营规范</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">05</div><div class="syl-info"><div class="syl-title">指纹浏览器做业务</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <!-- 中级 -->
+            <div class="syl-tier tier-mid"><span class="syl-tier-label">中级课程</span><div class="syl-tier-line"></div></div>
+            <div class="syl-item"><div class="syl-num">06</div><div class="syl-info"><div class="syl-title">通过技术手段自建网络</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">07</div><div class="syl-info"><div class="syl-title">域名加密，安全传输信息</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">08</div><div class="syl-info"><div class="syl-title">直播环境搭建</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">09</div><div class="syl-info"><div class="syl-title">搭建任意地区的 TK 运营节点</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <!-- 高级 -->
+            <div class="syl-tier tier-adv"><span class="syl-tier-label">高级课程</span><div class="syl-tier-line"></div></div>
+            <div class="syl-item"><div class="syl-num">10</div><div class="syl-info"><div class="syl-title">软路由刷机</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">11</div><div class="syl-info"><div class="syl-title">软路由多 WIFI 配置 · 一号一 IP</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">12</div><div class="syl-info"><div class="syl-title">环境泄露问题排查与解决</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">13</div><div class="syl-info"><div class="syl-title">AI 建立独立网站</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item"><div class="syl-num">14</div><div class="syl-info"><div class="syl-title">跨境支付功能对接</div><div class="syl-lock">🔒 即将上线</div></div></div>
+            <div class="syl-item updating"><div class="syl-num">∞</div><div class="syl-info"><div class="syl-title">持续更新高价值内容</div><div class="syl-lock">✦ 永久同步</div></div></div>
         </div>
     </section>
 </div>

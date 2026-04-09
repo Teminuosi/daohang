@@ -660,6 +660,21 @@
         .upgrade-desc { color: #bbb; font-size: 1.05em; margin-bottom: 30px; line-height: 1.6; }
 
         /* ===== 课程大纲 ===== */
+        .syllabus-tier {
+            grid-column: 1 / -1;
+            display: flex; align-items: center; gap: 12px;
+            margin-top: 12px; padding: 4px 0 2px;
+        }
+        .syllabus-tier:first-child { margin-top: 0; }
+        .syllabus-tier-label {
+            font-size: 0.7em; font-weight: 800; letter-spacing: 0.1em;
+            padding: 3px 12px; border-radius: 3px; white-space: nowrap;
+        }
+        .tier-basic .syllabus-tier-label { background: rgba(255,45,85,0.1); color: #ff6b8a; }
+        .tier-mid .syllabus-tier-label { background: rgba(162,155,254,0.1); color: #a29bfe; }
+        .tier-adv .syllabus-tier-label { background: rgba(0,243,255,0.08); color: var(--primary); }
+        .syllabus-tier-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
         .syllabus-section {
             margin-top: 40px;
             margin-bottom: 10px;
@@ -1055,95 +1070,26 @@
             </div>
             <div class="syllabus-grid">
 
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">01</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">基础节点搭建</div>
-                        <div class="syllabus-sub">满足日常科学上网及 AI 工具使用，从零搭建属于自己的节点</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
+                <div class="syllabus-tier tier-basic"><span class="syllabus-tier-label">初级课程</span><div class="syllabus-tier-line"></div></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">01</div><div class="syllabus-body"><div class="syllabus-title">如何下载 TikTok</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">02</div><div class="syllabus-body"><div class="syllabus-title">如何配置网络</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">03</div><div class="syllabus-body"><div class="syllabus-title">账号注册</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">04</div><div class="syllabus-body"><div class="syllabus-title">账号运营规范</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">05</div><div class="syllabus-body"><div class="syllabus-title">指纹浏览器做业务</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
 
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">02</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">域名解析与绑定</div>
-                        <div class="syllabus-sub">为节点绑定域名，启用 TLS 加密，大幅增强安全性与隐蔽性</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
+                <div class="syllabus-tier tier-mid"><span class="syllabus-tier-label">中级课程</span><div class="syllabus-tier-line"></div></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">06</div><div class="syllabus-body"><div class="syllabus-title">通过技术手段自建网络</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">07</div><div class="syllabus-body"><div class="syllabus-title">域名加密，安全传输信息</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">08</div><div class="syllabus-body"><div class="syllabus-title">直播环境搭建</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">09</div><div class="syllabus-body"><div class="syllabus-title">搭建任意地区的 TK 运营节点</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
 
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">03</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">VPS 常用功能演示与优化</div>
-                        <div class="syllabus-sub">日常运维、性能调优，让你的服务器跑得更稳更快</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">04</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">搭建任意地区的 TK 运营节点</div>
-                        <div class="syllabus-sub">精准落地指定地区 IP，满足 TikTok 矩阵运营需求</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">05</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">直播专线搭建与提速</div>
-                        <div class="syllabus-sub">低延迟直播链路搭建，有效解决卡顿、掉线问题</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">06</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">软路由配置多 WIFI · 一号一 IP</div>
-                        <div class="syllabus-sub">软路由实战配置，每个 WIFI 对应独立出口 IP，彻底隔离账号环境</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">07</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">泄露检测与完美环境伪装</div>
-                        <div class="syllabus-sub">DNS/WebRTC 泄露排查，指纹伪装，打造无懈可击的干净环境</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">08</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">基础网站建设</div>
-                        <div class="syllabus-sub">从域名购买到上线部署，快速搭建你的出海独立站</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item coming">
-                    <div class="syllabus-num">09</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">跨境支付功能对接</div>
-                        <div class="syllabus-sub">Stripe / PayPal 等主流支付接入实战，规避常见封号风险</div>
-                    </div>
-                    <span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span>
-                </div>
-
-                <div class="syllabus-item updating">
-                    <div class="syllabus-num">∞</div>
-                    <div class="syllabus-body">
-                        <div class="syllabus-title">持续更新中...</div>
-                        <div class="syllabus-sub">一次购买，终身可看，后续新增内容永久同步</div>
-                    </div>
-                    <span class="syllabus-status status-updating">更新中</span>
-                </div>
+                <div class="syllabus-tier tier-adv"><span class="syllabus-tier-label">高级课程</span><div class="syllabus-tier-line"></div></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">10</div><div class="syllabus-body"><div class="syllabus-title">软路由刷机</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">11</div><div class="syllabus-body"><div class="syllabus-title">软路由多 WIFI 配置 · 一号一 IP</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">12</div><div class="syllabus-body"><div class="syllabus-title">环境泄露问题排查与解决</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">13</div><div class="syllabus-body"><div class="syllabus-title">AI 建立独立网站</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item coming"><div class="syllabus-num">14</div><div class="syllabus-body"><div class="syllabus-title">跨境支付功能对接</div></div><span class="syllabus-status status-lock"><i class="fas fa-lock" style="font-size:0.85em;margin-right:2px;"></i>即将上线</span></div>
+                <div class="syllabus-item updating"><div class="syllabus-num">∞</div><div class="syllabus-body"><div class="syllabus-title">持续更新高价值内容</div><div class="syllabus-sub">一次购买，终身可看，后续新增永久同步</div></div><span class="syllabus-status status-updating">更新中</span></div>
 
             </div>
         </div>
