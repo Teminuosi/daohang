@@ -856,8 +856,8 @@
         @media (max-width: 600px) {
             .main-content { padding: 10px; }
             .playlist-layout { flex-direction: column; height: auto; min-height: unset; }
-            .playlist-sidebar { width: 100%; max-height: none; border-right: none; border-bottom: 1px solid var(--glass-border); }
-            .playlist-list { max-height: 200px; }
+            .playlist-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--glass-border); }
+            .playlist-list { flex: none; height: 180px; max-height: 180px; overflow-y: auto; }
             .intro-card { margin: 8px 8px 2px; padding: 10px 12px; }
             .intro-desc { display: none; }
             .video-wrapper video { max-height: 30vh; }
