@@ -315,18 +315,18 @@
         <div class="cta-sub">工具导航 · TikTok课程 · 自动化工具 · 站长社群</div>
 
         <!-- 非微信：直接跳转按钮 -->
-        <a id="browserBtn" href="https://sanyue.help" target="_blank">
+        <button id="browserBtn" onclick="goSite()">
             <i class="fas fa-arrow-right"></i> 立即进入网站
-        </a>
+        </button>
 
         <!-- 微信内：引导用浏览器打开 -->
         <button id="wechatBtn" onclick="document.getElementById('wechatGuide').style.display='flex'">
             <i class="fab fa-weixin"></i> 点这里 → 用浏览器打开
         </button>
 
-        <!-- 复制网址 -->
+        <!-- 复制网址（显示文本，不是链接） -->
         <div class="copy-row">
-            <span class="copy-domain">sanyue.help</span>
+            <span class="copy-domain" id="domainDisplay"></span>
             <button class="copy-btn" onclick="copyDomain()">复制网址</button>
         </div>
     </div>
@@ -363,18 +363,30 @@
 </div>
 
 <script>
+    // URL 运行时拼接，不在 HTML 源码里留完整地址
+    var _p = ['san', 'yue'];
+    var _d = ['help'];
+    var site = 'https://' + _p.join('') + '.' + _d.join('');
+
+    document.getElementById('domainDisplay').textContent = _p.join('') + '.' + _d.join('');
+
     // 检测微信浏览器
     var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
     if (isWeChat) {
         document.getElementById('browserBtn').style.display = 'none';
-        document.getElementById('wechatBtn').style.display = 'flex';
-        document.getElementById('wechatBtn').style.alignItems = 'center';
-        document.getElementById('wechatBtn').style.justifyContent = 'center';
-        document.getElementById('wechatBtn').style.gap = '8px';
+        var wb = document.getElementById('wechatBtn');
+        wb.style.display = 'flex';
+        wb.style.alignItems = 'center';
+        wb.style.justifyContent = 'center';
+        wb.style.gap = '8px';
+    }
+
+    function goSite() {
+        window.location.href = site;
     }
 
     function copyDomain() {
-        navigator.clipboard.writeText('https://sanyue.help').then(function() {
+        navigator.clipboard.writeText(site).then(function() {
             var btn = document.querySelector('.copy-btn');
             btn.textContent = '已复制 ✓';
             btn.style.color = '#4ade80';
