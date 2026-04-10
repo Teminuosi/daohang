@@ -622,6 +622,7 @@
         // 注册头像相关变量
         var registerAvatarUrl = null;  // 注册成功后上传的头像 URL
         var pendingAvatarFile = null;  // 待上传的头像文件对象（注册成功后才上传）
+        var isUploadingAvatar = false; // 头像上传中标志
 
         // 预览注册头像（仅预览，不上传——等注册拿到 access_token 后再上传）
         function previewRegisterAvatar(input) {
