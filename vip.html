@@ -1729,8 +1729,8 @@
         var commentsData = [];
         
         function loadVideoComments(videoId) {
-            fetch(SUPABASE_URL + '/rest/v1/video_comments_with_profile?video_id=eq.' + videoId + '&order=created_at.asc', {
-                method: 'GET', headers: { 'apikey': SUPABASE_KEY }
+            fetchWithAuth(SUPABASE_URL + '/rest/v1/video_comments_with_profile?video_id=eq.' + videoId + '&order=created_at.asc', {
+                method: 'GET'
             })
             .then(function(res) { return res.json(); })
             .then(function(comments) {
@@ -1891,23 +1891,21 @@
         
         function deleteComment(commentId) {
             if (!confirm('确定要删除这条评论吗？')) return;
-            var accessToken = localStorage.getItem('nexus_access_token');
-            fetch(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
-                method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken }
+            fetchWithAuth(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
+                method: 'DELETE'
             }).then(function(res) {
-                if (res.ok) { showToast('删除成功', 'success'); loadVideoComments(currentVideo.id); } 
+                if (res.ok) { showToast('删除成功', 'success'); loadVideoComments(currentVideo.id); }
                 else { showToast('删除失败', 'error'); }
             });
         }
-        
+
         function togglePin(commentId, pin) {
-            var accessToken = localStorage.getItem('nexus_access_token');
-            fetch(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
+            fetchWithAuth(SUPABASE_URL + '/rest/v1/video_comments?id=eq.' + commentId, {
                 method: 'PATCH',
-                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
                 body: JSON.stringify({ is_pinned: pin })
             }).then(function(res) {
-                if (res.ok) { showToast(pin ? '已置顶' : '已取消置顶', 'success'); loadVideoComments(currentVideo.id); } 
+                if (res.ok) { showToast(pin ? '已置顶' : '已取消置顶', 'success'); loadVideoComments(currentVideo.id); }
                 else { showToast('操作失败', 'error'); }
             });
         }
