@@ -1438,16 +1438,19 @@
             if (!currentUser) return;
             var accessToken = localStorage.getItem('nexus_access_token');
             
+            var freeBanner = document.getElementById('freeBanner');
+            var premiumBanner = document.getElementById('premiumBanner');
+
             // 站长自动拥有会员权限
             if (currentUser.id === ADMIN_UUID) {
                 isPremium = true;
                 document.getElementById('membershipBadge').textContent = '站长';
                 document.getElementById('membershipBadge').className = 'membership-status premium';
-                document.getElementById('freeBanner').style.display = 'none';
-                document.getElementById('premiumBanner').style.display = 'flex';
+                if (freeBanner) freeBanner.style.display = 'none';
+                if (premiumBanner) premiumBanner.style.display = 'flex';
                 return;
             }
-            
+
             fetch(SUPABASE_URL + '/rest/v1/user_memberships?user_id=eq.' + currentUser.id + '&select=*', {
                 method: 'GET',
                 headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + accessToken }
@@ -1458,8 +1461,8 @@
                     isPremium = true;
                     document.getElementById('membershipBadge').textContent = '永久VIP';
                     document.getElementById('membershipBadge').className = 'membership-status premium';
-                    document.getElementById('freeBanner').style.display = 'none';
-                    document.getElementById('premiumBanner').style.display = 'flex';
+                    if (freeBanner) freeBanner.style.display = 'none';
+                    if (premiumBanner) premiumBanner.style.display = 'flex';
                 }
             }).catch(function(err) { console.error('检查会员状态失败:', err); });
         }
