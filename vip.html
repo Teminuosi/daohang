@@ -490,57 +490,133 @@
         }
         .preview-overlay.show { display: flex; animation: fadeIn 0.5s; }
 
-        /* 视频下方：描述 + 评论区（可滚动） */
+        /* 视频下方：描述区 */
         .player-below {
-            flex: 1;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 360px;
+            flex-shrink: 0;
         }
-        .player-below::-webkit-scrollbar { width: 4px; }
-        .player-below::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
         .video-desc-area {
             padding: 14px 18px;
             border-bottom: 1px solid var(--glass-border);
         }
-        .video-desc-area p {
-            font-size: 0.85em;
-            color: #888;
-            line-height: 1.7;
-        }
+        .video-desc-area p { font-size: 0.85em; color: #888; line-height: 1.7; }
 
-        /* 评论区嵌入式（原侧边栏变底部区域） */
+        /* 右侧评论面板 */
+        .comments-panel {
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--glass-border);
+            background: rgba(8,8,12,0.95);
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .comments-panel.collapsed { width: 36px; }
+        .comments-panel-toggle {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 52px;
+            background: rgba(0,243,255,0.08);
+            border: 1px solid rgba(0,243,255,0.2);
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.65em;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+        .comments-panel-toggle:hover { background: rgba(0,243,255,0.18); }
+        .comments-panel-inner {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+            padding-left: 18px;
+            min-width: 282px;
+            transition: opacity 0.2s;
+        }
+        .comments-panel.collapsed .comments-panel-inner { opacity: 0; pointer-events: none; }
+
+        /* 评论区 */
         .comments-section {
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 320px;
+            min-height: 0;
         }
         .comments-header {
-            padding: 12px 18px;
+            padding: 12px 14px;
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
         }
-        .comments-header h4 { color: var(--primary); font-family: 'Rajdhani', sans-serif; }
+        .comments-header h4 { color: var(--primary); font-family: 'Rajdhani', sans-serif; font-size: 0.9em; }
         .comments-list {
             flex: 1;
             overflow-y: auto;
-            padding: 12px 18px;
-            min-height: 160px;
+            padding: 10px 14px;
         }
-        .comment-input-area { padding: 12px 18px; border-top: 1px solid var(--glass-border); flex-shrink: 0; }
+        .comments-list::-webkit-scrollbar { width: 3px; }
+        .comments-list::-webkit-scrollbar-thumb { background: rgba(0,243,255,0.2); border-radius: 2px; }
+        .comment-input-area { padding: 10px 14px; border-top: 1px solid var(--glass-border); flex-shrink: 0; }
         .comment-input-area textarea {
             width: 100%; background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border); border-radius: 8px;
-            padding: 10px; color: #fff; resize: none; height: 70px; font-family: inherit; font-size: 0.88em;
+            padding: 8px 10px; color: #fff; resize: none; height: 58px; font-family: inherit; font-size: 0.84em;
         }
         .comment-input-area textarea:focus { outline: none; border-color: var(--primary); }
         .comment-input-area textarea::placeholder { color: #555; }
+
+        /* 手机端 FAB 按钮 */
+        .mobile-comment-fab {
+            display: none;
+            position: fixed;
+            bottom: 80px; right: 16px;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: rgba(0,243,255,0.15);
+            border: 1px solid rgba(0,243,255,0.4);
+            color: var(--primary);
+            font-size: 1.1em;
+            align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 0 16px rgba(0,243,255,0.2);
+        }
+        /* 手机端抽屉 */
+        .mobile-comments-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 299;
+        }
+        .mobile-comments-overlay.show { display: block; }
+        .mobile-comments-drawer {
+            display: none; position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 65vh;
+            background: rgba(10,10,14,0.98);
+            border-top: 1px solid var(--glass-border);
+            border-radius: 16px 16px 0 0;
+            z-index: 300;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-comments-drawer.show { display: flex; transform: translateY(0); }
+        .mobile-drawer-handle {
+            width: 36px; height: 4px; background: #333; border-radius: 2px;
+            margin: 10px auto 0; flex-shrink: 0; cursor: pointer;
+        }
 
         /* 视频列表旧样式（保留兼容，但不再主用） */
         .video-grid { display: none; }
@@ -887,6 +963,9 @@
             .upgrade-card-wide { padding: 30px 20px; }
             .upgrade-title { font-size: 1.5em; }
             .syllabus-grid { grid-template-columns: 1fr; }
+            /* 手机端隐藏右侧评论面板，用抽屉代替 */
+            .comments-panel { display: none !important; }
+            .mobile-comment-fab { display: flex; }
         }
     </style>
 </head>
@@ -1030,35 +1109,54 @@
                         </div>
                     </div>
 
-                    <!-- 视频下方滚动区：描述 + 评论 -->
+                    <!-- 视频下方滚动区：描述 -->
                     <div class="player-below">
                         <div class="video-desc-area" id="videoDescArea" style="display:none;">
                             <p id="videoDescText"></p>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="comments-section">
-                            <div class="comments-header">
-                                <h4><i class="fas fa-comments"></i> 课程讨论</h4>
-                                <span id="commentCount" style="color:#666;font-size:0.85em;">0条评论</span>
+            <!-- 右侧评论面板 -->
+            <div class="comments-panel" id="commentsPanel">
+                <div class="comments-panel-toggle" onclick="toggleComments()" title="折叠/展开评论">
+                    <i class="fas fa-chevron-left" id="commentToggleIcon"></i>
+                </div>
+                <div class="comments-panel-inner">
+                    <div class="comments-section">
+                        <div class="comments-header">
+                            <h4><i class="fas fa-comments"></i> 课程讨论</h4>
+                            <span id="commentCount" style="color:#666;font-size:0.85em;">0条评论</span>
+                        </div>
+                        <div class="comments-list" id="commentsList"></div>
+                        <div class="comment-input-area" id="commentInputArea">
+                            <div class="reply-hint" id="replyHint">
+                                <i class="fas fa-reply"></i>
+                                <span>回复 <strong id="replyToName"></strong></span>
+                                <button onclick="cancelReply()"><i class="fas fa-times"></i></button>
                             </div>
-                            <div class="comments-list" id="commentsList"></div>
-                            <div class="comment-input-area" id="commentInputArea">
-                                <div class="reply-hint" id="replyHint">
-                                    <i class="fas fa-reply"></i>
-                                    <span>回复 <strong id="replyToName"></strong></span>
-                                    <button onclick="cancelReply()"><i class="fas fa-times"></i></button>
-                                </div>
-                                <textarea id="commentInput" placeholder="发表你的看法..." maxlength="300"></textarea>
-                                <button class="comment-submit" id="commentSubmitBtn" onclick="submitComment()">
-                                    <i class="fas fa-paper-plane"></i> 发送评论
-                                </button>
-                            </div>
+                            <textarea id="commentInput" placeholder="发表你的看法..." maxlength="300"></textarea>
+                            <button class="comment-submit" id="commentSubmitBtn" onclick="submitComment()">
+                                <i class="fas fa-paper-plane"></i> 发送评论
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
         </div><!-- end playlist-layout -->
+
+        <!-- 手机端评论抽屉 -->
+        <div class="mobile-comments-overlay" id="mobileCommentsOverlay" onclick="closeMobileComments()"></div>
+        <div class="mobile-comments-drawer" id="mobileCommentsDrawer">
+            <div class="mobile-drawer-handle" onclick="closeMobileComments()"></div>
+            <div id="mobileCommentsContent" style="flex:1;overflow-y:auto;padding:0 12px 16px;"></div>
+        </div>
+        <!-- 手机端评论浮动按钮 -->
+        <button class="mobile-comment-fab" id="mobileCommentFab" onclick="openMobileComments()">
+            <i class="fas fa-comments"></i>
+        </button>
 
         <!-- 保留旧的videoGrid供JS兼容 -->
         <div class="video-grid" id="videoGrid" style="display:none;"></div>
@@ -1747,6 +1845,48 @@
             replyToName = null;
             document.getElementById('replyHint').classList.remove('show');
             document.getElementById('commentInput').placeholder = '发表你的看法...';
+        }
+
+        // 右侧评论面板折叠/展开
+        function toggleComments() {
+            var panel = document.getElementById('commentsPanel');
+            var icon = document.getElementById('commentToggleIcon');
+            panel.classList.toggle('collapsed');
+            if (panel.classList.contains('collapsed')) {
+                icon.className = 'fas fa-chevron-right';
+            } else {
+                icon.className = 'fas fa-chevron-left';
+            }
+        }
+
+        // 手机端评论抽屉
+        var commentsInDrawer = false;
+        function openMobileComments() {
+            var overlay = document.getElementById('mobileCommentsOverlay');
+            var drawer = document.getElementById('mobileCommentsDrawer');
+            var content = document.getElementById('mobileCommentsContent');
+            var section = document.querySelector('.comments-panel-inner .comments-section');
+            if (section && !commentsInDrawer) {
+                content.appendChild(section);
+                commentsInDrawer = true;
+            }
+            overlay.classList.add('show');
+            drawer.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileComments() {
+            var overlay = document.getElementById('mobileCommentsOverlay');
+            var drawer = document.getElementById('mobileCommentsDrawer');
+            var content = document.getElementById('mobileCommentsContent');
+            var panelInner = document.querySelector('.comments-panel-inner');
+            var section = content.querySelector('.comments-section');
+            if (section && commentsInDrawer && panelInner) {
+                panelInner.appendChild(section);
+                commentsInDrawer = false;
+            }
+            overlay.classList.remove('show');
+            drawer.classList.remove('show');
+            document.body.style.overflow = '';
         }
         
         function deleteComment(commentId) {
