@@ -578,22 +578,25 @@
         .comment-input-area textarea:focus { outline: none; border-color: var(--primary); }
         .comment-input-area textarea::placeholder { color: #555; }
 
-        /* 手机端 FAB 按钮 */
-        .mobile-comment-fab {
+        /* 手机端视频下方评论入口按钮（PC隐藏） */
+        .mobile-comment-inline-btn {
             display: none;
-            position: fixed;
-            bottom: 80px; right: 16px;
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            background: rgba(0,243,255,0.15);
-            border: 1px solid rgba(0,243,255,0.4);
+            width: 100%;
+            margin-top: 10px;
+            padding: 11px 16px;
+            background: rgba(0,243,255,0.07);
+            border: 1px solid rgba(0,243,255,0.25);
+            border-radius: 8px;
             color: var(--primary);
-            font-size: 1.1em;
-            align-items: center; justify-content: center;
+            font-size: 0.92em;
+            font-weight: 600;
             cursor: pointer;
-            z-index: 200;
-            box-shadow: 0 0 16px rgba(0,243,255,0.2);
+            text-align: left;
+            transition: background 0.2s;
         }
+        .mobile-comment-inline-btn:hover { background: rgba(0,243,255,0.14); }
+        /* 旧 FAB（保留但不显示） */
+        .mobile-comment-fab { display: none !important; }
         /* 手机端抽屉 */
         .mobile-comments-overlay {
             display: none; position: fixed; inset: 0;
@@ -965,7 +968,7 @@
             .syllabus-grid { grid-template-columns: 1fr; }
             /* 手机端隐藏右侧评论面板，用抽屉代替 */
             .comments-panel { display: none !important; }
-            .mobile-comment-fab { display: flex; }
+            .mobile-comment-inline-btn { display: block; }
         }
     </style>
 </head>
@@ -1114,6 +1117,10 @@
                         <div class="video-desc-area" id="videoDescArea" style="display:none;">
                             <p id="videoDescText"></p>
                         </div>
+                        <!-- 手机端评论入口按钮（PC端隐藏） -->
+                        <button class="mobile-comment-inline-btn" onclick="openMobileComments()">
+                            <i class="fas fa-comments"></i> 课程讨论 &nbsp;<span id="commentCountInline" style="opacity:0.7;font-size:0.9em;"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1759,7 +1766,10 @@
                 repliesMap[r.parent_id].push(r);
             });
             
-            document.getElementById('commentCount').textContent = commentsData.length + '条评论';
+            var countText = commentsData.length + '条评论';
+            document.getElementById('commentCount').textContent = countText;
+            var inlineCount = document.getElementById('commentCountInline');
+            if (inlineCount) inlineCount.textContent = '(' + commentsData.length + ')';
             
             if (parentComments.length === 0) {
                 container.innerHTML = '<div style="text-align:center;color:#666;padding:40px;">暂无评论，来发表第一条吧</div>';
