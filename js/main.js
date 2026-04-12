@@ -2671,8 +2671,10 @@
         // 更新私信未读数角标
         function updatePrivateBadge(count) {
             var badge = document.getElementById('privateBadge');
-            if (count > 0) {
-                badge.textContent = count > 99 ? '99+' : count;
+            if (!badge) return;
+            var n = parseInt(count, 10) || 0;
+            if (n > 0) {
+                badge.textContent = n > 99 ? '99+' : n;
                 badge.style.display = 'block';
             } else {
                 badge.style.display = 'none';
@@ -2682,21 +2684,18 @@
         // 检查未读私信数量
         function checkUnreadDM() {
             if (!currentUser) return;
-            
-            var accessToken = localStorage.getItem('nexus_access_token');
+
             var myId = currentUser.id;
-            
-            // 查询发给我的未读消息
-            fetch(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + myId + '&is_read=eq.false&select=id', {
-                method: 'GET',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + accessToken
-                }
+
+            // 查询发给我的未读消息（fetchWithAuth 自动处理 token 刷新）
+            fetchWithAuth(SUPABASE_URL + '/rest/v1/direct_messages?receiver_id=eq.' + myId + '&is_read=eq.false&select=id', {
+                method: 'GET'
             })
             .then(function(response) { return response.json(); })
             .then(function(data) {
-                updatePrivateBadge(data.length);
+                if (Array.isArray(data)) {
+                    updatePrivateBadge(data.length);
+                }
             })
             .catch(function(e) { console.error('检查未读失败', e); });
         }
