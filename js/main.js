@@ -213,26 +213,52 @@
             checkLoginStatus();
         });
         
+        // 本地判断 JWT 是否已过期（不发网络请求）
+        function isTokenExpired(token) {
+            try {
+                var payload = JSON.parse(atob(token.split('.')[1]));
+                return payload.exp * 1000 < Date.now() + 30000; // 提前30秒视为过期
+            } catch(e) {
+                return true;
+            }
+        }
+
         // 检查登录状态
         function checkLoginStatus() {
             const userData = localStorage.getItem('nexus_user');
             const accessToken = localStorage.getItem('nexus_access_token');
             const refreshToken = localStorage.getItem('nexus_refresh_token');
-            
+
             if (userData && accessToken) {
                 try {
                     currentUser = JSON.parse(userData);
-                    updateAuthUI(true);
-                    
-                    // 后台验证token有效性并获取最新用户数据
-                    fetchLatestUserData(accessToken);
+                    if (isTokenExpired(accessToken)) {
+                        // token 已过期，先刷新再启动 UI，避免产生 401 请求
+                        if (refreshToken) {
+                            refreshAccessToken().then(function() {
+                                currentUser = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+                                updateAuthUI(true);
+                            }).catch(function() {
+                                clearAuthData();
+                                updateAuthUI(false);
+                            });
+                        } else {
+                            clearAuthData();
+                            updateAuthUI(false);
+                        }
+                    } else {
+                        // token 有效，直接启动
+                        updateAuthUI(true);
+                        fetchLatestUserData(accessToken);
+                    }
                 } catch (e) {
                     clearAuthData();
                     updateAuthUI(false);
                 }
             } else if (refreshToken) {
-                // 有refresh token但没有access token，尝试刷新
+                // 有 refresh token 但没有 access token，先刷新
                 refreshAccessToken().then(function() {
+                    currentUser = JSON.parse(localStorage.getItem('nexus_user') || '{}');
                     updateAuthUI(true);
                 }).catch(function() {
                     clearAuthData();
