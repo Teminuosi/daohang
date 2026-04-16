@@ -6,7 +6,10 @@
       "Bash([ -f \"icon/$file\" ])",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(ls /g/daohang/*.html)",
+      "Bash(pip install:*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }
