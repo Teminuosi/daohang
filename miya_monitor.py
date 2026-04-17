@@ -177,12 +177,7 @@ def append_items(new_items):
 
 
 def main():
-    print("=" * 52)
-    print("  Miya IP 邮箱监控启动")
-    print(f"  输出文件: {EXCEL_FILE}")
-    print("=" * 52)
-
-    init_excel()
+    global EXCEL_FILE
 
     if not login():
         print("初始登录失败，退出。")
@@ -190,6 +185,15 @@ def main():
 
     while True:
         try:
+            # 每轮开始时按当天日期更新文件名
+            EXCEL_FILE = get_excel_path()
+            seen_ids.clear()
+            print("=" * 52)
+            print("  Miya IP 邮箱监控")
+            print(f"  输出文件: {EXCEL_FILE}")
+            print("=" * 52)
+            init_excel()
+
             items = fetch_all()
 
             if items is None:
@@ -213,11 +217,6 @@ def main():
         except KeyboardInterrupt:
             print(f"\n[{now()}] 手动停止，共记录 {len(seen_ids)} 条。")
             break
-
-        # 每次轮询前更新文件名（跨天时自动新建新日期文件）
-        EXCEL_FILE = get_excel_path()
-        seen_ids.clear()
-        init_excel()
         except Exception as e:
             print(f"[{now()}] ⚠️ 异常: {e}")
 

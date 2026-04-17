@@ -211,12 +211,7 @@ def append_new_orders(new_orders):
 
 
 def main():
-    print("=" * 50)
-    print("  Kardz 订单监控启动")
-    print(f"  轮询间隔: {POLL_INTERVAL}秒 | 输出文件: {EXCEL_FILE}")
-    print("=" * 50)
-
-    init_excel()
+    global EXCEL_FILE
 
     if not login():
         print("初始登录失败，请检查账号密码，退出。")
@@ -224,6 +219,15 @@ def main():
 
     while True:
         try:
+            # 每轮开始时按当天日期更新文件名
+            EXCEL_FILE = get_excel_path()
+            seen_ids.clear()
+            print("=" * 50)
+            print(f"  Kardz 订单监控  轮询间隔: {POLL_INTERVAL}秒")
+            print(f"  输出文件: {EXCEL_FILE}")
+            print("=" * 50)
+            init_excel()
+
             orders = fetch_all_orders()
 
             if orders is None:
@@ -246,13 +250,8 @@ def main():
                 print(f"[{now()}] ✔ 无新订单（总 {len(orders)} 条）")
 
         except KeyboardInterrupt:
-            print(f"\n[{now()}] 手动停止，共记录 {len(seen_ids)} 条订单。")
+            print(f"\n[{now()}] 手动停止。")
             break
-
-        # 每次轮询前更新文件名（跨天时自动新建新日期文件）
-        EXCEL_FILE = get_excel_path()
-        seen_ids.clear()
-        init_excel()
         except Exception as e:
             print(f"[{now()}] ⚠️ 异常: {e}")
 
