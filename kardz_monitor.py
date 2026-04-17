@@ -17,7 +17,11 @@ from openpyxl.styles import Font, PatternFill, Alignment
 BASE_URL     = "https://ch-admin.kardz.com"
 USERNAME_HASH = "C62E2BC30DC0FD097E2407D90DEE7445"  # ytbsydh 的 MD5
 PASSWORD_HASH = "A1EAF07BB51B073BB923BD5BEB1AC8F8"  # 123456 的 MD5
-EXCEL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kardz_orders.xlsx")
+def get_excel_path():
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), f"kardz_orders_{date_str}.xlsx")
+
+EXCEL_FILE = get_excel_path()
 POLL_INTERVAL = 86400  # 轮询间隔（秒），每天一次
 PAGE_SIZE    = 50     # 每页条数，越大请求次数越少
 # ==============================
@@ -244,6 +248,11 @@ def main():
         except KeyboardInterrupt:
             print(f"\n[{now()}] 手动停止，共记录 {len(seen_ids)} 条订单。")
             break
+
+        # 每次轮询前更新文件名（跨天时自动新建新日期文件）
+        EXCEL_FILE = get_excel_path()
+        seen_ids.clear()
+        init_excel()
         except Exception as e:
             print(f"[{now()}] ⚠️ 异常: {e}")
 

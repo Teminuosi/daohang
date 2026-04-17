@@ -22,7 +22,11 @@ PASSWORD   = "Qweasd123456.."
 PAGE_SIZE  = 100
 POLL_INTERVAL = 86400  # 每天一次
 
-EXCEL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "miya_emails.xlsx")
+def get_excel_path():
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), f"miya_emails_{date_str}.xlsx")
+
+EXCEL_FILE = get_excel_path()
 # ==============================
 
 session = requests.Session()
@@ -209,6 +213,11 @@ def main():
         except KeyboardInterrupt:
             print(f"\n[{now()}] 手动停止，共记录 {len(seen_ids)} 条。")
             break
+
+        # 每次轮询前更新文件名（跨天时自动新建新日期文件）
+        EXCEL_FILE = get_excel_path()
+        seen_ids.clear()
+        init_excel()
         except Exception as e:
             print(f"[{now()}] ⚠️ 异常: {e}")
 
