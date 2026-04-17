@@ -17,8 +17,8 @@ from openpyxl.styles import Font, PatternFill, Alignment
 BASE_URL     = "https://ch-admin.kardz.com"
 USERNAME_HASH = "C62E2BC30DC0FD097E2407D90DEE7445"  # ytbsydh 的 MD5
 PASSWORD_HASH = "A1EAF07BB51B073BB923BD5BEB1AC8F8"  # 123456 的 MD5
-EXCEL_FILE   = os.path.join(os.path.expanduser("~"), "Desktop", "kardz_orders.xlsx")
-POLL_INTERVAL = 300   # 轮询间隔（秒），默认 5 分钟
+EXCEL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kardz_orders.xlsx")
+POLL_INTERVAL = 86400  # 轮询间隔（秒），每天一次
 PAGE_SIZE    = 50     # 每页条数，越大请求次数越少
 # ==============================
 
