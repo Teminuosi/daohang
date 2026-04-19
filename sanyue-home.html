@@ -7,700 +7,510 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#07070d;
-  --sf:rgba(255,255,255,0.045);
-  --sf2:rgba(255,255,255,0.075);
-  --bd:rgba(255,255,255,0.08);
-  --muted:#4a4a4a;
-}
-html{scroll-behavior:smooth}
+html,body{height:100%}
 body{
-  background:var(--bg);
-  color:#fff;
+  background:#06060e;color:#fff;overflow-x:hidden;
   font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
 }
 
-/* Ambient glow */
-body::before{
-  content:'';position:fixed;top:-10%;left:50%;transform:translateX(-50%);
-  width:900px;height:600px;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse at 40% 30%,rgba(236,72,153,0.07) 0%,transparent 55%),
-             radial-gradient(ellipse at 65% 60%,rgba(34,211,238,0.05) 0%,transparent 50%);
+/* ── Aurora background ── */
+.aurora{position:fixed;inset:0;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);will-change:transform;}
+.orb1{width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.22),transparent 70%);
+  top:-180px;left:-140px;animation:d1 22s ease-in-out infinite;}
+.orb2{width:550px;height:550px;background:radial-gradient(circle,rgba(8,145,178,.18),transparent 70%);
+  top:40%;right:-100px;animation:d2 28s ease-in-out infinite;}
+.orb3{width:480px;height:480px;background:radial-gradient(circle,rgba(219,39,119,.16),transparent 70%);
+  bottom:-80px;left:20%;animation:d3 20s ease-in-out infinite;}
+.orb4{width:380px;height:380px;background:radial-gradient(circle,rgba(217,119,6,.12),transparent 70%);
+  top:30%;left:10%;animation:d4 25s ease-in-out infinite;}
+.orb5{width:300px;height:300px;background:radial-gradient(circle,rgba(16,185,129,.1),transparent 70%);
+  top:60%;left:55%;animation:d5 18s ease-in-out infinite;}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(80px,60px) scale(1.08)}66%{transform:translate(-30px,120px) scale(.94)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-90px,-70px) scale(1.12)}75%{transform:translate(50px,40px) scale(.9)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}30%{transform:translate(60px,-80px) scale(1.06)}70%{transform:translate(-70px,30px) scale(.95)}}
+@keyframes d4{0%,100%{transform:translate(0,0)}50%{transform:translate(100px,-60px) scale(1.1)}}
+@keyframes d5{0%,100%{transform:translate(0,0)}45%{transform:translate(-80px,60px) scale(1.15)}}
+
+/* grid overlay texture */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:60px 60px;
 }
 
-.wrap{
-  max-width:800px;margin:0 auto;
-  padding:0 16px 80px;
-  position:relative;z-index:1;
-}
+/* ── Layout ── */
+.page{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:0 18px 100px;}
 
 /* ── Header ── */
-.hd{text-align:center;padding:60px 0 44px;}
+.hd{text-align:center;padding:64px 0 52px;}
 .hd-pill{
-  display:inline-flex;align-items:center;gap:7px;
-  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
-  border-radius:99px;padding:5px 16px;
-  font-size:.68em;letter-spacing:.1em;color:#444;margin-bottom:22px;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:99px;padding:6px 18px;
+  font-size:.68em;letter-spacing:.14em;color:#444;
+  margin-bottom:24px;
+  backdrop-filter:blur(10px);
 }
-.hd-dot{width:7px;height:7px;border-radius:50%;background:#22d3ee;box-shadow:0 0 8px #22d3ee;animation:pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hd-title{
-  font-size:clamp(2.2em,9vw,3.8em);font-weight:900;line-height:1.1;
-  background:linear-gradient(135deg,#fff 20%,rgba(251,191,36,.85) 55%,rgba(236,72,153,.9) 80%,rgba(34,211,238,.8) 100%);
+.hd-dot{width:7px;height:7px;border-radius:50%;background:#22d3ee;box-shadow:0 0 10px #22d3ee;animation:blink 2.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 10px #22d3ee}50%{opacity:.3;box-shadow:none}}
+.hd-name{
+  font-size:clamp(2.6em,10vw,4.2em);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#ffffff 0%,#f0d060 35%,#ec4899 65%,#22d3ee 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:12px;
+  margin-bottom:14px;letter-spacing:-.01em;
 }
-.hd-sub{font-size:.84em;color:#333;line-height:2;}
+.hd-sub{font-size:.82em;color:#2e2e2e;line-height:2;letter-spacing:.04em;}
 
-/* ── Bento grid ── */
-.bento{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-auto-rows:auto;
-  gap:11px;
-  margin-bottom:11px;
-}
+/* ── Grid ── */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.card.full{grid-column:1/-1;}
 
-/* ── Card base ── */
-.bc{
-  background:var(--sf);
-  border:1px solid var(--bd);
-  border-radius:18px;
-  padding:20px 17px 17px;
+/* ── Card ── */
+.card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:26px 22px;
+  cursor:pointer;
   position:relative;overflow:hidden;
-  transition:transform .28s,box-shadow .28s,background .28s,border-color .28s;
+  text-decoration:none;color:inherit;
+  transition:transform .3s,box-shadow .3s,border-color .3s,background .3s;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
   display:flex;flex-direction:column;
-  text-decoration:none;color:inherit;cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
-.bc:hover{background:var(--sf2);transform:translateY(-3px);}
-.bc::before{
-  content:'';position:absolute;inset:0;border-radius:18px;
-  background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 60%);
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:22px;
+  background:linear-gradient(145deg,rgba(255,255,255,.06) 0%,transparent 50%);
   pointer-events:none;
 }
+.card:hover{transform:translateY(-4px);}
 
-/* wide = span 2 cols */
-.bc.w2{grid-column:span 2;}
+/* hero card special treatment */
+.card.hero{padding:32px 28px;}
+.card.hero .card-icon{width:54px;height:54px;font-size:1.4em;border-radius:15px;margin-bottom:16px;}
+.card.hero .card-title{font-size:1.25em;}
+.card.hero .card-desc{font-size:.85em;color:#444;}
 
-/* Icon */
-.bc-ic{
-  width:40px;height:40px;border-radius:11px;
+/* icon */
+.card-icon{
+  width:46px;height:46px;border-radius:13px;
   display:flex;align-items:center;justify-content:center;
-  font-size:1.15em;margin-bottom:13px;flex-shrink:0;
+  font-size:1.2em;margin-bottom:14px;flex-shrink:0;
 }
-/* Tag */
-.bc-tag{
-  position:absolute;top:13px;right:13px;
-  font-size:.55em;font-weight:900;letter-spacing:.06em;
-  padding:3px 9px;border-radius:20px;
+/* badge */
+.card-badge{
+  position:absolute;top:15px;right:15px;
+  font-size:.56em;font-weight:900;letter-spacing:.06em;
+  padding:3px 10px;border-radius:20px;
 }
-/* Title + desc */
-.bc-t{font-size:.9em;font-weight:900;margin-bottom:5px;}
-.bc-d{font-size:.72em;color:var(--muted);line-height:1.65;flex:1;}
-.bc.w2 .bc-t{font-size:1em;}
-.bc.w2 .bc-d{font-size:.78em;}
-.bc.w2 .bc-ic{width:46px;height:46px;font-size:1.3em;}
+/* arrow hint (expandable) */
+.card-arrow{
+  position:absolute;bottom:16px;right:18px;
+  font-size:.7em;color:#222;
+  transition:color .2s;
+}
+.card:hover .card-arrow{color:#666;}
+.card-title{font-size:.96em;font-weight:900;margin-bottom:6px;}
+.card-desc{font-size:.74em;color:#333;line-height:1.7;}
 
-/* Expand toggle */
-.bc-more{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:13px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.07);
-  font-size:.68em;color:#333;
-  background:none;border-bottom:none;border-left:none;border-right:none;
-  width:100%;text-align:left;cursor:pointer;
-}
-.bc-more:hover{color:#777;}
-.bc-more i{transition:transform .3s;}
-.bc-more.is-open i{transform:rotate(180deg);}
+/* ── Color variants ── */
+.c-gold{border-color:rgba(251,191,36,.2);}
+.c-gold:hover{border-color:rgba(251,191,36,.5);box-shadow:0 0 40px rgba(251,191,36,.12),0 8px 32px rgba(0,0,0,.4);}
+.c-gold .card-icon{background:rgba(251,191,36,.15);color:#fbbf24;}
+.c-gold .card-badge{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.35);}
 
-/* Sub links */
-.subs{display:none;flex-direction:column;gap:7px;margin-top:9px;}
-.subs.is-open{display:flex;}
-.sl{
-  display:flex;align-items:center;gap:9px;
-  padding:9px 11px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.05);
-  border-radius:10px;
-  text-decoration:none;color:#777;
-  font-size:.75em;
+.c-purple{border-color:rgba(167,139,250,.15);}
+.c-purple:hover{border-color:rgba(167,139,250,.45);box-shadow:0 0 40px rgba(167,139,250,.12),0 8px 32px rgba(0,0,0,.4);}
+.c-purple .card-icon{background:rgba(167,139,250,.15);color:#a78bfa;}
+.c-purple .card-badge{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.35);}
+
+.c-green{border-color:rgba(52,211,153,.12);}
+.c-green:hover{border-color:rgba(52,211,153,.4);box-shadow:0 0 40px rgba(52,211,153,.1),0 8px 32px rgba(0,0,0,.4);}
+.c-green .card-icon{background:rgba(52,211,153,.12);color:#34d399;}
+
+.c-blue{border-color:rgba(96,165,250,.12);}
+.c-blue:hover{border-color:rgba(96,165,250,.4);box-shadow:0 0 40px rgba(96,165,250,.1),0 8px 32px rgba(0,0,0,.4);}
+.c-blue .card-icon{background:rgba(96,165,250,.12);color:#60a5fa;}
+
+.c-amber{border-color:rgba(245,158,11,.12);}
+.c-amber:hover{border-color:rgba(245,158,11,.4);box-shadow:0 0 40px rgba(245,158,11,.1),0 8px 32px rgba(0,0,0,.4);}
+.c-amber .card-icon{background:rgba(245,158,11,.12);color:#f59e0b;}
+
+.c-cyan{border-color:rgba(34,211,238,.12);}
+.c-cyan:hover{border-color:rgba(34,211,238,.4);box-shadow:0 0 40px rgba(34,211,238,.1),0 8px 32px rgba(0,0,0,.4);}
+.c-cyan .card-icon{background:rgba(34,211,238,.12);color:#22d3ee;}
+
+.c-pink{border-color:rgba(236,72,153,.12);}
+.c-pink:hover{border-color:rgba(236,72,153,.4);box-shadow:0 0 40px rgba(236,72,153,.12),0 8px 32px rgba(0,0,0,.4);}
+.c-pink .card-icon{background:rgba(236,72,153,.12);color:#ec4899;}
+.c-pink .card-badge{background:rgba(236,72,153,.12);color:#ec4899;border:1px solid rgba(236,72,153,.3);}
+
+.c-indigo{border-color:rgba(99,102,241,.12);}
+.c-indigo:hover{border-color:rgba(99,102,241,.4);box-shadow:0 0 40px rgba(99,102,241,.1),0 8px 32px rgba(0,0,0,.4);}
+.c-indigo .card-icon{background:rgba(99,102,241,.12);color:#818cf8;}
+
+/* ── Bottom sheet drawer ── */
+.drawer-mask{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0);
+  backdrop-filter:blur(0px);
+  transition:background .35s,backdrop-filter .35s;
+}
+.drawer-mask.show{
+  display:flex;align-items:flex-end;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+}
+.drawer{
+  width:100%;max-width:680px;margin:0 auto;
+  background:#0f0f1a;
+  border:1px solid rgba(255,255,255,0.1);
+  border-bottom:none;
+  border-radius:24px 24px 0 0;
+  padding:0 0 40px;
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.32,0,.15,1);
+  max-height:85vh;overflow-y:auto;
+}
+.drawer-mask.show .drawer{transform:translateY(0);}
+.drawer-handle{
+  width:38px;height:4px;background:rgba(255,255,255,.12);
+  border-radius:2px;margin:14px auto 0;
+}
+.drawer-hd{
+  display:flex;align-items:center;gap:12px;
+  padding:18px 22px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.drawer-hd-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1em;
+}
+.drawer-title{font-size:.95em;font-weight:900;}
+.drawer-close{
+  margin-left:auto;background:rgba(255,255,255,.06);border:none;
+  width:30px;height:30px;border-radius:8px;color:#444;cursor:pointer;font-size:.85em;
+}
+.drawer-close:hover{color:#aaa;background:rgba(255,255,255,.1);}
+.drawer-list{display:flex;flex-direction:column;gap:1px;padding:8px 0;}
+.dl{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 22px;
+  text-decoration:none;color:#888;
   transition:background .2s,color .2s;
 }
-.sl:hover{background:rgba(255,255,255,0.06);color:#ccc;}
-.sl-ic{
-  width:26px;height:26px;border-radius:7px;
+.dl:hover{background:rgba(255,255,255,.03);color:#ddd;}
+.dl-ic{
+  width:38px;height:38px;border-radius:11px;
   display:flex;align-items:center;justify-content:center;
-  font-size:.85em;flex-shrink:0;
+  font-size:1em;flex-shrink:0;
 }
-.sl-n{display:block;font-weight:700;color:#bbb;margin-bottom:2px;}
-.sl-d{font-size:.88em;color:#3a3a3a;}
-.sl-badge{
-  flex-shrink:0;font-size:.65em;font-weight:900;
-  padding:2px 7px;border-radius:10px;margin-left:auto;white-space:nowrap;
+.dl-info{flex:1;}
+.dl-name{display:block;font-size:.85em;font-weight:700;color:#ccc;margin-bottom:3px;}
+.dl-desc{font-size:.72em;color:#3a3a3a;line-height:1.5;}
+.dl-badge{
+  flex-shrink:0;font-size:.6em;font-weight:900;
+  padding:3px 9px;border-radius:20px;
 }
 
-/* ── Color palette ── */
-/* gold */
-.c-gold{border-color:rgba(251,191,36,.15);}
-.c-gold:hover{border-color:rgba(251,191,36,.35);box-shadow:0 0 35px rgba(251,191,36,.1);}
-.c-gold .bc-ic{background:rgba(251,191,36,.12);color:#fbbf24;}
-.c-gold .bc-tag{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);}
-/* purple */
-.c-purple{border-color:rgba(167,139,250,.12);}
-.c-purple:hover{border-color:rgba(167,139,250,.35);box-shadow:0 0 35px rgba(167,139,250,.1);}
-.c-purple .bc-ic{background:rgba(167,139,250,.12);color:#a78bfa;}
-.c-purple .bc-tag{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3);}
-/* green */
-.c-green{border-color:rgba(52,211,153,.12);}
-.c-green:hover{border-color:rgba(52,211,153,.35);box-shadow:0 0 35px rgba(52,211,153,.08);}
-.c-green .bc-ic{background:rgba(52,211,153,.12);color:#34d399;}
-/* blue */
-.c-blue{border-color:rgba(96,165,250,.12);}
-.c-blue:hover{border-color:rgba(96,165,250,.35);box-shadow:0 0 35px rgba(96,165,250,.08);}
-.c-blue .bc-ic{background:rgba(96,165,250,.12);color:#60a5fa;}
-/* amber */
-.c-amber{border-color:rgba(245,158,11,.12);}
-.c-amber:hover{border-color:rgba(245,158,11,.35);box-shadow:0 0 35px rgba(245,158,11,.08);}
-.c-amber .bc-ic{background:rgba(245,158,11,.12);color:#f59e0b;}
-/* cyan */
-.c-cyan{border-color:rgba(34,211,238,.12);}
-.c-cyan:hover{border-color:rgba(34,211,238,.35);box-shadow:0 0 35px rgba(34,211,238,.08);}
-.c-cyan .bc-ic{background:rgba(34,211,238,.12);color:#22d3ee;}
-/* indigo */
-.c-indigo{border-color:rgba(99,102,241,.12);}
-.c-indigo:hover{border-color:rgba(99,102,241,.35);box-shadow:0 0 35px rgba(99,102,241,.08);}
-.c-indigo .bc-ic{background:rgba(99,102,241,.12);color:#818cf8;}
-/* teal */
-.c-teal{border-color:rgba(20,184,166,.12);}
-.c-teal:hover{border-color:rgba(20,184,166,.35);box-shadow:0 0 35px rgba(20,184,166,.08);}
-.c-teal .bc-ic{background:rgba(20,184,166,.12);color:#14b8a6;}
-/* pink */
-.c-pink{border-color:rgba(236,72,153,.12);}
-.c-pink:hover{border-color:rgba(236,72,153,.4);box-shadow:0 0 35px rgba(236,72,153,.1);}
-.c-pink .bc-ic{background:rgba(236,72,153,.12);color:#ec4899;}
-.c-pink .bc-tag{background:rgba(236,72,153,.15);color:#ec4899;border:1px solid rgba(236,72,153,.3);}
+/* ── Tools row ── */
+.tools-row{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-top:14px;
+}
+.tool-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:99px;
+  font-size:.74em;color:#444;
+  text-decoration:none;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+  backdrop-filter:blur(8px);
+}
+.tool-btn:hover{background:rgba(255,255,255,.08);color:#ccc;border-color:rgba(255,255,255,.18);}
+.tool-btn i{font-size:.9em;}
 
-/* ── Accordion sections ── */
-.acc{margin-top:11px;}
-.acc-hd{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:15px 18px;
-  background:var(--sf);border:1px solid var(--bd);border-radius:14px;
-  cursor:pointer;transition:background .2s;user-select:none;
-}
-.acc-hd:hover{background:var(--sf2);}
-.acc-hd.is-open{
-  border-bottom-left-radius:0;border-bottom-right-radius:0;
-  border-bottom-color:transparent;
-}
-.acc-left{display:flex;align-items:center;gap:11px;}
-.acc-em{font-size:1.15em;}
-.acc-title{font-size:.88em;font-weight:700;}
-.acc-sub{font-size:.68em;color:#3a3a3a;margin-top:3px;}
-.acc-ch{font-size:.8em;color:#2a2a2a;transition:transform .3s;}
-.acc-hd.is-open .acc-ch{transform:rotate(180deg);}
-
-.acc-body{
-  display:none;
-  background:rgba(255,255,255,0.02);
-  border:1px solid var(--bd);border-top:none;
-  border-bottom-left-radius:14px;border-bottom-right-radius:14px;
-  padding:14px;
-  flex-direction:column;gap:10px;
-}
-.acc-body.is-open{display:flex;}
-
-/* Tool chip grid */
-.tool-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-  gap:9px;
-}
-.tc{
-  display:flex;flex-direction:column;align-items:flex-start;gap:5px;
-  padding:13px 12px;
-  background:var(--sf);border:1px solid var(--bd);border-radius:12px;
-  text-decoration:none;color:inherit;cursor:pointer;
-  transition:background .2s,transform .2s;
-}
-.tc:hover{background:var(--sf2);transform:translateY(-2px);}
-.tc-em{font-size:1.15em;}
-.tc-n{font-size:.76em;font-weight:700;color:#ccc;}
-.tc-d{font-size:.66em;color:#333;line-height:1.4;}
-
-/* Link chip grid */
-.lk-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(88px,1fr));
-  gap:8px;
-}
-.lk{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:11px 6px;
-  background:var(--sf);border:1px solid var(--bd);border-radius:11px;
-  text-decoration:none;color:#555;font-size:.7em;
-  transition:background .2s,color .2s;text-align:center;
-}
-.lk:hover{background:var(--sf2);color:#ccc;}
-.lk i{font-size:1.35em;}
-
-/* Section label */
-.s-label{font-size:.68em;font-weight:700;color:#333;letter-spacing:.06em;margin:6px 0 5px;}
-
-/* Alert tip */
-.tip{
-  display:flex;align-items:center;gap:8px;padding:10px 12px;
-  background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.12);
-  border-radius:9px;font-size:.72em;color:#3a3a3a;
-}
-.tip i{color:rgba(34,211,238,.4);flex-shrink:0;}
-
-/* ── Free node overlay ── */
-.overlay{
-  display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);
+/* ── Free node modal ── */
+.fn-mask{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
   align-items:center;justify-content:center;padding:20px;
 }
-.overlay.show{display:flex;}
-.ov-box{
-  background:#0e0e18;border:1px solid rgba(251,191,36,0.2);
-  border-radius:20px;padding:26px;max-width:380px;width:100%;
-  position:relative;
+.fn-mask.show{display:flex;}
+.fn-box{
+  background:#0e0e1a;border:1px solid rgba(251,191,36,.2);
+  border-radius:20px;padding:26px;max-width:360px;width:100%;position:relative;
 }
-.ov-close{
-  position:absolute;top:14px;right:14px;
-  background:none;border:none;color:#333;font-size:1.1em;cursor:pointer;
-}
-.ov-close:hover{color:#777;}
-.ov-title{font-weight:900;margin-bottom:5px;}
-.ov-sub{font-size:.74em;color:#444;margin-bottom:16px;}
-.ov-url{
-  background:#08080f;border:1px solid rgba(251,191,36,0.25);
-  border-radius:10px;padding:13px 50px 13px 13px;
-  position:relative;margin-bottom:12px;
-}
-.ov-url-text{word-break:break-all;color:#fbbf24;font-family:monospace;font-size:.76em;}
-.ov-copy{
-  position:absolute;top:10px;right:10px;
-  background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);
-  color:#fbbf24;padding:4px 10px;border-radius:6px;
-  cursor:pointer;font-size:.7em;
-}
-.ov-open{
-  display:block;text-align:center;background:#fbbf24;color:#000;
-  padding:13px;border-radius:10px;text-decoration:none;
-  font-weight:900;font-size:.86em;
-}
+.fn-close{position:absolute;top:14px;right:14px;background:none;border:none;color:#333;font-size:1.1em;cursor:pointer;}
+.fn-close:hover{color:#777;}
+.fn-title{font-weight:900;margin-bottom:5px;}
+.fn-sub{font-size:.73em;color:#3a3a3a;margin-bottom:16px;}
+.fn-url-wrap{background:#080810;border:1px solid rgba(251,191,36,.22);border-radius:10px;padding:13px 50px 13px 13px;position:relative;margin-bottom:12px;}
+.fn-url{word-break:break-all;color:#fbbf24;font-family:monospace;font-size:.75em;}
+.fn-copy-btn{position:absolute;top:10px;right:10px;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.7em;}
+.fn-open{display:block;text-align:center;background:#fbbf24;color:#000;padding:13px;border-radius:10px;text-decoration:none;font-weight:900;font-size:.86em;}
 
-/* Reveal animation */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease;}
-.rv.visible{opacity:1;transform:none;}
-.rv.d1{transition-delay:.08s;}
-.rv.d2{transition-delay:.16s;}
+/* ── Footer ── */
+footer{text-align:center;margin-top:48px;font-size:.64em;color:#1a1a1a;letter-spacing:.1em;}
+
+/* ── Reveal ── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+.rv.v{opacity:1;transform:none;}
+.rv.d1{transition-delay:.06s;}
+.rv.d2{transition-delay:.12s;}
 
 /* ── Responsive ── */
-@media(max-width:580px){
-  .bento{grid-template-columns:1fr 1fr;}
-  .bc.w2{grid-column:1/-1;}
-}
-@media(max-width:340px){
-  .bento{grid-template-columns:1fr;}
-  .bc.w2{grid-column:span 1;}
+@media(max-width:480px){
+  .hd{padding:48px 0 40px;}
+  .card{padding:20px 16px;}
+  .card.hero{padding:24px 20px;}
+  .tools-row{gap:8px;}
 }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<!-- Aurora -->
+<div class="aurora">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+  <div class="orb orb5"></div>
+</div>
+
+<div class="page">
 
   <!-- Header -->
   <header class="hd rv">
-    <div class="hd-pill"><div class="hd-dot"></div> SANYUE SPACE · 在线</div>
-    <h1 class="hd-title">三月空间</h1>
+    <div class="hd-pill"><div class="hd-dot"></div>SANYUE SPACE · 在线</div>
+    <h1 class="hd-name">三月空间</h1>
     <p class="hd-sub">TikTok 运营 · 节点搭建 · AI 工具 · 工作室解决方案</p>
   </header>
 
-  <!-- Bento grid -->
-  <div class="bento rv d1">
+  <!-- Main grid -->
+  <div class="grid rv d1">
 
-    <!-- 视频专区 wide -->
-    <a href="./vip.html" target="_blank" class="bc w2 c-gold">
-      <span class="bc-tag">精华</span>
-      <div class="bc-ic"><i class="fas fa-play-circle"></i></div>
-      <div class="bc-t">视频专区</div>
-      <div class="bc-d">精华课程全在这里 · TikTok 从入门到精通 · 持续更新不断档</div>
+    <!-- 视频专区 (hero) -->
+    <a href="./vip.html" target="_blank" class="card hero full c-gold">
+      <span class="card-badge">精华课程</span>
+      <div class="card-icon"><i class="fas fa-play-circle"></i></div>
+      <div class="card-title">视频专区</div>
+      <div class="card-desc">精华课程 · TikTok 从入门到精通 · 持续更新不断档</div>
     </a>
 
     <!-- N8N -->
-    <a href="./n8n/n8n.html" target="_blank" class="bc c-purple">
-      <span class="bc-tag">HOT</span>
-      <div class="bc-ic"><i class="fas fa-robot"></i></div>
-      <div class="bc-t">N8N 视频母体</div>
-      <div class="bc-d">AI 全自动化流水线，批量切片混剪</div>
+    <a href="./n8n/n8n.html" target="_blank" class="card c-purple">
+      <span class="card-badge">HOT</span>
+      <div class="card-icon"><i class="fas fa-robot"></i></div>
+      <div class="card-title">N8N 视频母体</div>
+      <div class="card-desc">AI 全自动化流水线，批量切片混剪</div>
     </a>
 
     <!-- 账号购买 -->
-    <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="bc c-green">
-      <div class="bc-ic"><i class="fas fa-shopping-cart"></i></div>
-      <div class="bc-t">账号购买</div>
-      <div class="bc-d">苹果带🚀 · 谷歌 · TK白号 · ChatGPT</div>
+    <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="card c-green">
+      <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+      <div class="card-title">账号购买</div>
+      <div class="card-desc">苹果带🚀 · 谷歌 · TK白号 · ChatGPT</div>
     </a>
 
-    <!-- 专线机场 expandable -->
-    <div class="bc c-blue" onclick="toggleCard('airport')">
-      <div class="bc-ic"><i class="fas fa-plane-departure"></i></div>
-      <div class="bc-t">专线机场</div>
-      <div class="bc-d">稳定高速 · 科学必备 · AI专用</div>
-      <button class="bc-more" id="airport-btn" onclick="event.stopPropagation();toggleCard('airport')">
-        查看推荐 <i class="fas fa-chevron-down"></i>
-      </button>
-      <div class="subs" id="airport-subs">
-        <a href="https://st2.hosbb.com/#/register?code=0uqD01qw" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(188,19,254,.15);color:#bc13fe;"><i class="fas fa-plane"></i></div>
-          <div><span class="sl-n">专线机场 SSR</span><span class="sl-d">顶级AI必备 · 住宅前置代理</span></div>
-        </a>
-        <a href="https://tagss.pro/#/auth/zfWXUVAC" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(96,165,250,.15);color:#60a5fa;"><i class="fas fa-plane"></i></div>
-          <div><span class="sl-n">TAG 机场</span><span class="sl-d">老牌大厂 · 全球多节点</span></div>
-        </a>
-        <a href="https://candytally3.com/web/#/login?code=UXbg9gDv" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(236,72,153,.15);color:#ec4899;"><i class="fas fa-cloud"></i></div>
-          <div><span class="sl-n">糖果云（备用）</span><span class="sl-d">稳定高速 · 住宅前置代理</span></div>
-        </a>
-      </div>
+    <!-- 专线机场 -->
+    <div class="card c-blue" onclick="openDrawer('airport')">
+      <div class="card-icon"><i class="fas fa-plane-departure"></i></div>
+      <div class="card-title">专线机场</div>
+      <div class="card-desc">稳定高速 · 科学必备 · AI专用</div>
+      <i class="fas fa-chevron-right card-arrow"></i>
     </div>
 
-    <!-- 静态住宅IP expandable -->
-    <div class="bc c-amber" onclick="toggleCard('ip')">
-      <div class="bc-ic"><i class="fas fa-home"></i></div>
-      <div class="bc-t">静态住宅 IP</div>
-      <div class="bc-d">原生住宅代理 · 短视频必备</div>
-      <button class="bc-more" id="ip-btn" onclick="event.stopPropagation();toggleCard('ip')">
-        查看推荐 <i class="fas fa-chevron-down"></i>
-      </button>
-      <div class="subs" id="ip-subs">
-        <a href="https://www.miyaip.com/signup?invitecode=9143527" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(251,191,36,.15);color:#fbbf24;"><i class="fas fa-fire"></i></div>
-          <div style="flex:1">
-            <span class="sl-n">米亚IP <span style="font-size:.8em;color:#fbbf24;font-weight:400;">新手推荐</span></span>
-            <span class="sl-d">无需中转 · 9折码：3yuejiuzhe</span>
-          </div>
-        </a>
-        <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(249,115,22,.15);color:#f97316;"><i class="fas fa-meteor"></i></div>
-          <div><span class="sl-n">985 Proxy</span><span class="sl-d">目前最便宜 · 矩阵号推荐</span></div>
-        </a>
-        <a href="https://ipfly.net/activity/OE5TMlk0UEI6TFZKOVhYQzM5NQ==" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(34,211,238,.15);color:#22d3ee;"><i class="fas fa-globe-americas"></i></div>
-          <div><span class="sl-n">IPFly 高质量原生IP</span><span class="sl-d">国家多 · 需中转</span></div>
-        </a>
-        <a href="https://www.proxylite.com/?invitation_code=8BTUZ2" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(52,211,153,.15);color:#34d399;"><i class="fas fa-rocket"></i></div>
-          <div><span class="sl-n">ProxyLite</span><span class="sl-d">破万播放首选 · 需VPS</span></div>
-        </a>
-      </div>
+    <!-- 住宅IP -->
+    <div class="card c-amber" onclick="openDrawer('ip')">
+      <div class="card-icon"><i class="fas fa-home"></i></div>
+      <div class="card-title">静态住宅 IP</div>
+      <div class="card-desc">原生住宅代理 · 短视频矩阵必备</div>
+      <i class="fas fa-chevron-right card-arrow"></i>
     </div>
 
-    <!-- 软路由 -->
-    <a href="./ly.html" target="_blank" class="bc c-indigo">
-      <div class="bc-ic"><i class="fas fa-server"></i></div>
-      <div class="bc-t">软路由现货</div>
-      <div class="bc-d">全屋网络 · 工作室首选 · 24H发货</div>
-    </a>
-
-    <!-- VPS expandable -->
-    <div class="bc c-cyan" onclick="toggleCard('vps')">
-      <div class="bc-ic"><i class="fas fa-cloud"></i></div>
-      <div class="bc-t">VPS 服务器</div>
-      <div class="bc-d">自建节点 · 纯净住宅VPS</div>
-      <button class="bc-more" id="vps-btn" onclick="event.stopPropagation();toggleCard('vps')">
-        查看推荐 <i class="fas fa-chevron-down"></i>
-      </button>
-      <div class="subs" id="vps-subs">
-        <a href="./cn2/banwagong.html" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(251,191,36,.15);color:#fbbf24;"><i class="fas fa-crown"></i></div>
-          <div><span class="sl-n">搬瓦工 CN2 GIA</span><span class="sl-d">速度之王 · 科学上网中转</span></div>
-          <span class="sl-badge" style="background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25);">推荐</span>
-        </a>
-        <a href="https://lisahost.com/aff.php?aff=5553" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(34,211,238,.15);color:#22d3ee;"><i class="fas fa-network-wired"></i></div>
-          <div><span class="sl-n">LisaHost 住宅VPS</span><span class="sl-d">TK热门 · 国家多 · 双ISP</span></div>
-        </a>
-        <a href="https://www.666clouds.com/aff.php?aff=2809" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(167,139,250,.15);color:#a78bfa;"><i class="fas fa-cloud"></i></div>
-          <div><span class="sl-n">66云 纯净住宅VPS</span><span class="sl-d">英美德 · 双ISP</span></div>
-        </a>
-        <a href="https://residential-service.com/aff.php?aff=133" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(52,211,153,.12);color:#34d399;"><i class="fas fa-bolt"></i></div>
-          <div><span class="sl-n">Residential VPS</span><span class="sl-d">双ISP · 提供IP测试</span></div>
-        </a>
-        <a href="https://console.evoxt.com/aff.php?aff=3710" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(251,191,36,.1);color:#fbbf24;"><i class="fas fa-brain"></i></div>
-          <div><span class="sl-n">Evoxt VPS</span><span class="sl-d">性价比高 · 香港线路</span></div>
-        </a>
-        <a href="https://gorelay.net/#register/YAXRFFIVEW" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(34,211,238,.1);color:#22d3ee;"><i class="fas fa-bolt"></i></div>
-          <div><span class="sl-n">GoRelay 中转提速</span><span class="sl-d">多节点专线 · 低延迟</span></div>
-        </a>
-      </div>
+    <!-- VPS -->
+    <div class="card c-cyan" onclick="openDrawer('vps')">
+      <div class="card-icon"><i class="fas fa-cloud"></i></div>
+      <div class="card-title">VPS 服务器</div>
+      <div class="card-desc">自建节点 · 纯净住宅VPS</div>
+      <i class="fas fa-chevron-right card-arrow"></i>
     </div>
 
-    <!-- 手机号&防关联 expandable -->
-    <div class="bc c-teal" onclick="toggleCard('phone')">
-      <div class="bc-ic"><i class="fas fa-sim-card"></i></div>
-      <div class="bc-t">手机号 & 防关联</div>
-      <div class="bc-d">海外号码 · 指纹浏览器</div>
-      <button class="bc-more" id="phone-btn" onclick="event.stopPropagation();toggleCard('phone')">
-        查看推荐 <i class="fas fa-chevron-down"></i>
-      </button>
-      <div class="subs" id="phone-subs">
-        <a href="https://xesim.cc/?DIST=RkFPHVw%3D" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(20,184,166,.15);color:#14b8a6;"><i class="fas fa-sim-card"></i></div>
-          <div><span class="sl-n">XeSIM 海外手机号</span><span class="sl-d">多国号码 · 折扣码：sanyue</span></div>
-        </a>
-        <a href="https://www.bitbrowser.cn/?code=9jxo3o" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(139,92,246,.15);color:#8b5cf6;"><i class="fas fa-fingerprint"></i></div>
-          <div><span class="sl-n">比特指纹浏览器</span><span class="sl-d">多账号防关联 · 模拟真实环境</span></div>
-        </a>
-      </div>
-    </div>
-
-    <!-- 站长服务 expandable -->
-    <div class="bc c-pink" onclick="toggleCard('service')">
-      <span class="bc-tag">站长</span>
-      <div class="bc-ic"><i class="fas fa-user-tie"></i></div>
-      <div class="bc-t">站长服务</div>
-      <div class="bc-d">1对1陪跑 · 节点搭建 · 个人网站</div>
-      <button class="bc-more" id="service-btn" onclick="event.stopPropagation();toggleCard('service')">
-        查看详情 <i class="fas fa-chevron-down"></i>
-      </button>
-      <div class="subs" id="service-subs">
-        <a href="https://dajian.cyou/lesson/peipao" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(236,72,153,.15);color:#ec4899;"><i class="fas fa-user-shield"></i></div>
-          <div style="flex:1">
-            <span class="sl-n">账号环境稳定陪跑</span>
-            <span class="sl-d">1对1全程指导 · 小白首选</span>
-          </div>
-          <span class="sl-badge" style="background:rgba(236,72,153,.12);color:#ec4899;border:1px solid rgba(236,72,153,.25);">HOT</span>
-        </a>
-        <a href="https://dajian.cyou/lesson/lesson" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(52,211,153,.12);color:#34d399;"><i class="fas fa-graduation-cap"></i></div>
-          <div><span class="sl-n">独享节点搭建课程</span><span class="sl-d">授人以渔 · 永不封号</span></div>
-        </a>
-        <a href="./contact-modal.html" target="_blank" class="sl" onclick="event.stopPropagation()">
-          <div class="sl-ic" style="background:rgba(34,211,238,.1);color:#22d3ee;"><i class="fas fa-globe"></i></div>
-          <div><span class="sl-n">个人品牌网站制作</span><span class="sl-d">私域流量 · 作品集展示</span></div>
-          <span class="sl-badge" style="background:rgba(34,211,238,.1);color:#22d3ee;border:1px solid rgba(34,211,238,.25);">NEW</span>
-        </a>
-      </div>
+    <!-- 站长服务 -->
+    <div class="card c-pink" onclick="openDrawer('service')">
+      <span class="card-badge">站长</span>
+      <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+      <div class="card-title">站长服务</div>
+      <div class="card-desc">1对1陪跑 · 节点搭建课程 · 个人网站</div>
+      <i class="fas fa-chevron-right card-arrow"></i>
     </div>
 
     <!-- 联系站长 -->
-    <a href="./contact-modal.html" target="_blank" class="bc c-blue">
-      <div class="bc-ic"><i class="fas fa-paper-plane"></i></div>
-      <div class="bc-t">联系站长</div>
-      <div class="bc-d">答疑解惑 · 业务咨询</div>
+    <a href="./contact-modal.html" target="_blank" class="card c-indigo">
+      <div class="card-icon"><i class="fas fa-paper-plane"></i></div>
+      <div class="card-title">联系站长</div>
+      <div class="card-desc">答疑解惑 · 业务咨询</div>
     </a>
 
-  </div><!-- /bento -->
-
-  <!-- ── 工具箱 ── -->
-  <div class="acc rv d2">
-    <div class="acc-hd" id="tools-hd" onclick="toggleAcc('tools')">
-      <div class="acc-left">
-        <span class="acc-em">🛠️</span>
-        <div>
-          <div class="acc-title">实用工具箱</div>
-          <div class="acc-sub">测速 · 软件下载 · 搭建脚本 · 技术文档</div>
-        </div>
-      </div>
-      <i class="fas fa-chevron-down acc-ch"></i>
-    </div>
-    <div class="acc-body" id="tools-body">
-      <div class="tool-grid">
-        <a href="./proxy-tutorial.html" target="_blank" class="tc">
-          <span class="tc-em">📖</span>
-          <span class="tc-n">代理技术文档</span>
-          <span class="tc-d">科学上网完整教程</span>
-        </a>
-        <a href="./proxy-download.html" target="_blank" class="tc">
-          <span class="tc-em">📦</span>
-          <span class="tc-n">软件下载</span>
-          <span class="tc-d">V2rayN · NekoBox 等</span>
-        </a>
-        <a href="./reality-domains.html" target="_blank" class="tc">
-          <span class="tc-em">🌐</span>
-          <span class="tc-n">域名优选</span>
-          <span class="tc-d">Reality 优选域名</span>
-        </a>
-        <div class="tc" onclick="showFreeNode()">
-          <span class="tc-em">🆓</span>
-          <span class="tc-n">免费节点</span>
-          <span class="tc-d">订阅链接一键复制</span>
-        </div>
-      </div>
-
-      <!-- 测速工具 inline -->
-      <div class="s-label">⚡ 测速工具</div>
-      <div class="tool-grid">
-        <a href="https://www.speedtest.net/" target="_blank" class="tc">
-          <span class="tc-em">📶</span>
-          <span class="tc-n">Speedtest.net</span>
-          <span class="tc-d">Ookla 全球测速</span>
-        </a>
-        <a href="https://fast.com/" target="_blank" class="tc">
-          <span class="tc-em">🚀</span>
-          <span class="tc-n">Fast.com</span>
-          <span class="tc-d">Netflix 出品，极简</span>
-        </a>
-        <a href="https://speed.cloudflare.com/" target="_blank" class="tc">
-          <span class="tc-em">☁️</span>
-          <span class="tc-n">Cloudflare</span>
-          <span class="tc-d">延迟/抖动数据详细</span>
-        </a>
-        <a href="https://ping.pe/" target="_blank" class="tc">
-          <span class="tc-em">📡</span>
-          <span class="tc-n">Ping.pe</span>
-          <span class="tc-d">全球多节点同时Ping</span>
-        </a>
-      </div>
-
-      <!-- 搭建脚本 inline -->
-      <div class="s-label">💻 搭建脚本</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div style="background:rgba(0,243,255,0.04);border:1px solid rgba(0,243,255,0.12);border-radius:10px;padding:14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:.76em;font-weight:700;color:#22d3ee;">3X-UI 面板</span>
-            <span style="font-size:.62em;color:#333;">Xray · Panel</span>
-          </div>
-          <div style="position:relative;">
-            <code id="cmd-3xui" style="display:block;background:#050509;border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:10px 44px 10px 11px;font-family:monospace;font-size:.73em;color:#86efac;word-break:break-all;line-height:1.6;">bash &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)</code>
-            <button onclick="copyCmd('cmd-3xui',this)" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.25);color:#22d3ee;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:.8em;"><i class="fas fa-copy"></i></button>
-          </div>
-        </div>
-        <div style="background:rgba(167,139,250,0.04);border:1px solid rgba(167,139,250,0.12);border-radius:10px;padding:14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:.76em;font-weight:700;color:#a78bfa;">Sing-box</span>
-            <span style="font-size:.62em;color:#333;">sing-box · Proxy</span>
-          </div>
-          <div style="position:relative;">
-            <code id="cmd-singbox" style="display:block;background:#050509;border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:10px 44px 10px 11px;font-family:monospace;font-size:.73em;color:#c4b5fd;word-break:break-all;line-height:1.6;">bash &lt;(wget -qO- https://raw.githubusercontent.com/fscarmen/sing-box/main/sing-box.sh)</code>
-            <button onclick="copyCmd('cmd-singbox',this)" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.25);color:#a78bfa;width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:.8em;"><i class="fas fa-copy"></i></button>
-          </div>
-        </div>
-      </div>
-      <div class="tip"><i class="fas fa-info-circle"></i>以上命令需在 Linux VPS 以 root 身份运行</div>
-    </div>
   </div>
 
-  <!-- ── 流媒体 · 社媒 · AI ── -->
-  <div class="acc rv d2" style="margin-top:11px;">
-    <div class="acc-hd" id="ext-hd" onclick="toggleAcc('ext')">
-      <div class="acc-left">
-        <span class="acc-em">🌐</span>
-        <div>
-          <div class="acc-title">流媒体 · 社交媒体 · AI 工具</div>
-          <div class="acc-sub">需要科学上网访问</div>
-        </div>
-      </div>
-      <i class="fas fa-chevron-down acc-ch"></i>
-    </div>
-    <div class="acc-body" id="ext-body">
-      <div class="tip"><i class="fas fa-info-circle"></i>以下内容需科学上网，建议先购买机场或自建节点</div>
-      <div class="s-label">流媒体</div>
-      <div class="lk-grid">
-        <a href="https://www.netflix.com/" target="_blank" class="lk"><i class="fas fa-play" style="color:#e50914;"></i>Netflix</a>
-        <a href="https://www.disneyplus.com/" target="_blank" class="lk"><i class="fas fa-magic" style="color:#113ccf;"></i>Disney+</a>
-        <a href="https://www.primevideo.com/" target="_blank" class="lk"><i class="fas fa-play-circle" style="color:#00a8e0;"></i>Prime</a>
-        <a href="https://www.max.com/" target="_blank" class="lk"><i class="fas fa-tv" style="color:#2d77d5;"></i>HBO Max</a>
-        <a href="https://www.spotify.com/" target="_blank" class="lk"><i class="fas fa-music" style="color:#1db954;"></i>Spotify</a>
-        <a href="https://www.twitch.tv/" target="_blank" class="lk"><i class="fas fa-gamepad" style="color:#9146ff;"></i>Twitch</a>
-      </div>
-      <div class="s-label">社交媒体</div>
-      <div class="lk-grid">
-        <a href="https://www.youtube.com/" target="_blank" class="lk"><i class="fab fa-youtube" style="color:#ff0000;"></i>YouTube</a>
-        <a href="https://www.tiktok.com/" target="_blank" class="lk"><i class="fab fa-tiktok" style="color:#ff004f;"></i>TikTok</a>
-        <a href="https://www.instagram.com/" target="_blank" class="lk"><i class="fab fa-instagram" style="color:#c13584;"></i>Instagram</a>
-        <a href="https://twitter.com/" target="_blank" class="lk"><i class="fab fa-twitter" style="color:#1da1f2;"></i>X</a>
-        <a href="https://www.facebook.com/" target="_blank" class="lk"><i class="fab fa-facebook" style="color:#1877f2;"></i>Facebook</a>
-        <a href="https://discord.com/" target="_blank" class="lk"><i class="fab fa-discord" style="color:#7289da;"></i>Discord</a>
-        <a href="https://www.reddit.com/" target="_blank" class="lk"><i class="fab fa-reddit" style="color:#ff4500;"></i>Reddit</a>
-        <a href="https://www.pinterest.com/" target="_blank" class="lk"><i class="fab fa-pinterest" style="color:#e60023;"></i>Pinterest</a>
-      </div>
-      <div class="s-label">AI 工具</div>
-      <div class="lk-grid">
-        <a href="https://chat.openai.com/" target="_blank" class="lk"><i class="fas fa-robot" style="color:#10a37f;"></i>ChatGPT</a>
-        <a href="https://claude.ai/" target="_blank" class="lk"><i class="fas fa-comments" style="color:#d97706;"></i>Claude</a>
-        <a href="https://www.google.com/gemini" target="_blank" class="lk"><i class="fas fa-gem" style="color:#4285f4;"></i>Gemini</a>
-        <a href="https://grok.com/" target="_blank" class="lk"><i class="fas fa-rocket" style="color:#ddd;"></i>Grok</a>
-        <a href="https://www.perplexity.ai/" target="_blank" class="lk"><i class="fas fa-search" style="color:#20b2aa;"></i>Perplexity</a>
-        <a href="https://www.heygen.com/invite/FGZD5C5C" target="_blank" class="lk"><i class="fas fa-user-astronaut" style="color:#a78bfa;"></i>Heygen</a>
-        <a href="https://aistudio.google.com/" target="_blank" class="lk"><i class="fas fa-code" style="color:#4285f4;"></i>AI Studio</a>
-        <a href="https://www.meta.ai/" target="_blank" class="lk"><i class="fab fa-meta" style="color:#0082fb;"></i>Meta AI</a>
-      </div>
-    </div>
+  <!-- Tools row -->
+  <div class="tools-row rv d2">
+    <a href="./proxy-tutorial.html" target="_blank" class="tool-btn"><i class="fas fa-book"></i> 代理文档</a>
+    <a href="./proxy-download.html" target="_blank" class="tool-btn"><i class="fas fa-download"></i> 软件下载</a>
+    <a href="./ly.html" target="_blank" class="tool-btn"><i class="fas fa-server"></i> 软路由现货</a>
+    <a href="./reality-domains.html" target="_blank" class="tool-btn"><i class="fas fa-globe"></i> 域名优选</a>
+    <div class="tool-btn" onclick="showFreeNode()"><i class="fas fa-bolt"></i> 免费节点</div>
+    <div class="tool-btn" onclick="openDrawer('ext')"><i class="fas fa-th"></i> 更多链接</div>
   </div>
 
-  <footer style="text-align:center;padding:44px 0 0;font-size:.65em;color:#1c1c1c;letter-spacing:.08em;">
-    SANYUE SPACE · 三月空间 · 2024
-  </footer>
+  <footer>SANYUE SPACE · 三月空间</footer>
+</div>
 
-</div><!-- /wrap -->
-
-<!-- Free node overlay -->
-<div class="overlay" id="fn-overlay" onclick="if(event.target===this)hideFreeNode()">
-  <div class="ov-box">
-    <button class="ov-close" onclick="hideFreeNode()"><i class="fas fa-times"></i></button>
-    <div class="ov-title"><i class="fas fa-bolt" style="color:#fbbf24;margin-right:8px;"></i>免费节点订阅</div>
-    <div class="ov-sub">复制订阅链接，导入代理软件使用</div>
-    <div class="ov-url">
-      <div class="ov-url-text" id="node-url-text">https://zhanzhangsanyue.com/node/node.txt</div>
-      <button class="ov-copy" onclick="copyNode(this)">复制</button>
+<!-- Drawer -->
+<div class="drawer-mask" id="drawer-mask" onclick="if(event.target===this)closeDrawer()">
+  <div class="drawer" id="drawer-panel">
+    <div class="drawer-handle"></div>
+    <div class="drawer-hd">
+      <div class="drawer-hd-icon" id="drawer-icon-wrap">
+        <i id="drawer-hd-icon"></i>
+      </div>
+      <span class="drawer-title" id="drawer-title"></span>
+      <button class="drawer-close" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
     </div>
-    <a href="https://zhanzhangsanyue.com/node/node.txt" target="_blank" class="ov-open">在浏览器中打开</a>
+    <div class="drawer-list" id="drawer-list"></div>
+  </div>
+</div>
+
+<!-- Free node -->
+<div class="fn-mask" id="fn-mask" onclick="if(event.target===this)hideFreeNode()">
+  <div class="fn-box">
+    <button class="fn-close" onclick="hideFreeNode()"><i class="fas fa-times"></i></button>
+    <div class="fn-title"><i class="fas fa-bolt" style="color:#fbbf24;margin-right:8px;"></i>免费节点订阅</div>
+    <div class="fn-sub">复制订阅链接，导入代理软件使用</div>
+    <div class="fn-url-wrap">
+      <div class="fn-url" id="fn-url">https://zhanzhangsanyue.com/node/node.txt</div>
+      <button class="fn-copy-btn" onclick="copyFnUrl(this)">复制</button>
+    </div>
+    <a href="https://zhanzhangsanyue.com/node/node.txt" target="_blank" class="fn-open">在浏览器中打开</a>
   </div>
 </div>
 
 <script>
-// Card expand/collapse
-function toggleCard(id){
-  var subs=document.getElementById(id+'-subs');
-  var btn=document.getElementById(id+'-btn');
-  if(!subs)return;
-  subs.classList.toggle('is-open');
-  if(btn)btn.classList.toggle('is-open');
+// ── Drawer data ──
+var DRAWERS = {
+  airport: {
+    title:'专线机场',
+    icon:'fas fa-plane-departure',
+    color:'rgba(96,165,250,.15)',
+    iconColor:'#60a5fa',
+    items:[
+      {icon:'fas fa-plane',ic:'rgba(188,19,254,.15)',icC:'#bc13fe',name:'专线机场 SSR',desc:'顶级AI必备 · 住宅前置代理',badge:'',badgeStyle:'',url:'https://st2.hosbb.com/#/register?code=0uqD01qw'},
+      {icon:'fas fa-plane',ic:'rgba(96,165,250,.15)',icC:'#60a5fa',name:'TAG 机场',desc:'老牌大厂 · 全球多节点',badge:'',badgeStyle:'',url:'https://tagss.pro/#/auth/zfWXUVAC'},
+      {icon:'fas fa-cloud',ic:'rgba(236,72,153,.15)',icC:'#ec4899',name:'糖果云（备用）',desc:'稳定高速 · 住宅前置代理',badge:'',badgeStyle:'',url:'https://candytally3.com/web/#/login?code=UXbg9gDv'},
+    ]
+  },
+  ip: {
+    title:'静态住宅 IP',
+    icon:'fas fa-home',
+    color:'rgba(245,158,11,.15)',
+    iconColor:'#f59e0b',
+    items:[
+      {icon:'fas fa-fire',ic:'rgba(251,191,36,.15)',icC:'#fbbf24',name:'米亚IP',desc:'无需中转 · 9折码：3yuejiuzhe',badge:'新手推荐',badgeStyle:'background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3)',url:'https://www.miyaip.com/signup?invitecode=9143527'},
+      {icon:'fas fa-meteor',ic:'rgba(249,115,22,.15)',icC:'#f97316',name:'985 Proxy',desc:'目前最便宜 · 矩阵号推荐',badge:'',badgeStyle:'',url:'https://www.985proxy.com/?invite=EAUDSR'},
+      {icon:'fas fa-globe-americas',ic:'rgba(34,211,238,.12)',icC:'#22d3ee',name:'IPFly 高质量原生IP',desc:'国家多 · 需中转',badge:'',badgeStyle:'',url:'https://ipfly.net/activity/OE5TMlk0UEI6TFZKOVhYQzM5NQ=='},
+      {icon:'fas fa-rocket',ic:'rgba(52,211,153,.12)',icC:'#34d399',name:'ProxyLite',desc:'破万播放首选 · 需VPS',badge:'',badgeStyle:'',url:'https://www.proxylite.com/?invitation_code=8BTUZ2'},
+    ]
+  },
+  vps: {
+    title:'VPS 服务器',
+    icon:'fas fa-cloud',
+    color:'rgba(34,211,238,.12)',
+    iconColor:'#22d3ee',
+    items:[
+      {icon:'fas fa-crown',ic:'rgba(251,191,36,.15)',icC:'#fbbf24',name:'搬瓦工 CN2 GIA',desc:'速度之王 · 科学上网中转',badge:'推荐',badgeStyle:'background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25)',url:'./cn2/banwagong.html'},
+      {icon:'fas fa-network-wired',ic:'rgba(34,211,238,.12)',icC:'#22d3ee',name:'LisaHost 住宅VPS',desc:'TK热门 · 国家多 · 双ISP',badge:'',badgeStyle:'',url:'https://lisahost.com/aff.php?aff=5553'},
+      {icon:'fas fa-cloud',ic:'rgba(167,139,250,.12)',icC:'#a78bfa',name:'66云 纯净住宅VPS',desc:'英美德 · 双ISP',badge:'',badgeStyle:'',url:'https://www.666clouds.com/aff.php?aff=2809'},
+      {icon:'fas fa-bolt',ic:'rgba(52,211,153,.1)',icC:'#34d399',name:'Residential VPS',desc:'双ISP · 提供IP测试',badge:'',badgeStyle:'',url:'https://residential-service.com/aff.php?aff=133'},
+      {icon:'fas fa-brain',ic:'rgba(251,191,36,.1)',icC:'#fbbf24',name:'Evoxt VPS',desc:'性价比高 · 香港线路',badge:'',badgeStyle:'',url:'https://console.evoxt.com/aff.php?aff=3710'},
+      {icon:'fas fa-bolt',ic:'rgba(34,211,238,.08)',icC:'#22d3ee',name:'GoRelay 中转提速',desc:'多节点专线 · 低延迟',badge:'',badgeStyle:'',url:'https://gorelay.net/#register/YAXRFFIVEW'},
+    ]
+  },
+  service: {
+    title:'站长服务',
+    icon:'fas fa-user-tie',
+    color:'rgba(236,72,153,.12)',
+    iconColor:'#ec4899',
+    items:[
+      {icon:'fas fa-user-shield',ic:'rgba(236,72,153,.15)',icC:'#ec4899',name:'账号环境稳定陪跑',desc:'1对1全程指导 · 小白首选',badge:'HOT',badgeStyle:'background:rgba(236,72,153,.12);color:#ec4899;border:1px solid rgba(236,72,153,.3)',url:'https://dajian.cyou/lesson/peipao'},
+      {icon:'fas fa-graduation-cap',ic:'rgba(52,211,153,.12)',icC:'#34d399',name:'独享节点搭建课程',desc:'授人以渔 · 永不封号',badge:'',badgeStyle:'',url:'https://dajian.cyou/lesson/lesson'},
+      {icon:'fas fa-globe',ic:'rgba(34,211,238,.1)',icC:'#22d3ee',name:'个人品牌网站制作',desc:'私域流量 · 作品集展示',badge:'NEW',badgeStyle:'background:rgba(34,211,238,.1);color:#22d3ee;border:1px solid rgba(34,211,238,.25)',url:'./contact-modal.html'},
+      {icon:'fas fa-sim-card',ic:'rgba(20,184,166,.12)',icC:'#14b8a6',name:'XeSIM 海外手机号',desc:'多国号码 · 折扣码：sanyue',badge:'',badgeStyle:'',url:'https://xesim.cc/?DIST=RkFPHVw%3D'},
+      {icon:'fas fa-fingerprint',ic:'rgba(139,92,246,.12)',icC:'#8b5cf6',name:'比特指纹浏览器',desc:'多账号防关联 · 模拟真实环境',badge:'',badgeStyle:'',url:'https://www.bitbrowser.cn/?code=9jxo3o'},
+    ]
+  },
+  ext: {
+    title:'更多链接',
+    icon:'fas fa-th',
+    color:'rgba(255,255,255,.08)',
+    iconColor:'#888',
+    items:[
+      {icon:'fab fa-youtube',ic:'rgba(255,0,0,.12)',icC:'#ff4444',name:'YouTube',desc:'',badge:'',badgeStyle:'',url:'https://www.youtube.com/'},
+      {icon:'fab fa-tiktok',ic:'rgba(255,0,79,.12)',icC:'#ff004f',name:'TikTok',desc:'',badge:'',badgeStyle:'',url:'https://www.tiktok.com/'},
+      {icon:'fab fa-instagram',ic:'rgba(193,53,132,.12)',icC:'#c13584',name:'Instagram',desc:'',badge:'',badgeStyle:'',url:'https://www.instagram.com/'},
+      {icon:'fab fa-twitter',ic:'rgba(29,161,242,.12)',icC:'#1da1f2',name:'X (Twitter)',desc:'',badge:'',badgeStyle:'',url:'https://twitter.com/'},
+      {icon:'fab fa-discord',ic:'rgba(114,137,218,.12)',icC:'#7289da',name:'Discord',desc:'',badge:'',badgeStyle:'',url:'https://discord.com/'},
+      {icon:'fas fa-play',ic:'rgba(229,9,20,.12)',icC:'#e50914',name:'Netflix',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://www.netflix.com/'},
+      {icon:'fas fa-music',ic:'rgba(29,185,84,.12)',icC:'#1db954',name:'Spotify',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://www.spotify.com/'},
+      {icon:'fas fa-robot',ic:'rgba(16,163,127,.12)',icC:'#10a37f',name:'ChatGPT',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://chat.openai.com/'},
+      {icon:'fas fa-comments',ic:'rgba(217,119,6,.12)',icC:'#d97706',name:'Claude',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://claude.ai/'},
+      {icon:'fas fa-gem',ic:'rgba(66,133,244,.12)',icC:'#4285f4',name:'Gemini',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://www.google.com/gemini'},
+      {icon:'fas fa-user-astronaut',ic:'rgba(167,139,250,.12)',icC:'#a78bfa',name:'Heygen 数字人',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://www.heygen.com/invite/FGZD5C5C'},
+      {icon:'fas fa-search',ic:'rgba(32,178,170,.12)',icC:'#20b2aa',name:'Perplexity',desc:'需科学上网',badge:'',badgeStyle:'',url:'https://www.perplexity.ai/'},
+    ]
+  }
+};
+
+function openDrawer(id){
+  var d=DRAWERS[id];if(!d)return;
+  var mask=document.getElementById('drawer-mask');
+  document.getElementById('drawer-title').textContent=d.title;
+  var iconWrap=document.getElementById('drawer-icon-wrap');
+  iconWrap.style.background=d.color;
+  var iconEl=document.getElementById('drawer-hd-icon');
+  iconEl.className=d.icon;iconEl.style.color=d.iconColor;
+  var list=document.getElementById('drawer-list');
+  list.innerHTML=d.items.map(function(it){
+    return '<a href="'+it.url+'" target="_blank" class="dl">'
+      +'<div class="dl-ic" style="background:'+it.ic+';color:'+it.icC+'"><i class="'+it.icon+'"></i></div>'
+      +'<div class="dl-info"><span class="dl-name">'+it.name+'</span>'+(it.desc?'<span class="dl-desc">'+it.desc+'</span>':'')+'</div>'
+      +(it.badge?'<span class="dl-badge" style="'+it.badgeStyle+'">'+it.badge+'</span>':'')
+      +'</a>';
+  }).join('');
+  mask.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  document.getElementById('drawer-mask').classList.remove('show');
+  document.body.style.overflow='';
 }
 
-// Accordion sections
-function toggleAcc(id){
-  var body=document.getElementById(id+'-body');
-  var hd=document.getElementById(id+'-hd');
-  if(!body)return;
-  body.classList.toggle('is-open');
-  if(hd)hd.classList.toggle('is-open');
-}
-
-// Free node
-function showFreeNode(){document.getElementById('fn-overlay').classList.add('show');}
-function hideFreeNode(){document.getElementById('fn-overlay').classList.remove('show');}
-function copyNode(btn){
-  var txt=document.getElementById('node-url-text').textContent.trim();
+function showFreeNode(){document.getElementById('fn-mask').classList.add('show');}
+function hideFreeNode(){document.getElementById('fn-mask').classList.remove('show');}
+function copyFnUrl(btn){
+  var txt=document.getElementById('fn-url').textContent.trim();
   navigator.clipboard.writeText(txt).then(function(){
     btn.textContent='已复制';
     setTimeout(function(){btn.textContent='复制';},2000);
-  });
-}
-
-// Copy command
-function copyCmd(id,btn){
-  var txt=document.getElementById(id).textContent;
-  navigator.clipboard.writeText(txt).then(function(){
-    btn.innerHTML='<i class="fas fa-check"></i>';
-    setTimeout(function(){btn.innerHTML='<i class="fas fa-copy"></i>';},2000);
   });
 }
 
@@ -708,8 +518,8 @@ function copyCmd(id,btn){
 (function(){
   var els=document.querySelectorAll('.rv');
   var obs=new IntersectionObserver(function(es){
-    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:.08});
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}});
+  },{threshold:.06});
   els.forEach(function(el){obs.observe(el);});
 })();
 </script>
