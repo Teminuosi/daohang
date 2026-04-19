@@ -1,392 +1,517 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>三月空间</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{
-  background:#03030a;color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三月空间 · 导航</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 只用左侧边栏 */
+        .main-content { margin-left: var(--sidebar-width); margin-right: 40px; }
 
-/* ── Canvas ── */
-#cvs{position:fixed;inset:0;z-index:0;}
+        /* 引导主站 banner */
+        .main-site-bar {
+            display: flex; align-items: center; justify-content: center; gap: 14px;
+            background: rgba(0,243,255,0.05); border: 1px solid rgba(0,243,255,0.2);
+            border-radius: 10px; padding: 12px 24px; margin-bottom: 36px;
+            cursor: pointer; transition: 0.3s; width: 100%; max-width: 720px;
+        }
+        .main-site-bar:hover { background: rgba(0,243,255,0.1); border-color: var(--primary); }
+        .main-site-bar span { font-family: 'Rajdhani',sans-serif; font-size: 1em; color: #aaa; letter-spacing: .05em; }
+        .main-site-bar strong { color: var(--primary); }
+        .main-site-bar .arrow { font-size: .85em; color: var(--primary); transition: transform .3s; }
+        .main-site-bar:hover .arrow { transform: translateX(5px); }
 
-/* ── Page ── */
-.page{
-  position:relative;z-index:1;
-  height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:24px 20px;
-  overflow-y:auto;
-}
+        /* 只有3张主卡，2列居中 */
+        .hero-grid-cn {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%; max-width: 720px;
+        }
+        /* 住宅IP 卡独占一行居中 */
+        .hero-grid-cn .full { grid-column: 1 / -1; max-width: 340px; margin: 0 auto; width: 100%; }
 
-/* ── Header ── */
-.hd{text-align:center;margin-bottom:52px;}
-.hd-eyebrow{
-  font-size:.62em;letter-spacing:.4em;color:rgba(255,255,255,.2);
-  margin-bottom:18px;text-transform:uppercase;
-}
-.hd-name{
-  font-size:clamp(2.8em,9vw,4.8em);
-  font-weight:900;line-height:1;
-  background:linear-gradient(135deg,#fff 0%,#c084fc 40%,#38bdf8 70%,#fff 100%);
-  background-size:200% 200%;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shimmer 6s linear infinite;
-  margin-bottom:14px;letter-spacing:-.02em;
-}
-@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hd-sub{
-  font-size:.82em;color:rgba(255,255,255,.25);
-  letter-spacing:.12em;
-}
-
-/* ── Cards ── */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  width:100%;max-width:780px;
-}
-
-.card{
-  position:relative;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.09);
-  border-radius:24px;
-  padding:32px 24px 28px;
-  cursor:pointer;
-  text-decoration:none;color:inherit;
-  overflow:hidden;
-  transition:transform .35s,box-shadow .35s,border-color .35s;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  -webkit-tap-highlight-color:transparent;
-  display:block;
-}
-
-/* top glow per card */
-.card::before{
-  content:'';position:absolute;
-  top:-40px;left:50%;transform:translateX(-50%);
-  width:180px;height:90px;
-  border-radius:50%;
-  filter:blur(40px);
-  pointer-events:none;
-  transition:opacity .4s;
-  opacity:.5;
-}
-.card:hover{transform:translateY(-6px);}
-.card:hover::before{opacity:1;}
-
-/* video card */
-.card.c-video{border-color:rgba(251,191,36,.18);}
-.card.c-video::before{background:rgba(251,191,36,.35);}
-.card.c-video:hover{border-color:rgba(251,191,36,.5);box-shadow:0 0 60px rgba(251,191,36,.12),0 20px 60px rgba(0,0,0,.5);}
-
-/* ecom card */
-.card.c-ecom{border-color:rgba(52,211,153,.15);}
-.card.c-ecom::before{background:rgba(52,211,153,.3);}
-.card.c-ecom:hover{border-color:rgba(52,211,153,.45);box-shadow:0 0 60px rgba(52,211,153,.1),0 20px 60px rgba(0,0,0,.5);}
-
-/* portal card */
-.card.c-portal{border-color:rgba(139,92,246,.15);}
-.card.c-portal::before{background:rgba(139,92,246,.35);}
-.card.c-portal:hover{border-color:rgba(139,92,246,.5);box-shadow:0 0 60px rgba(139,92,246,.15),0 20px 60px rgba(0,0,0,.5);}
-
-/* icon */
-.card-icon{
-  width:56px;height:56px;border-radius:16px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.5em;margin-bottom:20px;
-}
-.c-video .card-icon{background:rgba(251,191,36,.15);color:#fbbf24;}
-.c-ecom  .card-icon{background:rgba(52,211,153,.15);color:#34d399;}
-.c-portal .card-icon{background:rgba(139,92,246,.15);color:#a78bfa;}
-
-.card-title{font-size:1.05em;font-weight:900;margin-bottom:8px;letter-spacing:.02em;}
-.card-desc{font-size:.76em;color:rgba(255,255,255,.3);line-height:1.75;}
-
-/* arrow */
-.card-arrow{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:20px;font-size:.72em;font-weight:700;
-  letter-spacing:.04em;
-  transition:gap .25s;
-}
-.c-video  .card-arrow{color:#fbbf24;}
-.c-ecom   .card-arrow{color:#34d399;}
-.c-portal .card-arrow{color:#a78bfa;}
-.card:hover .card-arrow{gap:10px;}
-
-/* tag */
-.card-tag{
-  position:absolute;top:20px;right:20px;
-  font-size:.58em;font-weight:900;letter-spacing:.06em;
-  padding:3px 10px;border-radius:20px;
-}
-.c-portal .card-tag{background:rgba(139,92,246,.2);color:#c4b5fd;border:1px solid rgba(139,92,246,.35);}
-
-/* ── Footer ── */
-footer{
-  position:absolute;bottom:22px;left:0;right:0;
-  text-align:center;font-size:.6em;color:rgba(255,255,255,.1);
-  letter-spacing:.12em;
-}
-
-/* ── Responsive ── */
-@media(max-width:640px){
-  .cards{grid-template-columns:1fr;max-width:380px;}
-  .hd{margin-bottom:36px;}
-  body,html{overflow:auto}
-  .page{height:auto;min-height:100vh;padding:40px 20px 80px;}
-}
-@media(min-width:641px) and (max-width:800px){
-  .cards{grid-template-columns:1fr 1fr;}
-  .card:last-child{grid-column:1/-1;max-width:360px;margin:0 auto;width:100%;}
-}
-</style>
+        @media (max-width: 900px) {
+            .main-content { margin-left: 0; margin-right: 0; padding: 20px; }
+            .hero-grid-cn { grid-template-columns: 1fr; }
+            .hero-grid-cn .full { max-width: none; grid-column: span 1; }
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="cvs"></canvas>
+<!-- 背景 -->
+<div class="scanlines"></div>
+<canvas id="canvas"></canvas>
 
-<div class="page">
-
-  <header class="hd">
-    <div class="hd-eyebrow">Sanyue Space · 三月空间</div>
-    <h1 class="hd-name">站长三月</h1>
-    <p class="hd-sub">TikTok 跨境 · 节点搭建 · AI 工具</p>
-  </header>
-
-  <div class="cards">
-
-    <!-- 视频 -->
-    <a href="./vip.html" target="_blank" class="card c-video">
-      <div class="card-icon"><i class="fas fa-play-circle"></i></div>
-      <div class="card-title">视频专区</div>
-      <div class="card-desc">TikTok 运营精华课程，从入门到精通，全部免费</div>
-      <div class="card-arrow">立即观看 <i class="fas fa-arrow-right"></i></div>
+<!-- 左侧工具栏 -->
+<aside class="sidebar sidebar-left">
+    <div class="sidebar-title">Tools</div>
+    <div onclick="openModal('query-tools')" class="tool-item">
+        <i class="fas fa-globe"></i> <span>查询工具</span>
+    </div>
+    <div onclick="openModal('proxy-tools')" class="tool-item">
+        <i class="fas fa-download"></i> <span>软件下载</span>
+    </div>
+    <div onclick="openModal('speed-tools')" class="tool-item">
+        <i class="fas fa-tachometer-alt"></i> <span>测速工具</span>
+    </div>
+    <div onclick="openModal('terminal-cmd')" class="tool-item">
+        <i class="fas fa-terminal"></i> <span>命令终端</span>
+    </div>
+    <a href="./proxy-tutorial.html" target="_blank" class="tool-item">
+        <i class="fas fa-book"></i> <span>代理技术文档</span>
     </a>
+    <div onclick="openModal('reality-domains')" class="tool-item">
+        <i class="fas fa-globe"></i> <span>域名优选</span>
+    </div>
+    <div onclick="showFreeNode()" class="tool-item warning-item">
+        <i class="fas fa-bolt"></i> <span>免费节点订阅</span>
+    </div>
+</aside>
 
-    <!-- 跨境电商入门 -->
-    <a href="./rumen.html" target="_blank" class="card c-ecom">
-      <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
-      <div class="card-title">跨境电商入门</div>
-      <div class="card-desc">零基础起步，避开常见坑，搭建你的跨境运营体系</div>
-      <div class="card-arrow">开始学习 <i class="fas fa-arrow-right"></i></div>
-    </a>
+<!-- 主内容 -->
+<main class="main-content">
+    <header>
+        <div class="logo-text">NEXUS LINK</div>
+        <div class="sub-logo">三月空间控制台</div>
+    </header>
 
     <!-- 主站引导 -->
-    <div class="card c-portal" onclick="goMain()">
-      <span class="card-tag">推荐</span>
-      <div class="card-icon"><i class="fas fa-rocket"></i></div>
-      <div class="card-title">已有网络？进主站</div>
-      <div class="card-desc">完整工具导航、机场推荐、N8N 自动化，海外环境直达</div>
-      <div class="card-arrow">进入主站 <i class="fas fa-arrow-right"></i></div>
+    <div class="main-site-bar" onclick="goMain()">
+        <i class="fas fa-satellite-dish" style="color:var(--primary);"></i>
+        <span>已有网络？前往完整版主站 &nbsp;<strong>3yuedaohang.com</strong>&nbsp; — 工具导航、机场、VPS 全在里面</span>
+        <i class="fas fa-arrow-right arrow"></i>
     </div>
 
-  </div>
+    <!-- 3 张主卡 -->
+    <div class="hero-grid-cn">
 
-  <footer>SANYUE SPACE · 三月空间 · zhanzhangsanyue.com</footer>
+        <!-- 视频专区 -->
+        <div class="holo-card hero-card vip-card" onclick="window.open('./vip.html','_blank')">
+            <span class="tag tag-vip">精华</span>
+            <i class="fas fa-play-circle main-icon" style="color:#ffd700;"></i>
+            <i class="fas fa-film bg-icon"></i>
+            <h2>视频专区</h2>
+            <p>精华课程，TikTok 从入门到精通，持续更新</p>
+        </div>
+
+        <!-- 账号购买 -->
+        <a href="https://accboyytbsydh.acceboy.com" target="_blank" class="holo-card hero-card" style="text-decoration:none;color:inherit;display:flex;">
+            <i class="fas fa-shopping-cart main-icon" style="color:#00ff9d;"></i>
+            <i class="fas fa-credit-card bg-icon"></i>
+            <h2>账号购买</h2>
+            <p>苹果带🚀 | 谷歌号 | TK白号 | ChatGPT等</p>
+        </a>
+
+        <!-- 静态住宅IP -->
+        <div class="holo-card hero-card full" onclick="openModal('residential')">
+            <i class="fas fa-home main-icon" style="color:#d40897;"></i>
+            <i class="fas fa-map-marker-alt bg-icon"></i>
+            <h2>静态住宅 IP</h2>
+            <p>原生住宅代理 | 短视频必备</p>
+        </div>
+
+    </div>
+</main>
+
+<!-- ===== 弹窗 ===== -->
+
+<!-- 静态住宅IP -->
+<div id="residential-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:800px;">
+        <span class="modal-close" onclick="closeModal('residential')">&times;</span>
+        <h2><i class="fas fa-home" style="color:#bc13fe;margin-right:10px;"></i>静态住宅IP</h2>
+        <div class="modal-grid">
+            <a href="https://www.miyaip.com/signup?invitecode=9143527" target="_blank" class="link-card"
+               style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.3);box-shadow:0 0 15px rgba(255,215,0,0.1);">
+                <i class="fas fa-fire" style="color:#ffd700;text-shadow:0 0 10px rgba(255,215,0,0.5);"></i>
+                <div>
+                    <h3 style="color:#ffd700;">米亚IP（新手短视频推荐）<span style="font-size:.7rem;color:#ffd700;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.4);padding:2px 6px;border-radius:4px;">扫码直连</span></h3>
+                    <p><span style="color:#ffd700;font-weight:bold;">⚡ 无需中转</span> | 9折码：<span class="code-badge">3yuejiuzhe</span></p>
+                </div>
+            </a>
+            <a href="https://www.985proxy.com/?invite=EAUDSR" target="_blank" class="link-card"
+               style="background:linear-gradient(145deg,rgba(255,80,0,0.15),rgba(0,0,0,0.6));border:1px solid rgba(255,80,0,0.5);">
+                <i class="fas fa-meteor" style="color:#ff6600;"></i>
+                <div>
+                    <h3 style="color:#ff9933;">985 Proxy（便宜原生IP，矩阵号推荐）</h3>
+                    <p><span style="color:#ffcc00;font-weight:bold;">目前最便宜的IP</span> | <span class="code-badge" style="border:1px solid #ff6600;color:#ff9966;background:rgba(255,80,0,0.1);">需中转</span></p>
+                </div>
+            </a>
+            <a href="https://ipfly.net/activity/OE5TMlk0UEI6TFZKOVhYQzM5NQ==" target="_blank" class="link-card">
+                <i class="fas fa-globe-americas" style="color:#00bcd4;"></i>
+                <div>
+                    <h3>IPFly 高质量原生IP</h3>
+                    <p>国家多 | <span class="text-highlight">需中转</span></p>
+                </div>
+            </a>
+            <a href="https://www.proxylite.com/?invitation_code=8BTUZ2" target="_blank" class="link-card"
+               style="background:linear-gradient(145deg,rgba(0,255,136,0.12),rgba(0,0,0,0.5));border:1px solid rgba(0,255,136,0.5);">
+                <i class="fas fa-rocket" style="color:#00ff88;"></i>
+                <div>
+                    <h3 style="color:#00ff88;">ProxyLite <span style="font-size:.65rem;background:rgba(0,255,136,0.2);color:#00ff88;border:1px solid #00ff88;padding:2px 6px;border-radius:4px;">破万播放</span></h3>
+                    <p>美区新号首个视频破万播放 | <span class="code-badge" style="border:1px solid #00ff88;color:#00ff88;background:rgba(0,255,136,0.1);">需中转 建议VPS</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 查询工具 -->
+<div id="query-tools-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:700px;">
+        <span class="modal-close" onclick="closeModal('query-tools')">&times;</span>
+        <h2>环境与 IP 检测</h2>
+        <div class="modal-section-title">IP 信息查询</div>
+        <div class="modal-grid">
+            <a href="https://ipinfo.io/" target="_blank" class="link-card"><i class="fas fa-map-marker-alt"></i><div><h3>IPInfo.io</h3><p>IP 归属地、运营商、ASN 详细信息</p></div></a>
+            <a href="https://ipjiance.com/" target="_blank" class="link-card"><i class="fas fa-map"></i><div><h3>IP 全面检测</h3><p>综合 IP 环境一键检测</p></div></a>
+            <a href="https://ping0.cc/" target="_blank" class="link-card"><i class="fas fa-crosshairs"></i><div><h3>Ping0.cc</h3><p>IP 详情及节点质量检测</p></div></a>
+            <a href="https://www.ipqualityscore.com/user/search" target="_blank" class="link-card"><i class="fas fa-shield-alt"></i><div><h3>IPQualityScore</h3><p>IP 欺诈风险、代理/VPN 检测</p></div></a>
+            <a href="https://whoer.net/zh" target="_blank" class="link-card"><i class="fas fa-user-secret"></i><div><h3>Whoer</h3><p>匿名度综合评估</p></div></a>
+            <a href="https://ipleak.net/" target="_blank" class="link-card"><i class="fas fa-tint"></i><div><h3>DNS 泄漏检测</h3><p>检查 DNS/WebRTC 是否泄漏真实 IP</p></div></a>
+            <a href="https://ping.pe/" target="_blank" class="link-card"><i class="fas fa-network-wired"></i><div><h3>Ping.pe</h3><p>全球多节点 Ping，判断 IP 是否被墙</p></div></a>
+        </div>
+    </div>
+</div>
+
+<!-- 软件下载 -->
+<div id="proxy-tools-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:520px;">
+        <span class="modal-close" onclick="closeModal('proxy-tools')">&times;</span>
+        <h2>软件下载</h2>
+        <div class="modal-grid" style="grid-template-columns:1fr;">
+            <a href="proxy-download.html" target="_blank" class="link-card" style="border:1px solid rgba(0,243,255,0.4);">
+                <i class="fas fa-shield-alt" style="color:var(--primary);font-size:2rem;"></i>
+                <div><h3 style="color:var(--primary);">代理软件下载</h3><p>V2rayN / v2rayNG / NekoBox · Windows / Mac / 安卓</p></div>
+            </a>
+            <a href="https://www.hostbuf.com/" target="_blank" class="link-card">
+                <i class="fas fa-terminal" style="color:#aaa;font-size:2rem;"></i>
+                <div><h3 style="color:#aaa;">Finalshell SSH 工具</h3><p>SSH 连接与服务器管理工具</p></div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 测速工具 -->
+<div id="speed-tools-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:600px;">
+        <span class="modal-close" onclick="closeModal('speed-tools')">&times;</span>
+        <h2><i class="fas fa-tachometer-alt" style="color:var(--primary);margin-right:10px;"></i>测速工具</h2>
+        <div class="modal-grid" style="grid-template-columns:1fr;">
+            <a href="https://www.speedtest.net/" target="_blank" class="link-card" style="border:1px solid rgba(0,243,255,0.3);"><i class="fas fa-wifi" style="color:var(--primary);font-size:2rem;"></i><div><h3 style="color:var(--primary);">Speedtest.net</h3><p>Ookla 全球测速，支持选择测速节点</p></div></a>
+            <a href="https://fast.com/" target="_blank" class="link-card"><i class="fas fa-bolt" style="color:#e50914;font-size:2rem;"></i><div><h3>Fast.com</h3><p>Netflix 出品，专测下载速度</p></div></a>
+            <a href="https://speed.cloudflare.com/" target="_blank" class="link-card"><i class="fas fa-cloud" style="color:#f6821f;font-size:2rem;"></i><div><h3>Cloudflare Speed Test</h3><p>测试延迟、抖动、上下行</p></div></a>
+            <a href="https://ping.pe/" target="_blank" class="link-card"><i class="fas fa-map-marker-alt" style="color:#bc13fe;font-size:2rem;"></i><div><h3>Ping.pe</h3><p>全球多节点同时 Ping</p></div></a>
+        </div>
+    </div>
+</div>
+
+<!-- 命令终端 -->
+<div id="terminal-cmd-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:720px;">
+        <span class="modal-close" onclick="closeModal('terminal-cmd')">&times;</span>
+        <h2><i class="fas fa-terminal" style="color:var(--primary);margin-right:10px;"></i>命令终端 · 搭建脚本</h2>
+        <p style="color:#666;font-size:.85rem;margin-bottom:20px;">选择脚本一键复制，在 SSH 终端中粘贴即可执行。</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="background:rgba(0,243,255,0.05);border:1px solid rgba(0,243,255,0.2);border-radius:12px;padding:20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <div><div style="font-family:Orbitron;color:var(--primary);font-size:1rem;font-weight:700;">3X-UI 面板</div><div style="color:#888;font-size:.8rem;margin-top:4px;">Xray 可视化管理面板</div></div>
+                    <span style="background:rgba(0,243,255,0.15);color:var(--primary);font-size:.7rem;padding:3px 10px;border-radius:20px;">Xray · Panel</span>
+                </div>
+                <div style="position:relative;">
+                    <code id="cmd-3xui" style="display:block;background:#0a0a0f;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 50px 14px 16px;font-family:Courier New,monospace;font-size:.82rem;color:#a0f0a0;word-break:break-all;line-height:1.6;">bash &lt;(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)</code>
+                    <button onclick="copyCmd('cmd-3xui',this)" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(0,243,255,0.1);border:1px solid rgba(0,243,255,0.3);color:var(--primary);width:32px;height:32px;border-radius:6px;cursor:pointer;"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+            <div style="background:rgba(188,19,254,0.05);border:1px solid rgba(188,19,254,0.2);border-radius:12px;padding:20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <div><div style="font-family:Orbitron;color:var(--secondary);font-size:1rem;font-weight:700;">Sing-box</div><div style="color:#888;font-size:.8rem;margin-top:4px;">新一代通用代理平台</div></div>
+                    <span style="background:rgba(188,19,254,0.15);color:var(--secondary);font-size:.7rem;padding:3px 10px;border-radius:20px;">sing-box · Proxy</span>
+                </div>
+                <div style="position:relative;">
+                    <code id="cmd-singbox" style="display:block;background:#0a0a0f;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 50px 14px 16px;font-family:Courier New,monospace;font-size:.82rem;color:#c0a0f0;word-break:break-all;line-height:1.6;">bash &lt;(wget -qO- https://raw.githubusercontent.com/fscarmen/sing-box/main/sing-box.sh)</code>
+                    <button onclick="copyCmd('cmd-singbox',this)" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(188,19,254,0.1);border:1px solid rgba(188,19,254,0.3);color:var(--secondary);width:32px;height:32px;border-radius:6px;cursor:pointer;"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:18px;padding:12px 16px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:8px;display:flex;gap:10px;">
+            <i class="fas fa-exclamation-triangle" style="color:var(--gold);margin-top:2px;flex-shrink:0;"></i>
+            <p style="color:#bbb;font-size:.8rem;line-height:1.6;">以上命令需在 <strong style="color:#fff;">Linux VPS</strong> 上以 <strong style="color:#fff;">root</strong> 身份执行。</p>
+        </div>
+    </div>
+</div>
+
+<!-- 域名优选 -->
+<div id="reality-domains-modal" class="modal-overlay">
+    <div class="modal-content rd-modal-content">
+        <span class="modal-close" onclick="closeModal('reality-domains')">&times;</span>
+        <div class="rd-header">
+            <div class="rd-title"><div class="rd-dot"></div>Reality 目标域名优选<span class="rd-badge">XRAY</span></div>
+            <div class="rd-btn-group">
+                <button class="rd-btn rd-btn-refresh" onclick="rdRefresh()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    换一批
+                </button>
+                <button class="rd-btn rd-btn-copy" id="rdBtnCopy" onclick="rdCopyText()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span id="rdCopyLabel">复制</span>
+                </button>
+            </div>
+        </div>
+        <div class="rd-code-area">
+            <div class="rd-code-box">
+                <div class="rd-code-content" id="rdCodeContent"></div>
+            </div>
+        </div>
+        <div class="rd-meta-bar">
+            <div class="rd-counter">当前第 <span id="rdBatchNum">1</span> 批 · 共 <span id="rdTotalBatch">?</span> 批</div>
+            <div class="rd-tags"><span class="rd-tag">TLS 1.3</span><span class="rd-tag">H2 / H3</span><span class="rd-tag">CDN friendly</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- 免费节点 -->
+<div id="free-node-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:500px;padding:30px;">
+        <span class="modal-close" onclick="closeModal('free-node')" style="right:20px;top:20px;">&times;</span>
+        <h2 style="margin-bottom:20px;"><i class="fas fa-bolt" style="color:var(--gold);margin-right:10px;"></i>免费V2ray节点订阅</h2>
+        <p style="color:#888;margin-bottom:20px;font-size:.9rem;">点击下方按钮一键复制订阅链接：</p>
+        <div style="position:relative;margin-bottom:20px;background:#1a1a1a;border:1px solid #ffd700;border-radius:8px;padding:15px;">
+            <div id="free-node-url" style="word-break:break-all;color:#ffd700;font-family:monospace;margin-bottom:10px;padding-right:50px;">https://zhanzhangsanyue.com/node/node.txt</div>
+            <button onclick="copyRawText('free-node-url',this)" style="position:absolute;top:10px;right:10px;background:rgba(255,215,0,0.2);border:1px solid #ffd700;color:#ffd700;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:.8rem;">复制</button>
+        </div>
+        <a href="https://zhanzhangsanyue.com/node/node.txt" target="_blank" style="display:block;text-align:center;background:#ffd700;color:#000;padding:15px;border-radius:8px;text-decoration:none;font-weight:bold;">在浏览器直接打开</a>
+    </div>
 </div>
 
 <script>
-// ── Main site URL (split to avoid static scan) ──
-function goMain(){
-  window.open('https://'+['3yue','dao','hang'].join('')+'.com','_blank');
+// ── 宇宙粒子背景 ──
+(function(){
+    var cvs = document.getElementById('canvas');
+    var ctx = cvs.getContext('2d');
+    var W, H, stars = [], shooters = [], frame = 0;
+    var mouse = {x: 0, y: 0};
+
+    function resize(){
+        W = cvs.width  = window.innerWidth;
+        H = cvs.height = window.innerHeight;
+        initStars();
+    }
+
+    var STAR_COLORS = [
+        {r:255,g:255,b:255, weight:60},  // white
+        {r:180,g:210,b:255, weight:30},  // blue-white
+        {r:255,g:230,b:180, weight:15},  // warm yellow
+        {r:210,g:180,b:255, weight:10},  // purple
+        {r:180,g:255,b:220, weight:5},   // cyan
+    ];
+
+    function pickColor(){
+        var total = STAR_COLORS.reduce(function(s,c){return s+c.weight;},0);
+        var r = Math.random()*total, acc = 0;
+        for(var i=0;i<STAR_COLORS.length;i++){
+            acc += STAR_COLORS[i].weight;
+            if(r <= acc) return STAR_COLORS[i];
+        }
+        return STAR_COLORS[0];
+    }
+
+    function initStars(){
+        stars = [];
+        var count = Math.min(380, Math.floor(W*H/5000));
+        for(var i=0;i<count;i++){
+            var c = pickColor();
+            var size = Math.random();
+            stars.push({
+                x: Math.random()*W,
+                y: Math.random()*H,
+                r: size < .7 ? Math.random()*.8+.2 : size < .92 ? Math.random()*1.2+.7 : Math.random()*2+1.2,
+                c: c,
+                alpha: Math.random()*.6+.3,
+                phase: Math.random()*Math.PI*2,
+                speed: Math.random()*.006+.002,
+                depth: Math.random()*.8+.1,
+                glow: size > .95
+            });
+        }
+    }
+
+    function addShooter(){
+        var angle = Math.PI/4.5 + (Math.random()-.5)*.5;
+        shooters.push({
+            x: Math.random()*W*.75,
+            y: Math.random()*H*.35,
+            len: Math.random()*200+120,
+            vx: Math.cos(angle)*(Math.random()*14+8),
+            vy: Math.sin(angle)*(Math.random()*14+8),
+            alpha: 1
+        });
+    }
+
+    function drawNebula(){
+        var nebulas = [
+            {x:W*.12, y:H*.18, r:W*.32, cr:70,cg:20,cb:160},
+            {x:W*.85, y:H*.35, r:W*.26, cr:0,cg:100,cb:160},
+            {x:W*.5,  y:H*.82, r:W*.28, cr:160,cg:10,cb:80},
+            {x:W*.65, y:H*.08, r:W*.2,  cr:150,cg:80,cb:0},
+        ];
+        nebulas.forEach(function(n){
+            var g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
+            g.addColorStop(0,   'rgba('+n.cr+','+n.cg+','+n.cb+',.07)');
+            g.addColorStop(.45, 'rgba('+n.cr+','+n.cg+','+n.cb+',.03)');
+            g.addColorStop(1,   'rgba('+n.cr+','+n.cg+','+n.cb+',0)');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fill();
+        });
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,W,H);
+
+        // deep space base
+        var bg = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.9);
+        bg.addColorStop(0,'#0c0a1a'); bg.addColorStop(1,'#03020a');
+        ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+
+        drawNebula();
+
+        var t = frame*.016;
+        var mx = (mouse.x-W/2)/W, my = (mouse.y-H/2)/H;
+
+        // stars
+        for(var i=0;i<stars.length;i++){
+            var s = stars[i];
+            var tw = .45+.55*Math.sin(t*s.speed*55+s.phase);
+            var a  = s.alpha*(.35+.65*tw);
+            var px = s.x + mx*s.depth*30;
+            var py = s.y + my*s.depth*30;
+            var cr = s.c.r, cg = s.c.g, cb = s.c.b;
+
+            if(s.glow){
+                var gr = ctx.createRadialGradient(px,py,0,px,py,s.r*5);
+                gr.addColorStop(0,'rgba('+cr+','+cg+','+cb+','+a*.6+')');
+                gr.addColorStop(1,'rgba('+cr+','+cg+','+cb+',0)');
+                ctx.fillStyle=gr;
+                ctx.beginPath(); ctx.arc(px,py,s.r*5,0,Math.PI*2); ctx.fill();
+            }
+            ctx.beginPath(); ctx.arc(px,py,s.r,0,Math.PI*2);
+            ctx.fillStyle='rgba('+cr+','+cg+','+cb+','+a+')';
+            ctx.fill();
+        }
+
+        // shooting stars
+        for(var j=shooters.length-1;j>=0;j--){
+            var sh=shooters[j];
+            sh.x+=sh.vx; sh.y+=sh.vy; sh.alpha-=.022;
+            if(sh.alpha<=0){shooters.splice(j,1);continue;}
+            var tx=sh.x-sh.vx/Math.abs(sh.vx)*sh.len, ty=sh.y-sh.vy/Math.abs(sh.vy)*sh.len;
+            var sg=ctx.createLinearGradient(tx,ty,sh.x,sh.y);
+            sg.addColorStop(0,'rgba(255,255,255,0)');
+            sg.addColorStop(.5,'rgba(180,220,255,'+(sh.alpha*.35)+')');
+            sg.addColorStop(1,'rgba(255,255,255,'+(sh.alpha*.9)+')');
+            ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(sh.x,sh.y);
+            ctx.strokeStyle=sg; ctx.lineWidth=1.8; ctx.stroke();
+            // head glow
+            var hg=ctx.createRadialGradient(sh.x,sh.y,0,sh.x,sh.y,6);
+            hg.addColorStop(0,'rgba(220,240,255,'+(sh.alpha*.85)+')');
+            hg.addColorStop(1,'rgba(180,220,255,0)');
+            ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(sh.x,sh.y,6,0,Math.PI*2); ctx.fill();
+        }
+
+        frame++;
+        if(frame%200===0) addShooter();
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove',function(e){mouse.x=e.clientX;mouse.y=e.clientY;});
+    resize();
+    setTimeout(addShooter, 2000);
+    draw();
+})();
+
+// ── Modal ──
+function openModal(id){
+    var el = document.getElementById(id+'-modal');
+    if(!el) return;
+    el.classList.add('visible');
+    document.body.classList.add('modal-open');
+}
+function closeModal(id){
+    var el = document.getElementById(id+'-modal');
+    if(!el) return;
+    el.classList.remove('visible');
+    document.body.classList.remove('modal-open');
+}
+document.querySelectorAll('.modal-overlay').forEach(function(el){
+    el.addEventListener('click',function(e){if(e.target===el) el.classList.remove('visible');});
+});
+
+// ── Free node ──
+function showFreeNode(){ openModal('free-node'); }
+function copyRawText(id, btn){
+    var txt = document.getElementById(id).textContent.trim();
+    navigator.clipboard.writeText(txt).then(function(){
+        var old=btn.textContent; btn.textContent='已复制'; btn.style.background='rgba(0,255,157,0.2)';
+        setTimeout(function(){btn.textContent=old;btn.style.background='';},2000);
+    });
 }
 
-// ── Cosmic particle system ──
-(function(){
-  var cvs = document.getElementById('cvs');
-  var ctx = cvs.getContext('2d');
-  var W, H, dpr;
-  var stars = [], shooters = [], nebulas = [];
-  var mouse = {x: 0, y: 0};
-  var frame = 0;
-
-  function resize(){
-    dpr = window.devicePixelRatio || 1;
-    W = cvs.width  = window.innerWidth  * dpr;
-    H = cvs.height = window.innerHeight * dpr;
-    cvs.style.width  = window.innerWidth  + 'px';
-    cvs.style.height = window.innerHeight + 'px';
-    ctx.scale(dpr, dpr);
-    initNebulas();
-  }
-
-  // ── Nebula blobs ──
-  function initNebulas(){
-    nebulas = [
-      {x:W*.15/dpr, y:H*.2/dpr,  r:W*.28/dpr, color:'rgba(124,58,237,'},
-      {x:W*.82/dpr, y:H*.35/dpr, r:W*.22/dpr, color:'rgba(8,145,178,'},
-      {x:W*.5/dpr,  y:H*.8/dpr,  r:W*.25/dpr, color:'rgba(219,39,119,'},
-      {x:W*.7/dpr,  y:H*.1/dpr,  r:W*.2/dpr,  color:'rgba(217,119,6,'},
-    ];
-  }
-
-  // ── Stars ──
-  function mkStar(){
-    var types = [
-      {maxR:0.7, color:'rgba(255,255,255,', count:180},
-      {maxR:1.2, color:'rgba(180,200,255,', count:60},
-      {maxR:0.9, color:'rgba(255,220,180,', count:40},
-      {maxR:1.5, color:'rgba(200,180,255,', count:20},
-    ];
-    stars = [];
-    types.forEach(function(t){
-      for(var i=0;i<t.count;i++){
-        stars.push({
-          x: Math.random() * (W/dpr),
-          y: Math.random() * (H/dpr),
-          r: Math.random() * t.maxR + 0.3,
-          color: t.color,
-          alpha: Math.random() * 0.7 + 0.2,
-          phase: Math.random() * Math.PI * 2,
-          speed: Math.random() * 0.008 + 0.003,
-          px: 0, py: 0,
-          depth: Math.random() * 0.6 + 0.2,
-        });
-      }
+// ── Copy command ──
+function copyCmd(id,btn){
+    navigator.clipboard.writeText(document.getElementById(id).textContent).then(function(){
+        btn.innerHTML='<i class="fas fa-check"></i>';
+        setTimeout(function(){btn.innerHTML='<i class="fas fa-copy"></i>';},2000);
     });
-    // A few bright star clusters
-    for(var i=0;i<8;i++){
-      stars.push({
-        x: Math.random() * (W/dpr),
-        y: Math.random() * (H/dpr),
-        r: Math.random() * 2 + 1.5,
-        color: 'rgba(255,255,255,',
-        alpha: 0.9,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.004,
-        px: 0, py: 0, depth: 0.1,
-        glow: true
-      });
-    }
-  }
+}
 
-  // ── Shooting star ──
-  function addShooter(){
-    var angle = Math.PI / 5 + (Math.random() - 0.5) * 0.4;
-    shooters.push({
-      x: Math.random() * (W/dpr) * 0.8,
-      y: Math.random() * (H/dpr) * 0.4,
-      len: Math.random() * 180 + 100,
-      speed: Math.random() * 12 + 8,
-      angle: angle,
-      alpha: 1,
-      trail: []
+// ── Main site ──
+function goMain(){ window.open('https://'+['3yue','dao','hang'].join('')+'.com','_blank'); }
+
+// ── Reality domains ──
+var RD_LIST = [
+    'addons.mozilla.org','www.microsoft.com','dl.google.com','www.apple.com',
+    'update.googleapis.com','clients1.google.com','www.cloudflare.com','ajax.googleapis.com',
+    'fonts.googleapis.com','play.google.com','www.amazon.com','s3.amazonaws.com',
+    'cdn.jsdelivr.net','code.jquery.com','cdn.cloudflare.com','www.gstatic.com',
+    'ssl.gstatic.com','lh3.googleusercontent.com','storage.googleapis.com','www.recaptcha.net'
+];
+var rdBatch=0, rdPer=4;
+function rdGetBatch(){
+    var total=Math.ceil(RD_LIST.length/rdPer);
+    var start=(rdBatch%total)*rdPer;
+    return {list:RD_LIST.slice(start,start+rdPer),batch:(rdBatch%total)+1,total:total};
+}
+function rdRender(){
+    var r=rdGetBatch();
+    document.getElementById('rdCodeContent').innerHTML=r.list.map(function(d){return '<div>'+d+'</div>';}).join('');
+    document.getElementById('rdBatchNum').textContent=r.batch;
+    document.getElementById('rdTotalBatch').textContent=r.total;
+}
+function rdRefresh(){rdBatch++;rdRender();}
+function rdCopyText(){
+    var r=rdGetBatch();
+    navigator.clipboard.writeText(r.list.join('\n')).then(function(){
+        document.getElementById('rdCopyLabel').textContent='已复制';
+        document.getElementById('rdBtnCopy').classList.add('copied');
+        setTimeout(function(){
+            document.getElementById('rdCopyLabel').textContent='复制';
+            document.getElementById('rdBtnCopy').classList.remove('copied');
+        },2000);
     });
-  }
-
-  // ── Draw frame ──
-  function draw(){
-    var w = W/dpr, h = H/dpr;
-    ctx.clearRect(0, 0, w, h);
-
-    // Deep space base
-    var bg = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w,h)*0.8);
-    bg.addColorStop(0, '#0a0818');
-    bg.addColorStop(1, '#02020a');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
-
-    // Nebulas
-    nebulas.forEach(function(n){
-      var g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
-      g.addColorStop(0,   n.color + '0.06)');
-      g.addColorStop(0.4, n.color + '0.03)');
-      g.addColorStop(1,   n.color + '0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
-      ctx.fill();
-    });
-
-    var t = frame * 0.016;
-    var mx = (mouse.x - w/2) / w;
-    var my = (mouse.y - h/2) / h;
-
-    // Stars
-    stars.forEach(function(s){
-      var twinkle = 0.5 + 0.5 * Math.sin(t * s.speed * 60 + s.phase);
-      var a = s.alpha * (0.4 + 0.6 * twinkle);
-      // Subtle parallax
-      var ox = mx * s.depth * 25;
-      var oy = my * s.depth * 25;
-      var sx = s.x + ox;
-      var sy = s.y + oy;
-
-      if(s.glow){
-        var gGlow = ctx.createRadialGradient(sx,sy,0,sx,sy,s.r*4);
-        gGlow.addColorStop(0, s.color + a + ')');
-        gGlow.addColorStop(1, s.color + '0)');
-        ctx.fillStyle = gGlow;
-        ctx.beginPath();
-        ctx.arc(sx, sy, s.r*4, 0, Math.PI*2);
-        ctx.fill();
-      }
-      ctx.beginPath();
-      ctx.arc(sx, sy, s.r, 0, Math.PI*2);
-      ctx.fillStyle = s.color + a + ')';
-      ctx.fill();
-    });
-
-    // Shooting stars
-    for(var i=shooters.length-1;i>=0;i--){
-      var sh = shooters[i];
-      sh.x += Math.cos(sh.angle) * sh.speed;
-      sh.y += Math.sin(sh.angle) * sh.speed;
-      sh.alpha -= 0.018;
-      if(sh.alpha <= 0){shooters.splice(i,1);continue;}
-      var tx = sh.x - Math.cos(sh.angle) * sh.len;
-      var ty = sh.y - Math.sin(sh.angle) * sh.len;
-      var grad = ctx.createLinearGradient(tx, ty, sh.x, sh.y);
-      grad.addColorStop(0, 'rgba(255,255,255,0)');
-      grad.addColorStop(0.6,'rgba(200,220,255,'+(sh.alpha*0.4)+')');
-      grad.addColorStop(1,  'rgba(255,255,255,'+(sh.alpha*0.95)+')');
-      ctx.beginPath();
-      ctx.moveTo(tx, ty);
-      ctx.lineTo(sh.x, sh.y);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      // head glow
-      var hg = ctx.createRadialGradient(sh.x,sh.y,0,sh.x,sh.y,5);
-      hg.addColorStop(0,'rgba(255,255,255,'+(sh.alpha*0.9)+')');
-      hg.addColorStop(1,'rgba(200,220,255,0)');
-      ctx.fillStyle=hg;
-      ctx.beginPath();ctx.arc(sh.x,sh.y,5,0,Math.PI*2);ctx.fill();
-    }
-
-    frame++;
-    // Spawn shooting star
-    if(frame % 220 === 0) addShooter();
-
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', function(){
-    resize();
-    mkStar();
-  });
-  window.addEventListener('mousemove', function(e){
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
-
-  resize();
-  mkStar();
-  setTimeout(addShooter, 1500);
-  draw();
-})();
+}
+// init reality domains on modal open
+document.getElementById('reality-domains-modal').addEventListener('click',function(){});
+var _rdInit=false;
+var origOpen=openModal;
+openModal=function(id){
+    origOpen(id);
+    if(id==='reality-domains'&&!_rdInit){_rdInit=true;rdRender();}
+};
 </script>
 </body>
 </html>
