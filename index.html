@@ -1243,6 +1243,18 @@
     </div>
 
         <script src="js/main.js?v=20260410"></script>
+
+    <!-- 站务公告弹窗 -->
+    <div id="announcement-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+        <div style="background:#0d1117;border:1px solid rgba(0,243,255,0.4);border-radius:12px;max-width:480px;width:90%;padding:28px 28px 22px;position:relative;box-shadow:0 0 40px rgba(0,243,255,0.15);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <i class="fas fa-bullhorn" style="color:var(--primary);font-size:1.2rem;"></i>
+                <h3 id="announcement-title" style="color:var(--primary);margin:0;font-size:1.1rem;letter-spacing:1px;"></h3>
+            </div>
+            <p id="announcement-message" style="color:#ccc;line-height:1.7;font-size:0.95rem;white-space:pre-wrap;margin:0 0 20px;"></p>
+            <button onclick="closeAnnouncement()" style="width:100%;padding:10px;background:rgba(0,243,255,0.1);border:1px solid rgba(0,243,255,0.4);color:var(--primary);border-radius:6px;cursor:pointer;font-size:0.9rem;letter-spacing:1px;">我知道了</button>
+        </div>
+    </div>
     
     <!-- 图片灯箱 -->
     <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
@@ -1325,6 +1337,29 @@
                     btn.style.color = '#ffd700';
                 }, 1500);
             });
+        }
+    </script>
+    <script>
+        // 站务公告
+        fetch('announcement.json?t=' + Date.now())
+            .then(r => r.json())
+            .then(data => {
+                if (!data.enabled || !data.message) return;
+                var key = 'announcement_' + data.id;
+                if (localStorage.getItem(key)) return;
+                document.getElementById('announcement-title').textContent = data.title || '站务公告';
+                document.getElementById('announcement-message').textContent = data.message;
+                var el = document.getElementById('announcement-modal');
+                el.dataset.announcementId = data.id;
+                el.style.display = 'flex';
+            })
+            .catch(function(){});
+
+        function closeAnnouncement() {
+            var el = document.getElementById('announcement-modal');
+            var id = el.dataset.announcementId;
+            if (id) localStorage.setItem('announcement_' + id, '1');
+            el.style.display = 'none';
         }
     </script>
 </body>
