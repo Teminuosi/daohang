@@ -2,7 +2,7 @@ import requests
 import base64
 import yaml  # 运行 pip3 install PyYAML
 
-source_url = "https://hh.yudou226.top/202604/20260405bf3ase.txt"
+source_url = "https://hh.yudou226.top/202604/20260424bf3ase.txt"
 save_path = "/www/wwwroot/www.sanyue.help/node/node.txt"
 
 # 1. 下载原始数据
