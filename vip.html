@@ -1010,7 +1010,7 @@
     <!-- 主内容 -->
     <div class="main-content">
         <!-- 未开通会员的横幅引流 -->
-        <div class="membership-banner" id="freeBanner" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(255, 215, 0, 0.3); margin-bottom: 18px;">
+        <div class="membership-banner" id="freeBanner" style="display:none; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(188, 19, 254, 0.1)); border-color: rgba(255, 215, 0, 0.3); margin-bottom: 18px;">
             <div class="banner-content">
                 <h3 style="color: var(--gold);"><i class="fas fa-rocket"></i> 出海先锋集结号</h3>
                 <p>平台专注跨境业务实战！涵盖 <strong>AI建站、海外支付破局、引流变现</strong> 等硬核干货。<br>拒绝割韭菜，只需一顿火锅钱起，帮大家省时省力，直达出海变现。</p>
@@ -1270,7 +1270,7 @@
         const ADMIN_UUID = '71c4e4e1-a1b6-47f8-aaa8-c62ae020e1eb';
 
         let currentUser = null;
-        let isPremium = false;
+        let isPremium = true; // 暂时全员免费
         let currentVideo = null;
         let previewDuration = 30;
         let videoPlayer = null;
