@@ -9,7 +9,9 @@
       "Bash(git push:*)",
       "Bash(ls /g/daohang/*.html)",
       "Bash(pip install:*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(git *)",
+      "PowerShell(git *)"
     ]
   }
 }
